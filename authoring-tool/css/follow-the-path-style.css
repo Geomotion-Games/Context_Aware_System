@@ -1,0 +1,89 @@
+/* jQueryUI */
+
+.sortable { list-style-type: none; margin: 0; padding: 0; }
+.sortable li {  padding: 0.25em; padding-left: 1.5em; font-size: 1.2em; height: 35px; margin: 10px; }
+.sortable li span { position: absolute; margin-left: -1.3em; }
+
+
+/* custom style */
+
+body {
+	background-color: #333;
+}
+
+.navbar {
+	background-color: #333;
+	border-color: #080808;
+	margin-bottom: 0;
+	height: 80px;
+}
+
+.navbar-brand {
+	padding: 0;
+	height: 100%;
+	margin-left: 75px !important;
+}
+
+.navbar img {
+	height: 100%;
+}
+
+.navbar-header {
+	width: 100%;
+}
+
+#saveButton {
+	float: right;
+	height: 46px;
+	padding: 13px 30px;
+	margin-top: 17px;
+	background-color: #ff0000;
+	color: #ffffff;
+	border: 2px solid #ff8888;
+	border-radius: 10px;
+}
+
+#saveButton:hover {
+	background-color: #ff8888;
+	text-decoration: none;
+}
+
+.col-md-6 {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.section {
+	padding: 15px 10px;
+	background-color: #eee;
+	height: 90vh;
+	overflow: hidden;
+}
+
+.block {
+	padding: 10px;
+	background: #fff;
+	height:100%;
+	overflow: scroll;
+}
+
+.element {
+	width: 100%; height: 100%; float:left;
+}
+
+.stop-icon {
+	float:right;
+	height: 100%;
+}
+
+textarea {
+	width: 100%;
+	min-height: 100px;
+}
+
+.leaflet-tooltip {
+	padding: 3px;
+	background-color: rgba(255,255,255,0.7);
+	border-radius: 17px;
+	font-size: 1.3em;
+}
