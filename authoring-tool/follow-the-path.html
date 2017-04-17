@@ -1,20 +1,28 @@
 <html>
 <head>
 
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<!--link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"-->
+	<link rel="stylesheet" href="css/jquery-ui.css">
 
-	<script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script>
+	<!--script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script-->
+	<script src="js/ckeditor.js"></script>
 
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
+	<script src="js/jquery-1.12.4.js"></script>
+	<script src="js/jquery-ui.js"></script>
 
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
-	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-	
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!--link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script-->
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<script src="js/leaflet.js"></script>
 
-	<link rel="stylesheet" href="js/Control.Geocoder.css" />
+  	<!--link rel="stylesheet" href="<min class="css"></min>">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="css/Control.Geocoder.css" />
 	<link rel="stylesheet" href="css/follow-the-path-style.css" />
 
 </head>
@@ -44,17 +52,18 @@
 			</div>
 			<div class="col-md-6 section">
 				<div class="block">
-					<ul id="stops" class="sortable">
-						
-						<!--li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
+					<ul id="start" class="sortable">
+						<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
 				    		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-				  			<span class="name" style="margin: 0;">Stop `+ (len + 1) + `</span>
+				  			<span class="name" style="margin: 0;">START</span>
 				    	</li>
+					</ul>
+					<ul id="stops" class="sortable">
 
 				    	<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
 				    		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-				  			<span class="name" style="margin: 0;">Stop `+ (len + 1) + `</span>
-				    	</li-->
+				  			<span class="name" style="margin: 0;">FINISH</span>
+				    	</li>
 
 					</ul>
 				</div>

@@ -1,6 +1,6 @@
 $( function() { 
 
-	$( ".sortable" ).sortable( {
+	$( "#stops" ).sortable( {
 		update: function( event, ui ) {
 
 			var len = Object.keys(points).length;
@@ -125,13 +125,8 @@ map.on('click', function(e) {
 
     	<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
     		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-
   			<span class="name" style="margin: 0;">Stop `+ (len + 1) + `</span>
-    		<!--label for="name`+ len+`" class="control-label"><p class="evidence-name">Stop `+ (len+1) + `</p></label-->
-
     		<img class="stop-icon" src="images/trash-icon.png"/>
-    		<!--span class="location" style="font-size:0.6em;float:right; position:relative;">`+e.latlng+`<span-->
-
     	</li>
 
     `);
