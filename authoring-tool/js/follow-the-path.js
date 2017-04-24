@@ -49,22 +49,26 @@ var points = {};
 var path;
 
 function Step(marker, number) {
-	this.idNumber = number;
-	this.marker = marker;
-	this.title = "";
+	this.idNumber 	 = number;
+	this.marker 	 = marker;
+	this.title 	 	 = "";
 	this.description = "";
-	this.distance = 20;
+	this.distance 	 = 20;
+	this.reward 	 = 0;
+	this.url 		 = "";
 }
 
 Step.prototype.toJSON = function() {
     
 	var json = { 
-    	"idNumber" : this.idNumber,
-    	"title" : this.title,
+    	"idNumber" 	  : this.idNumber,
+    	"title" 	  : this.title,
     	"description" : this.description,
-    	"lat" : this.marker.getLatLng().lat,
-		"lng" : this.marker.getLatLng().lng,
-		"distance" : this.distance
+    	"lat"		  : this.marker.getLatLng().lat,
+		"lng" 		  : this.marker.getLatLng().lng,
+		"distance" 	  : this.distance,
+		"reward" 	  : this.reward,
+		"url" 		  : this.url
 	}
 
     return json;
@@ -150,20 +154,22 @@ map.on('click', function(e) {
 		            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
 		            	<input name="distance-` + len + `" type="number" min="0" class="form-control" id="distance-` + len + `">
 		          	</div>
+		          	<div class="form-group">
+		          		<label for="reward-name" class="control-label">Reward:</label>
+		            	<input name="reward-` + len + `" type="number" class="form-control" id="reward-` + len + `">
+				    </div>
 		          	<!--div class="form-group">
 		            	<label for="clue-name" class="control-label">image:</label>
 		            	<input name="image-` + len + `" type="file" class="form-control" id="image-` + len + `" accept="image/*">
 		            </div-->
 		          	<div class="form-group">
 		          		<label for="content-name" class="control-label">Description:</label>
-		          	    <!--textarea id="content-name" style="overflow:hidden; display:block; width:60%;" name="editor` + len + `"></textarea-->
 		          	    <textarea id="content-` + len + `" name="content-` + len + `"></textarea>
 				    </div>
-				    <!--div class="form-group">
-		            	<label for="clue-name" class="control-label">Clue:</label>
-		            	<input type="text" class="form-control" id="clue-name">
-		            	<textarea id="clue-` + len + `" name="clue-` + len + `"></textarea>
-		          	</div-->
+				    <div class="form-group">
+		          		<label for="url-name" class="control-label">URL:</label>
+		            	<input name="url-` + len + `" type="text" class="form-control" id="url-` + len + `">
+				    </div>
 		        </form>
 		      </div>
 		      <div class="modal-footer">
@@ -239,6 +245,16 @@ jQuery("#stops").on('click', 'li', function(e) {
 		points[stopNumber].distance = parseInt($(this).val());
 	});
 
+//REWARD
+	$("#stop-edit" + stopNumber + " input[name^='reward']").on('input',function(e){
+		points[stopNumber].distance = parseInt($(this).val());
+	});
+
+//URL
+	$("#stop-edit" + stopNumber + " input[name^='url']").on('input',function(e){
+		points[stopNumber].distance = parseInt($(this).val());
+	});
+
 });
 
 
@@ -285,12 +301,11 @@ function updateLabels() {
 		break;
 	}
 
-	first.marker._tooltip.setContent( "START" );
+/*	first.marker._tooltip.setContent( "START" );
 	$("#stops li").first().find("span.name").text("START");
 
 	var len = Object.keys(points).length;
 
-	console.log("len: " + len);
 	if (len > 1) {
 		var last;
 		for (p in points) {
@@ -298,7 +313,7 @@ function updateLabels() {
 		}
 		last.marker._tooltip.setContent( "END" );
 		$("#stops li").last().find("span.name").text("END");
-	}
+	}*/
 }
 
 

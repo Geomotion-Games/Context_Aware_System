@@ -52,23 +52,84 @@
 			</div>
 			<div class="col-md-6 section">
 				<div class="block">
+					
 					<ul id="start" class="sortable">
-						<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
-				    		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+						<li class="ui-state-default stop-row" id="point0" stop-number="0">
 				  			<span class="name" style="margin: 0;">START</span>
 				    	</li>
 					</ul>
-					<ul id="stops" class="sortable">
-
-				    	<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
-				    		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+					
+					<ul id="stops" class="sortable"></ul>
+					
+					<ul id="finish" class="sortable">
+				    	<li class="ui-state-default stop-row" id="point99" stop-number="99">
 				  			<span class="name" style="margin: 0;">FINISH</span>
 				    	</li>
-
 					</ul>
+
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<div class="stop-editor modal fade" id="stop-edit0" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	            <div class="form-group">
+	            	<label for="name-name" class="control-label">Title:</label>
+	            	<input name="name-0" type="text" class="form-control" id="name-0">
+	          	</div>
+	          	<div class="form-group">
+	            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
+	            	<input name="distance-0" type="number" min="0" class="form-control" id="distance-0">
+	          	</div>
+	          	<div class="form-group">
+	          		<label for="content-name" class="control-label">Description:</label>
+	          	    <textarea id="content-0" name="content-0"></textarea>
+			    </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="stop-editor modal fade" id="stop-edit99" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	            <div class="form-group">
+	            	<label for="name-name" class="control-label">Title:</label>
+	            	<input name="name-99" type="text" class="form-control" id="name-99">
+	          	</div>
+	          	<div class="form-group">
+	            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
+	            	<input name="distance-99" type="number" min="0" class="form-control" id="distance-99">
+	          	</div>
+	          	<div class="form-group">
+	          		<label for="content-name" class="control-label">Description:</label>
+	          	    <textarea id="content-99" name="content-99"></textarea>
+			    </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 
 	<script src="js/Control.Geocoder.js"></script>
