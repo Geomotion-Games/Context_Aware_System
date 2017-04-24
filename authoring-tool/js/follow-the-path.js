@@ -46,6 +46,7 @@ map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
 var points = {};
+var poisCreated = 0;
 var path;
 
 function Step(marker, number) {
@@ -75,7 +76,7 @@ Step.prototype.toJSON = function() {
 }
 
 function updatePath() {
-	
+
 	var pointList = [];
 
 	for (stop in points) {
@@ -98,17 +99,21 @@ function updatePath() {
 
 map.on('click', function(e) {
 
-	var len = Object.keys(points).length;
+	poisCreated++;
+
+	//var len = Object.keys(points).length;
+
+	console.log("--- " + poisCreated);
 
 	var marker = new L.marker(e.latlng, {
 		draggable:'true'
 
-	}).bindTooltip("Stop " + (len+1), 
+	}).bindTooltip("Stop " + (poisCreated),
     {
         permanent: true,
         direction: 'bottom'
     });
-  	
+
   	marker.on('dragend', function(event){
     	var target = event.target;
     	var position = target.getLatLng();
@@ -123,13 +128,15 @@ map.on('click', function(e) {
 
   	map.addLayer(marker);
 
-  	var step = new Step(marker, len);
+  	var step = new Step(marker, poisCreated);
+
+	console.log(poisCreated);
 
     jQuery('#stops').append(`
 
-    	<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
+    	<li class="ui-state-default stop-row" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
     		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-  			<span class="name" style="margin: 0;">Stop `+ (len + 1) + `</span>
+  			<span class="name" style="margin: 0;">Stop `+ (poisCreated) + `</span>
     		<img class="stop-icon" src="images/trash-icon.png"/>
     	</li>
 
@@ -137,7 +144,7 @@ map.on('click', function(e) {
 
     jQuery('body').append(`
 
-		<div class="stop-editor modal fade" id="stop-edit` + len + `" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
+		<div class="stop-editor modal fade" id="stop-edit` + poisCreated + `" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -148,27 +155,27 @@ map.on('click', function(e) {
 		        <form>
 		            <div class="form-group">
 		            	<label for="name-name" class="control-label">Title:</label>
-		            	<input name="name-` + len + `" type="text" class="form-control" id="name-` + len + `">
+		            	<input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
 		          	</div>
 		          	<div class="form-group">
 		            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
-		            	<input name="distance-` + len + `" type="number" min="0" class="form-control" id="distance-` + len + `">
+		            	<input name="distance-` + poisCreated + `" type="number" min="0" class="form-control" id="distance-` + poisCreated + `">
 		          	</div>
 		          	<div class="form-group">
 		          		<label for="reward-name" class="control-label">Reward:</label>
-		            	<input name="reward-` + len + `" type="number" class="form-control" id="reward-` + len + `">
+		            	<input name="reward-` + poisCreated + `" type="number" class="form-control" id="reward-` + poisCreated + `">
 				    </div>
 		          	<!--div class="form-group">
 		            	<label for="clue-name" class="control-label">image:</label>
-		            	<input name="image-` + len + `" type="file" class="form-control" id="image-` + len + `" accept="image/*">
+		            	<input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
 		            </div-->
 		          	<div class="form-group">
 		          		<label for="content-name" class="control-label">Description:</label>
-		          	    <textarea id="content-` + len + `" name="content-` + len + `"></textarea>
+		          	    <textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
 				    </div>
 				    <div class="form-group">
 		          		<label for="url-name" class="control-label">URL:</label>
-		            	<input name="url-` + len + `" type="text" class="form-control" id="url-` + len + `">
+		            	<input name="url-` + poisCreated + `" type="text" class="form-control" id="url-` + poisCreated + `">
 				    </div>
 		        </form>
 		      </div>
@@ -183,7 +190,7 @@ map.on('click', function(e) {
 
     //CKEDITOR.replace( "editor" + len );
 
-    points[len] = step;
+    points[poisCreated] = step;
 
     updatePath();
 
@@ -209,7 +216,7 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 	var stopId = "#stop-edit" + stopNumber;
 
-	$(stopId + " h4").text("Editing Stop " + (stopNumber + 1));
+	$(stopId + " h4").text("Editing Stop " + stopNumber);
 	$(stopId).modal('show');
 
 
@@ -247,12 +254,12 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 //REWARD
 	$("#stop-edit" + stopNumber + " input[name^='reward']").on('input',function(e){
-		points[stopNumber].distance = parseInt($(this).val());
+		points[stopNumber].reward = parseInt($(this).val());
 	});
 
 //URL
 	$("#stop-edit" + stopNumber + " input[name^='url']").on('input',function(e){
-		points[stopNumber].distance = parseInt($(this).val());
+		points[stopNumber].url = $(this).val();
 	});
 
 });
@@ -260,8 +267,6 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 function removeStop(stopNumber) {
 	
-	var len = Object.keys(points).length;
-
 	for (point in points) {
 		if (points[point].idNumber == stopNumber) {
 			map.removeLayer(points[point].marker);
@@ -287,7 +292,7 @@ function updateLabels() {
 	    		} 
 	    		else 
 	    		{
-	    			var name = "Stop " + (parseInt(number)+1)
+	    			var name = "Stop " + parseInt(number)
 	    			points[point].marker._tooltip.setContent( name );
 	    			$(this).find("span.name").text( name );
 	    		}

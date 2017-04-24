@@ -17,7 +17,7 @@
 	<link rel="stylesheet" href="css/leaflet.css" />
 	<script src="js/leaflet.js"></script>
 
-  	<!--link rel="stylesheet" href="<min class="css"></min>">
+  	<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/bootstrap.min.js"></script>
@@ -52,15 +52,15 @@
 			</div>
 			<div class="col-md-6 section">
 				<div class="block">
-					
+
 					<ul id="start" class="sortable">
 						<li class="ui-state-default stop-row" id="point0" stop-number="0">
 				  			<span class="name" style="margin: 0;">START</span>
 				    	</li>
 					</ul>
-					
+
 					<ul id="stops" class="sortable"></ul>
-					
+
 					<ul id="finish" class="sortable">
 				    	<li class="ui-state-default stop-row" id="point99" stop-number="99">
 				  			<span class="name" style="margin: 0;">FINISH</span>
@@ -93,6 +93,10 @@
 	          		<label for="content-name" class="control-label">Description:</label>
 	          	    <textarea id="content-0" name="content-0"></textarea>
 			    </div>
+			    <div class="form-group">
+	          		<label for="url-name" class="control-label">URL:</label>
+	            	<input name="url-` + len + `" type="text" class="form-control" id="url-` + len + `">
+			    </div>
 	        </form>
 	      </div>
 	      <div class="modal-footer">
@@ -122,6 +126,10 @@
 	          	<div class="form-group">
 	          		<label for="content-name" class="control-label">Description:</label>
 	          	    <textarea id="content-99" name="content-99"></textarea>
+			    </div>
+			    <div class="form-group">
+	          		<label for="url-name" class="control-label">URL:</label>
+	            	<input name="url-` + len + `" type="text" class="form-control" id="url-` + len + `">
 			    </div>
 	        </form>
 	      </div>
