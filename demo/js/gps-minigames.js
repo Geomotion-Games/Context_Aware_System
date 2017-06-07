@@ -12,6 +12,9 @@ var server_url = "https://www.geomotiongames.com/beaconing/demo/images/";
 var path = null;
 var startingTime;
 var lastPOITime;
+var lastPOIDistance = 0;
+var totalDistance = 0;
+var lastPosition;
 
 function gameReady() {
 
@@ -143,7 +146,7 @@ function updatePath() {
 
 
 function locate() {
-
+	
 	if (navigator.geolocation) {
 		setTimeout(function() {
 			
@@ -152,6 +155,9 @@ function locate() {
 			});
 
 			navigator.geolocation.getCurrentPosition(function(position) {
+				if (totalDistance == 0) {
+					lastPosition = position.coords
+				}
 				newLocation(position);
 				mapLoaded = true;
 				locate();
@@ -166,21 +172,18 @@ function locate() {
 
 function trackProgress() {
 	var progress = nextPOI > 0 ? nextPOI / (game.length - 3) : 0;
-	var timeSpent = Date() - lastPOITime;
-
-	console.log("-------------");
-	console.log(Date());
-	console.log(lastPOITime);
-	console.log(Date() - lastPOITime);
-
-	lastPOITime = Date();
+	var t = new Date().getTime() / 1000;
+	var timeSpent = t - lastPOITime;
+	lastPOITime = t;
 	var poiId = "POI" + nextPOI;
+	
 	var distance = 100; //TODO
 	var speed = 12; //TODO distance / lastPOITime
+
 	tracker.setVar("time", timeSpent);
 	tracker.setVar("poiId", poiId);
-	tracker.setVar("averageSpeed", speed);
-	tracker.setVar("distance", distance);
+	tracker.setVar("averageSpeed", lastPOIDistance / timeSpent);
+	tracker.setVar("distance", lastPOIDistance);
 
 	tracker.Completable.Progressed("demo", tracker.Completable.CompletableType.Game, progress);
 }
@@ -228,4 +231,21 @@ function errorHandler(err) {
         default:
             document.getElementById("message").innerHTML = 'Geolocation returned an error.code';
     }
+}
+
+function getDistanceFromLatLon(lat1,lon1,lat2,lon2) {
+  var R = 6371000; // Radius of the earth in m
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2); 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
 }

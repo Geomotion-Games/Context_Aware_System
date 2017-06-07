@@ -6,13 +6,20 @@ require 'class/conf.class.php';
 setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 date_default_timezone_set('Europe/Madrid');
 
+
 $bd=Db::getInstance();
 
 $minigame=$_REQUEST['minigame'];
+/*
+$test=$bd->ejecutar("select * from minigames");
+
+var_dump($bd->obtener_fila($test,0));*/
 
 $query = "INSERT INTO minigames (id, minigame) VALUES (NULL, '" . $minigame . "')";
 
-echo ( $bd->ejecutar($query) );
+$res = $bd->ejecutar($query);
+
+echo( mysql_insert_id() );
 
 /*
 $rsp1=$bd->ejecutar("select id from partido where a2='$id_jugador' and id='$id_partido' and ea2='pen' order by id desc limit 1");

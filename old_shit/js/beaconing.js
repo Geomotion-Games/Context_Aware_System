@@ -1,6 +1,6 @@
 $( function() { 
 
-	$( "#stops" ).sortable( {
+	$( ".sortable" ).sortable( {
 		update: function( event, ui ) {
 
 			var len = Object.keys(points).length;
@@ -28,9 +28,6 @@ $( function() {
 	$("#saveButton").click(function() {
 		saveMinigame();
 	});
-
-	points[0]   = new Step(0, 0);
-	points[999] = new Step(0, 999);
 });
 
 var map = L.map('map');
@@ -49,43 +46,36 @@ map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
 var points = {};
-var poisCreated = 0;
 var path;
 
 function Step(marker, number) {
-	this.idNumber 	 = number;
-	this.marker 	 = marker;
-	this.title 	 	 = "";
+	this.idNumber = number;
+	this.marker = marker;
+	this.title = "";
 	this.description = "";
-	this.distance 	 = 20;
-	this.reward 	 = 0;
-	this.url 		 = "";
+	this.distance = 20;
 }
 
 Step.prototype.toJSON = function() {
     
 	var json = { 
-    	"idNumber" 	  : this.idNumber,
-    	"title" 	  : this.title,
+    	"idNumber" : this.idNumber,
+    	"title" : this.title,
     	"description" : this.description,
-    	"lat"		  : this.marker ? this.marker.getLatLng().lat : 0,
-		"lng" 		  : this.marker ? this.marker.getLatLng().lat : 0,
-		"distance" 	  : this.distance,
-		"reward" 	  : this.reward,
-		"url" 		  : this.url
+    	"lat" : this.marker.getLatLng().lat,
+		"lng" : this.marker.getLatLng().lng,
+		"distance" : this.distance
 	}
 
     return json;
 }
 
 function updatePath() {
-
+	
 	var pointList = [];
 
 	for (stop in points) {
-		if (stop != 0 && stop != 999) {
-			pointList.push(points[stop].marker.getLatLng());
-		}
+		pointList.push(points[stop].marker.getLatLng());
 	}
 
 	if (path != null) map.removeLayer(path);
@@ -104,17 +94,17 @@ function updatePath() {
 
 map.on('click', function(e) {
 
-	poisCreated++;
+	var len = Object.keys(points).length;
 
 	var marker = new L.marker(e.latlng, {
 		draggable:'true'
 
-	}).bindTooltip("Stop " + (poisCreated),
+	}).bindTooltip("Stop " + (len+1), 
     {
         permanent: true,
         direction: 'bottom'
     });
-
+  	
   	marker.on('dragend', function(event){
     	var target = event.target;
     	var position = target.getLatLng();
@@ -129,21 +119,26 @@ map.on('click', function(e) {
 
   	map.addLayer(marker);
 
-  	var step = new Step(marker, poisCreated);
+  	var step = new Step(marker, len);
 
     jQuery('#stops').append(`
 
-    	<li class="ui-state-default stop-row" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
+    	<li class="ui-state-default stop-row" id="point`+ len +`" stop-number="`+ len +`">
     		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-  			<span class="name" style="margin: 0;">Stop `+ (poisCreated) + `</span>
+
+  			<span class="name" style="margin: 0;">Stop `+ (len + 1) + `</span>
+    		<!--label for="name`+ len+`" class="control-label"><p class="evidence-name">Stop `+ (len+1) + `</p></label-->
+
     		<img class="stop-icon" src="images/trash-icon.png"/>
+    		<!--span class="location" style="font-size:0.6em;float:right; position:relative;">`+e.latlng+`<span-->
+
     	</li>
 
     `);
 
     jQuery('body').append(`
 
-		<div class="stop-editor modal fade" id="stop-edit` + poisCreated + `" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
+		<div class="stop-editor modal fade" id="stop-edit` + len + `" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -154,28 +149,26 @@ map.on('click', function(e) {
 		        <form>
 		            <div class="form-group">
 		            	<label for="name-name" class="control-label">Title:</label>
-		            	<input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
+		            	<input name="name-` + len + `" type="text" class="form-control" id="name-` + len + `">
 		          	</div>
 		          	<div class="form-group">
 		            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
-		            	<input name="distance-` + poisCreated + `" type="number" min="0" class="form-control" id="distance-` + poisCreated + `">
+		            	<input name="distance-` + len + `" type="number" min="0" class="form-control" id="distance-` + len + `">
 		          	</div>
-		          	<div class="form-group">
-		          		<label for="reward-name" class="control-label">Reward:</label>
-		            	<input name="reward-` + poisCreated + `" type="number" class="form-control" id="reward-` + poisCreated + `">
-				    </div>
-		          	<div class="form-group">
+		          	<!--div class="form-group">
 		            	<label for="clue-name" class="control-label">image:</label>
-		            	<input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
-		            </div>
+		            	<input name="image-` + len + `" type="file" class="form-control" id="image-` + len + `" accept="image/*">
+		            </div-->
 		          	<div class="form-group">
 		          		<label for="content-name" class="control-label">Description:</label>
-		          	    <textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
+		          	    <!--textarea id="content-name" style="overflow:hidden; display:block; width:60%;" name="editor` + len + `"></textarea-->
+		          	    <textarea id="content-` + len + `" name="content-` + len + `"></textarea>
 				    </div>
-				    <div class="form-group">
-		          		<label for="url-name" class="control-label">URL:</label>
-		            	<input name="url-` + poisCreated + `" type="text" class="form-control" id="url-` + poisCreated + `">
-				    </div>
+				    <!--div class="form-group">
+		            	<label for="clue-name" class="control-label">Clue:</label>
+		            	<input type="text" class="form-control" id="clue-name">
+		            	<textarea id="clue-` + len + `" name="clue-` + len + `"></textarea>
+		          	</div-->
 		        </form>
 		      </div>
 		      <div class="modal-footer">
@@ -189,7 +182,7 @@ map.on('click', function(e) {
 
     //CKEDITOR.replace( "editor" + len );
 
-    points[poisCreated] = step;
+    points[len] = step;
 
     updatePath();
 
@@ -197,89 +190,10 @@ map.on('click', function(e) {
 
 var x = document.getElementById("location");
 
-// START AND FINISH
-jQuery("#start").on('click', 'li', function(e) {
-
-	var stopId = "#stop-edit0";
-
-	$(stopId + " h4").text("Editing Start");
-	$(stopId).modal('show');
-
-	$(stopId + " input[name^='name']").on('input',function(e){
-
-		//TITLE IN LIST
-		$('#start #point0 span.name').text( $(this).val() );
-
-		//MARKER
-		for (point in points)
-		{
-			if (points[point].idNumber == 0)
-			{
-				points[point].title = $(this).val();
-			}
-		}
-
-		//TITLE OF MODAL
-		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
-	});
-
-//DESCRIPTION
-	$(stopId + " textarea[name^='content']").on('change',function(e){
-		points[0].description = $(this).val();
-	});
-
-//URL
-	$(stopId + " input[name^='url']").on('input',function(e){
-		points[0].url = $(this).val();
-	});
-
-});
-
-// START AND FINISH
-jQuery("#finish").on('click', 'li', function(e) {
-
-	var stopId = "#stop-edit999";
-
-	$(stopId + " h4").text("Editing Finish");
-	$(stopId).modal('show');
-
-	$(stopId + " input[name^='name']").on('input',function(e){
-
-		//TITLE IN LIST
-		$('#start #point0 span.name').text( $(this).val() );
-
-		//MARKER
-		for (point in points)
-		{
-			if (points[point].idNumber == 999)
-			{
-				points[point].title = $(this).val();
-			}
-		}
-
-		//TITLE OF MODAL
-		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
-	});
-
-//DESCRIPTION
-	$(stopId + " textarea[name^='content']").on('change',function(e){
-		points[999].description = $(this).val();
-	});
-
-//URL
-	$(stopId + " input[name^='url']").on('input',function(e){
-		points[999].url = $(this).val();
-	});
-
-});
-
-
 
 jQuery("#stops").on('click', 'li', function(e) {
 
 	var stopNumber = parseInt($(this).attr("stop-number"));
-
-	console.log(stopNumber);
 
 	if($(e.target).is('img')){
 
@@ -294,7 +208,7 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 	var stopId = "#stop-edit" + stopNumber;
 
-	$(stopId + " h4").text("Editing Stop " + stopNumber);
+	$(stopId + " h4").text("Editing Stop " + (stopNumber + 1));
 	$(stopId).modal('show');
 
 
@@ -321,6 +235,7 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 //DESCRIPTION
 	$("#stop-edit" + stopNumber + " textarea[name^='content']").on('change',function(e){
+		console.log(points[stopNumber]);
 		points[stopNumber].description = $(this).val();
 	});
 
@@ -329,20 +244,12 @@ jQuery("#stops").on('click', 'li', function(e) {
 		points[stopNumber].distance = parseInt($(this).val());
 	});
 
-//REWARD
-	$("#stop-edit" + stopNumber + " input[name^='reward']").on('input',function(e){
-		points[stopNumber].reward = parseInt($(this).val());
-	});
-
-//URL
-	$("#stop-edit" + stopNumber + " input[name^='url']").on('input',function(e){
-		points[stopNumber].url = $(this).val();
-	});
-
 });
 
 
 function removeStop(stopNumber) {
+	
+	var len = Object.keys(points).length;
 
 	for (point in points) {
 		if (points[point].idNumber == stopNumber) {
@@ -369,7 +276,7 @@ function updateLabels() {
 	    		} 
 	    		else 
 	    		{
-	    			var name = "Stop " + parseInt(number)
+	    			var name = "Stop " + (parseInt(number)+1)
 	    			points[point].marker._tooltip.setContent( name );
 	    			$(this).find("span.name").text( name );
 	    		}
@@ -383,11 +290,12 @@ function updateLabels() {
 		break;
 	}
 
-/*	first.marker._tooltip.setContent( "START" );
+	first.marker._tooltip.setContent( "START" );
 	$("#stops li").first().find("span.name").text("START");
 
 	var len = Object.keys(points).length;
 
+	console.log("len: " + len);
 	if (len > 1) {
 		var last;
 		for (p in points) {
@@ -395,7 +303,7 @@ function updateLabels() {
 		}
 		last.marker._tooltip.setContent( "END" );
 		$("#stops li").last().find("span.name").text("END");
-	}*/
+	}
 }
 
 
@@ -419,19 +327,19 @@ function showLocation(position) {
 
 function saveMinigame() {
 
-	/*var xhttp = new XMLHttpRequest();
+	var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    	console.log(this.responseText);
 	    	alert("Go to: \nhttps://www.geomotiongames.com/beaconing/client.php?minigame=" + this.responseText.replace(/ /g,''));
 	    }
-	};*/
+	};
 
 	var minigame = JSON.stringify(getMinigameJson(), null, 2);
 	console.log(minigame);
 
-	//xhttp.open("GET", "https://www.geomotiongames.com/beaconing/saveMinigame.php?minigame=" + minigame, true);
-	//xhttp.send();
+	xhttp.open("GET", "saveMinigame.php?minigame=" + minigame, true);
+	xhttp.send();
 }
 
 function getMinigameJson() {

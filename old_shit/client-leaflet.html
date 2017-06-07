@@ -2,7 +2,7 @@
 <html>
 <head>
 	
-	<title>Beaconing Minigame</title>
+	<title>Mobile tutorial - Leaflet</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,15 +73,55 @@
 </head>
 <body>
 
+<a href="#modal1" id="openModal1" style="display: none;">Open Modal</a>
+<a href="#modal2" id="openModal2" style="display: none;">Open Modal</a>
+<a href="#modal3" id="openModal3" style="display: none;">Open Modal</a>
+<!-- TODO això ha de ser dinàmic -->
+
 <p id="message"></p>
 <div id="map"></div>
 <div id="extras"></div>
 
+<!--div id="modal0" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Hello!</h2>
+		<p>Here starts your adventure. You have to find an ancient treasure hidden in the woods. Good luck!</p>
+		<p>The first hint is "where the water rest in peace..."</p>
+	</div>
+</div>
+
+<a href="#modal0" id="openModal0" style="display: none;">Open Modal</a>
+<div id="modal1" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Well done!</h2>
+		<p>You reached the first stop of your way to the treasure.</p>
+		<p>You look a little bit fat... Let's do some calisthenics!</p>
+	</div>
+</div>
+
+<div id="modal2" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>Oh My God!</h2>
+		<p>You are good, dude!</p>
+		<p>Tired? Then go home, get your bike!</p>
+	</div>
+</div>
+
+<div id="modal3" class="modalDialog">
+	<div>
+		<a href="#close" title="Close" class="close">X</a>
+		<h2>VICTORY!!!</h2>
+		<p>That's one small step for a man, one giant leap for Geomotion Games</p>
+		<p>Your reward is... Have taken a walk in this shiny day! :D</p>
+	</div>
+</div-->
+
 <script>
 
-	var nextPOI = 0 //TODO 0 no pq ja hi ha una amb 0... tractar el primer poi com la resta
-
-	var minigame_number = <?php echo($_REQUEST['minigame']); ?>;
+	var fase = 0
 
 	getMinigame()
 
@@ -107,29 +147,63 @@
 		id: 'mapbox.streets'
 	}).addTo(map);
 
+	var marker = new L.marker({lat: 0, lng: 0}, { icon: locationIcon });
+	var destiny1 = {lng: 2.168861, lat: 41.436865};
+	var destiny2 = {lng: 2.167517, lat: 41.436663};
+	var destiny3 = {lng: 2.168546, lat: 41.437212};
+
 	locate();
 
     function newLocation(position) {
     	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
-    	if (nextPOI == 0) {
+    	if (fase == 0) {
     		map.setZoom(15);
     		map.panTo(coors);
     	}
 
-    	if (nextPOI >= 0) {
-	    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
+		var distanceToDestination1 = map.distance(destiny1, coors);
+		var distanceToDestination2 = map.distance(destiny2, coors);
+		var distanceToDestination3 = map.distance(destiny3, coors);
 
-	    	console.log(distanceToNextPOI);
-			//document.getElementById("message").innerHTML = "position: " + position.coords.latitude + ", " + position.coords.longitude "<br/>" + "distance: " + distanceToNextPOI;
-			
-			if (distanceToNextPOI < game[nextPOI].distance) {
-				document.getElementById('openModal' + nextPOI).click();
-				nextPOI = getFollowingPOIId(nextPOI);
-			}
+		document.getElementById("message").innerHTML = 
+		//	"time: " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds() + "<br/>" + 
+			"position: " + position.coords.latitude + ", " + position.coords.longitude;// + "<br/>" +
+		//	"accuracy: " + position.coords.accuracy + "<br/>" +
+		//	"distance 1: " + distanceToDestination1 + "   " + 
+		//	"distance 2: " + distanceToDestination2 + "   " + 
+		//	"distance 3: " + distanceToDestination3;
+
+		switch(fase) {
+
+			case 1:
+				if (distanceToDestination1 < 20) {
+					showDestinyMarker(1);
+					document.getElementById('openModal1').click();
+					fase = 2
+				}
+				break;
+
+			case 2:
+				if (distanceToDestination2 < 20) {
+					showDestinyMarker(2);
+					document.getElementById('openModal2').click();
+					fase = 3
+				}
+				break;
+
+			case 3:
+				if (distanceToDestination3 < 20) {
+					showDestinyMarker(3);
+					document.getElementById('openModal3').click();
+					fase = 4
+				}
+				break;
 		}
 
 		this.refreshUserMarker(coors);
 	}
+
+	/***********************************/
 
 </script>
 

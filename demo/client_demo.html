@@ -10,8 +10,6 @@
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<script src="js/gps-minigames.js"></script>
 	<script src="js/leaflet.js"></script>
-	<script type="text/javascript" src="js/analytics/dist/js-tracker.bundle.js"></script>
-	<script type="text/javascript" src="js/analytics/plugins/geolocation.js"></script>
 
 	<style>
 
@@ -121,25 +119,6 @@
 
 <script>
 
-	var tracker = new TrackerAsset();
-
-	tracker.settings.host = "https://rage.e-ucm.es//";
-	tracker.settings.trackingCode = "592d716bb7353f006d52312eddska7hn2ji0y66r";
-
-	//Add the plugin
-	tracker.addPlugin(new TrackerPlugins.Geolocation());
-
-	var connected = false;
-	  tracker.Start(function(result, error){
-      if(!error){
-      	connected = true;
-        console.log("tracker started");
-        //tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
-      }else{
-        console.log("start error")
-      }
-	});
-
 	var demo_info = {
 		  "0": {
 			    "idNumber": 0,
@@ -152,11 +131,11 @@
 			    "idNumber": 1,
 			    "title": "Main Entrance",
 			    "description": "There you go! First sensor found. The EV3 Brick serves as the control center and power station for your robot. Only 2 sensors left, keep up the good work! Check in now to show the clue to the next point",
-			    "lat": 41.436807,
-			    "lng": 2.168901,
+			    "lat": 44.444,
+			    "lng": 26.05372,
 				/*"lat": 41.436322,
 				"lng": 2.169296,*/
-			    "distance": 100,
+			    "distance": 20,
 			    "clue": "Clue #2: Where Bizantine architecture meets Polytechnic University of Bucharest",
 			    "image": "poi1-image.png"
 		  },
@@ -164,8 +143,8 @@
 			    "idNumber": 2,
 			    "title": "Church",
 			    "description": "Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point",
-			    "lat": 41.436713,
-			    "lng": 2.168341,
+			    "lat": 44.44099,
+			    "lng": 26.05295,
 			    /*"lat": 41.436877,
 			    "lng": 2.169172,*/
 			    "distance": 20,
@@ -178,8 +157,8 @@
 			    "description": "Well done! This sensor maintains precision, while trading some power for compact size and faster responses. Check in now to show the clue to the next point",
 			    /*"lat": 41.436522,
 			    "lng": 2.169296,*/
-			    "lat": 41.436807,
-			    "lng": 2.168901,
+			    "lat": 44.43845,
+			    "lng": 26.05153,
 			    "distance": 20,
 			    "clue": "Clue #4: Now it's time to go back to the Library and get your prize!",
 			    "image": "poi3-image.png"
@@ -190,8 +169,8 @@
 			    "description": "Great Job Agent! You found all the sensors and helped Alfred finish the Robot.",
 			    /*"lat": 41.436877,
 			    "lng": 2.169372,*/
-			    "lat": 41.437133,
-			    "lng": 2.169499,
+			    "lat": 44.44113,
+			    "lng": 26.05192,
 			    "distance": 20,
 			    "clue": "",
 			    "image": "poi4-image.png"
@@ -241,16 +220,10 @@
     function newLocation(position) {
     	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
 
-    	tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.PointOfInterest);
-
     	if (!located) {
     		map.setZoom(18);
     		map.panTo(coors);
-    		located = true;
-
-    		tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
-    		startingTime = Date();
-    		lastPOITime = Date();
+    		located = true
     	}
 
     	if (nextPOI > 0 && nextPOI < 999) {
@@ -258,20 +231,18 @@
 	    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
 			if (distanceToNextPOI < game[nextPOI].distance) {
-
-				trackProgress();
 				document.getElementById('openModal' + nextPOI).click();
 				currentPOI = nextPOI;
 				nextPOI = getFollowingPOIId(nextPOI);
 				updatePath();
 			}
 
-			//S'executarà sempre if (nextPOI != 999) {
+			if (nextPOI != 999) {
 				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI].clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
 				document.getElementById('clueLayer').className = "shown";
-			/*} else {
+			} else {
 				document.getElementById('clueLayer').className = "hidden";
-			}*/
+			}
 
 		}
 

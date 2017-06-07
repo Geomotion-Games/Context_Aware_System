@@ -68,6 +68,7 @@ function gameReady(minigame) {
         permanent: true, 
         direction: 'bottom'
     }).addTo(map);
+
 	
 	markers.splice(0, 0, start);
 	markers.push(end);

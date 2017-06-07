@@ -2,7 +2,7 @@
 <html>
 <head>
 	
-	<title>Beaconing Minigame</title>
+	<title>Mobile tutorial - Leaflet</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,70 +79,7 @@
 
 <script>
 
-	var demo_info = {
-  "0": {
-    "idNumber": 0,
-    "title": "The broken robot",
-    "description": "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready? Go out and play!",
-    "lat": 0,
-    "lng": 0,
-    "distance": 0,
-    "clue": "Clue #1: Go to the place where 3 flags welcomes you to the learning experience",
-    "image": "https://drive.google.com/open?id=0B4cvW8f9kWUSSGM0YTZZaFROR00"
-  },
-  "1": {
-    "idNumber": 1,
-    "title": "Main Entrance",
-    "description": "There you go! First sensor found. The EV3 Brick serves as the control center and power station for your robot. Only 2 sensors left, keep up the good work! Check in now to show the clue to the next point",
-    "lat": 44.444,
-    "lng": 26.05372,
-    "distance": 20,
-    "clue": "Clue #2: Where Bizantine architecture meets Polytechnic University of Bucharest",
-    "image": "https://drive.google.com/open?id=0B4cvW8f9kWUSSGM0YTZZaFROR00"
-  },
-  "2": {
-    "idNumber": 2,
-    "title": "Church",
-    "description": "Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point",
-    "lat": 44.44099,
-    "lng": 26.05295,
-    "distance": 20,
-    "clue": "Clue #3: Find the most amazing round and square building inside the University",
-    "image": "https://drive.google.com/open?id=0B4cvW8f9kWUSeExJX2dVdGVOcEE"
-  },
-  "3": {
-    "idNumber": 3,
-    "title": "Rectorate",
-    "description": "Well done! This sensor maintains precision, while trading some power for compact size and faster responses. Check in now to show the clue to the next point",
-    "lat": 44.43845,
-    "lng": 26.05153,
-    "distance": 20,
-    "clue": "Clue #3: Find the most amazing round and square building inside the University",
-    "image": "https://drive.google.com/open?id=0B4cvW8f9kWUSeExJX2dVdGVOcEE"
-  },
-  "4": {
-    "idNumber": 4,
-    "title": "Library",
-    "description": "Great Job Agent! You found all the sensors and helped Alfred finish the Robot.",
-    "lat": 44.44113,
-    "lng": 26.05192,
-    "distance": 20,
-    "clue": "",
-    "image": "https://drive.google.com/open?id=0B4cvW8f9kWUSSGM0YTZZaFROR00"
-  },
-  "999": {
-    "idNumber": 999,
-    "title": "",
-    "description": "The Earth Special Agency congratulates and rewards you with a great PRIZE! Show this screen and ask for it to the BEACONING Staff.",
-    "lat": "",
-    "lng": "",
-    "distance": 20,
-    "clue": "",
-    "image": "http://beaconing.eu/wp-content/themes/beaconing/images/logo/original_version_(black).png"
-  }
-};
-
-	var nextPOI = 0 //TODO 0 no pq ja hi ha una amb 0... tractar el primer poi com la resta
+	var nextPOI = 0
 
 	var minigame_number = <?php echo($_REQUEST['minigame']); ?>;
 
