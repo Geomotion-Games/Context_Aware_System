@@ -62,7 +62,7 @@
 					<ul id="stops" class="sortable"></ul>
 
 					<ul id="finish" class="sortable">
-				    	<li class="ui-state-default stop-row" id="point99" stop-number="99">
+				    	<li class="ui-state-default stop-row" id="point999" stop-number="999">
 				  			<span class="name" style="margin: 0;">FINISH</span>
 				    	</li>
 					</ul>
@@ -81,22 +81,18 @@
 	      </div>
 	      <div class="modal-body">
 	        <form>
-	            <div class="form-group">
-	            	<label for="name-name" class="control-label">Title:</label>
-	            	<input name="name-0" type="text" class="form-control" id="name-0">
-	          	</div>
-	          	<div class="form-group">
-	            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
-	            	<input name="distance-0" type="number" min="0" class="form-control" id="distance-0">
-	          	</div>
 	          	<div class="form-group">
 	          		<label for="content-name" class="control-label">Description:</label>
 	          	    <textarea id="content-0" name="content-0"></textarea>
 			    </div>
 			    <div class="form-group">
 	          		<label for="url-name" class="control-label">URL:</label>
-	            	<input name="url-` + len + `" type="text" class="form-control" id="url-` + len + `">
+	            	<input name="url-0" type="text" class="form-control" id="url-0">
 			    </div>
+			    <div class="form-group">
+		           	<label for="clue-name" class="control-label">image:</label>
+	            	<input name="image-0" type="file" class="form-control" id="image-0" accept="image/*">
+	            </div>
 	        </form>
 	      </div>
 	      <div class="modal-footer">
@@ -106,7 +102,7 @@
 	  </div>
 	</div>
 
-	<div class="stop-editor modal fade" id="stop-edit99" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
+	<div class="stop-editor modal fade" id="stop-edit999" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -115,22 +111,18 @@
 	      </div>
 	      <div class="modal-body">
 	        <form>
-	            <div class="form-group">
-	            	<label for="name-name" class="control-label">Title:</label>
-	            	<input name="name-99" type="text" class="form-control" id="name-99">
-	          	</div>
-	          	<div class="form-group">
-	            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
-	            	<input name="distance-99" type="number" min="0" class="form-control" id="distance-99">
-	          	</div>
 	          	<div class="form-group">
 	          		<label for="content-name" class="control-label">Description:</label>
-	          	    <textarea id="content-99" name="content-99"></textarea>
+	          	    <textarea id="content-999" name="content-999"></textarea>
 			    </div>
 			    <div class="form-group">
 	          		<label for="url-name" class="control-label">URL:</label>
-	            	<input name="url-` + len + `" type="text" class="form-control" id="url-` + len + `">
+	            	<input name="url-999" type="text" class="form-control" id="url-999">
 			    </div>
+			    <div class="form-group">
+		           	<label for="clue-name" class="control-label">image:</label>
+	            	<input name="image-999" type="file" class="form-control" id="image-999" accept="image/*">
+	            </div>
 	        </form>
 	      </div>
 	      <div class="modal-footer">

@@ -28,6 +28,9 @@ $( function() {
 	$("#saveButton").click(function() {
 		saveMinigame();
 	});
+
+	points[0]   = new Step(0, 0);
+	points[999] = new Step(0, 999);
 });
 
 var map = L.map('map');
@@ -65,8 +68,8 @@ Step.prototype.toJSON = function() {
     	"idNumber" 	  : this.idNumber,
     	"title" 	  : this.title,
     	"description" : this.description,
-    	"lat"		  : this.marker.getLatLng().lat,
-		"lng" 		  : this.marker.getLatLng().lng,
+    	"lat"		  : this.marker ? this.marker.getLatLng().lat : 0,
+		"lng" 		  : this.marker ? this.marker.getLatLng().lat : 0,
 		"distance" 	  : this.distance,
 		"reward" 	  : this.reward,
 		"url" 		  : this.url
@@ -80,7 +83,9 @@ function updatePath() {
 	var pointList = [];
 
 	for (stop in points) {
-		pointList.push(points[stop].marker.getLatLng());
+		if (stop != 0 && stop != 999) {
+			pointList.push(points[stop].marker.getLatLng());
+		}
 	}
 
 	if (path != null) map.removeLayer(path);
@@ -100,10 +105,6 @@ function updatePath() {
 map.on('click', function(e) {
 
 	poisCreated++;
-
-	//var len = Object.keys(points).length;
-
-	console.log("--- " + poisCreated);
 
 	var marker = new L.marker(e.latlng, {
 		draggable:'true'
@@ -129,8 +130,6 @@ map.on('click', function(e) {
   	map.addLayer(marker);
 
   	var step = new Step(marker, poisCreated);
-
-	console.log(poisCreated);
 
     jQuery('#stops').append(`
 
@@ -165,10 +164,10 @@ map.on('click', function(e) {
 		          		<label for="reward-name" class="control-label">Reward:</label>
 		            	<input name="reward-` + poisCreated + `" type="number" class="form-control" id="reward-` + poisCreated + `">
 				    </div>
-		          	<!--div class="form-group">
-		            	<label for="clue-name" class="control-label">image:</label>
+		          	<div class="form-group">
+		            	<label for="image-name" class="control-label">image:</label>
 		            	<input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
-		            </div-->
+		            </div>
 		          	<div class="form-group">
 		          		<label for="content-name" class="control-label">Description:</label>
 		          	    <textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
@@ -198,10 +197,99 @@ map.on('click', function(e) {
 
 var x = document.getElementById("location");
 
+// START AND FINISH
+jQuery("#start").on('click', 'li', function(e) {
+
+	var stopId = "#stop-edit0";
+
+	$(stopId + " h4").text("Editing Start");
+	$(stopId).modal('show');
+
+	$(stopId + " input[name^='name']").on('input',function(e){
+
+		//TITLE IN LIST
+		$('#start #point0 span.name').text( $(this).val() );
+
+		//MARKER
+		for (point in points)
+		{
+			if (points[point].idNumber == 0)
+			{
+				points[point].title = $(this).val();
+			}
+		}
+
+		//TITLE OF MODAL
+		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
+	});
+
+//DESCRIPTION
+	$(stopId + " textarea[name^='content']").on('change',function(e){
+		points[0].description = $(this).val();
+	});
+
+//URL
+	$(stopId + " input[name^='url']").on('input',function(e){
+		points[0].url = $(this).val();
+	});
+
+//IMAGE
+	$(stopId + " fileinput").on('change', function(e){
+    	var file = this.files[0];
+    	// This code is only for demo ...
+	    console.log("name : " + file.name);
+    	console.log("size : " + file.size);
+    	console.log("type : " + file.type);
+    	console.log("date : " + file.lastModified);
+	});
+
+});
+
+// START AND FINISH
+jQuery("#finish").on('click', 'li', function(e) {
+
+	var stopId = "#stop-edit999";
+
+	$(stopId + " h4").text("Editing Finish");
+	$(stopId).modal('show');
+
+	$(stopId + " input[name^='name']").on('input',function(e){
+
+		//TITLE IN LIST
+		$('#start #point0 span.name').text( $(this).val() );
+
+		//MARKER
+		for (point in points)
+		{
+			if (points[point].idNumber == 999)
+			{
+				points[point].title = $(this).val();
+			}
+		}
+
+		//TITLE OF MODAL
+		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
+	});
+
+//DESCRIPTION
+	$(stopId + " textarea[name^='content']").on('change',function(e){
+		points[999].description = $(this).val();
+	});
+
+//URL
+	$(stopId + " input[name^='url']").on('input',function(e){
+		points[999].url = $(this).val();
+	});
+
+});
+
+
 
 jQuery("#stops").on('click', 'li', function(e) {
 
 	var stopNumber = parseInt($(this).attr("stop-number"));
+
+	console.log(stopNumber);
 
 	if($(e.target).is('img')){
 
@@ -243,7 +331,6 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 //DESCRIPTION
 	$("#stop-edit" + stopNumber + " textarea[name^='content']").on('change',function(e){
-		console.log(points[stopNumber]);
 		points[stopNumber].description = $(this).val();
 	});
 
@@ -266,7 +353,7 @@ jQuery("#stops").on('click', 'li', function(e) {
 
 
 function removeStop(stopNumber) {
-	
+
 	for (point in points) {
 		if (points[point].idNumber == stopNumber) {
 			map.removeLayer(points[point].marker);
@@ -342,19 +429,19 @@ function showLocation(position) {
 
 function saveMinigame() {
 
-	var xhttp = new XMLHttpRequest();
+	/*var xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    	console.log(this.responseText);
 	    	alert("Go to: \nhttps://www.geomotiongames.com/beaconing/client.php?minigame=" + this.responseText.replace(/ /g,''));
 	    }
-	};
+	};*/
 
 	var minigame = JSON.stringify(getMinigameJson(), null, 2);
 	console.log(minigame);
 
-	xhttp.open("GET", "saveMinigame.php?minigame=" + minigame, true);
-	xhttp.send();
+	//xhttp.open("GET", "https://www.geomotiongames.com/beaconing/saveMinigame.php?minigame=" + minigame, true);
+	//xhttp.send();
 }
 
 function getMinigameJson() {

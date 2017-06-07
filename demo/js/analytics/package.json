@@ -1,0 +1,20 @@
+{
+  "name": "js-tracker",
+  "version": "0.1.0",
+  "description": "Client Side Tracker Asset written in JavaScript",
+  "main": "src/tk-widget.js",
+  "repository": "https://github.com/e-ucm/js-tracker",
+  "author": "e-UCM Research Group",
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "mocha",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "jquery": "*",
+    "lodash.clonedeep": "^4.5.0",
+    "mocha" : "*",
+    "webpack": "^2.3.2"
+  }
+}
