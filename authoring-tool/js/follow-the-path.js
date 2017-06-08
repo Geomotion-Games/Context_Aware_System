@@ -10,14 +10,18 @@ $( function() {
 	    		var newPointList = [];
 	    		var number = 0;
 
+				newPointList.push(points[0]);
 	    		$(this).children().each(function(index) {
 	    			number = $(this).attr("stop-number");
-	    			for (point in points) {
-	    				if (points[point].idNumber == number) {
-	    					newPointList.push(points[point]);
-	    				}
-	    			}
+					for (point in points) {
+						if (points[point] && points[point].idNumber == number) {
+							newPointList.push(points[point]);
+						}
+					}
 	    		});
+				newPointList.push(points[999]);
+
+
 
 				points = newPointList;
 		    	updatePath();
@@ -48,7 +52,7 @@ map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
-var points = {};
+var points = [];
 var poisCreated = 0;
 var path;
 
@@ -83,7 +87,7 @@ function updatePath() {
 	var pointList = [];
 
 	for (stop in points) {
-		if (stop != 0 && stop != 999) {
+		if (points[stop] && points[stop].marker) {
 			pointList.push(points[stop].marker.getLatLng());
 		}
 	}
@@ -358,17 +362,13 @@ function updateLabels() {
 
 	$("#stops").children('li').each(function() {
 		var number = $(this).attr("stop-number");
-		for (point in points)
-		{
-			if (points[point].idNumber == number)
-			{
-	    		if ( points[point].title.length > 0)
-	    		{
+		for (point in points){
+			if (points[point] && points[point].idNumber == number){
+	    		if ( points[point].title.length > 0){
 	    			points[point].marker._tooltip.setContent( points[point].title );
 	    			$(this).find("span.name").text( points[point].title );
 	    		} 
-	    		else 
-	    		{
+	    		else{
 	    			var name = "Stop " + parseInt(number)
 	    			points[point].marker._tooltip.setContent( name );
 	    			$(this).find("span.name").text( name );
