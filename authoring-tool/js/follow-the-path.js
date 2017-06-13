@@ -2,11 +2,9 @@ $( function() {
 
 	$( "#stops" ).sortable( {
 		update: function( event, ui ) {
-
 			var len = Object.keys(points).length;
 	    	
 	    	if (len > 1) {
-
 	    		var newPointList = [];
 	    		var number = 0;
 
@@ -20,8 +18,6 @@ $( function() {
 					}
 	    		});
 				newPointList.push(points[999]);
-
-
 
 				points = newPointList;
 		    	updatePath();
@@ -77,10 +73,10 @@ Step.prototype.toJSON = function() {
 		"distance" 	  : this.distance,
 		"reward" 	  : this.reward,
 		"url" 		  : this.url
-	}
+	};
 
     return json;
-}
+};
 
 function updatePath() {
 
@@ -155,32 +151,47 @@ map.on('click', function(e) {
 		        <h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
 		      </div>
 		      <div class="modal-body">
-		        <form>
-		            <div class="form-group">
-		            	<label for="name-name" class="control-label">Title:</label>
-		            	<input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
-		          	</div>
-		          	<div class="form-group">
-		            	<label for="distance-name" class="control-label">distance (trigger) meters:</label>
-		            	<input name="distance-` + poisCreated + `" type="number" min="0" class="form-control" id="distance-` + poisCreated + `">
-		          	</div>
-		          	<div class="form-group">
-		          		<label for="reward-name" class="control-label">Reward:</label>
-		            	<input name="reward-` + poisCreated + `" type="number" class="form-control" id="reward-` + poisCreated + `">
-				    </div>
-		          	<div class="form-group">
-		            	<label for="clue-name" class="control-label">image:</label>
-		            	<input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
-		            </div>
-		          	<div class="form-group">
-		          		<label for="content-name" class="control-label">Description:</label>
-		          	    <textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
-				    </div>
-				    <div class="form-group">
-		          		<label for="url-name" class="control-label">URL:</label>
-		            	<input name="url-` + poisCreated + `" type="text" class="form-control" id="url-` + poisCreated + `">
-				    </div>
-		        </form>
+		      <div id="stop-editor-content">
+					<div id="stop-editor-preview">
+						<b>Preview:</b>
+						<div id="preview-screen">
+							<p id="preview-title">Title</p>
+							<p id="preview-distance">Distance</p>
+							<p id="preview-reward">Reward</p>
+							<p id="preview-description">Description</p>
+							<p id="preview-url">Url</p>
+							<p id="preview-img">Image</p>
+							<button id="preview-continue">Continuar</button>
+						</div>
+					</div>
+					<form id="stop-editor-form">
+						<div class="form-group">
+							<label for="name-name" class="control-label">Title:</label>
+							<input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
+						</div>
+						<div class="form-group">
+							<label for="distance-name" class="control-label">distance (trigger) meters:</label>
+							<input name="distance-` + poisCreated + `" type="number" min="0" class="form-control" id="distance-` + poisCreated + `">
+						</div>
+						<div class="form-group">
+							<label for="reward-name" class="control-label">Reward:</label>
+							<input name="reward-` + poisCreated + `" type="number" class="form-control" id="reward-` + poisCreated + `">
+						</div>
+						<div class="form-group">
+							<label for="clue-name" class="control-label">image:</label>
+							<input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
+						</div>
+						<div class="form-group">
+							<label for="content-name" class="control-label">Description:</label>
+							<textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="url-name" class="control-label">URL:</label>
+							<input name="url-` + poisCreated + `" type="text" class="form-control" id="url-` + poisCreated + `">
+						</div>
+		        	</form>
+				</div>
+		        
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
@@ -200,151 +211,6 @@ map.on('click', function(e) {
 });
 
 var x = document.getElementById("location");
-
-// START AND FINISH
-jQuery("#start").on('click', 'li', function(e) {
-
-	var stopId = "#stop-edit0";
-
-	$(stopId + " h4").text("Editing Start");
-	$(stopId).modal('show');
-
-	$(stopId + " input[name^='name']").on('input',function(e){
-
-		//TITLE IN LIST
-		$('#start #point0 span.name').text( $(this).val() );
-
-		//MARKER
-		for (point in points)
-		{
-			if (points[point].idNumber == 0)
-			{
-				points[point].title = $(this).val();
-			}
-		}
-
-		//TITLE OF MODAL
-		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
-	});
-
-//DESCRIPTION
-	$(stopId + " textarea[name^='content']").on('change',function(e){
-		points[0].description = $(this).val();
-	});
-
-//URL
-	$(stopId + " input[name^='url']").on('input',function(e){
-		points[0].url = $(this).val();
-	});
-
-});
-
-// START AND FINISH
-jQuery("#finish").on('click', 'li', function(e) {
-
-	var stopId = "#stop-edit999";
-
-	$(stopId + " h4").text("Editing Finish");
-	$(stopId).modal('show');
-
-	$(stopId + " input[name^='name']").on('input',function(e){
-
-		//TITLE IN LIST
-		$('#start #point0 span.name').text( $(this).val() );
-
-		//MARKER
-		for (point in points)
-		{
-			if (points[point].idNumber == 999)
-			{
-				points[point].title = $(this).val();
-			}
-		}
-
-		//TITLE OF MODAL
-		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
-	});
-
-//DESCRIPTION
-	$(stopId + " textarea[name^='content']").on('change',function(e){
-		points[999].description = $(this).val();
-	});
-
-//URL
-	$(stopId + " input[name^='url']").on('input',function(e){
-		points[999].url = $(this).val();
-	});
-
-});
-
-
-
-jQuery("#stops").on('click', 'li', function(e) {
-
-	var stopNumber = parseInt($(this).attr("stop-number"));
-
-	console.log(stopNumber);
-
-	if($(e.target).is('img')){
-
-		$(this).remove();
-		map.removeLayer("point" + stopNumber);
-		map.removeLayer("pointText" + stopNumber);
-		console.log("removing");
-		removeStop(stopNumber);
-		e.preventDefault();
-		return;
-	}
-
-	var stopId = "#stop-edit" + stopNumber;
-
-	$(stopId + " h4").text("Editing Stop " + stopNumber);
-	$(stopId).modal('show');
-
-
-// TODO moure-ho tot al click del butó save
-//NAME
-	$("#stop-edit" + stopNumber + " input[name^='name']").on('input',function(e){
-
-		//TITLE IN LIST
-		$('#stops #point'+ stopNumber + ' span.name').text( $(this).val() );
-
-		//MARKER
-		for (point in points)
-		{
-			if (points[point].idNumber == stopNumber)
-			{
-				points[point].title = $(this).val();
-				points[point].marker._tooltip.setContent( $(this).val() );
-			}
-		}
-
-		//TITLE OF MODAL
-		$(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
-	});
-
-//DESCRIPTION
-	$("#stop-edit" + stopNumber + " textarea[name^='content']").on('change',function(e){
-		points[stopNumber].description = $(this).val();
-	});
-
-//DISTANCE
-	$("#stop-edit" + stopNumber + " input[name^='distance']").on('input',function(e){
-		points[stopNumber].distance = parseInt($(this).val());
-	});
-
-//REWARD
-	$("#stop-edit" + stopNumber + " input[name^='reward']").on('input',function(e){
-		points[stopNumber].reward = parseInt($(this).val());
-	});
-
-//URL
-	$("#stop-edit" + stopNumber + " input[name^='url']").on('input',function(e){
-		points[stopNumber].url = $(this).val();
-	});
-
-});
-
 
 function removeStop(stopNumber) {
 
@@ -398,24 +264,6 @@ function updateLabels() {
 	}*/
 }
 
-
-function locate() {
-	if (navigator.geolocation) {
-    	navigator.geolocation.getCurrentPosition( 
-    		function(position) {
- 				var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
-				map.panTo(coors);
-				map.setZoom(15);
-    		});
-	} else {
-		coordinates.innerHTML = "Geolocation is not supported by this browser.";
-	}
-}
-
-function showLocation(position) {
-	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
-	map.panTo(position);
-}
 
 function saveMinigame() {
 

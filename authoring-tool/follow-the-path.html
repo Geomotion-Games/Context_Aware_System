@@ -5,22 +5,22 @@
 	<link rel="stylesheet" href="css/jquery-ui.css">
 
 	<!--script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script-->
-	<script src="js/ckeditor.js"></script>
+	<script src="js/lib/ckeditor.js"></script>
 
 	<!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
-	<script src="js/jquery-1.12.4.js"></script>
-	<script src="js/jquery-ui.js"></script>
+	<script src="js/lib/jquery-1.12.4.js"></script>
+	<script src="js/lib/jquery-ui.js"></script>
 
 	<!--link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script-->
 	<link rel="stylesheet" href="css/leaflet.css" />
-	<script src="js/leaflet.js"></script>
+	<script src="js/lib/leaflet.js"></script>
 
   	<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<script src="js/bootstrap.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
 
 	<link rel="stylesheet" href="css/Control.Geocoder.css" />
 	<link rel="stylesheet" href="css/follow-the-path-style.css" />
@@ -80,20 +80,32 @@
 	        <h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
 	      </div>
 	      <div class="modal-body">
-	        <form>
-	          	<div class="form-group">
-	          		<label for="content-name" class="control-label">Description:</label>
-	          	    <textarea id="content-0" name="content-0"></textarea>
-			    </div>
-			    <div class="form-group">
-	          		<label for="url-name" class="control-label">URL:</label>
-	            	<input name="url-0" type="text" class="form-control" id="url-0">
-			    </div>
-			    <div class="form-group">
-		           	<label for="clue-name" class="control-label">image:</label>
-	            	<input name="image-0" type="file" class="form-control" id="image-0" accept="image/*">
-	            </div>
-	        </form>
+			  <div id="stop-editor-content">
+				  <div id="stop-editor-preview">
+					  <b>Preview:</b>
+					  <div id="preview-screen">
+						  <p id="preview-description">Description</p>
+						  <p id="preview-url">Url</p>
+						  <p id="preview-img">Image</p>
+						  <button id="preview-continue">Continuar</button>
+					  </div>
+				  </div>
+					  <form id="stop-editor-form">
+						  <div class="form-group">
+							  <label for="content-name" class="control-label">Description:</label>
+							  <textarea id="content-0" name="content-0"></textarea>
+						  </div>
+						  <div class="form-group">
+							  <label for="url-name" class="control-label">URL:</label>
+							  <input name="url-0" type="text" class="form-control" id="url-0">
+						  </div>
+						  <div class="form-group">
+							  <label for="clue-name" class="control-label">image:</label>
+							  <input name="image-0" type="file" class="form-control" id="image-0" accept="image/*">
+						  </div>
+					  </form>
+			  </div>
+
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
@@ -109,22 +121,32 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
 	      </div>
-	      <div class="modal-body">
-	        <form>
-	          	<div class="form-group">
-	          		<label for="content-name" class="control-label">Description:</label>
-	          	    <textarea id="content-999" name="content-999"></textarea>
-			    </div>
-			    <div class="form-group">
-	          		<label for="url-name" class="control-label">URL:</label>
-	            	<input name="url-999" type="text" class="form-control" id="url-999">
-			    </div>
-			    <div class="form-group">
-		           	<label for="clue-name" class="control-label">image:</label>
-	            	<input name="image-999" type="file" class="form-control" id="image-999" accept="image/*">
-	            </div>
-	        </form>
-	      </div>
+			<div class="modal-body">
+				<div id="stop-editor-content">
+					<div id="stop-editor-preview">
+						<b>Preview:</b>
+						<div id="preview-screen">
+							<p id="preview-description">Description</p>
+							<p id="preview-url">Url</p>
+							<p id="preview-img">Image</p>
+							<button id="preview-continue">Continuar</button>
+						</div>
+					</div>
+					<form id="stop-editor-form">
+						<div class="form-group">
+							<label for="content-name" class="control-label">Description:</label>
+							<textarea id="content-0" name="content-0"></textarea>
+						</div>
+						<div class="form-group">
+							<label for="url-name" class="control-label">URL:</label>
+							<input name="url-0" type="text" class="form-control" id="url-0">
+						</div>
+						<div class="form-group">
+							<label for="clue-name" class="control-label">image:</label>
+							<input name="image-0" type="file" class="form-control" id="image-0" accept="image/*">
+						</div>
+					</form>
+				</div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
 	      </div>
@@ -132,8 +154,10 @@
 	  </div>
 	</div>
 
-	<script src="js/Control.Geocoder.js"></script>
+	<script src="js/lib/Control.Geocoder.js"></script>
+	<script src="js/utils.js"></script>
 	<script src="js/follow-the-path.js"></script>
+	<script src="js/screen-editor.js"></script>
 
 </body>
 </html>

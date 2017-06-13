@@ -87,3 +87,22 @@ textarea {
 	border-radius: 17px;
 	font-size: 1.3em;
 }
+
+#stop-editor-preview {
+	height:300px;
+}
+#preview-screen{
+	word-wrap: break-word;
+	padding: 5px;
+	margin-top: 5px;
+	border-radius: 5px;
+	background-color: antiquewhite;
+	height:90%;
+}
+#stop-editor-form{
+
+}
+
+#stop-editor-content{
+	column-count: 2;
+}
