@@ -97,7 +97,8 @@ textarea {
 	margin-top: 5px;
 	border-radius: 5px;
 	background-color: antiquewhite;
-	height:90%;
+	height:280px;
+	width:200px;
 }
 #stop-editor-form{
 
@@ -105,4 +106,9 @@ textarea {
 
 #stop-editor-content{
 	column-count: 2;
+}
+
+#screens{
+	overflow: hidden;
+	width: 100%;
 }

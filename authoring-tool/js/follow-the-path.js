@@ -1,7 +1,7 @@
 $( function() { 
 
 	$( "#stops" ).sortable( {
-		update: function( event, ui ) {
+		update: function(event, ui) {
 			var len = Object.keys(points).length;
 	    	
 	    	if (len > 1) {
@@ -33,6 +33,7 @@ $( function() {
 	points[999] = new Step(0, 999);
 });
 
+var x = document.getElementById("location");
 var map = L.map('map');
 
 var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
@@ -52,31 +53,6 @@ var points = [];
 var poisCreated = 0;
 var path;
 
-function Step(marker, number) {
-	this.idNumber 	 = number;
-	this.marker 	 = marker;
-	this.title 	 	 = "";
-	this.description = "";
-	this.distance 	 = 20;
-	this.reward 	 = 0;
-	this.url 		 = "";
-}
-
-Step.prototype.toJSON = function() {
-    
-	var json = { 
-    	"idNumber" 	  : this.idNumber,
-    	"title" 	  : this.title,
-    	"description" : this.description,
-    	"lat"		  : this.marker ? this.marker.getLatLng().lat : 0,
-		"lng" 		  : this.marker ? this.marker.getLatLng().lat : 0,
-		"distance" 	  : this.distance,
-		"reward" 	  : this.reward,
-		"url" 		  : this.url
-	};
-
-    return json;
-};
 
 function updatePath() {
 
@@ -131,7 +107,7 @@ map.on('click', function(e) {
 
   	var step = new Step(marker, poisCreated);
 
-    jQuery('#stops').append(`
+    $('#stops').append(`
 
     	<li class="ui-state-default stop-row" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
     		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
@@ -141,7 +117,7 @@ map.on('click', function(e) {
 
     `);
 
-    jQuery('body').append(`
+    $('body').append(`
 
 		<div class="stop-editor modal fade" id="stop-edit` + poisCreated + `" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
 		  <div class="modal-dialog" role="document">
@@ -207,13 +183,10 @@ map.on('click', function(e) {
     points[poisCreated] = step;
 
     updatePath();
-
 });
 
-var x = document.getElementById("location");
 
 function removeStop(stopNumber) {
-
 	for (point in points) {
 		if (points[point].idNumber == stopNumber) {
 			map.removeLayer(points[point].marker);
@@ -262,30 +235,4 @@ function updateLabels() {
 		last.marker._tooltip.setContent( "END" );
 		$("#stops li").last().find("span.name").text("END");
 	}*/
-}
-
-
-function saveMinigame() {
-
-	/*var xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
-	    	console.log(this.responseText);
-	    	alert("Go to: \nhttps://www.geomotiongames.com/beaconing/client.php?minigame=" + this.responseText.replace(/ /g,''));
-	    }
-	};*/
-
-	var minigame = JSON.stringify(getMinigameJson(), null, 2);
-	console.log(minigame);
-
-	//xhttp.open("GET", "https://www.geomotiongames.com/beaconing/saveMinigame.php?minigame=" + minigame, true);
-	//xhttp.send();
-}
-
-function getMinigameJson() {
-	var json = {};
-	for (step in points) {
-		json[points[step].idNumber] = points[step].toJSON();
-	}
-	return json;
 }

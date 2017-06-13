@@ -1,20 +1,62 @@
 // START
-jQuery("#start").on('click', 'li', function(e) {
+$("#start").on('click', 'li', function(e) {
     var stopId = "#stop-edit0";
     var stopNumber = 0;
-    $(stopId + " h4").text("Editing Start");
-    setUpStartAndFinish(this, stopId, stopNumber);
+
+    showScreensOverview(stopNumber);
+    //$(stopId + " h4").text("Editing Start");
+    //stopOnClick(this, stopId, stopNumber);
 });
 
 // FINISH
-jQuery("#finish").on('click', 'li', function(e) {
+$("#finish").on('click', 'li', function(e) {
     var stopId = "#stop-edit999";
     var stopNumber = 999;
+
     $(stopId + " h4").text("Editing Finish");
-    setUpStartAndFinish(this, stopId, stopNumber);
+    stopOnClick(this, stopId, stopNumber);
 });
 
-function setUpStartAndFinish(parent, stopId, stopNumber, remove){
+// STOPS
+$("#stops").on('click', 'li', function(e) {
+    var stopNumber = parseInt($(this).attr("stop-number"));
+    var stopId = "#stop-edit" + stopNumber;
+    var remove = $(e.target).is('img');
+
+    $(stopId + " h4").text("Editing Stop " + stopNumber);
+    stopOnClick(this, stopId, stopNumber, remove);
+});
+
+function showEditorScreen(stop, screen){
+
+}
+
+function showScreensOverview(stopNumber){
+    var screens = [];
+
+    for (var point in points){
+        if(points[point].idNumber == stopNumber){
+            screens = points[point].screens;
+        }
+    }
+
+    $("#screens-overview #screens").empty();
+
+    for(var screen in screens){
+        $("#screens-overview #screens").append(`
+            <div id="preview-screen" >
+                <p id="preview-title">${screens[screen].title}</p>
+                <p id="preview-description">${screens[screen].description}</p>
+                <p id="preview-img">Image</p>
+                <button id="preview-continue">Continuar</button>
+            </div>
+        `);
+    }
+
+    $("#screens-overview").modal('show');
+}
+
+function stopOnClick(parent, stopId, stopNumber, remove){
     var id = $(parent).attr('id');
 
     if(remove){
@@ -27,6 +69,7 @@ function setUpStartAndFinish(parent, stopId, stopNumber, remove){
         return;
     }
 
+
     $(stopId).modal('show');
 
     $(stopId + " input[name^='name']").on('input',function(e){
@@ -35,7 +78,7 @@ function setUpStartAndFinish(parent, stopId, stopNumber, remove){
         $('#start #point0 span.name').text( $(this).val());
 
         //MARKER
-        for (point in points){
+        for (var point in points){
             if(points[point].idNumber == stopNumber){
                 points[point].title = $(this).val();
                 if(points[point].idNumber != 0 && points[point].idNumber != 999)
@@ -72,12 +115,3 @@ function setUpStartAndFinish(parent, stopId, stopNumber, remove){
         points[stopNumber].reward = parseInt($(this).val());
     });
 }
-
-jQuery("#stops").on('click', 'li', function(e) {
-    var stopNumber = parseInt($(this).attr("stop-number"));
-    var stopId = "#stop-edit" + stopNumber;
-    var remove = $(e.target).is('img');
-
-    $(stopId + " h4").text("Editing Stop " + stopNumber);
-    setUpStartAndFinish(this, stopId, stopNumber, remove);
-});
