@@ -117,67 +117,6 @@ map.on('click', function(e) {
 
     `);
 
-    $('body').append(`
-
-		<div class="stop-editor modal fade" id="stop-edit` + poisCreated + `" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
-		      </div>
-		      <div class="modal-body">
-		      <div id="stop-editor-content">
-					<div id="stop-editor-preview">
-						<b>Preview:</b>
-						<div id="preview-screen">
-							<p id="preview-title">Title</p>
-							<p id="preview-distance">Distance</p>
-							<p id="preview-reward">Reward</p>
-							<p id="preview-description">Description</p>
-							<p id="preview-url">Url</p>
-							<p id="preview-img">Image</p>
-							<button id="preview-continue">Continuar</button>
-						</div>
-					</div>
-					<form id="stop-editor-form">
-						<div class="form-group">
-							<label for="name-name" class="control-label">Title:</label>
-							<input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
-						</div>
-						<div class="form-group">
-							<label for="distance-name" class="control-label">distance (trigger) meters:</label>
-							<input name="distance-` + poisCreated + `" type="number" min="0" class="form-control" id="distance-` + poisCreated + `">
-						</div>
-						<div class="form-group">
-							<label for="reward-name" class="control-label">Reward:</label>
-							<input name="reward-` + poisCreated + `" type="number" class="form-control" id="reward-` + poisCreated + `">
-						</div>
-						<div class="form-group">
-							<label for="clue-name" class="control-label">image:</label>
-							<input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
-						</div>
-						<div class="form-group">
-							<label for="content-name" class="control-label">Description:</label>
-							<textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
-						</div>
-						<div class="form-group">
-							<label for="url-name" class="control-label">URL:</label>
-							<input name="url-` + poisCreated + `" type="text" class="form-control" id="url-` + poisCreated + `">
-						</div>
-		        	</form>
-				</div>
-		        
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-		      </div>
-		    </div>
-		  </div>
-		</div>
-
-    `);
-
     //CKEDITOR.replace( "editor" + len );
 
     points[poisCreated] = step;

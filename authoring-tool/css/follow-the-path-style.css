@@ -67,6 +67,10 @@
 	overflow: scroll;
 }
 
+#stops.sortable{
+	cursor: hand;
+}
+
 .element {
 	width: 100%; height: 100%; float:left;
 }
@@ -91,6 +95,7 @@ textarea {
 #stop-editor-preview {
 	height:300px;
 }
+
 #preview-screen{
 	word-wrap: break-word;
 	padding: 5px;
@@ -99,6 +104,13 @@ textarea {
 	background-color: antiquewhite;
 	height:280px;
 	width:200px;
+	margin-right: 10px;
+	display: inline-block;
+}
+
+#preview-screen.clickable:hover{
+	border: 1px solid black;
+	cursor: hand;
 }
 #stop-editor-form{
 
@@ -110,5 +122,5 @@ textarea {
 
 #screens{
 	overflow: hidden;
-	width: 100%;
+	width:100%;
 }
