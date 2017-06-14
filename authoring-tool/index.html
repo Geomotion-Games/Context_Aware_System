@@ -1,122 +1,48 @@
 <html>
 <head>
 
-	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<!--link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"-->
+	<link rel="stylesheet" href="css/jquery-ui.css">
 
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<!--script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script-->
+	<script src="js/lib/ckeditor.js"></script>
 
-	<style>
+	<!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
+	<script src="js/lib/jquery-1.12.4.js"></script>
+	<script src="js/lib/jquery-ui.js"></script>
 
+	<!--link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script-->
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<script src="js/lib/leaflet.js"></script>
 
-		.zoomOnHover {
-		/*	width: 300px;
-			height: 200px;*/
-			margin: 0;
-			background: #fff;
-			overflow: hidden;
-		}
+	<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/lib/bootstrap.min.js"></script>
 
-		.image {
-			border: 1px solid #222;
-			padding: 10px;
-		}
+	<link rel="stylesheet" href="css/Control.Geocoder.css" />
+	<link rel="stylesheet" href="css/follow-the-path-style.css" />
 
-		/* Zoom In #1 */
-		.zoomOnHover img {
-			-webkit-transform: scale(1);
-			transform: scale(1);
-			-webkit-transition: .3s ease-in-out;
-			transition: .3s ease-in-out;
-		}
-		.zoomOnHover:hover img {
-			-webkit-transform: scale(1.3);
-			transform: scale(1.3);
-			cursor: pointer;
-		}
-
-		.gameType:hover .zoomOnHover img {
-			-webkit-transform: scale(1.3);
-			transform: scale(1.3);
-			cursor: pointer;
-		}
-
-		.gameType {
-			text-align: center;
-			height: 280px;
-			margin-top: 40px;
-		}
-
-
-		img, h2 {
-			width:auto;
-		}
-
-		img {
-			max-height: 250px;
-		}
-
-		h2 {
-			font-size: 1.4em;
-			margin-top: 10px;
-			margin-bottom: 20px;
-		}
-				
-	</style>
 </head>
 <body>
 
-	<div class="container">
-		<div class="official-row">
-			<div class="row">
-				<div class="col-md-4 gameType">
-					<a href="follow-the-path.html">
-						<div class="zoomOnHover image">
-							<img src="images/follow-the-path.jpg">
-						</div>
-						<h2>Follow the Path</h2>
+	<header class="header">
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="/">
+						<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 					</a>
 				</div>
-				<div class="col-md-4 gameType">
-					<div class="image">
-						<img src="images/treasure-hunt.jpg" style="opacity: 0.6;">
-					</div>
-					<h2>Treasure Hunt</h2>
-				</div>
-				<div class="col-md-4 gameType">
-					<div class="image">
-						<img src="images/scout.jpg" style="opacity: 0.6;">
-					</div>
-					<h2>Scout</h2>
-				</div>
 			</div>
-		</div>
-		<div class="official-row">
-			<div class="row">
-				<div class="col-md-4 gameType">
-					<div class="image">
-						<img src="images/rat-race.jpg" style="opacity: 0.6;">
-					</div>
-					<h2>Rat Race</h2>
-				</div>
-				<div class="col-md-4 gameType">
-					<div class="image">
-						<img src="images/conquest.jpg" style="opacity: 0.6;">
-					</div>
-					<h2>Conquest</h2>
-				</div>
-				<div class="col-md-4 gameType">
-					<div class="image">
-						<img src="images/jigsaw.jpg" style="opacity: 0.6;">
-					</div>
-					<h2>Capture the flag</h2>
-				</div>
-			</div>
-		</div>
+		</nav>
+	</header>
+
+	<div class="container-fluid">
+		<button onclick="window.location = '/plots.html'">+ New Game</button>
 	</div>
 
-	<script>
-
-	</script>
 </body>
 </html>
