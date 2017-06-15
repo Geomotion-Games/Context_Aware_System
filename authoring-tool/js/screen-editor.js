@@ -34,6 +34,7 @@ function showEditorScreen(screen, stopNumber){
         if(points[point].idNumber == stopNumber){
             $("#stop-editor-preview").empty();
             appendPreviewScreen("#stop-editor-preview", points[point].screens, screen, false);
+            appendEditor("#stop-editor-form", points[point].screens, screen);
         }
     }
 
@@ -58,7 +59,7 @@ function showEditorScreen(screen, stopNumber){
 
     //DESCRIPTION
     $(stopId + " textarea[name^='content']").on('input',function(e){
-        $(stopId + "  #preview-description").text($(this).val());
+        $(stopId + "  #preview-text").text($(this).val());
         points[stopNumber].description = $(this).val();
     });
 
@@ -96,7 +97,7 @@ function showScreensOverview(stopNumber){
     $("#screens-overview #screens").empty();
 
     for(var screen in screens){
-        appendPreviewScreen("#screens-overview #screens", screens, screen, true);
+        appendPreviewScreen("#screens-overview #screens", screens, screen, screens[screen].type != "B");
     }
 
     $("#preview-screen.clickable").on('click',function(e){
@@ -107,19 +108,59 @@ function showScreensOverview(stopNumber){
     $("#screens-overview").modal('show');
 }
 
-function appendPreviewScreen(parent, screens, index, clickable){
-    //TODO: Obtener todos los parámetros de screen y añadirlos a la pantalla. Tener en cuenta el type tambien
-    var title = screens[index].title ? screens[index].title : "Title";
-    var description = screens[index].description ? screens[index].description : "Description";
+function appendEditor(parent, screens, index){
+    $(parent).empty();
 
     $(parent).append(`
+        <div class="form-group">
+            <label for="name-name" class="control-label">Title:</label>
+            <input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
+        </div>
+        <div class="form-group">
+            <label for="content-name" class="control-label">Text:</label>
+            <textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="clue-name" class="control-label">Image:</label>
+            <input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
+        </div>
+    `);
+}
+
+function appendPreviewScreen(parent, screens, index, clickable){
+    var title = screens[index].title ? screens[index].title : "Title";
+    var text = screens[index].text ? screens[index].text : "Text";
+    var image = screens[index].image ? screens[index].image : "Image/Media";
+    var reward = screens[index].reward ? screens[index].reward : "Reward";
+
+    if(screens[index].type == "A"){
+        $(parent).append(`
             <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+                Tipo A
                 <p id="preview-title">${title}</p>
-                <p id="preview-description">${description}</p>
-                <p id="preview-img">Image</p>
+                <p id="preview-text">${text}</p>
+                <p id="preview-img">${image}</p>
                 <button id="preview-continue">Continuar</button>
             </div>
-    `);
+        `);
+    }else if(screens[index].type == "B"){
+        $(parent).append(`
+            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+                Tipo B - Selector tipo challenge
+            </div>
+        `);
+    }else if(screens[index].type == "C"){
+        $(parent).append(`
+            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+                Tipo C
+                <p id="preview-title">${title}</p>
+                <p id="preview-text">${text}</p>
+                <p id="preview-img">${image}</p>
+                <p id="preview-reward">${reward}</p>
+                <button id="preview-continue">Continuar</button>
+            </div>
+        `);
+    }
 }
 
 function stopOnClick(stopId, stopNumber, remove){
