@@ -7,7 +7,7 @@ function Step(marker, number) {
     this.reward 	 = 0;
     this.url 		 = "";
     this.screens	 = [
-        new Screen({type:"type A", title: "Titulo", description: "description"}),
+        new Screen({type:"type A", title: "Titulooooooo", description: "Descripciooooooooon"}),
         new Screen({type:"type B", description: "description"}),
         new Screen({type:"type C", description: "description"})
     ];
