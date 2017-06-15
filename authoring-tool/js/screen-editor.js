@@ -58,7 +58,7 @@ function showEditorScreen(screen, stopNumber){
 
     //DESCRIPTION
     $(stopId + " textarea[name^='content']").on('input',function(e){
-        $(stopId + "  #preview-description").text($(this).val());
+        $(stopId + "  #preview-text").text($(this).val());
         points[stopNumber].description = $(this).val();
     });
 
@@ -108,18 +108,39 @@ function showScreensOverview(stopNumber){
 }
 
 function appendPreviewScreen(parent, screens, index, clickable){
-    //TODO: Obtener todos los parámetros de screen y añadirlos a la pantalla. Tener en cuenta el type tambien
     var title = screens[index].title ? screens[index].title : "Title";
-    var description = screens[index].description ? screens[index].description : "Description";
+    var text = screens[index].text ? screens[index].text : "Text";
+    var image = screens[index].image ? screens[index].image : "Image/Media";
+    var reward = screens[index].reward ? screens[index].reward : "Reward";
 
-    $(parent).append(`
+    if(screens[index].type == "A"){
+        $(parent).append(`
             <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+                Tipo A
                 <p id="preview-title">${title}</p>
-                <p id="preview-description">${description}</p>
-                <p id="preview-img">Image</p>
+                <p id="preview-text">${text}</p>
+                <p id="preview-img">${image}</p>
                 <button id="preview-continue">Continuar</button>
             </div>
-    `);
+        `);
+    }else if(screens[index].type == "B"){
+        $(parent).append(`
+            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+                Tipo B - Selector tipo challenge
+            </div>
+        `);
+    }else if(screens[index].type == "C"){
+        $(parent).append(`
+            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+                Tipo C
+                <p id="preview-title">${title}</p>
+                <p id="preview-text">${text}</p>
+                <p id="preview-img">${image}</p>
+                <p id="preview-reward">${reward}</p>
+                <button id="preview-continue">Continuar</button>
+            </div>
+        `);
+    }
 }
 
 function stopOnClick(stopId, stopNumber, remove){

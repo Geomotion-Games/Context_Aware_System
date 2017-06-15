@@ -7,9 +7,9 @@ function Step(marker, number) {
     this.reward 	 = 0;
     this.url 		 = "";
     this.screens	 = [
-        new Screen({type:"type A", title: "Titulooooooo", description: "Descripciooooooooon"}),
-        new Screen({type:"type B", description: "description"}),
-        new Screen({type:"type C", description: "description"})
+        new Screen({type:"A", title: "Titulooooooo", description: "Descripciooooooooon"}),
+        new Screen({type:"B", description: "description"}),
+        new Screen({type:"C", description: "description"})
     ];
 }
 
@@ -34,6 +34,8 @@ Step.prototype.toJSON = function() {
 function Screen(params){
     this.type = params.type;
     this.title = params.title;
-    this.description = params.description;
+    this.text = params.text;
+    this.image = params.image;
+    this.reward = params.reward;
 }
 
