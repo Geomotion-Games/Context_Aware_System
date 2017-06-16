@@ -121,5 +121,6 @@ textarea {
 }
 
 #screens{
-
+	margin: 30px 0;
+	overflow:auto;
 }

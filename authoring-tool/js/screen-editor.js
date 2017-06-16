@@ -139,7 +139,6 @@ function appendPreviewScreen(parent, screens, index, clickable){
     if(screens[index].type == "A"){
         $(parent).append(`
             <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
-                Tipo A
                 <p id="preview-title">${title}</p>
                 <p id="preview-text">${text}</p>
                 <p id="preview-img">${image}</p>
@@ -149,13 +148,19 @@ function appendPreviewScreen(parent, screens, index, clickable){
     }else if(screens[index].type == "B"){
         $(parent).append(`
             <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
-                Tipo B - Selector tipo challenge
+                Challenge:
+                <select name="challenge">
+                  <option value="volvo">Challenge A</option>
+                  <option value="saab">Challenge B</option>
+                  <option value="fiat">Challenge C</option>
+                  <option value="audi">Challenge D</option>
+                </select>
+                 <button id="preview-continue">Continuar</button>
             </div>
         `);
     }else if(screens[index].type == "C"){
         $(parent).append(`
             <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
-                Tipo C
                 <p id="preview-title">${title}</p>
                 <p id="preview-text">${text}</p>
                 <p id="preview-img">${image}</p>
@@ -179,3 +184,14 @@ function stopOnClick(stopId, stopNumber, remove){
 
     showScreensOverview(stopNumber);
 }
+
+$("#add_screen").on("click", function(e){
+    var random = getRandomInt(0, 3);
+    var type = "";
+    if(random == 0) type = "A";
+    else if(random == 1) type = "B";
+    else if(random == 2) type = "C";
+    points[0].screens.push(new Screen({type:type, description: "description"}));
+    var index = points[0].screens.length;
+    appendPreviewScreen("#screens", points[0].screens, index - 1, true);
+});

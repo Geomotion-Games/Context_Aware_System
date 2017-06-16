@@ -42,8 +42,26 @@
 	</header>
 
 	<div class="container-fluid">
-		Pantallas
-		<div id="screens">
+		<div class="row">
+			<div class="col-md-2">
+				Nombre del POI: <input type="text">
+			</div>
+			<div class="col-md-2">
+				Descripción del POI: <input type="text">
+			</div>
+			<div class="col-md-2">
+				Contenido del POI: <input type="text">
+			</div>
+			<div class="col-md-2">
+				Puntos recompensa: <input type="number">
+			</div>
+			<div class="col-md-4">
+				QR: <input type="file" accept="image/*">
+			</div>
+		</div>
+		<div id="screens"></div>
+		<button id="add_screen">+Nueva Pantalla (Random)</button>
+		<button onclick="window.location='/follow-the-path.html'">Volver al mapa</button>
 	</div>
 
 	<div class="stop-editor modal fade" id="stop-edit" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
