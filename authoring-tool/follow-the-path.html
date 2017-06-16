@@ -35,13 +35,26 @@
 				<a class="navbar-brand" href="/">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
-		      <a href="#" id="saveButton">Save</a>
 		    </div>
 		  </div>
 		</nav>
 	</header>
 
 	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3">
+				Nombre del Challenge (Juego): <input type="text">
+			</div>
+			<div class="col-md-3">
+				Descripción del Challenge: <input type="text">
+			</div>
+			<div class="col-md-3">
+				Tiempo MAX: <input type="checkbox">
+			</div>
+			<div class="col-md-3">
+				Es obligatorio superar el challenge para continuar: <input type="checkbox">
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="section">
@@ -66,8 +79,11 @@
 				  			<span class="name" style="margin: 0;">FINISH</span>
 				    	</li>
 					</ul>
-
+					<button >Info</button>
+					<button onclick="window.location='/'">Finalizar edicion</button>
+					<button>+Añadir Beacon</button>
 				</div>
+
 			</div>
 		</div>
 	</div>
