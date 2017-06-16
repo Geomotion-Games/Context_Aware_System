@@ -1,0 +1,86 @@
+<html>
+<head>
+
+	<!--link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"-->
+	<link rel="stylesheet" href="css/jquery-ui.css">
+
+	<!--script src="https://cdn.ckeditor.com/4.5.11/full/ckeditor.js"></script-->
+	<script src="js/lib/ckeditor.js"></script>
+
+	<!--script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script-->
+	<script src="js/lib/jquery-1.12.4.js"></script>
+	<script src="js/lib/jquery-ui.js"></script>
+
+	<!--link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script-->
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<script src="js/lib/leaflet.js"></script>
+
+  	<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="js/lib/bootstrap.min.js"></script>
+
+	<link rel="stylesheet" href="css/Control.Geocoder.css" />
+	<link rel="stylesheet" href="css/follow-the-path-style.css" />
+
+</head>
+<body>
+
+	<header class="header">
+		<nav class="navbar navbar-default">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+				<a class="navbar-brand" href="/">
+					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
+				</a>
+		      <a href="#" id="saveButton">Save</a>
+		    </div>
+		  </div>
+		</nav>
+	</header>
+
+	<div class="container-fluid">
+		Pantallas
+		<div id="screens">
+	</div>
+
+	<div class="stop-editor modal fade" id="stop-edit" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
+				</div>
+				<div class="modal-body">
+					<div id="stop-editor-content">
+						<div id="stop-editor-preview">
+							<b>Preview:</b>
+
+						</div>
+						<form id="stop-editor-form">
+							<b>Editor:</b>
+						</form>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="js/utils.js"></script>
+	<script src="js/models.js"></script>
+	<script src="js/screen-editor.js"></script>
+	<script>
+		poisCreated = 2;
+		points[0]   = new Step(0, 0);
+		points[999] = new Step(0, 999);
+		showScreensOverview(0);
+	</script>
+
+</body>
+</html>

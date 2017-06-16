@@ -1,3 +1,6 @@
+var points = [];
+var poisCreated = 0;
+
 function Step(marker, number) {
     this.idNumber 	 = number;
     this.marker 	 = marker;

@@ -49,8 +49,8 @@ map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
-var points = [];
-var poisCreated = 0;
+
+
 var path;
 
 

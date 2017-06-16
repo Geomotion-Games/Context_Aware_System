@@ -105,7 +105,7 @@ textarea {
 	height:280px;
 	width:200px;
 	margin-right: 10px;
-	display: inline-block;
+	float: left;
 }
 
 #preview-screen.clickable:hover{
@@ -121,6 +121,5 @@ textarea {
 }
 
 #screens{
-	overflow: hidden;
-	width:100%;
+
 }

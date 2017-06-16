@@ -1,29 +1,33 @@
 // START
 $("#start").on('click', 'li', function(e) {
-    var stopId = "#stop-edit0";
-    var stopNumber = 0;
+    window.location = "/screens-overview.html";
 
-    //$(stopId + " h4").text("Editing Start");
-    stopOnClick(stopId, stopNumber);
+    // var stopId = "#stop-edit0";
+    // var stopNumber = 0;
+
+    // $(stopId + " h4").text("Editing Start");
+    // stopOnClick(stopId, stopNumber);
 });
 
 // FINISH
 $("#finish").on('click', 'li', function(e) {
-    var stopId = "#stop-edit999";
-    var stopNumber = 999;
-
-    $(stopId + " h4").text("Editing Finish");
-    stopOnClick(stopId, stopNumber);
+    window.location = "/screens-overview.html";
+    // var stopId = "#stop-edit999";
+    // var stopNumber = 999;
+    //
+    // $(stopId + " h4").text("Editing Finish");
+    // stopOnClick(stopId, stopNumber);
 });
 
 // STOPS
 $("#stops").on('click', 'li', function(e) {
-    var stopNumber = parseInt($(this).attr("stop-number"));
-    var stopId = "#stop-edit" + stopNumber;
-    var remove = $(e.target).is('img');
-
-    $(stopId + " h4").text("Editing Stop " + stopNumber);
-    stopOnClick(stopId, stopNumber, remove);
+    window.location = "/screens-overview.html";
+    // var stopNumber = parseInt($(this).attr("stop-number"));
+    // var stopId = "#stop-edit" + stopNumber;
+    // var remove = $(e.target).is('img');
+    //
+    // $(stopId + " h4").text("Editing Stop " + stopNumber);
+    // stopOnClick(stopId, stopNumber, remove);
 });
 
 function showEditorScreen(screen, stopNumber){
@@ -94,10 +98,10 @@ function showScreensOverview(stopNumber){
         }
     }
 
-    $("#screens-overview #screens").empty();
+    $("#screens").empty();
 
     for(var screen in screens){
-        appendPreviewScreen("#screens-overview #screens", screens, screen, screens[screen].type != "B");
+        appendPreviewScreen("#screens", screens, screen, screens[screen].type != "B");
     }
 
     $("#preview-screen.clickable").on('click',function(e){
@@ -105,7 +109,6 @@ function showScreensOverview(stopNumber){
         showEditorScreen(screen_index, stopNumber);
     });
 
-    $("#screens-overview").modal('show');
 }
 
 function appendEditor(parent, screens, index){
