@@ -109,10 +109,20 @@ map.on('click', function(e) {
 
     $('#stops').append(`
 
-    	<li class="ui-state-default stop-row" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
-    		<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-  			<span class="name" style="margin: 0;">Stop `+ (poisCreated) + `</span>
-    		<img class="stop-icon" src="images/trash-icon.png"/>
+    	<li class="stop-row poirow" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
+    		<div class="row">
+    			<div class="col-md-12 poiInfo">
+    				<div class="poiTexts">
+    					<p><span class="name poiTitle" style="margin: 0;">Stop `+ (poisCreated) + `</span></p>
+    					<p class="poiType">[%POI description%]</p>
+    				</div>
+    				<div class=poiActions>
+    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+    				</div>
+    			</div>
+    		</div>
     	</li>
 
     `);

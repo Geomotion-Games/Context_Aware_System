@@ -1,8 +1,25 @@
-/* jQueryUI */
-
 .sortable { list-style-type: none; margin: 0; padding: 0; }
 .sortable li {  padding: 0.25em; padding-left: 1.5em; font-size: 1.2em; height: 35px; margin: 10px; }
-.sortable li span { position: absolute; margin-left: -1.3em; }
+.sortable li span { margin-left: -1.3em; }
+
+#attributes {
+	background-color: #eee;
+}
+
+#attributes .attrTitle {
+	margin: 10px 5px 0 5px;
+	background-color: #2c353e;
+	color: white;
+	padding: 5px 5px 0 5px;
+	width: 100%;
+}
+
+#attributes .attrValue {
+	margin: 0 5px;
+	width: 100%;
+	padding: 0 5px;
+	width: 100%;
+}
 
 .col-md-6 {
 	padding-left: 0;
@@ -10,16 +27,23 @@
 }
 
 .section {
-	padding: 15px 10px;
+	padding: 10px 10px;
 	background-color: #eee;
 	height: 90vh;
 	overflow: hidden;
 }
 
-.block {
+.block-left {
 	padding: 10px;
 	background: #fff;
 	height:100%;
+	overflow: scroll;
+}
+
+.block-right {
+	padding: 10px;
+	background: #fff;
+	height:80%;
 	overflow: scroll;
 }
 
@@ -46,4 +70,70 @@ textarea {
 	background-color: rgba(255,255,255,0.7);
 	border-radius: 17px;
 	font-size: 1.3em;
+}
+
+
+.sortable li {
+	all: unset;
+}
+
+#start .poirow, #finish .poirow, #stops .poirow {
+	color: white;
+	display: block;
+	margin: 10px 20px;
+	height: 80px;
+}
+
+#start .poirow .poiInfo, #finish .poirow .poiInfo, #stops .poirow .poiInfo {
+	background-color: #2c353e;
+	height: 80px;
+}
+
+#start .poirow {
+	margin-top: 8px;
+}
+
+.poirow .poiInfo .poiTexts {
+	float: left;
+	padding: 15px 0 0 5px;
+}
+
+.poirow .poiInfo .poiTexts .poiType {
+	color: #afb7bb;
+}
+
+.poirow .poiInfo .poiActions i {
+	float: right;
+	color: #e87f62;
+	padding: 25px 10px 0 10px;
+}
+
+.poirow .poiInfo .poiActions i.fa-trash {
+	color: #c25d31;
+}
+
+footer {
+	position: absolute;
+	bottom: 15px;
+	background-color: white;
+	color: black;
+	padding-top: 15px;
+}
+
+footer .footerTitle {
+	font-weight: 700;
+}
+
+footer a {
+	text-align: center;
+	color: white;
+	background-color: #3b4f61;
+	padding: 10px;
+	display:block;
+	width:110px;
+	margin-top: 5px;
+}
+
+footer a#finishEdition {
+	background-color: #c25d31;
 }

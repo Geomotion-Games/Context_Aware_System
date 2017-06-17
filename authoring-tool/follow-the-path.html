@@ -1,9 +1,10 @@
 <html>
 <head>
 
-	<link rel="stylesheet" href="css/jquery-ui.css">
+	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
 
-	<script src="js/lib/ckeditor.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+	<link rel="stylesheet" href="css/jquery-ui.css">
 
 	<script src="js/lib/jquery-1.12.4.js"></script>
 	<script src="js/lib/jquery-ui.js"></script>
@@ -34,95 +35,91 @@
 	</header>
 
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-3">
-				Nombre del Challenge (Juego): <input type="text">
+		<div id="attributes" class="row">
+			<div class="col-md-3 attribute">
+				<p class="attrTitle">Plot's name:</p>
+				<input class="attrValue" type="text">
 			</div>
-			<div class="col-md-3">
-				Descripción del Challenge: <input type="text">
+			<div class="col-md-3 attribute">
+				<p class="attrTitle">Plot's description:</p>
+				<input class="attrValue" type="text">
 			</div>
-			<div class="col-md-3">
-				Tiempo MAX: <input type="checkbox">
+			<div class="col-md-3 attribute">
+				<p class="attrTitle">Time limit:</p>
+				<input class="attrValue" type="text">
 			</div>
-			<div class="col-md-3">
-				Es obligatorio superar el challenge para continuar: <input type="checkbox">
+			<div class="col-md-3 attribute">
+				<p class="attrTitle">It's mandatory to pass all challenges:</p>
+				<input class="attrValue" type="text">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6">
 				<div class="section">
-					<div class="block">
+					<div class="block-left">
 						<div id='map' class="element"></div>
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6 section">
-				<div class="block">
+				<div class="block-right">
 
 					<ul id="start" class="sortable">
-						<li class="ui-state-default stop-row" id="point0" stop-number="0">
-				  			<span class="name" style="margin: 0;">START</span>
+				    	<li class="stop-row poirow" id="point0" stop-number="0">
+				    		<div class="row">
+				    			<div class="col-md-12 poiInfo">
+				    				<div class="poiTexts">
+				    					<p><span class="name poiTitle" style="margin: 0;">START</span></p>
+				    					<p class="poiType">[%description of start%]</p>
+				    				</div>
+				    				<div class=poiActions>
+				    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    				</div>
+				    			</div>
+				    		</div>
 				    	</li>
 					</ul>
 
 					<ul id="stops" class="sortable"></ul>
 
 					<ul id="finish" class="sortable">
-				    	<li class="ui-state-default stop-row" id="point999" stop-number="999">
-				  			<span class="name" style="margin: 0;">FINISH</span>
+				    	<li class="stop-row poirow" id="point999" stop-number="999">
+				    		<div class="row">
+				    			<div class="col-md-12 poiInfo">
+				    				<div class="poiTexts">
+				    					<p><span class="name poiTitle" style="margin: 0;">FINISH</span></p>
+				    					<p class="poiType">[%description of finish%]</p>
+				    				</div>
+				    				<div class=poiActions>
+				    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    				</div>
+				    			</div>
+				    		</div>
 				    	</li>
 					</ul>
-					<button >Info</button>
-					<button onclick="window.location='/'">Finalizar edicion</button>
-					<button>+Añadir Beacon</button>
+
+					<!--button onclick="window.location='/'">Finalizar edicion</button>
+					<button>+Añadir Beacon</button-->
 				</div>
 
-			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="screens-overview" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="exampleModalLabel">Screens Overview for Stop X:</h4>
-				</div>
-				<div class="modal-body">
-					Pantallas
-					<div id="screens">
-
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="stop-editor modal fade" id="stop-edit" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
-				</div>
-				<div class="modal-body">
-					<div id="stop-editor-content">
-						<div id="stop-editor-preview">
-							<b>Preview:</b>
-
+				<footer>
+				<div class="container-fluid">
+					<div class="col-md-9">
+						<div class="footerText">
+							<p class="footerTitle"><strong>Description:</strong></p>
+							<p class="footerDescription">Define the basic parameters of your game. Create POI (Points of Interest) clicking on the map, reorder and edit them as you wish and personalize the content of each one with funny challenges.</p>
 						</div>
-						<form id="stop-editor-form">
-							<b>Editor:</b>
-						</form>
 					</div>
-
+					<div class="col-md-3">
+						<a id="addBeacon" href="">+ Add Beacon</a>
+						<a id="finishEdition" href="">Finish Edition</a>
+					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-				</div>
+				</footer>
 			</div>
 		</div>
 	</div>
