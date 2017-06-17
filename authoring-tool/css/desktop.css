@@ -78,6 +78,10 @@
 	padding: 25px 10px 0 10px;
 }
 
+.gamerow .gameinfo .gameactions i.fa-trash {
+	color: #c25d31;
+}
+
 .games .pubpriv {
 	height: 80px;
 	padding: 21px 0 0 50px;
@@ -99,8 +103,8 @@ footer {
 	padding-top: 15px;
 }
 
-footer .title {
-	font-size: 1.2em;
+footer .footerTitle {
+	font-weight: 700;
 }
 
 footer a#newGame {

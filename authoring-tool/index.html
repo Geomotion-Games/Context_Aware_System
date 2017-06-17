@@ -7,10 +7,10 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/lib/bootstrap.min.js"></script>
 
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+
 	<link rel="stylesheet" href="css/cacat.css">
 	<link rel="stylesheet" href="css/desktop.css">
-
-	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
@@ -33,7 +33,7 @@
 	  	<!-- Nav tabs -->
 	  	<ul class="nav nav-tabs" role="tablist">
 	    	<li role="presentation" class="active notlast"><a href="#mygames" aria-controls="mygames" role="tab" data-toggle="tab">My games</a></li>
-	    	<li role="presentation"><a href="#community" aria-controls="community" role="tab" data-toggle="tab">Comminity games</a></li>
+	    	<li role="presentation"><a href="#community" aria-controls="community" role="tab" data-toggle="tab">Community games</a></li>
 	  	</ul>
 
 	</div>
@@ -41,56 +41,60 @@
 	<div class="container games">
 		<!-- Tab panes -->
 	  	<div class="tab-content">
-	    	<div role="tabpanel" class="tab-pane active" id="mygames">
-	    		<div class="row gamerow">
-	    			<div class="col-md-8 gameinfo">
-	    				<div class="gametexts">
-	    					<p class="gameTitle">[%Name of the game%]</p>
-	    					<p class="gameType">[%Game type%]</p>
-	    				</div>
-	    				<div class=gameactions>
-	    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-	    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-	    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-	    				</div>
-	    			</div>
-	    			<div class="col-md-4 pubpriv">
-	    				<input type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private">
-						<script>
-						  $(function() {
-						    $('#toggle-two').bootstrapToggle({
-						      on: 'Private',
-						      off: 'Public'
-						    });
-						  })
-						</script>
-	    			</div>
-	    		</div>
+	    	<ul role="tabpanel" class="tab-pane active" id="mygames">
+	    		<li class="gamerow">
+		    		<div class="row">
+		    			<div class="col-md-8 gameinfo">
+		    				<div class="gametexts">
+		    					<p class="gameTitle">[%Name of the game%]</p>
+		    					<p class="gameType">[%Game type%]</p>
+		    				</div>
+		    				<div class=gameactions>
+		    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+		    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+		    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+		    				</div>
+		    			</div>
+		    			<div class="col-md-4 pubpriv">
+		    				<input type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private">
+							<script>
+							  $(function() {
+							    $('#toggle-two').bootstrapToggle({
+							      on: 'Private',
+							      off: 'Public'
+							    });
+							  })
+							</script>
+		    			</div>
+		    		</div>
+	    		</li>
 
-	    		<div class="row gamerow">
-	    			<div class="col-md-8 gameinfo">
-	    				<div class="gametexts">
-	    					<p class="gameTitle">[%Name of the game%]</p>
-	    					<p class="gameType">[%Game type%]</p>
-	    				</div>
-	    				<div class=gameactions>
-	    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-	    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-	    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-	    				</div>
-	    			</div>
-	    			<div class="col-md-4 pubpriv">
-	    				<input type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private">
-						<script>
-						  $(function() {
-						    $('#toggle-two').bootstrapToggle({
-						      on: 'Private',
-						      off: 'Public'
-						    });
-						  })
-						</script>
-	    			</div>
-	    		</div>
+	    		<li class="gamerow">
+		    		<div class="row">
+		    			<div class="col-md-8 gameinfo">
+		    				<div class="gametexts">
+		    					<p class="gameTitle">[%Name of the game%]</p>
+		    					<p class="gameType">[%Game type%]</p>
+		    				</div>
+		    				<div class=gameactions>
+		    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+		    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+		    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+		    				</div>
+		    			</div>
+		    			<div class="col-md-4 pubpriv">
+		    				<input type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private">
+							<script>
+							  $(function() {
+							    $('#toggle-two').bootstrapToggle({
+							      on: 'Private',
+							      off: 'Public'
+							    });
+							  })
+							</script>
+		    			</div>
+		    		</div>
+	    		<li>
 
 	    	</div>
 	    	<div role="tabpanel" class="tab-pane" id="community">holi profile</div>
