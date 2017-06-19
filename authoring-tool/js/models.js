@@ -3,6 +3,7 @@ var poisCreated = 0;
 
 function Step(params) {
     this.idNumber 	 = params.idNumber;
+    this.type        = params.type || "normal"; // normal, beacon
     this.marker 	 = params.marker;
     this.title 	 	 = params.title;
     this.description = params.description;
@@ -17,21 +18,21 @@ function Step(params) {
 }
 
 Step.prototype.toJSON = function() {
-    return JSON.stringify(this);
-    // var json = {
-    //     "idNumber" 	  : this.idNumber,
-    //     "title" 	  : this.title,
-    //     "description" : this.description,
-    //     "lat"		  : this.marker ? this.marker.getLatLng().lat : 0,
-    //     "lng" 		  : this.marker ? this.marker.getLatLng().lat : 0,
-    //     "distance" 	  : this.distance,
-    //     "reward" 	  : this.reward,
-    //     "url" 		  : this.url,
-    //     "screens"	  : this.screens
-    //
-    // };
-    //
-    // return json;
+    var json = {
+        "idNumber" 	  : this.idNumber,
+        "type"        : this.type,
+        "title" 	  : this.title,
+        "description" : this.description,
+        "lat"		  : this.marker ? this.marker.getLatLng().lat : 0,
+        "lng" 		  : this.marker ? this.marker.getLatLng().lat : 0,
+        "distance" 	  : this.distance,
+        "reward" 	  : this.reward,
+        "url" 		  : this.url,
+        "screens"	  : this.screens
+
+    };
+
+    return json;
 };
 
 
@@ -39,6 +40,7 @@ Step.prototype.copy = function() {
     var copy = new Step({
         marker: this.marker,
         idNumber: this.idNumber,
+        type: this.type,
         title: this.title,
         description: this.description,
         distance: this.distance,

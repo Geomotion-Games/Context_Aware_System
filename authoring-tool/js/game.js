@@ -62,6 +62,6 @@ function gameOnClick(parent, gameNumber, action){
     }else if(action == "edit"){
         window.location = "/follow-the-path.html";
     }else if(action == "duplicate"){
-
+        console.log("duplicate!");
     }
 }

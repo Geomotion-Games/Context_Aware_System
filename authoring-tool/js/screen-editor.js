@@ -166,13 +166,11 @@ function appendPreviewScreen(parent, screens, index, clickable){
 }
 
 function stopOnClick(parent, stopNumber, action){
-
     if(action == "remove"){
         $(parent).remove();
         map.removeLayer("point" + stopNumber);
         map.removeLayer("pointText" + stopNumber);
         removeStop(stopNumber);
-        e.preventDefault();
         return;
     }else if(action == "edit"){
         window.location = "/screens-overview.html";
