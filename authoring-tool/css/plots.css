@@ -69,17 +69,21 @@
 	right: 0;
 }
 
-img, h2 {
+.gameType img, h2 {
 	width:auto;
 }
 
-img {
+.gameType img {
 	max-height: 250px;
 	width: 100%;
 }
 
-h2 {
+.gameType h2 {
 	font-size: 1.4em;
 	margin-top: 10px;
 	margin-bottom: 20px;
+}
+
+header {
+	margin-bottom: 30px;
 }
