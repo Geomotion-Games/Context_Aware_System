@@ -1,33 +1,27 @@
 // START
 $("#start").on('click', 'li', function(e) {
-    window.location = "/screens-overview.html";
+    var stopNumber = 0;
+    var action =  $(e.target).hasClass('fa-pencil') ? "edit" : "";
 
-    // var stopId = "#stop-edit0";
-    // var stopNumber = 0;
-
-    // $(stopId + " h4").text("Editing Start");
-    // stopOnClick(stopId, stopNumber);
+    stopOnClick(this, stopNumber, action);
 });
 
 // FINISH
 $("#finish").on('click', 'li', function(e) {
-    window.location = "/screens-overview.html";
-    // var stopId = "#stop-edit999";
-    // var stopNumber = 999;
-    //
-    // $(stopId + " h4").text("Editing Finish");
-    // stopOnClick(stopId, stopNumber);
+    var stopNumber = 999;
+    var action =  $(e.target).hasClass('fa-pencil') ? "edit" : "";
+
+    stopOnClick(this, stopNumber, action);
 });
 
 // STOPS
 $("#stops").on('click', 'li', function(e) {
-    window.location = "/screens-overview.html";
-    // var stopNumber = parseInt($(this).attr("stop-number"));
-    // var stopId = "#stop-edit" + stopNumber;
-    // var remove = $(e.target).is('img');
-    //
-    // $(stopId + " h4").text("Editing Stop " + stopNumber);
-    // stopOnClick(stopId, stopNumber, remove);
+    var stopNumber = parseInt($(this).attr("stop-number"));
+    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
+    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
+    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
+
+    stopOnClick(this, stopNumber, action);
 });
 
 function showEditorScreen(screen, stopNumber){
@@ -171,18 +165,20 @@ function appendPreviewScreen(parent, screens, index, clickable){
     }
 }
 
-function stopOnClick(stopId, stopNumber, remove){
+function stopOnClick(parent, stopNumber, action){
 
-    if(remove){
+    if(action == "remove"){
         $(parent).remove();
         map.removeLayer("point" + stopNumber);
         map.removeLayer("pointText" + stopNumber);
         removeStop(stopNumber);
         e.preventDefault();
         return;
+    }else if(action == "edit"){
+        window.location = "/screens-overview.html";
+    }else if(action == "duplicate"){
+        console.log("duplicate!");
     }
-
-    showScreensOverview(stopNumber);
 }
 
 $("#add_screen").on("click", function(e){

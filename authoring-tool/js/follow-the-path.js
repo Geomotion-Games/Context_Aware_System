@@ -49,10 +49,7 @@ map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
-
-
 var path;
-
 
 function updatePath() {
 
@@ -136,7 +133,7 @@ map.on('click', function(e) {
 
 
 function removeStop(stopNumber) {
-	for (point in points) {
+	for (var point in points) {
 		if (points[point].idNumber == stopNumber) {
 			map.removeLayer(points[point].marker);
 			delete points[point];
@@ -150,7 +147,7 @@ function updateLabels() {
 
 	$("#stops").children('li').each(function() {
 		var number = $(this).attr("stop-number");
-		for (point in points){
+		for (var point in points){
 			if (points[point] && points[point].idNumber == number){
 	    		if ( points[point].title.length > 0){
 	    			points[point].marker._tooltip.setContent( points[point].title );
@@ -166,7 +163,7 @@ function updateLabels() {
 	});
 
 	var first;
-	for (p in points) {
+	for (var p in points) {
 		first = points[p];
 		break;
 	}

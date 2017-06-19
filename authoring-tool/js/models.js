@@ -34,6 +34,20 @@ Step.prototype.toJSON = function() {
     return json;
 };
 
+
+Step.prototype.copy = function() {
+    var copy = new Step(this.marker, this.idNumber);
+
+    copy.title 	 	 = this.title;
+    copy.description = this.distance;
+    copy.distance 	 = this.distance;
+    copy.reward 	 = this.reward;
+    copy.url 		 = this.url;
+    copy.screens	 = this.screens;
+
+    return copy;
+};
+
 function Screen(params){
     this.type = params.type;
     this.title = params.title;
