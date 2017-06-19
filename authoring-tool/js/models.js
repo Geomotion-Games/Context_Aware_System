@@ -67,3 +67,15 @@ function Game(params){
     this.public = params.public || false;
     this.stops = params.stops || [];
 }
+
+Game.prototype.copy = function(){
+   var copy = new Game({
+       name: "Copy of " + this.name,
+       description: this.description,
+       time: this.time,
+       public: this.public,
+       stops: this.stops
+   });
+
+    return copy;
+};
