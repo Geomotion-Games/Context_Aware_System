@@ -18,31 +18,39 @@
 	height:300px;
 }
 
-#preview-screen{
+#preview-screen {
 	word-wrap: break-word;
 	padding: 5px;
-	margin-top: 5px;
+	margin: 5px auto 0;
+	border: 1px solid black;
 	border-radius: 5px;
-	background-color: antiquewhite;
-	height:280px;
-	width:200px;
-	margin-right: 10px;
-	float: left;
+	background-color: white;
+	height:512px;
+	width: 288px;
+
+	/*height:640px;
+	width: 360px;*/
 }
 
-#preview-screen.clickable:hover{
+#preview-screen.clickable:hover {
 	border: 1px solid black;
 	cursor: hand;
 }
-#stop-editor-form{
+
+#stop-editor-form {
 
 }
 
-#stop-editor-content{
+#stop-editor-content {
 	column-count: 2;
 }
 
-#screens{
+#screens {
 	margin: 30px 0;
 	overflow:auto;
 }
+
+#screens h4 {
+	text-align: center;
+}
+

@@ -2,23 +2,8 @@
 .sortable li {  padding: 0.25em; padding-left: 1.5em; font-size: 1.2em; height: 35px; margin: 10px; }
 .sortable li span { margin-left: -1.3em; }
 
-#attributes {
+body {
 	background-color: #eee;
-}
-
-#attributes .attrTitle {
-	margin: 10px 5px 0 5px;
-	background-color: #2c353e;
-	color: white;
-	padding: 5px 5px 0 5px;
-	width: 100%;
-}
-
-#attributes .attrValue {
-	margin: 0 5px;
-	width: 100%;
-	padding: 0 5px;
-	width: 100%;
 }
 
 .col-md-6 {
@@ -27,9 +12,9 @@
 }
 
 .section {
-	padding: 10px 10px;
+	padding: 0px 10px 10px 10px;
 	background-color: #eee;
-	height: 90vh;
+	height: 75vh;
 	overflow: hidden;
 }
 
@@ -72,7 +57,6 @@ textarea {
 	font-size: 1.3em;
 }
 
-
 .sortable li {
 	all: unset;
 }
@@ -102,6 +86,11 @@ textarea {
 	color: #afb7bb;
 }
 
+.poirow i.move {
+	float:left;
+	margin: 25px 8px 0 0;
+}
+
 .poirow .poiInfo .poiActions i {
 	float: right;
 	color: #e87f62;
@@ -114,7 +103,7 @@ textarea {
 
 footer {
 	position: absolute;
-	bottom: 15px;
+	bottom: 10px;
 	background-color: white;
 	color: black;
 	padding-top: 15px;

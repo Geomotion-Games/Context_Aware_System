@@ -2,6 +2,42 @@ body {
 	font-family: 'Raleway', sans-serif;
 }
 
+#attributes {
+	background-color: #eee;
+}
+
+#attributes .attrTitle {
+	margin: 10px 5px 0 5px;
+	background-color: #2c353e;
+	color: white;
+	padding: 5px 5px 0 5px;
+	width: 100%;
+}
+
+#attributes .attrValue {
+	margin: 0 5px 10px 5px;
+	width: 100%;
+	padding: 0 5px;
+	width: 100%;
+}
+
+#attributes input[type=file] {
+	background-color: white;
+	height: 23px;
+    border: 1px solid lightgray;
+}
+
+#attributes a.attrValue {
+	text-align: center;
+	color: white;
+	background-color: #2c353e;
+	padding: 10px;
+	display:block;
+	width:110px;
+	margin: 15px auto;
+	text-decoration: none
+}
+
 .navbar {
 	background-color: #2c353e;
 	border-color: #080808;

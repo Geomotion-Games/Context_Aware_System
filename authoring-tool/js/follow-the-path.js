@@ -3,7 +3,7 @@ $( function() {
 	$( "#stops" ).sortable( {
 		update: function(event, ui) {
 			var len = Object.keys(points).length;
-	    	
+
 	    	if (len > 1) {
 	    		var newPointList = [];
 	    		var number = 0;
@@ -109,9 +109,9 @@ map.on('click', function(e) {
     	<li class="stop-row poirow" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
     		<div class="row">
     			<div class="col-md-12 poiInfo">
+    				<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
     				<div class="poiTexts">
     					<p><span class="name poiTitle" style="margin: 0;">Stop `+ (poisCreated) + `</span></p>
-    					<p class="poiType">[%POI description%]</p>
     				</div>
     				<div class=poiActions>
     					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>

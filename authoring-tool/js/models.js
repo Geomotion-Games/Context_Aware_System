@@ -28,7 +28,6 @@ Step.prototype.toJSON = function() {
         "reward" 	  : this.reward,
         "url" 		  : this.url,
         "screens"	  : this.screens
-
     };
 
     return json;
