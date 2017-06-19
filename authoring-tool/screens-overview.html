@@ -1,6 +1,9 @@
 <html>
 <head>
 
+	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
+
 	<script src="js/lib/jquery-1.12.4.js"></script>
 	<script src="js/lib/jquery-ui.js"></script>
 
@@ -20,33 +23,82 @@
 				<a class="navbar-brand" href="/">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
-		      <a href="#" id="saveButton">Save</a>
 		    </div>
 		  </div>
 		</nav>
 	</header>
 
 	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-2">
-				Nombre del POI: <input type="text">
+		<div id="attributes" class="row">
+			<div class="col-md-2 attribute">
+				<p class="attrTitle">POI's name:</p>
+				<input class="attrValue" type="text">
 			</div>
-			<div class="col-md-2">
-				Descripción del POI: <input type="text">
+			<div class="col-md-2 attribute">
+				<p class="attrTitle">Reward points:</p>
+				<input class="attrValue" type="number">
 			</div>
-			<div class="col-md-2">
-				Contenido del POI: <input type="text">
+			<div class="col-md-2 attribute">
+				<p class="attrTitle">Trigger distance:</p>
+				<input class="attrValue" type="number">
 			</div>
-			<div class="col-md-2">
-				Puntos recompensa: <input type="number">
+			<div class="col-md-4 attribute">
+				<p class="attrTitle">Harvestable item</p>
+				<input class="attrValue" type="file" accept="image/*">
 			</div>
-			<div class="col-md-4">
-				QR: <input type="file" accept="image/*">
+			<div class="col-md-2 attribute">
+				<a href="" class="attrValue">QR Code</a>
 			</div>
 		</div>
-		<div id="screens"></div>
-		<button id="add_screen">+Nueva Pantalla (Random)</button>
-		<button onclick="window.location='/follow-the-path.html'">Volver al mapa</button>
+
+		<div class="row" id="screens">
+
+			<div class="col-md-4">
+				<a href="" class="edit-screen">
+					<div id="preview-screen" data-screen-index="${index}">
+						<div class="content">
+							<p id="preview-title">Titol A</p>
+			                <p id="preview-text">descripciÃ³ de la pantalla</p>
+			                <p id="preview-img"></p>
+		                </div>
+						<div class="edition-hover">
+							<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+						</div>
+		            </div>
+	            </a>
+	            <h4>Challenge description</h4>
+            </div>
+
+			<div class="col-md-4">
+	            <div id="preview-screen" data-screen-index="${index}">
+	                Challenge:
+	                <select name="challenge">
+	                	<option value="volvo">Challenge A</option>
+	                	<option value="saab">Challenge B</option>
+	                	<option value="fiat">Challenge C</option>
+	                	<option value="audi">Challenge D</option>
+	                </select>
+	            </div>
+	            <h4>Challenge</h4>
+            </div>
+
+            <div class="col-md-4">
+            	<a href="" class="edit-screen">
+		            <div id="preview-screen" data-screen-index="${index}">
+						<div class="content">
+			                <p id="preview-title">TÃ­tol B</p>
+			                <p id="preview-text">descripciÃ³ de la pantalla</p>
+			                <p id="preview-img"></p>
+			                <p id="preview-reward">Has conseguido 10 puntos</p>
+			            </div>
+			            <div class="edition-hover">
+							<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+						</div>
+		            </div>
+		            <h4>Challenge result</h4>
+	            </a>
+            </div>
+		</div>
 	</div>
 
 	<div class="stop-editor modal fade" id="stop-edit" tabindex="-1" role="dialog" aria-labelledby="stop-editor">
@@ -60,20 +112,30 @@
 					<div id="stop-editor-content">
 						<div id="stop-editor-preview">
 							<b>Preview:</b>
-
 						</div>
 						<form id="stop-editor-form">
 							<b>Editor:</b>
 						</form>
 					</div>
-
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<footer>
+		<div class="container">
+			<div class="col-md-8 ">
+				<div class="footerText">
+					<p class="footerTitle"><b>Description:</b></p>
+					<p class="footerDescription">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec</p>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<a id="qrcode" href="">QR Code</a>
+				<a id="endEditing" href="plots.html">End editing</a>
+			</div>
+		</div>
+	</footer>
 
 	<script src="js/utils.js"></script>
 	<script src="js/models.js"></script>
@@ -82,7 +144,7 @@
 		poisCreated = 2;
 		points[0]   = new Step({idNumber: 0, marker: 0});
 		points[999] = new Step({idNumber: 0, marker: 999});
-		showScreensOverview(0);
+	//	showScreensOverview(0);
 	</script>
 
 </body>

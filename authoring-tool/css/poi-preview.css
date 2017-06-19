@@ -20,7 +20,6 @@
 
 #preview-screen {
 	word-wrap: break-word;
-	padding: 5px;
 	margin: 5px auto 0;
 	border: 1px solid black;
 	border-radius: 5px;
@@ -30,11 +29,6 @@
 
 	/*height:640px;
 	width: 360px;*/
-}
-
-#preview-screen.clickable:hover {
-	border: 1px solid black;
-	cursor: hand;
 }
 
 #stop-editor-form {
@@ -52,5 +46,80 @@
 
 #screens h4 {
 	text-align: center;
+}
+
+.content:hover {
+	opacity: 0.5;
+	-webkit-transition-duration: 0.5s; /* Safari */
+	transition-duration: 0.5s;
+}
+
+.content {
+	margin-left: 1px;
+	margin-top: 1px;
+	z-index: 2;
+	background-color: white;
+}
+
+.edition-hover {
+	z-index: 1;
+	background-color: rgba(0,0,0,0.1);
+	color: #111;
+	text-align: center;
+}
+
+.edition-hover i {
+	margin-top: 220px;
+}
+
+.content, .edition-hover {
+	height: 510px;
+	width: 286px;
+	margin: 0 auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	border-radius: 5px;
+}
+
+a.edit-screen {
+	text-decoration: none;
+	color: inherit;
+}
+
+footer {
+	background-color: white;
+	color: black;
+	padding: 15px 50px;
+}
+
+footer .footerTitle {
+	font-weight: 700;
+}
+
+footer .footerText {
+	padding-left: 90px;
+}
+
+footer a#endEditing {
+	text-align: center;
+    color: white;
+    background-color: #c25d31;
+    padding: 10px;
+    display: block;
+    width: 110px;
+    margin: 5px auto;
+    text-decoration: none;
+}
+
+footer a#qrcode {
+	text-align: center;
+    color: white;
+    background-color: #3b4f61;
+    padding: 10px;
+    display: block;
+    width: 110px;
+    margin: 5px auto;
+    text-decoration: none;
 }
 
