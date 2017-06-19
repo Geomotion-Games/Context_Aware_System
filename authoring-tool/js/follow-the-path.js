@@ -11,7 +11,7 @@ $( function() {
 				newPointList.push(points[0]);
 	    		$(this).children().each(function(index) {
 	    			number = $(this).attr("stop-number");
-					for (point in points) {
+					for (var point in points) {
 						if (points[point] && points[point].idNumber == number) {
 							newPointList.push(points[point]);
 						}
@@ -29,8 +29,8 @@ $( function() {
 		saveMinigame();
 	});
 
-	points[0]   = new Step({idNumber: 0, marker: 0});
-	points[999] = new Step({idNumber: 0, marker: 999});
+	points[0]   = new Step({marker: 0, idNumber: 0});
+	points[999] = new Step({marker: 0, idNumber: 999});
 });
 
 var x = document.getElementById("location");
@@ -55,8 +55,9 @@ function updatePath() {
 
 	var pointList = [];
 
-	for (stop in points) {
+	for (var stop in points) {
 		if (points[stop] && points[stop].marker) {
+			console.log( "M: " + points[stop].marker);
 			pointList.push(points[stop].marker.getLatLng());
 		}
 	}
@@ -76,61 +77,95 @@ function updatePath() {
 }
 
 map.on('click', function(e) {
-
-	poisCreated++;
-
-	var marker = new L.marker(e.latlng, {
-		draggable:'true'
-
-	}).bindTooltip("Stop " + (poisCreated),
-    {
-        permanent: true,
-        direction: 'bottom'
-    });
-
-  	marker.on('dragend', function(event){
-    	var target = event.target;
-    	var position = target.getLatLng();
-    	updatePath();
-  	});
-
-  	marker.on('drag', function(event){
-    	var target = event.target;
-    	var position = target.getLatLng();
-    	updatePath();
-  	});
-
-  	map.addLayer(marker);
-
-  	var step = new Step(marker, poisCreated);
-
-    $('#stops').append(`
-
-    	<li class="stop-row poirow" id="point`+ poisCreated +`" stop-number="`+ poisCreated +`">
-    		<div class="row">
-    			<div class="col-md-12 poiInfo">
-    				<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
-    				<div class="poiTexts">
-    					<p><span class="name poiTitle" style="margin: 0;">Stop `+ (poisCreated) + `</span></p>
-    				</div>
-    				<div class=poiActions>
-    					<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-    					<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-    					<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-    				</div>
-    			</div>
-    		</div>
-    	</li>
-
-    `);
-
-    //CKEDITOR.replace( "editor" + len );
-
-    points[poisCreated] = step;
-
-    updatePath();
+	var marker = addMarker(e.latlng);
+	addStop(marker, "normal");
 });
 
+function addMarker(latlng){
+	var marker = new L.marker(latlng, {
+		draggable:'true'
+
+	}).bindTooltip("Stop " + (poisCreated + 1),
+		{
+			permanent: true,
+			direction: 'bottom'
+		});
+
+	marker.on('dragend', function(event){
+		var target = event.target;
+		var position = target.getLatLng();
+		updatePath();
+	});
+
+	marker.on('drag', function(event){
+		var target = event.target;
+		var position = target.getLatLng();
+		updatePath();
+	});
+
+	map.addLayer(marker);
+	return marker;
+}
+
+function addStop(marker, type){
+
+	poisCreated++;
+	var step = new Step({marker: marker, idNumber: poisCreated, type: type});
+
+	if(type == "normal") {
+		$('#stops').append(`
+			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
+				<div class="row">
+					<div class="col-md-12 poiInfo">
+						<div class="poiTexts">
+							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
+							<p class="poiType">[%POI description%]</p>
+						</div>
+						<div class=poiActions>
+							<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+						</div>
+					</div>
+				</div>
+			</li>
+   		`);
+	}else if(type == "beacon"){
+		$('#stops').append(`
+			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
+				<div class="row">
+					<div class="col-md-12 poiInfo">
+						<div class="poiTexts">
+							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
+							 <select name="beacon-id">
+								  <option value="a">Beacon A</option>
+								  <option value="b">Beacon B</option>
+								  <option value="c">Beacon C</option>
+								  <option value="d">Beacon D</option>
+							</select>
+						</div>
+						<div class=poiActions>
+							<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+						</div>
+					</div>
+				</div>
+			</li>
+			<script>
+			  $(function() {
+				$('beacon-id').on("change", function(e){
+					console.log("changed");
+				});
+			  })
+			</script>
+   		`);
+	}
+
+	//CKEDITOR.replace( "editor" + len );
+
+	updatePath();
+}
 
 function removeStop(stopNumber) {
 	for (var point in points) {
@@ -149,13 +184,13 @@ function updateLabels() {
 		var number = $(this).attr("stop-number");
 		for (var point in points){
 			if (points[point] && points[point].idNumber == number){
-	    		if ( points[point].title.length > 0){
+	    		if (points[point].title && points[point].title.length > 0){
 	    			points[point].marker._tooltip.setContent( points[point].title );
 	    			$(this).find("span.name").text( points[point].title );
 	    		} 
 	    		else{
 	    			var name = "Stop " + parseInt(number)
-	    			points[point].marker._tooltip.setContent( name );
+	    			if(points[point].marker) points[point].marker._tooltip.setContent( name );
 	    			$(this).find("span.name").text( name );
 	    		}
 	    	}
@@ -182,3 +217,8 @@ function updateLabels() {
 		$("#stops li").last().find("span.name").text("END");
 	}*/
 }
+
+$("#addBeacon").on('click', function(e) {
+	console.log("addBacon");
+	addStop(null, "beacon");
+});
