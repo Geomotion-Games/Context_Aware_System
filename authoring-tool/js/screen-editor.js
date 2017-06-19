@@ -27,7 +27,7 @@ $("#stops").on('click', 'li', function(e) {
 function showEditorScreen(screen, stopNumber){
     var stopId = "#stop-edit";
 
-    //MARKER
+   /* //MARKER
     for (var point in points){
         if(points[point].idNumber == stopNumber){
             $("#stop-editor-preview").empty();
@@ -79,7 +79,7 @@ function showEditorScreen(screen, stopNumber){
         points[stopNumber].reward = parseInt($(this).val());
     });
 
-
+*/
     $(stopId).modal('show');
 }
 
