@@ -43,7 +43,7 @@
 				<input class="attrValue" type="number">
 			</div>
 			<div class="col-md-6 attribute">
-				<p class="attrTitle">Harvestable item</p>
+				<p class="attrTitle">Harvestable item:</p>
 				<input class="attrValue" type="file" accept="image/*">
 			</div>
 		</div>
@@ -52,14 +52,18 @@
 
 			<div class="col-md-4">
 				<a href="" class="edit-screen">
-					<div id="preview-screen" data-screen-index="${index}">
-						<div class="content">
-							<p id="preview-title">Titol A</p>
-			                <p id="preview-text">descripciÃ³ de la pantalla</p>
-			                <p id="preview-img"></p>
-		                </div>
+					<div class="preview-screen" id="preview-screen-A" data-screen-index="${index}">
+						<div class="hover">
+							<div class="content">
+								<h4 class="preview-title" id="preview-title-A">The Robot</h4>
+				                <p class="preview-text" id="preview-text-A">Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?</p>
+				                <p class="preview-button" id="preview-button-A">Go out and play!</p>
+			                </div>
+			                <div class="background-front"></div>
+			                <img class="background" src="css/map-background.png">
+			            </div>
 						<div class="edition-hover">
-							<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+							<i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
 						</div>
 		            </div>
 	            </a>
@@ -67,7 +71,7 @@
             </div>
 
 			<div class="col-md-4">
-	            <div id="preview-screen" data-screen-index="${index}">
+	            <div class="preview-screen" id="preview-screen-B" data-screen-index="${index}">
 	                Challenge:
 	                <select name="challenge">
 	                	<option value="volvo">Challenge A</option>
@@ -80,20 +84,25 @@
             </div>
 
             <div class="col-md-4">
-            	<a href="" class="edit-screen">
-		            <div id="preview-screen" data-screen-index="${index}">
-						<div class="content">
-			                <p id="preview-title">TÃ­tol B</p>
-			                <p id="preview-text">descripciÃ³ de la pantalla</p>
-			                <p id="preview-img"></p>
-			                <p id="preview-reward">Has conseguido 10 puntos</p>
+				<a href="" class="edit-screen">
+					<div class="preview-screen" id="preview-screen-C" data-screen-index="${index}">
+						<div class="hover">
+							<div class="content">
+								<h4 class="preview-title" id="preview-title-C">The Robot</h4>
+								<img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
+				                <p class="preview-text" id="preview-text-C">Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point</p>
+			                	<p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
+				                <p class="preview-button" id="preview-button-C">Go to map!</p>
+			                </div>
+			                <div class="background-front"></div>
+			                <img class="background" src="css/map-background.png">
 			            </div>
-			            <div class="edition-hover">
-							<i class="fa fa-pencil fa-3x" aria-hidden="true"></i>
+						<div class="edition-hover">
+							<i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
 						</div>
 		            </div>
-		            <h4>Challenge result</h4>
 	            </a>
+	            <h4>Challenge description</h4>
             </div>
 		</div>
 	</div>

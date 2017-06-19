@@ -1,24 +1,8 @@
-#saveButton {
-	float: right;
-	height: 46px;
-	padding: 13px 30px;
-	margin-top: 17px;
-	background-color: #ff0000;
-	color: #ffffff;
-	border: 2px solid #ff8888;
-	border-radius: 10px;
-}
-
-#saveButton:hover {
-	background-color: #ff8888;
-	text-decoration: none;
-}
-
 #stop-editor-preview {
 	height:300px;
 }
 
-#preview-screen {
+.preview-screen {
 	word-wrap: break-word;
 	margin: 5px auto 0;
 	border: 1px solid black;
@@ -26,13 +10,74 @@
 	background-color: white;
 	height:512px;
 	width: 288px;
-
-	/*height:640px;
-	width: 360px;*/
 }
 
-#stop-editor-form {
+.preview-screen .content {
+	width: 229px;
+    position: absolute;
+    left:0px;
+    right:0px;
+    margin: 20px auto;
+    padding: 5px 20px 13px 20px;
+	z-index: 10;
+	border-radius: 10px;
+	background-color: white;
+}
 
+.preview-screen .background {
+	z-index: 6;
+	opacity: 0.2;
+}
+
+.preview-screen .background-front {
+	z-index: 4;
+	background-color: black;
+}
+
+.preview-screen .hover, 
+.preview-screen .background-front, 
+.preview-screen .background  {
+	height: 510px;
+	width: 286px;
+	position: absolute;
+	left:0px;
+	right:0px;
+    margin: 0px auto;
+}
+
+/******** FIELDS ********/
+.preview-screen .content h4 {
+	text-align: center;
+	margin: 15px auto;
+}
+
+.preview-screen .content .preview-reward {
+	text-align: center;
+}
+
+.preview-screen .content .preview-reward span {
+	font-weight: 700;
+	font-size: 1.1em;
+}
+
+.preview-screen .content .preview-img {
+	max-width: 189px;
+}
+
+.preview-screen .content .preview-text {
+	font-size: 0.8em;
+}
+
+.preview-screen .content .preview-button {
+	font-size: 0.8em;
+	text-align: center;
+	margin: 0 auto;
+	padding: 5px;
+    background-color: #F26B3F;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 8px;
+    display: block;
 }
 
 #stop-editor-content {
@@ -48,31 +93,19 @@
 	text-align: center;
 }
 
-.content:hover {
-	opacity: 0.5;
-	-webkit-transition-duration: 0.5s; /* Safari */
-	transition-duration: 0.5s;
-}
-
-.content {
-	margin-left: 1px;
-	margin-top: 1px;
-	z-index: 2;
-	background-color: white;
+.hover:hover .background, 
+.hover:hover .background-front, 
+.hover:hover .content {
+	opacity: 0.2;
+	-webkit-transition-duration: 0.2s; /* Safari */
+	transition-duration: 0.2s;
 }
 
 .edition-hover {
-	z-index: 1;
+	z-index: 0;
 	background-color: rgba(0,0,0,0.1);
 	color: #111;
 	text-align: center;
-}
-
-.edition-hover i {
-	margin-top: 220px;
-}
-
-.content, .edition-hover {
 	height: 510px;
 	width: 286px;
 	margin: 0 auto;
@@ -80,6 +113,10 @@
 	left: 0;
 	right: 0;
 	border-radius: 5px;
+}
+
+.edition-hover i {
+	margin-top: 220px;
 }
 
 a.edit-screen {
