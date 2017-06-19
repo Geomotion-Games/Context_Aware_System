@@ -2,6 +2,7 @@
 <head>
 
 	<script src="js/lib/jquery-1.12.4.js"></script>
+	<script src="js/lib/jquery-ui.js"></script>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/lib/bootstrap.min.js"></script>
@@ -19,72 +20,32 @@
 				<a class="navbar-brand" href="/">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
+		      <a href="#" id="saveButton">Save</a>
 		    </div>
 		  </div>
 		</nav>
 	</header>
 
 	<div class="container-fluid">
-		<div id="attributes" class="row">
-			<div class="col-md-2 attribute">
-				<p class="attrTitle">POI's name:</p>
-				<input class="attrValue" type="text">
+		<div class="row">
+			<div class="col-md-2">
+				Nombre del POI: <input type="text">
 			</div>
-			<div class="col-md-2 attribute">
-				<p class="attrTitle">Reward points:</p>
-				<input class="attrValue" type="number">
+			<div class="col-md-2">
+				Descripción del POI: <input type="text">
 			</div>
-			<div class="col-md-2 attribute">
-				<p class="attrTitle">Trigger distance:</p>
-				<input class="attrValue" type="number">
+			<div class="col-md-2">
+				Contenido del POI: <input type="text">
 			</div>
-			<div class="col-md-4 attribute">
-				<p class="attrTitle">Harvestable item</p>
-				<input class="attrValue" type="file" accept="image/*">
+			<div class="col-md-2">
+				Puntos recompensa: <input type="number">
 			</div>
-			<div class="col-md-2 attribute">
-				<a href="" class="attrValue">QR Code</a>
+			<div class="col-md-4">
+				QR: <input type="file" accept="image/*">
 			</div>
 		</div>
-
-		<div class="row" id="screens">
-
-			<div class="col-md-4">
-				<div id="preview-screen" data-screen-index="${index}">
-	                <p id="preview-title">Titol A</p>
-	                <p id="preview-text">descripció de la pantalla</p>
-	                <p id="preview-img"></p>
-	                <button id="preview-continue">Continuar</button>
-	            </div>
-	            <h4>Challenge description</h4>
-            </div>
-
-			<div class="col-md-4">
-	            <div id="preview-screen" data-screen-index="${index}">
-	                Challenge:
-	                <select name="challenge">
-	                  <option value="volvo">Challenge A</option>
-	                  <option value="saab">Challenge B</option>
-	                  <option value="fiat">Challenge C</option>
-	                  <option value="audi">Challenge D</option>
-	                </select>
-	                 <button id="preview-continue">Continuar</button>
-	            </div>
-	            <h4>Challenge</h4>
-            </div>
-
-            <div class="col-md-4">
-	            <div id="preview-screen" data-screen-index="${index}">
-	                <p id="preview-title">Títol B</p>
-	                <p id="preview-text">descripció de la pantalla</p>
-	                <p id="preview-img"></p>
-	                <p id="preview-reward">Has conseguido 10 puntos</p>
-	                <button id="preview-continue">Continuar</button>
-	            </div>
-	            <h4>Challenge result</h4>
-            </div>
-
-		</div>
+		<div id="screens"></div>
+		<button id="add_screen">+Nueva Pantalla (Random)</button>
 		<button onclick="window.location='/follow-the-path.html'">Volver al mapa</button>
 	</div>
 
@@ -99,11 +60,16 @@
 					<div id="stop-editor-content">
 						<div id="stop-editor-preview">
 							<b>Preview:</b>
+
 						</div>
 						<form id="stop-editor-form">
 							<b>Editor:</b>
 						</form>
 					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
 				</div>
 			</div>
 		</div>
@@ -114,9 +80,9 @@
 	<script src="js/screen-editor.js"></script>
 	<script>
 		poisCreated = 2;
-		points[0]   = new Step(0, 0);
-		points[999] = new Step(0, 999);
-		//showScreensOverview(0);
+		points[0]   = new Step({idNumber: 0, marker: 0});
+		points[999] = new Step({idNumber: 0, marker: 999});
+		showScreensOverview(0);
 	</script>
 
 </body>

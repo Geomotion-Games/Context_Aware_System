@@ -89,6 +89,7 @@ textarea {
 .poirow i.move {
 	float:left;
 	margin: 25px 8px 0 0;
+	color: #e87f62;
 }
 
 .poirow .poiInfo .poiActions i {

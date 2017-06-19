@@ -35,7 +35,7 @@ function saveMinigame() {
 
 function getMinigameJson() {
     var json = {};
-    for (step in points) {
+    for (var step in points) {
         json[points[step].idNumber] = points[step].toJSON();
     }
     return json;

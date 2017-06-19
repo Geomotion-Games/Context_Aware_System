@@ -99,7 +99,7 @@ function showScreensOverview(stopNumber){
     }
 
     $("#preview-screen.clickable").on('click',function(e){
-        var screen_index = $(this).attr("data-screen-index");
+        var screen_index = $(this).attr("data-index");
         showEditorScreen(screen_index, stopNumber);
     });
 
@@ -132,7 +132,7 @@ function appendPreviewScreen(parent, screens, index, clickable){
 
     if(screens[index].type == "A"){
         $(parent).append(`
-            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+            <div id="preview-screen" class=${clickable?"clickable":""} data-index="${index}">
                 <p id="preview-title">${title}</p>
                 <p id="preview-text">${text}</p>
                 <p id="preview-img">${image}</p>
@@ -141,7 +141,7 @@ function appendPreviewScreen(parent, screens, index, clickable){
         `);
     }else if(screens[index].type == "B"){
         $(parent).append(`
-            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+            <div id="preview-screen" class=${clickable?"clickable":""} data-index="${index}">
                 Challenge:
                 <select name="challenge">
                   <option value="volvo">Challenge A</option>
@@ -154,7 +154,7 @@ function appendPreviewScreen(parent, screens, index, clickable){
         `);
     }else if(screens[index].type == "C"){
         $(parent).append(`
-            <div id="preview-screen" class=${clickable?"clickable":""} data-screen-index="${index}">
+            <div id="preview-screen" class=${clickable?"clickable":""} data-index="${index}">
                 <p id="preview-title">${title}</p>
                 <p id="preview-text">${text}</p>
                 <p id="preview-img">${image}</p>
