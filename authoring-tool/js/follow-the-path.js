@@ -29,8 +29,8 @@ $( function() {
 		saveMinigame();
 	});
 
-	points[0]   = new Step(0, 0);
-	points[999] = new Step(0, 999);
+	points[0]   = new Step({idNumber: 0, marker: 0});
+	points[999] = new Step({idNumber: 0, marker: 999});
 });
 
 var x = document.getElementById("location");
