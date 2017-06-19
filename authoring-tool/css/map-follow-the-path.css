@@ -61,16 +61,28 @@ textarea {
 	all: unset;
 }
 
-#start .poirow, #finish .poirow, #stops .poirow {
+#start .poirow, #finish .poirow {
 	color: white;
 	display: block;
 	margin: 10px 20px;
 	height: 80px;
 }
 
-#start .poirow .poiInfo, #finish .poirow .poiInfo, #stops .poirow .poiInfo {
+#stops .poirow {
+	color: white;
+	display: block;
+	margin: 10px 20px;
+	height: 56px;
+}
+
+#start .poirow .poiInfo, #finish .poirow .poiInfo {
 	background-color: #2c353e;
 	height: 80px;
+}
+
+#stops .poirow .poiInfo {
+	height: 56px;
+	background-color: #2c353e;
 }
 
 #start .poirow {
@@ -80,6 +92,11 @@ textarea {
 .poirow .poiInfo .poiTexts {
 	float: left;
 	padding: 15px 0 0 5px;
+}
+
+#stops .poirow .poiInfo .poiTexts {
+	float: left;
+	padding: 18px 0 0 5px;
 }
 
 .poirow .poiInfo .poiTexts .poiType {
@@ -92,10 +109,18 @@ textarea {
 	color: #e87f62;
 }
 
+#stops .poirow i.move {
+	margin: 15px 8px 0 0;
+}
+
 .poirow .poiInfo .poiActions i {
 	float: right;
 	color: #e87f62;
 	padding: 25px 10px 0 10px;
+}
+
+#stops .poirow .poiInfo .poiActions i {
+	padding: 15px 10px 0 10px;
 }
 
 .poirow .poiInfo .poiActions i.fa-trash {

@@ -116,9 +116,9 @@ function addStop(marker, type){
 			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
+					 	<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
-							<p class="poiType">[%POI description%]</p>
 						</div>
 						<div class=poiActions>
 							<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
@@ -134,9 +134,10 @@ function addStop(marker, type){
 			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
+					 	<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
-							 <select name="beacon-id">
+							<select name="beacon-id">
 								  <option value="a">Beacon A</option>
 								  <option value="b">Beacon B</option>
 								  <option value="c">Beacon C</option>
