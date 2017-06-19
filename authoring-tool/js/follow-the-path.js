@@ -57,7 +57,6 @@ function updatePath() {
 
 	for (var stop in points) {
 		if (points[stop] && points[stop].marker) {
-			console.log( "M: " + points[stop].marker);
 			pointList.push(points[stop].marker.getLatLng());
 		}
 	}
