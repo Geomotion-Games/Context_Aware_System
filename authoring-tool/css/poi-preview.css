@@ -22,6 +22,7 @@
 	z-index: 10;
 	border-radius: 10px;
 	background-color: white;
+	text-align: center;
 }
 
 .preview-screen .background {
@@ -62,10 +63,32 @@
 
 .preview-screen .content .preview-img {
 	max-width: 189px;
+	margin-bottom: 10px;
 }
 
 .preview-screen .content .preview-text {
 	font-size: 0.8em;
+	text-align: left;
+}
+
+.preview-screen a#editMinigames {
+	position: absolute;
+    bottom: 60;
+    left: 152;
+    text-align: center;
+    color: white;
+    background-color: #c25d31;
+    padding: 10px;
+    display: block;
+    width: 110px;
+    margin: 5px auto;
+    text-decoration: none;
+}
+
+.preview-screen a#editMinigames:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #e87f62;
 }
 
 .preview-screen .content .preview-button {
@@ -174,7 +197,7 @@ footer a#qrcode:hover {
 ***********************/
 .modal-dialog {
 	width: 700px;
-	//height: 820px;
+	/*height: 820px;*/
 }
 
 #stop-editor-form label, #challenge-form label {
