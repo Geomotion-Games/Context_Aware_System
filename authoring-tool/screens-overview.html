@@ -51,7 +51,7 @@
 		<div class="row" id="screens">
 
 			<div class="col-md-4">
-				<div href="" class="edit-screen">
+				<div class="edit-screen">
 					<div class="preview-screen clickable" id="preview-screen-A" data-screen-index="1">
 						<div class="hover">
 							<div class="content">
@@ -84,7 +84,7 @@
             </div>
 
             <div class="col-md-4">
-				<div href="" class="edit-screen">
+				<div class="edit-screen">
 					<div class="preview-screen clickable" id="preview-screen-C" data-screen-index="3">
 						<div class="hover">
 							<div class="content">
@@ -156,6 +156,14 @@
 		</div>
 	</div>
 
+	<div class="qr-viewer modal fade" id="qr-viewer" tabindex="-1" role="dialog" aria-labelledby="qr-viewer">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				 <image src="images/geomotion-qr.png">
+			</div>
+		</div>
+	</div>
+
 	<footer>
 		<div class="container">
 			<div class="col-md-8 ">
@@ -165,7 +173,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<a id="qrcode" href="">QR Code</a>
+				<a id="qrcode" style="cursor:pointer;">QR Code</a>
 				<a id="endEditing" href="plots.html">End editing</a>
 			</div>
 		</div>
@@ -184,6 +192,12 @@
 	        var screen_index = $(this).attr("data-index");
 	        showEditorScreen(screen_index, 0);
 	    });
+
+	    $("#qrcode").on('click',function(e){
+	    	$("#qr-viewer").modal('show');
+	    	return false;
+	    });
+
 	</script>
 
 </body>

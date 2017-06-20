@@ -190,3 +190,7 @@ footer a#qrcode:hover {
 	border-radius: 0;
 }
 
+#qr-viewer .modal-dialog {
+	width: 330px;
+	margin-top:50px;
+}
