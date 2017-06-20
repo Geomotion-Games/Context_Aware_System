@@ -76,7 +76,6 @@ $("body").find("[aria-controls='community']").on('click', function(e) {
     showCommunityGames();
 });
 
-
 function gameOnClick(parent, gameNumber, action){
     if(action == "remove"){
         $(parent).remove();

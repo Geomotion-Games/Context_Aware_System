@@ -1,5 +1,6 @@
 var points = [];
 var poisCreated = 0;
+var beacons = [];
 
 function Step(params) {
     this.idNumber 	 = params.idNumber;
@@ -66,6 +67,15 @@ function Game(params){
     this.time = params.time || 0;
     this.public = params.public || false;
     this.stops = params.stops || [];
+}
+
+function Beacon(params){
+    this.name = params.name;
+    this.id = params.beaconId;
+    this.active = params.active;
+    this.qr = params.qr;
+    this.lat = params.lat;
+    this.lng = params.lng;
 }
 
 Game.prototype.copy = function(){

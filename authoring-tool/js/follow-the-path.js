@@ -33,6 +33,24 @@ $( function() {
 	points[999] = new Step({marker: 0, idNumber: 999});
 });
 
+var normalMarkerIcon = new L.Icon({
+	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
+	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41]
+});
+
+var beaconMarkerIcon = new L.Icon({
+	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+	iconSize: [25, 41],
+	iconAnchor: [12, 41],
+	popupAnchor: [1, -34],
+	shadowSize: [41, 41]
+});
+
 var x = document.getElementById("location");
 var map = L.map('map');
 
@@ -79,10 +97,10 @@ map.on('click', function(e) {
 	addStop(marker, "normal");
 });
 
-function addMarker(latlng){
+function addMarker(latlng, draggable){
 	var marker = new L.marker(latlng, {
-		draggable:'true'
-
+		draggable: draggable === undefined ? 'true' : draggable,
+		icon: draggable === undefined || draggable == true ? normalMarkerIcon : beaconMarkerIcon
 	}).bindTooltip("Stop " + (poisCreated + 1),
 		{
 			permanent: true,
@@ -109,7 +127,6 @@ function addStop(marker, type){
 
 	poisCreated++;
 	var step = new Step({marker: marker, idNumber: poisCreated, type: type});
-
 	if(type == "normal") {
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
@@ -136,11 +153,8 @@ function addStop(marker, type){
 					 	<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
-							<select name="beacon-id">
-								  <option value="a">Beacon A</option>
-								  <option value="b">Beacon B</option>
-								  <option value="c">Beacon C</option>
-								  <option value="d">Beacon D</option>
+							<select name="beacon-id" class="beacon-select-${poisCreated}">
+								  ${beacons.map(b => `<option value="${b.id}">${b.id} - ${b.name}</option>`).join('\n')}
 							</select>
 						</div>
 						<div class=poiActions>
@@ -151,17 +165,30 @@ function addStop(marker, type){
 					</div>
 				</div>
 			</li>
-			<script>
-			  $(function() {
-				$('beacon-id').on("change", function(e){
-					console.log("changed");
-				});
-			  })
-			</script>
    		`);
+
+		$(".beacon-select-" + poisCreated).on("change", function(e){
+			var id = $(this).val();
+			addBeaconMarker(id, step);
+		});
 	}
+
 	points[poisCreated] = step;
 
+	updatePath();
+}
+
+function addBeaconMarker(id, step){
+	var beacon = null;
+	for(var b in beacons){
+		if(beacons[b].id == id){
+			beacon = beacons[b];
+			break;
+		}
+	}
+	if(step.marker) map.removeLayer(step.marker);
+	var marker = addMarker({lat: beacon.lat, lng: beacon.lng}, false);
+	step.marker = marker;
 	updatePath();
 }
 
@@ -217,6 +244,25 @@ function updateLabels() {
 }
 
 $("#addBeacon").on('click', function(e) {
-	console.log("addBacon");
-	addStop(null, "beacon");
+	if(beacons.length == 0) {
+		getBeacons(function (b) {
+			beacons = b;
+			addStop(null, "beacon");
+		});
+	}else{
+		addStop(null, "beacon");
+	}
 });
+
+
+
+function getBeacons(callback){
+	$.getJSON( "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123", function( data ) {
+		var beacons = [];
+		$.each( data, function( key, val ) {
+			var b = new Beacon(val);
+			beacons.push(b);
+		});
+		callback(beacons);
+	});
+}
