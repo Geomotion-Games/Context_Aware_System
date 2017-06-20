@@ -26,23 +26,25 @@ $("#stops").on('click', 'li', function(e) {
 
 function showEditorScreen(screen, stopNumber){
     var stopId = "#stop-edit";
-
+    var point = null;
     //MARKER
     for (var point in points){
         if(points[point].idNumber == stopNumber){
             $("#stop-editor-preview").empty();
             appendPreviewScreen("#stop-editor-preview", points[point].screens, screen, false, true);
             appendEditor("#stop-editor-form", points[point].screens, screen);
+            point = points[point];
+            break;
         }
     }
 
     $("#title").on('input',function(e){
-        var text = $(this).val();
-        console.log(stopNumber)
+        var title = $(this).val();
         $("body").find("[data-index=" + screen + "]").each(function(){
-            $(this).find(".preview-title").text(text);
+            $(this).find(".preview-title").text(title);
         });
-        $(stopId + "  #preview-title").text(text);
+        $(stopId + "  #preview-title").text(title);
+        point.screens[screen].title = title;
         //$(this).closest('.modal-content').find('.modal-title').text( 'Editing Stop' + text + ":");
     });
 
@@ -54,6 +56,7 @@ function showEditorScreen(screen, stopNumber){
         });
 
         $(stopId + "  #preview-text").text(text);
+        point.screens[screen].text = text;
         //points[stopNumber].description = $(this).val();
     });
 
@@ -62,9 +65,10 @@ function showEditorScreen(screen, stopNumber){
         $("body").find("[data-index=" + screen + "]").each(function(){
             var imageHolder = $(this).find(".preview-img");
             imageHolder.empty();
+            var src = URL.createObjectURL(e.target.files[0]);
+            imageHolder.attr('src', src);
 
-            var tmppath = URL.createObjectURL(e.target.files[0]);
-            imageHolder.attr('src',tmppath);
+            point.screens[screen].image = src;
         });
 
     });
@@ -117,10 +121,9 @@ function appendEditor(parent, screens, index){
 }
 
 function appendPreviewScreen(parent, screens, index, clickable, editor){
-    var title = screens[index].title ? screens[index].title : "Title";
-    var text = screens[index].text ? screens[index].text : "Text";
-    var image = screens[index].image ? screens[index].image : "Image/Media";
-    var reward = screens[index].reward ? screens[index].reward : "Reward";
+    var title = screens[index].title || "Title";
+    var text = screens[index].text || "Text";
+    var image = screens[index].image || "";
 
     if(!editor) {
         if (screens[index].type == "A") {
@@ -131,7 +134,7 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
-                                    <img class="preview-img" id="preview-img-A">
+                                    <img class="preview-img" id="preview-img-A" src="${image}">
                                     <p class="preview-text" id="preview-text-A">${text}</p>
                                     <p class="preview-button" id="preview-button-A">Go out and play!</p>
                                 </div>
@@ -170,7 +173,7 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                                    <img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
+                                    <img class="preview-img" id="preview-img-C" src="${image}">
                                     <p class="preview-text" id="preview-text-C">${text}</p>
                                     <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
@@ -193,7 +196,7 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
-                        <img class="preview-img" id="preview-img-A">
+                        <img class="preview-img" id="preview-img-A" src="${image}">
                         <p class="preview-text" id="preview-text-A">${text}</p>
                         <p class="preview-button" id="preview-button-A">Go out and play!</p>
                     </div>
@@ -206,7 +209,7 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">
                    <div class="content">
                         <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                        <img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
+                        <img class="preview-img" id="preview-img-C" src="${image}">
                         <p class="preview-text" id="preview-text-C">${text}</p>
                         <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
                         <p class="preview-button" id="preview-button-C">Go to map!</p>
