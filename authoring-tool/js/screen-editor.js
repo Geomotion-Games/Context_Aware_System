@@ -153,16 +153,56 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
         } else if (screens[index].type == "B") {
             $(parent).append(`
                 <div class="col-md-4">
-                    <div class="preview-screen" id="preview-screen-B" data-index="${index}">
-                        Challenge:
-                        <select name="challenge">
-                            <option value="a">Challenge A</option>
-                            <option value="b">Challenge B</option>
-                            <option value="c">Challenge C</option>
-                            <option value="d">Challenge D</option>
-                        </select>
+                    <div class="preview-screen" id="preview-screen-B" data-screen-index="2">
+                        <form id="challenge-form">
+                            <div class="form-group">
+                                <label for="challenge-type-selector">Challenge:</label>
+                                <select class="form-control" id="challenge-type-selector">
+                                    <option value="">Select the Challenge</option>
+                                    <option value="1">Check In</option>
+                                    <option value="2">Minigame</option>
+                                    <option value="3">Upload Content</option>
+                                <select>
+                            </div>
+
+                            <div class="form-group hidden" id="minigame-select-div"">
+                                <label for="minigame-selector">Minigame:</label>
+                                <select class="form-control" id="minigame-selector">
+                                    <option value="">Select the Minigame</option>
+                                    <option value="1">Minigame 1</option>
+                                    <option value="2">Minigame 2</option>
+                                    <option value="3">Minigame 3</option>
+                                    <option value="4">Minigame 4</option>
+                                <select>
+                            </div>
+
+                            <div class="form-group hidden" id="file-type-selector-div">
+                                <label for="file-type-selector">Type of content:</label>
+                                <select class="form-control" id="file-type-selector">
+                                    <option value="">Select the type</option>
+                                    <option value="1">Image file</option>
+                                    <option value="2">Video file</option>
+                                    <option value="3">Audio file</option>
+                                <select>
+                            </div>
+                        </form>
                     </div>
                     <h4>Challenge</h4>
+
+                    <script>
+                        $( "#challenge-type-selector" ).change(function() {
+                            if ($(this).val() == 1) { // check in
+                                $( "#minigame-select-div" ).addClass('hidden');
+                                $( "#file-type-selector-div" ).addClass('hidden');
+                            } else if ($(this).val() == 2) { // minigame
+                                $( "#minigame-select-div" ).removeClass('hidden');
+                                $( "#file-type-selector-div" ).addClass('hidden');
+                            } else if ($(this).val() == 3) { // upload content
+                                $( "#minigame-select-div" ).addClass('hidden');
+                                $( "#file-type-selector-div" ).removeClass('hidden');
+                            }
+                        });
+                    </script>
                 </div>
             `);
         } else if (screens[index].type == "C") {
