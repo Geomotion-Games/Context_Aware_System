@@ -196,7 +196,7 @@ function addBeaconMarker(id, step){
 function removeStop(stopNumber) {
 	for (var point in points) {
 		if (points[point] && points[point].idNumber == stopNumber) {
-			map.removeLayer(points[point].marker);
+			if(points[point].marker)map.removeLayer(points[point].marker);
 			delete points[point];
 			break;
 		}

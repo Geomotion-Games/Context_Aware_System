@@ -27,59 +27,48 @@ $("#stops").on('click', 'li', function(e) {
 function showEditorScreen(screen, stopNumber){
     var stopId = "#stop-edit";
 
-   /* //MARKER
+    //MARKER
     for (var point in points){
         if(points[point].idNumber == stopNumber){
             $("#stop-editor-preview").empty();
-            appendPreviewScreen("#stop-editor-preview", points[point].screens, screen, false);
+            appendPreviewScreen("#stop-editor-preview", points[point].screens, screen, false, true);
             appendEditor("#stop-editor-form", points[point].screens, screen);
         }
     }
 
-    $(stopId + " input[name^='name']").on('input',function(e){
-
-        //TITLE IN LIST
-        $('#start #point0 span.name').text( $(this).val());
-
-        //MARKER
-        for (var point in points){
-            if(points[point].idNumber == stopNumber){
-                points[point].title = $(this).val();
-                if(points[point].idNumber != 0 && points[point].idNumber != 999)
-                    points[point].marker._tooltip.setContent( $(this).val() );
-            }
-        }
-
-        //TITLE OF MODAL
-        $(stopId + "  #preview-title").text($(this).val());
-        $(this).closest('.modal-content').find('.modal-title').text( 'Editing ' + $(this).val() );
+    $("#title").on('input',function(e){
+        var text = $(this).val();
+        console.log(stopNumber)
+        $("body").find("[data-index=" + screen + "]").each(function(){
+            $(this).find(".preview-title").text(text);
+        });
+        $(stopId + "  #preview-title").text(text);
+        //$(this).closest('.modal-content').find('.modal-title').text( 'Editing Stop' + text + ":");
     });
 
     //DESCRIPTION
-    $(stopId + " textarea[name^='content']").on('input',function(e){
-        $(stopId + "  #preview-text").text($(this).val());
-        points[stopNumber].description = $(this).val();
+    $("#txt").on('input',function(e){
+        var text = $(this).val();
+        $("body").find("[data-index=" + screen + "]").each(function(){
+            $(this).find(".preview-text").text(text);
+        });
+
+        $(stopId + "  #preview-text").text(text);
+        //points[stopNumber].description = $(this).val();
     });
 
-    //URL
-    $(stopId + " input[name^='url']").on('input',function(e){
-        $(stopId + "  #preview-url").text($(this).val());
-        points[stopNumber].url = $(this).val();
+    $("#pwd").on('change',function(e){
+        console.log("image changed");
+        $("body").find("[data-index=" + screen + "]").each(function(){
+            var imageHolder = $(this).find(".preview-img");
+            imageHolder.empty();
+
+            var tmppath = URL.createObjectURL(e.target.files[0]);
+            imageHolder.attr('src',tmppath);
+        });
+
     });
 
-    //DISTANCE
-    $(stopId + " input[name^='distance']").on('input',function(e){
-        $(stopId + "  #preview-distance").text($(this).val());
-        points[stopNumber].distance = parseInt($(this).val());
-    });
-
-    //REWARD
-    $(stopId + " input[name^='reward']").on('input',function(e){
-        $(stopId + "  #preview-reward").text($(this).val());
-        points[stopNumber].reward = parseInt($(this).val());
-    });
-
-*/
     $(stopId).modal('show');
 }
 
@@ -107,61 +96,126 @@ function showScreensOverview(stopNumber){
 
 function appendEditor(parent, screens, index){
     $(parent).empty();
+    var title = screens[index].title;
+    var text = screens[index].text;
+    var image = screens[index].image;
 
     $(parent).append(`
-        <div class="form-group">
-            <label for="name-name" class="control-label">Title:</label>
-            <input name="name-` + poisCreated + `" type="text" class="form-control" id="name-` + poisCreated + `">
+	    <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="title" class="form-control" id="title" value="${title}">
         </div>
         <div class="form-group">
-            <label for="content-name" class="control-label">Text:</label>
-            <textarea id="content-` + poisCreated + `" name="content-` + poisCreated + `"></textarea>
+            <label for="pwd">Image:</label>
+            <input class="form-control" id="pwd" type="file" accept="image/*" >
         </div>
         <div class="form-group">
-            <label for="clue-name" class="control-label">Image:</label>
-            <input name="image-` + poisCreated + `" type="file" class="form-control" id="image-` + poisCreated + `" accept="image/*">
+            <label for="txt">Text:</label>
+            <textarea rows="6" type="text" class="form-control" id="txt">${text}</textarea>
         </div>
     `);
 }
 
-function appendPreviewScreen(parent, screens, index, clickable){
+function appendPreviewScreen(parent, screens, index, clickable, editor){
     var title = screens[index].title ? screens[index].title : "Title";
     var text = screens[index].text ? screens[index].text : "Text";
     var image = screens[index].image ? screens[index].image : "Image/Media";
     var reward = screens[index].reward ? screens[index].reward : "Reward";
 
-    if(screens[index].type == "A"){
-        $(parent).append(`
-            <div id="preview-screen" class=${clickable?"clickable":""} data-index="${index}">
-                <p id="preview-title">${title}</p>
-                <p id="preview-text">${text}</p>
-                <p id="preview-img">${image}</p>
-                <button id="preview-continue">Continuar</button>
-            </div>
-        `);
-    }else if(screens[index].type == "B"){
-        $(parent).append(`
-            <div id="preview-screen" class=${clickable?"clickable":""} data-index="${index}">
-                Challenge:
-                <select name="challenge">
-                  <option value="volvo">Challenge A</option>
-                  <option value="saab">Challenge B</option>
-                  <option value="fiat">Challenge C</option>
-                  <option value="audi">Challenge D</option>
-                </select>
-                 <button id="preview-continue">Continuar</button>
-            </div>
-        `);
-    }else if(screens[index].type == "C"){
-        $(parent).append(`
-            <div id="preview-screen" class=${clickable?"clickable":""} data-index="${index}">
-                <p id="preview-title">${title}</p>
-                <p id="preview-text">${text}</p>
-                <p id="preview-img">${image}</p>
-                <p id="preview-reward">${reward}</p>
-                <button id="preview-continue">Continuar</button>
-            </div>
-        `);
+    if(!editor) {
+        if (screens[index].type == "A") {
+            $(parent).append(`
+                <div class="col-md-4">
+                    <div href="" class="edit-screen">
+                        <div class="preview-screen clickable" id="preview-screen-A" data-index="${index}">
+                            <div class="hover">
+                                <div class="content">
+                                    <h4 class="preview-title" id="preview-title-A">${title}</h4>
+                                    <img class="preview-img" id="preview-img-A">
+                                    <p class="preview-text" id="preview-text-A">${text}</p>
+                                    <p class="preview-button" id="preview-button-A">Go out and play!</p>
+                                </div>
+                                <div class="background-front"></div>
+                                <img class="background" src="css/map-background.png">
+                            </div>
+                            <div class="edition-hover">
+                                <i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h4>Challenge description</h4>
+                </div>
+                
+            `);
+        } else if (screens[index].type == "B") {
+            $(parent).append(`
+                <div class="col-md-4">
+                    <div class="preview-screen" id="preview-screen-B" data-index="${index}">
+                        Challenge:
+                        <select name="challenge">
+                            <option value="a">Challenge A</option>
+                            <option value="b">Challenge B</option>
+                            <option value="c">Challenge C</option>
+                            <option value="d">Challenge D</option>
+                        </select>
+                    </div>
+                    <h4>Challenge</h4>
+                </div>
+            `);
+        } else if (screens[index].type == "C") {
+            $(parent).append(`
+                <div class="col-md-4">
+                    <div href="" class="edit-screen">
+                        <div class="preview-screen clickable" id="preview-screen-C" data-index="${index}">
+                            <div class="hover">
+                                <div class="content">
+                                    <h4 class="preview-title" id="preview-title-C">${title}</h4>
+                                    <img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
+                                    <p class="preview-text" id="preview-text-C">${text}</p>
+                                    <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
+                                    <p class="preview-button" id="preview-button-C">Go to map!</p>
+                                </div>
+                                <div class="background-front"></div>
+                                <img class="background" src="css/map-background.png">
+                            </div>
+                            <div class="edition-hover">
+                                <i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <h4>Challenge description</h4>
+                </div>
+            `);
+        }
+    }else{
+        if (screens[index].type == "A") {
+            $(parent).append(`
+                <div class="preview-screen" id="preview-screen-A" data-index="${index}">
+                    <div class="content">
+                        <h4 class="preview-title" id="preview-title-A">${title}</h4>
+                        <img class="preview-img" id="preview-img-A">
+                        <p class="preview-text" id="preview-text-A">${text}</p>
+                        <p class="preview-button" id="preview-button-A">Go out and play!</p>
+                    </div>
+                    <div class="background-front"></div>
+                    <img class="background" src="css/map-background.png">
+                </div>
+            `);
+        } else if (screens[index].type == "C") {
+            $(parent).append(`
+                <div class="preview-screen" id="preview-screen-A" data-index="${index}">
+                   <div class="content">
+                        <h4 class="preview-title" id="preview-title-C">${title}</h4>
+                        <img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
+                        <p class="preview-text" id="preview-text-C">${text}</p>
+                        <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
+                        <p class="preview-button" id="preview-button-C">Go to map!</p>
+                    </div>
+                    <div class="background-front"></div>
+                    <img class="background" src="css/map-background.png">
+                </div>
+            `);
+        }
     }
 }
 
