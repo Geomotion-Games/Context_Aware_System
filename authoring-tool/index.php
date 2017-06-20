@@ -1,3 +1,19 @@
+<?php
+	require 'class/db.class.php';
+	require 'class/conf.class.php';
+
+	error_reporting(E_ERROR | E_PARSE);
+
+	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+	date_default_timezone_set('Europe/Madrid');
+
+	$bd = Db::getInstance();
+
+	$query = $bd->ejecutar("select * from minigames");
+	$result = $bd->obtener_fila($query, 0);
+	$minigameID = $result["id"];
+	$minigameResult = $result["minigame"];
+?>
 <html>
 <head>
 	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
@@ -58,12 +74,22 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<a id="newGame" href="plots.html">+ New Game</a>
+				<a id="newGame" href="plots.php">+ New Game</a>
 			</div>
 		</div>
 	</footer>
 
 	<script src="js/models.js"></script>
+	<script src="js/utils.js"></script>
+	<script >
+		var games = [];
+		//TODO: foreach de cada minijuego, en vez de solo el primero
+		var result = <?= json_encode($minigameResult); ?>;
+		var id = <?= $minigameID ?>;
+		console.log(result);
+		games.push(parseMinigameJSON(id, result));
+		console.log(games);
+	</script>
 	<script src="js/game.js"></script>
 </body>
 </html>

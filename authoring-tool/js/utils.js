@@ -41,6 +41,52 @@ function getMinigameJson() {
     return json;
 }
 
+function parseMinigameJSON(id, json){
+    var data = JSON.parse(json);
+
+    return new Game({
+        id: id, 
+        name: data.name, 
+        description: data.description, 
+        time: data.time, 
+        public: data.public,
+        stops: parseStopsJSON(data.stops)
+    });
+}
+
+function parseStopsJSON(stopsJson){
+    var stops = [];
+    for(var s in stopsJson){
+        var data = stopsJson[s];
+        stops.push(new Step({
+            idNumber: data.idNumber,
+            type: data.type,
+            marker: null, //TODO: create marker
+            title: data.title,
+            description: data.description,
+            distance: data.distance,
+            reward: data.reward,
+            url: data.url,
+            screens: parseScreensJSON(data.screens)
+        }));
+    }
+    return stops;
+}
+
+function parseScreensJSON(screensJson){
+    var screens = [];
+    for(var s in screensJson){
+        var data = screensJson[s];
+        screens.push(new Screen({
+            type: data.type,
+            title: data.title,
+            text: data.text,
+            image: data.image,
+        }));
+    }
+    return screens;
+}
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }

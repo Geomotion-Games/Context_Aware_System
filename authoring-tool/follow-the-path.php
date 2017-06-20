@@ -1,4 +1,22 @@
-<html>
+<?php
+	require 'class/db.class.php';
+	require 'class/conf.class.php';
+
+	error_reporting(E_ERROR | E_PARSE);
+
+	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+	date_default_timezone_set('Europe/Madrid');
+
+	$bd = Db::getInstance();
+
+	$id = $_REQUEST['id'];
+
+	$query = $bd->ejecutar("select * from minigames where id = " . $id);
+	$result = $bd->obtener_fila($query, 0);
+	var_dump($result);
+	$minigameID = $result["id"];
+	$minigameResult = $result["minigame"];
+?><html>
 <head>
 
 	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
@@ -137,6 +155,13 @@
 				}
 		    })
 		})
+		
+		var result = <?= json_encode($minigameResult); ?>;
+		var id = <?= $minigameID ?>;
+		console.log(result);
+		var games = [];
+		games.push(parseMinigameJSON(id, result));
+		console.log(games);
 	</script>
 </body>
 </html>

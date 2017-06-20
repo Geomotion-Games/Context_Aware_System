@@ -1,7 +1,4 @@
-var games = [];
-
-games.push(new Game({name: "Game Test 1", description: "Game Description", public: true}));
-games.push(new Game({name: "Game Test 2", description: "Game Description"}));
+//var games = [];
 
 showMyGames();
 
@@ -81,7 +78,7 @@ function gameOnClick(parent, gameNumber, action){
         $(parent).remove();
         delete games[gameNumber];
     }else if(action == "edit"){
-        window.location = "/follow-the-path.html";
+        window.location = "/follow-the-path.php";
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);

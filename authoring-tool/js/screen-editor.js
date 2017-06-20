@@ -271,7 +271,7 @@ function stopOnClick(parent, stopNumber, action){
         removeStop(stopNumber);
         return;
     }else if(action == "edit"){
-        window.location = "screens-overview.html";
+        window.location = "screens-overview.php";
     }else if(action == "duplicate"){
         console.log("duplicate!");
     }

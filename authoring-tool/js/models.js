@@ -11,7 +11,7 @@ function Step(params) {
     this.distance 	 = params.distance;
     this.reward 	 = params.reward;
     this.url 		 = params.url;
-    this.screens	 = [
+    this.screens	 = params.screens || [
         new Screen({type:"A", title: "The Robot", text: "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}),
         new Screen({type:"B"}),
         new Screen({type:"C", title: "The Robot", image: "images/poi2-image.png", text: "Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point"})
@@ -60,6 +60,7 @@ function Screen(params){
 }
 
 function Game(params){
+    this.id = params.id || 0;
     this.name = params.name || "Game name";
     this.description = params.description || "Game description";
     this.time = params.time || 0;
@@ -78,6 +79,7 @@ function Beacon(params){
 
 Game.prototype.copy = function(){
    var copy = new Game({
+       id: this.id,
        name: "Copy of " + this.name,
        description: this.description,
        time: this.time,

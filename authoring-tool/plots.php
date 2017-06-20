@@ -25,7 +25,7 @@
 			<div class="row">
 				<div class="col-md-3 gameType">
 					<div class="plot">
-						<a href="follow-the-path.html">
+						<a href="follow-the-path.php">
 							<div class="zoomOnHover image">
 								<img src="images/follow-the-path.jpg">
 							</div>
