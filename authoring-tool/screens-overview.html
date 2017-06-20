@@ -72,13 +72,38 @@
 
 			<div class="col-md-4">
 	            <div class="preview-screen" id="preview-screen-B" data-screen-index="2">
-	                Challenge:
-	                <select name="challenge">
-	                	<option value="volvo">Challenge A</option>
-	                	<option value="saab">Challenge B</option>
-	                	<option value="fiat">Challenge C</option>
-	                	<option value="audi">Challenge D</option>
-	                </select>
+					<form id="challenge-form">
+						<div class="form-group">
+					    	<label for="challenge-type-selector">Challenge:</label>
+					    	<select class="form-control" id="challenge-type-selector">
+					    		<option value="">Select the Challenge</option>
+					    		<option value="1">Check In</option>
+								<option value="2">Minigame</option>
+								<option value="3">Upload Content</option>
+					    	<select>
+					  	</div>
+
+					  	<div class="form-group hidden" id="minigame-select-div"">
+					    	<label for="minigame-selector">Minigame:</label>
+					    	<select class="form-control" id="minigame-selector">
+					    		<option value="">Select the Minigame</option>
+					    		<option value="1">Minigame 1</option>
+								<option value="2">Minigame 2</option>
+								<option value="3">Minigame 3</option>
+								<option value="4">Minigame 4</option>
+					    	<select>
+					  	</div>
+
+					  	<div class="form-group hidden" id="file-type-selector-div">
+					    	<label for="file-type-selector">Type of content:</label>
+					    	<select class="form-control" id="file-type-selector">
+					    		<option value="">Select the type</option>
+					    		<option value="1">Image file</option>
+								<option value="2">Video file</option>
+								<option value="3">Audio file</option>
+					    	<select>
+					  	</div>
+					</form>
 	            </div>
 	            <h4>Challenge</h4>
             </div>
@@ -174,7 +199,7 @@
 			</div>
 			<div class="col-md-4">
 				<a id="qrcode" style="cursor:pointer;">QR Code</a>
-				<a id="endEditing" href="plots.html">End editing</a>
+				<a id="endEditing" href="index.html">End editing</a>
 			</div>
 		</div>
 	</footer>
@@ -197,6 +222,19 @@
 	    	$("#qr-viewer").modal('show');
 	    	return false;
 	    });
+
+	    $( "#challenge-type-selector" ).change(function() {
+	    	if ($(this).val() == 1) { // check in
+				$( "#minigame-select-div" ).addClass('hidden');
+	    		$( "#file-type-selector-div" ).addClass('hidden');
+	    	} else if ($(this).val() == 2) { // minigame
+	    		$( "#minigame-select-div" ).removeClass('hidden');
+	    		$( "#file-type-selector-div" ).addClass('hidden');
+	    	} else if ($(this).val() == 3) { // upload content
+	    		$( "#minigame-select-div" ).addClass('hidden');
+	    		$( "#file-type-selector-div" ).removeClass('hidden');
+	    	}
+		});
 
 	</script>
 
