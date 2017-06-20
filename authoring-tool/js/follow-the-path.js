@@ -54,7 +54,6 @@ var path;
 function updatePath() {
 
 	var pointList = [];
-
 	for (var stop in points) {
 		if (points[stop] && points[stop].marker) {
 			pointList.push(points[stop].marker.getLatLng());
@@ -161,8 +160,7 @@ function addStop(marker, type){
 			</script>
    		`);
 	}
-
-	//CKEDITOR.replace( "editor" + len );
+	points[poisCreated] = step;
 
 	updatePath();
 }

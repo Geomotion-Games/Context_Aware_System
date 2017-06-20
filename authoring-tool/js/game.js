@@ -22,6 +22,7 @@ function showCommunityGames(){
 }
 
 function appendGame(parent, games, index){
+
     $(parent).append(`
        <li class="gamerow" data-index="${index}">
             <div class="row">
