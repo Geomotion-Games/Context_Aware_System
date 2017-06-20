@@ -156,6 +156,18 @@ footer a#qrcode {
     text-decoration: none;
 }
 
+footer a#endEditing:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #e87f62;
+}
+
+footer a#qrcode:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #5b5f71;
+}
+
 
 /**********************
        	EDITOR

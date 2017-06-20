@@ -38,6 +38,25 @@ body {
 	text-decoration: none
 }
 
+#attributes .toggle.btn {
+	min-width: 0px;
+	min-height: 0px;
+}
+#attributes .toggle.btn {
+	height: 24px !important;
+    margin-left: 5px;
+    width: 100% !important;
+}
+
+#attributes .toggle.btn label {
+	padding-top: 2px;
+}
+
+#attributes .btn-primary {
+	background-color: #c25d31;
+	border-color: #c25d31;
+}
+
 .navbar {
 	background-color: #2c353e;
 	border-color: #080808;

@@ -162,3 +162,15 @@ footer a {
 footer a#finishEdition {
 	background-color: #c25d31;
 }
+
+footer a#finishEdition:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #e87f62;
+}
+
+footer a#addBeacon:hover {
+    color: white;
+    text-decoration: none;
+    background-color: #5b5f71;
+}

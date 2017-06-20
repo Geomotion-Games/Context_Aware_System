@@ -19,6 +19,9 @@
 	<link rel="stylesheet" href="css/cacat.css" />
 	<link rel="stylesheet" href="css/map-follow-the-path.css" />
 
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
 </head>
 <body>
 
@@ -44,8 +47,12 @@
 				<p class="attrTitle">Game's description:</p>
 				<input class="attrValue" type="text">
 			</div>
-			<div class="col-md-4 attribute">
-				<p class="attrTitle">Time limit:</p>
+			<div class="col-md-2 attribute">
+				<p class="attrTitle">Time</p>
+				<input id="timeToggle" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Limited" data-off="Unlimited">
+			</div>
+			<div class="col-md-2 attribute" id="timeLimit" style="visibility: hidden;">
+				<p class="attrTitle">Limit</p>
 				<input class="attrValue" type="text">
 			</div>
 		</div>
@@ -120,5 +127,16 @@
 	<script src="js/follow-the-path.js"></script>
 	<script src="js/screen-editor.js"></script>
 
+	<script>
+		$(function() {
+		    $('#timeToggle').change(function() {
+		    	if (!$(this).prop('checked')) {
+		    		$('#timeLimit').css("visibility", 'hidden');
+				} else {
+					$('#timeLimit').css("visibility", 'visible');
+				}
+		    })
+		})
+	</script>
 </body>
 </html>
