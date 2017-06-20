@@ -50,85 +50,6 @@
 
 		<div class="row" id="screens">
 
-			<div class="col-md-4">
-				<div class="edit-screen">
-					<div class="preview-screen clickable" id="preview-screen-A" data-screen-index="1">
-						<div class="hover">
-							<div class="content">
-								<h4 class="preview-title" id="preview-title-A">The Robot</h4>
-				                <p class="preview-text" id="preview-text-A">Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?</p>
-				                <p class="preview-button" id="preview-button-A">Go out and play!</p>
-			                </div>
-			                <div class="background-front"></div>
-			                <img class="background" src="css/map-background.png">
-			            </div>
-						<div class="edition-hover">
-							<i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
-						</div>
-		            </div>
-	            </div>
-	            <h4>Challenge description</h4>
-            </div>
-
-			<div class="col-md-4">
-	            <div class="preview-screen" id="preview-screen-B" data-screen-index="2">
-					<form id="challenge-form">
-						<div class="form-group">
-					    	<label for="challenge-type-selector">Challenge:</label>
-					    	<select class="form-control" id="challenge-type-selector">
-					    		<option value="">Select the Challenge</option>
-					    		<option value="1">Check In</option>
-								<option value="2">Minigame</option>
-								<option value="3">Upload Content</option>
-					    	<select>
-					  	</div>
-
-					  	<div class="form-group hidden" id="minigame-select-div"">
-					    	<label for="minigame-selector">Minigame:</label>
-					    	<select class="form-control" id="minigame-selector">
-					    		<option value="">Select the Minigame</option>
-					    		<option value="1">Minigame 1</option>
-								<option value="2">Minigame 2</option>
-								<option value="3">Minigame 3</option>
-								<option value="4">Minigame 4</option>
-					    	<select>
-					  	</div>
-
-					  	<div class="form-group hidden" id="file-type-selector-div">
-					    	<label for="file-type-selector">Type of content:</label>
-					    	<select class="form-control" id="file-type-selector">
-					    		<option value="">Select the type</option>
-					    		<option value="1">Image file</option>
-								<option value="2">Video file</option>
-								<option value="3">Audio file</option>
-					    	<select>
-					  	</div>
-					</form>
-	            </div>
-	            <h4>Challenge</h4>
-            </div>
-
-            <div class="col-md-4">
-				<div class="edit-screen">
-					<div class="preview-screen clickable" id="preview-screen-C" data-screen-index="3">
-						<div class="hover">
-							<div class="content">
-								<h4 class="preview-title" id="preview-title-C">The Robot</h4>
-								<img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
-				                <p class="preview-text" id="preview-text-C">Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point</p>
-			                	<p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
-				                <p class="preview-button" id="preview-button-C">Go to map!</p>
-			                </div>
-			                <div class="background-front"></div>
-			                <img class="background" src="css/map-background.png">
-			            </div>
-						<div class="edition-hover">
-							<i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
-						</div>
-		            </div>
-	            </divaa>
-	            <h4>Challenge description</h4>
-            </div>
 		</div>
 	</div>
 
@@ -141,38 +62,15 @@
 				</div>
 				<div class="modal-body">
 					<div id="stop-editor-content">
-						<div id="stop-editor-preview">
 							<div class="col-md-6">
 							<!-- PREVIEW -->
-								<div class="edit-screen">
-									<div class="preview-screen" id="preview-screen-C" data-screen-index="3">
-										<div class="content">
-											<h4 class="preview-title" id="preview-title-C">The Robot</h4>
-											<img class="preview-img" id="preview-img-C" src="images/poi2-image.png">
-							                <p class="preview-text" id="preview-text-C">Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point</p>
-						                	<p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
-							                <p class="preview-button" id="preview-button-C">Go to map!</p>
-						                </div>
-						                <div class="background-front"></div>
-						                <img class="background" src="css/map-background.png">
-						            </div>
+								<div id="stop-editor-preview">
+
 					            </div>
-					        </div>
 						</div>
-						<div class="col-md-6" id="stop-editor-preview">
+						<div class="col-md-6">
 							<form id="stop-editor-form">
-							  	<div class="form-group">
-							    	<label for="title">Title:</label>
-							    	<input type="title" class="form-control" id="title">
-							  	</div>
-							  	<div class="form-group">
-							    	<label for="pwd">Image:</label>
-							    	<input class="form-control" id="pwd" type="file" accept="image/*">
-							  	</div>
-							  	<div class="form-group">
-							    	<label for="txt">Text:</label>
-							    	<textarea rows="6" type="text" class="form-control" id="txt"></textarea>
-							  	</div>
+
 							</form>
 						</div>
 					</div>
@@ -199,7 +97,7 @@
 			</div>
 			<div class="col-md-4">
 				<a id="qrcode" style="cursor:pointer;">QR Code</a>
-				<a id="endEditing" href="index.html">End editing</a>
+				<a id="endEditing" href="plots.html">End editing</a>
 			</div>
 		</div>
 	</footer>
@@ -211,7 +109,7 @@
 		poisCreated = 2;
 		points[0]   = new Step({marker: 0, idNumber: 0});
 		points[999] = new Step({marker: 0, idNumber: 999});
-	//	showScreensOverview(0);
+		showScreensOverview(0);
 
 		$(".preview-screen.clickable").on('click',function(e){
 	        var screen_index = $(this).attr("data-index");
@@ -222,19 +120,6 @@
 	    	$("#qr-viewer").modal('show');
 	    	return false;
 	    });
-
-	    $( "#challenge-type-selector" ).change(function() {
-	    	if ($(this).val() == 1) { // check in
-				$( "#minigame-select-div" ).addClass('hidden');
-	    		$( "#file-type-selector-div" ).addClass('hidden');
-	    	} else if ($(this).val() == 2) { // minigame
-	    		$( "#minigame-select-div" ).removeClass('hidden');
-	    		$( "#file-type-selector-div" ).addClass('hidden');
-	    	} else if ($(this).val() == 3) { // upload content
-	    		$( "#minigame-select-div" ).addClass('hidden');
-	    		$( "#file-type-selector-div" ).removeClass('hidden');
-	    	}
-		});
 
 	</script>
 

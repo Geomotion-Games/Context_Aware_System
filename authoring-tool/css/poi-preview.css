@@ -174,7 +174,7 @@ footer a#qrcode:hover {
 ***********************/
 .modal-dialog {
 	width: 700px;
-	height: 820px;
+	//height: 820px;
 }
 
 #stop-editor-form label, #challenge-form label {
@@ -189,6 +189,7 @@ footer a#qrcode:hover {
 #stop-editor-form input, #stop-editor-form textarea,
 #challenge-form input, #challenge-form select {
 	border-radius: 0;
+	resize: vertical;
 }
 
 #challenge-form select {
