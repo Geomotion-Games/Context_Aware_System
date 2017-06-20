@@ -154,7 +154,8 @@ function addStop(marker, type){
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
 							<select name="beacon-id" class="beacon-select-${poisCreated}">
-								  ${beacons.map(b => `<option value="${b.id}">${b.id} - ${b.name}</option>`).join('\n')}
+								<option value="">Select Beacon</option>
+								${beacons.map(b => `<option value="${b.id}">${b.id} - ${b.name}</option>`).join('\n')}
 							</select>
 						</div>
 						<div class=poiActions>

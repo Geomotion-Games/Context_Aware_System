@@ -103,6 +103,15 @@ textarea {
 	color: #afb7bb;
 }
 
+#stops .poirow .poiInfo .poiTexts > p {
+	float: left;
+    margin-right: 20px;
+}
+
+#stops .poirow .poiInfo .poiTexts > select {
+	color: black	;
+}
+
 .poirow i.move {
 	float:left;
 	margin: 25px 8px 0 0;
