@@ -9,10 +9,27 @@
 
 	$bd = Db::getInstance();
 
-	$query = $bd->ejecutar("select * from minigames");
-	$result = $bd->obtener_fila($query, 0);
-	$minigameID = $result["id"];
-	$minigameResult = $result["minigame"];
+    $query = $bd->ejecutar("select * from minigames ORDER BY id ASC");
+	$numRows = $bd->num_rows($query);
+
+	$minigameIDs = array();
+	$minigameResults = array();
+
+	$count = 0;
+
+ 	if ($query) {
+ 		for($i = 0; $i < $numRows; $i++){
+			$row = $bd->obtener_fila($query, $i);
+
+			$id = $row["id"];
+	      	$minigame = $row["minigame"];
+	      	$minigameIDs[$count] = $id;
+	      	$minigameResults[$count] = $minigame;
+	      	$count++;
+ 		}
+    }else {
+      echo mysql_error();
+    }
 ?>
 <html>
 <head>
@@ -83,12 +100,12 @@
 	<script src="js/utils.js"></script>
 	<script >
 		var games = [];
-		//TODO: foreach de cada minijuego, en vez de solo el primero
-		var result = <?= json_encode($minigameResult); ?>;
-		var id = <?= $minigameID ?>;
-		console.log(result);
-		games.push(parseMinigameJSON(id, result));
-		console.log(games);
+		var results = <?= json_encode($minigameResults); ?>;
+		var ids = <?= json_encode($minigameIDs) ?>;
+
+		for(var index in results){
+			games.push(parseMinigameJSON(ids[index], results[index]));
+		}
 	</script>
 	<script src="js/game.js"></script>
 </body>
