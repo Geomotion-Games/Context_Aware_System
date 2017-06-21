@@ -2,6 +2,8 @@ var points = [];
 var poisCreated = 0;
 var beacons = [];
 
+//--- STEP
+
 function Step(params) {
     this.idNumber 	 = params.idNumber;
     this.type        = params.type || "normal"; // normal, beacon
@@ -29,12 +31,13 @@ Step.prototype.toJSON = function() {
         "distance" 	  : this.distance,
         "reward" 	  : this.reward,
         "url" 		  : this.url,
-        "screens"	  : this.screens
+        "screens"	  : this.screens.map(function(screen){
+            return screen.toJSON();
+        })
     };
 
     return json;
 };
-
 
 Step.prototype.copy = function() {
     var copy = new Step({
@@ -52,6 +55,11 @@ Step.prototype.copy = function() {
     return copy;
 };
 
+//---
+
+
+//--- SCREEN
+
 function Screen(params){
     this.type = params.type;
     this.title = params.title;
@@ -59,23 +67,56 @@ function Screen(params){
     this.image = params.image;
 }
 
+Screen.prototype.toJSON = function() {
+    var json = {
+        "type"  : this.type,
+        "title" : this.title,
+        "text"  : this.text,
+        "image" : this.image
+    };
+
+    return json;
+};
+
+Screen.prototype.copy = function() {
+    var copy = new Screen({
+        type: this.type,
+        title: this.title,
+        text: this.text,
+        image: this.image
+    });
+
+    return copy;
+};
+
+//--- GAME
+
 function Game(params){
+    var defaultStops = [];
+    defaultStops[0]   = new Step({marker: 0, idNumber: 0});
+    defaultStops[999] = new Step({marker: 0, idNumber: 999});
+
     this.id = params.id || 0;
     this.name = params.name || "Game name";
     this.description = params.description || "Game description";
     this.time = params.time || 0;
     this.public = params.public || false;
-    this.stops = params.stops || [];
+    this.stops = params.stops || defaultStops;
 }
 
-function Beacon(params){
-    this.name = params.name;
-    this.id = params.beaconId;
-    this.active = params.active;
-    this.qr = params.qr;
-    this.lat = params.lat;
-    this.lng = params.lng;
-}
+Game.prototype.toJSON = function() {
+    var json = {
+        "name"          : this.name,
+        "description"   : this.description,
+        "time"          : this.time,
+        "public"        : this.public,
+        "stops"         : this.stops.map(function(stop){
+            return stop.toJSON();
+        })
+    };
+
+    return json;
+};
 
 Game.prototype.copy = function(){
    var copy = new Game({
@@ -89,3 +130,15 @@ Game.prototype.copy = function(){
 
     return copy;
 };
+
+//---
+
+function Beacon(params){
+    this.name = params.name;
+    this.id = params.beaconId;
+    this.active = params.active;
+    this.qr = params.qr;
+    this.lat = params.lat;
+    this.lng = params.lng;
+}
+

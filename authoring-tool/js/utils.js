@@ -16,29 +16,21 @@ function showLocation(position) {
     map.panTo(position);
 }
 
-function saveMinigame() {
+function saveMinigame(game) {
 
-    /*var xhttp = new XMLHttpRequest();
-     xhttp.onreadystatechange = function() {
-     if (this.readyState == 4 && this.status == 200) {
-     console.log(this.responseText);
-     alert("Go to: \nhttps://www.geomotiongames.com/beaconing/client.php?minigame=" + this.responseText.replace(/ /g,''));
-     }
-     };*/
+    var minigame = JSON.stringify(game.toJSON());
+    var id = game.id;
 
-    var minigame = JSON.stringify(getMinigameJson(), null, 2);
     console.log(minigame);
+    var request = $.ajax("save.php?id=" + id + "&minigame=" + minigame);
+    if(id == null) request = $.ajax("save.php?minigame=" + minigame);
 
-    //xhttp.open("GET", "https://www.geomotiongames.com/beaconing/saveMinigame.php?minigame=" + minigame, true);
-    //xhttp.send();
-}
-
-function getMinigameJson() {
-    var json = {};
-    for (var step in points) {
-        json[points[step].idNumber] = points[step].toJSON();
-    }
-    return json;
+    request.done(function(data) {
+        console.log("Saved! " + data);
+    });
+    request.fail(function() {
+        console.log("Error saving...");
+    })
 }
 
 function parseMinigameJSON(id, json){

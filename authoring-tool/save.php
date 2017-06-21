@@ -8,12 +8,17 @@ date_default_timezone_set('Europe/Madrid');
 
 $bd = Db::getInstance();
 
-$minigame = $_REQUEST['minigame'];
+$minigame = addslashes($_REQUEST['minigame']);
+$id = $_REQUEST['id'];
 
-$query = "INSERT INTO minigames (id, minigame) VALUES (NULL, '" . $minigame . "')";
-
-$res = $bd->ejecutar($query);
-
-echo( mysql_insert_id() );
+if($id == null){
+	$query = "INSERT INTO minigames (id, minigame) VALUES (NULL, '" . $minigame . "')";
+	$res = $bd->ejecutar($query);
+	echo "CREATED " . mysql_insert_id();
+}else{
+	$query = "UPDATE minigames SET minigame='" . $minigame . "' WHERE id=" . $id;
+	$res = $bd->ejecutar($query);
+	echo "UPDATED " . mysql_insert_id();
+}
 
 ?>
