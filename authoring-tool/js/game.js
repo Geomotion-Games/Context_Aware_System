@@ -73,6 +73,11 @@ $("body").find("[aria-controls='community']").on('click', function(e) {
     showCommunityGames();
 });
 
+$("#newGame").on('click', function(e) {
+    saveMinigame(new Game({}));
+    window.location = "plots.php";
+});
+
 function gameOnClick(parent, gameNumber, action){
     if(action == "remove"){
         $(parent).remove();

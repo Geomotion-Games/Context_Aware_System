@@ -74,7 +74,7 @@
 				</div>
 			</div>
 			<div class="col-md-4">
-				<a id="newGame" href="plots.php">+ New Game</a>
+				<a id="newGame">+ New Game</a>
 			</div>
 		</div>
 	</footer>

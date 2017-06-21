@@ -96,7 +96,7 @@ function Game(params){
     defaultStops[0]   = new Step({marker: 0, idNumber: 0});
     defaultStops[999] = new Step({marker: 0, idNumber: 999});
 
-    this.id = params.id || 0;
+    this.id = params.id || null;
     this.name = params.name || "Game name";
     this.description = params.description || "Game description";
     this.time = params.time || 0;
@@ -110,8 +110,10 @@ Game.prototype.toJSON = function() {
         "description"   : this.description,
         "time"          : this.time,
         "public"        : this.public,
-        "stops"         : this.stops.map(function(stop){
-            return stop.toJSON();
+        "stops"         : this.stops.filter(function(stop){
+            return stop != null;
+        }).map(function(stop){
+            if(stop != null)return stop.toJSON();
         })
     };
 

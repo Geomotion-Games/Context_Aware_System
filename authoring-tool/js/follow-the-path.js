@@ -24,11 +24,7 @@ $( function() {
 			}
 		}
 	});  
-
-	$("#saveButton").click(function() {
-		saveMinigame();
-	});
-
+	
 	points[0]   = new Step({marker: 0, idNumber: 0});
 	points[999] = new Step({marker: 0, idNumber: 999});
 });
