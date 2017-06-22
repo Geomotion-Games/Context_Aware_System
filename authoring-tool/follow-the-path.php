@@ -13,7 +13,7 @@
 
 	$query = $bd->ejecutar("select * from minigames where id = " . $id);
 	$result = $bd->obtener_fila($query, 0);
-	var_dump($result);
+	//var_dump($result);
 	$minigameID = $result["id"];
 	$minigameResult = $result["minigame"];
 ?><html>
@@ -94,7 +94,7 @@
 				    					<p class="poiType">[%description of start%]</p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="screens-overview.html"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="screens-overview.php?id=0"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
@@ -112,7 +112,7 @@
 				    					<p class="poiType">[%description of finish%]</p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="screens-overview.html"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="screens-overview.php?id=0"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>

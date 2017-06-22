@@ -83,7 +83,7 @@ function gameOnClick(parent, gameNumber, action){
         $(parent).remove();
         delete games[gameNumber];
     }else if(action == "edit"){
-        window.location = "/follow-the-path.php";
+        window.location = "/follow-the-path.php?id=0";
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);

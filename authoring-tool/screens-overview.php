@@ -13,7 +13,7 @@
 	
 	$query = $bd->ejecutar("select * from minigames where id = " . $id);
 	$result = $bd->obtener_fila($query, 0);
-	var_dump($result);
+	//var_dump($result);
 	$minigameID = $result["id"];
 	$minigameResult = $result["minigame"];
 ?>
@@ -116,7 +116,7 @@
 			</div>
 			<div class="col-md-4">
 				<a id="qrcode" style="cursor:pointer;">QR Code</a>
-				<a id="endEditing" href="plots.php">End editing</a>
+				<a id="endEditing" href="index.php">End editing</a>
 			</div>
 		</div>
 	</footer>
