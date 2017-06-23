@@ -87,6 +87,11 @@
 	padding: 21px 0 0 50px;
 }
 
+.games .pubpriv .toggle {
+	width: 83px !important;
+    height: 34px !important;
+}
+
 .games .pubpriv .btn-primary {
     color: #fff;
     background-color: #e87f62;
