@@ -2,7 +2,7 @@
 	height: 80px;
 	background-color: #2c353e;
 	border-color: #080808;
-	margin-bottom: 65px;
+	margin-bottom: 40px;
 }
 
 .nav > li {
@@ -55,17 +55,21 @@
 }
 
 .games .gamerow {
-	margin-bottom: 25px;
+	margin-bottom: 0px;
 }
 
 .games .gamerow .gameinfo {
 	background-color: #2c353e;
-	height: 80px;
+	height: 70px;
 }
 
 .gamerow .gameinfo .gametexts {
 	float: left;
-	padding: 15px 0 0 5px;
+	padding: 13px 0 0 5px;
+}
+
+.gamerow .gameinfo .gametexts .gameTitle {
+	margin-bottom: 5px;
 }
 
 .gamerow .gameinfo .gametexts .gameType {
@@ -75,7 +79,7 @@
 .gamerow .gameinfo .gameactions i {
 	float: right;
 	color: #e87f62;
-	padding: 25px 10px 0 10px;
+	padding: 20px 10px 0 10px;
 }
 
 .gamerow .gameinfo .gameactions i.fa-trash {
@@ -84,7 +88,7 @@
 
 .games .pubpriv {
 	height: 80px;
-	padding: 21px 0 0 50px;
+	padding: 16px 0 0 50px;
 }
 
 .games .pubpriv .toggle {
