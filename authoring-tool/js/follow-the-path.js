@@ -128,14 +128,14 @@ function addStop(marker, type){
 			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
-					 	<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
 						</div>
 						<div class=poiActions>
-							<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -146,7 +146,7 @@ function addStop(marker, type){
 			<li class="stop-row poirow" id="point` + poisCreated + `" stop-number="` + poisCreated + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
-					 	<i class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (poisCreated) + `</span></p>
 							<select name="beacon-id" class="beacon-select-${poisCreated}">
@@ -155,9 +155,9 @@ function addStop(marker, type){
 							</select>
 						</div>
 						<div class=poiActions>
-							<a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 						</div>
 					</div>
 				</div>

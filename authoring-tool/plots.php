@@ -13,13 +13,23 @@
 	<nav class="navbar navbar-default">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="/">
+				<a class="navbar-brand" href="index.php">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
 			</div>
 		</div>
 	</nav>
 </header>
+<footer class="navbar-fixed-bottom">
+	<div class="container">
+		<div class="col-md-8 ">
+			<div class="footerText">
+				<p class="footerTitle"><b>Description:</b></p>
+				<p class="footerDescription">Select the type of location-based game that best suits your gamified lesson path and pedagogical content. Each type of game have different dynamics, mechanics and minigames to create an awesome playful real-life learning experience</p>
+			</div>
+		</div>
+	</div>
+</footer>
 	<div class="container">
 		<div class="official-row">
 			<div class="row">

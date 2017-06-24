@@ -39,7 +39,7 @@
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-				<a class="navbar-brand" href="/">
+				<a class="navbar-brand" href="index.php">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
 		    </div>
@@ -50,19 +50,19 @@
 	<div class="container-fluid">
 		<div id="attributes" class="row">
 			<div class="col-md-2 attribute">
-				<p class="attrTitle">POI's name:</p>
+				<p class="attrTitle">Name of the POI</p>
 				<input class="attrValue" type="text">
 			</div>
 			<div class="col-md-2 attribute">
-				<p class="attrTitle">Reward points:</p>
+				<p class="attrTitle">Reward Points</p>
 				<input class="attrValue" type="number">
 			</div>
 			<div class="col-md-2 attribute">
-				<p class="attrTitle">Trigger distance:</p>
+				<p class="attrTitle">Trigger distance (meters)</p>
 				<input class="attrValue" type="number">
 			</div>
 			<div class="col-md-6 attribute">
-				<p class="attrTitle">Harvestable item:</p>
+				<p class="attrTitle">Collectable item</p>
 				<input class="attrValue" type="file" accept="image/*">
 			</div>
 		</div>
@@ -111,12 +111,12 @@
 			<div class="col-md-8 ">
 				<div class="footerText">
 					<p class="footerTitle"><b>Description:</b></p>
-					<p class="footerDescription">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec</p>
+					<p class="footerDescription">Preview the content of the screens that students will see on the app when arriving to a POI during the game. "Challenge description" screen shows a description of the POI and the challenge. "Challenge screen" shows the challenge that the student have to overcome when arriving at the POI. "Result screen" shows the result of the challenge: reward points, items collected, etc. You can add as many screens you need to make the experience awesome!</p>
 				</div>
 			</div>
 			<div class="col-md-4">
-				<a id="qrcode" style="cursor:pointer;">QR Code</a>
-				<a id="endEditing" href="index.php">End editing</a>
+				<a id="qrcode" style="cursor:pointer;">Generate QR Code</a>
+				<a id="endEditing" href="index.php">Finish edition</a>
 			</div>
 		</div>
 	</footer>
