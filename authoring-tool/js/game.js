@@ -29,9 +29,9 @@ function appendGame(parent, games, index){
                         <p class="gameType">${games[index].description}</p>
                     </div>
                     <div class=gameactions>
-                        <a href="#"><i class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                        <a href="#"><i class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                        <a href="#"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                        <a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                        <a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                        <a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
                     </div>
                 </div>
                 <div class="col-md-4 pubpriv">
@@ -83,7 +83,7 @@ function gameOnClick(parent, gameNumber, action){
         $(parent).remove();
         delete games[gameNumber];
     }else if(action == "edit"){
-        window.location = "/follow-the-path.php?id=0";
+        window.location = "follow-the-path.php?id=0";
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);

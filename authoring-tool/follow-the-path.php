@@ -47,7 +47,7 @@
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-				<a class="navbar-brand" href="/">
+				<a class="navbar-brand" href="index.php">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
 		    </div>
@@ -58,19 +58,19 @@
 	<div class="container-fluid">
 		<div id="attributes" class="row">
 			<div class="col-md-4 attribute">
-				<p class="attrTitle">Game's name:</p>
+				<p class="attrTitle">Name of the Game</p>
 				<input class="attrValue" type="text">
 			</div>
 			<div class="col-md-4 attribute">
-				<p class="attrTitle">Game's description:</p>
+				<p class="attrTitle">Description of the game (max. 100 characters)</p>
 				<input class="attrValue" type="text">
 			</div>
 			<div class="col-md-2 attribute">
-				<p class="attrTitle">Time</p>
+				<p class="attrTitle">Time limit</p>
 				<input id="timeToggle" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Limited" data-off="Unlimited">
 			</div>
 			<div class="col-md-2 attribute" id="timeLimit" style="visibility: hidden;">
-				<p class="attrTitle">Limit</p>
+				<p class="attrTitle">Time to complete the game (in minutes)</p>
 				<input class="attrValue" type="text">
 			</div>
 		</div>
@@ -94,7 +94,7 @@
 				    					<p class="poiType">[%description of start%]</p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="screens-overview.php?id=0"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="screens-overview.php?id=0"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
@@ -112,7 +112,7 @@
 				    					<p class="poiType">[%description of finish%]</p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="screens-overview.php?id=0"><i class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="screens-overview.php?id=0"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
