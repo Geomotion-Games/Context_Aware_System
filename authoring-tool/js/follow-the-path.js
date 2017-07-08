@@ -184,8 +184,11 @@ function addBeaconMarker(id, step){
 		}
 	}
 	if(step.marker) map.removeLayer(step.marker);
-	var marker = addMarker({lat: beacon.lat, lng: beacon.lng}, false);
+	var coords = {lat: beacon.lat, lng: beacon.lng};
+	var marker = addMarker(coords, false);
 	step.marker = marker;
+	map.panTo(coords);
+	map.setZoom(15);
 	updatePath();
 }
 
