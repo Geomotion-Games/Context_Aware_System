@@ -2,26 +2,7 @@ $( function() {
 
 	$( "#stops" ).sortable( {
 		update: function(event, ui) {
-			var len = Object.keys(points).length;
-
-	    	if (len > 1) {
-	    		var newPointList = [];
-	    		var number = 0;
-
-				newPointList.push(points[0]);
-	    		$(this).children().each(function(index) {
-	    			number = $(this).attr("stop-number");
-					for (var point in points) {
-						if (points[point] && points[point].idNumber == number) {
-							newPointList.push(points[point]);
-						}
-					}
-	    		});
-				newPointList.push(points[999]);
-
-				points = newPointList;
-		    	updatePath();
-			}
+			sortPoints();
 		}
 	});  
 	
@@ -193,55 +174,68 @@ function addBeaconMarker(id, step){
 }
 
 function removeStop(stopNumber) {
-	for (var point in points) {
+	for(var point in points){
 		if (points[point] && points[point].idNumber == stopNumber) {
 			if(points[point].marker)map.removeLayer(points[point].marker);
 			delete points[point];
-			break;
 		}
 	}
 
-	updatePath();
+	poisCreated--;
+	sortPoints();
 }
 
 function updateLabels() {
-
-	$("#stops").children('li').each(function() {
+	$("#stops").children().each(function() {
 		var number = $(this).attr("stop-number");
-		for (var point in points){
+		for(var point in points){
 			if (points[point] && points[point].idNumber == number){
-	    		if (points[point].title && points[point].title.length > 0){
-	    			points[point].marker._tooltip.setContent( points[point].title );
-	    			$(this).find("span.name").text( points[point].title );
-	    		} 
-	    		else{
-	    			var name = "Stop " + parseInt(number)
-	    			if(points[point].marker) points[point].marker._tooltip.setContent( name );
-	    			$(this).find("span.name").text( name );
-	    		}
-	    	}
+				if (points[point].title && points[point].title.length > 0){
+					points[point].marker._tooltip.setContent(points[point].title);
+					$(this).find("span.name").text(points[point].title);
+				}else{
+					console.log("Updated for " + points[point].idNumber);
+					var name = "Stop " + points[point].idNumber;
+					if(points[point].marker) points[point].marker._tooltip.setContent(name);
+					$(this).find("span.name").text(name);
+				}
+				break;
+			}
 		}
 	});
+}
 
-	var first;
-	for (var p in points) {
-		first = points[p];
-		break;
-	}
-
-/*	first.marker._tooltip.setContent( "START" );
-	$("#stops li").first().find("span.name").text("START");
-
+function sortPoints(){
 	var len = Object.keys(points).length;
 
 	if (len > 1) {
-		var last;
-		for (p in points) {
-			last = points[p];
-		}
-		last.marker._tooltip.setContent( "END" );
-		$("#stops li").last().find("span.name").text("END");
-	}*/
+		var newPointList = [];
+
+		newPointList.push(points[0]);
+		$("#stops").children().each(function (index) {
+			var number = $(this).attr("stop-number");
+			console.log("Index: " + index)
+			for (var stop in points) {
+				if (points[stop] && points[stop].idNumber == number) {
+					$(this).attr("stop-number", index + 1);
+					$(this).attr("id", "point" + (index + 1));
+					points[stop].idNumber = (index + 1);
+					console.log(points[stop].idNumber)
+					newPointList.push(points[stop]);
+					points.splice(stop, 1);
+					break;
+				}
+			}
+
+		});
+		newPointList[999] = points[points.length - 1];
+		console.log(points);
+
+		points = newPointList;
+		console.log(points);
+
+		updatePath();
+	}
 }
 
 $("#addBeacon").on('click', function(e) {
