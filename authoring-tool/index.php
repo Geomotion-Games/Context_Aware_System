@@ -98,9 +98,9 @@
 	</div>
 
 	<footer class="navbar-fixed-bottom">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="col-md-12">
-				<a id="newGame">+ New Game</a>
+				<a id="newGame" class="orangeBtn">+ New Game</a>
 			</div>
 		</div>
 	</footer>

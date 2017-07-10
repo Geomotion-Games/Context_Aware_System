@@ -124,11 +124,11 @@
 		</div>
 	</div>
 
-	<footer>
-		<div class="container">
-			<div class="col-md-4">
-				<a id="qrcode" style="cursor:pointer;">Generate QR Code</a>
-				<a id="endEditing" href="index.php">Finish edition</a>
+	<footer class="navbar-fixed-bottom">
+		<div class="container-fluid">
+			<div class="col-md-12">
+				<a id="endEditing" class="orangeBtn" href="index.php">Finish edition</a>	
+				<a id="qrcode" class="blueBtn">Generate QR Code</a>
 			</div>
 		</div>
 	</footer>

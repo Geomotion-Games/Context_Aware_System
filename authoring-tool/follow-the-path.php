@@ -138,11 +138,12 @@
 
 				</div>
 
-				<footer>
-					<div>
-						<div class="col-md-3">
-							<a id="addBeacon">+ Add Beacon</a>
-							<a id="finishEdition" href="">Finish Edition</a>
+				<footer class="navbar-fixed-bottom">
+					<div class="container-fluid">
+						<div class="col-md-12">
+							<a id="finishEdition" href="" class="orangeBtn">Finish Edition</a>
+							<a id="addBeacon" class="blueBtn">Manage Beacons</a>
+							<a id="addBeacon" class="blueBtn">+ Add Beacon</a>
 						</div>
 					</div>
 				</footer>

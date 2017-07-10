@@ -123,3 +123,39 @@ div.wideDescription {
 	 background-color: white;
 	 padding: 0 70px;
 }
+
+footer {
+	background-color: #2c353e;
+}
+
+footer a.orangeBtn {
+	background-color: #c25d31;
+}
+
+footer a.orangeBtn:hover {
+    background-color: #e87f62;
+}
+
+footer a.blueBtn:hover {
+    background-color: #5b5f71;
+}
+
+footer a {
+	float: right;
+	text-align: center;
+	color: white;
+	background-color: #3b4f61;
+	padding: 10px;
+	display:block;
+	width: auto;
+	margin: 5px 20px 5px 0;
+}
+
+footer a:hover {
+	text-decoration: none;
+	color: white;
+	cursor: pointer;
+}
+
+
+

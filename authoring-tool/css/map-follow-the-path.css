@@ -14,21 +14,21 @@ body {
 .section {
 	padding: 0px 10px 10px 10px;
 	background-color: #eee;
-	height: 75vh;
+	height: 80vh;
 	overflow: hidden;
 }
 
 .block-left {
 	padding: 10px;
 	background: #fff;
-	height:100%;
+	height:90%;
 	overflow: scroll;
 }
 
 .block-right {
 	padding: 10px;
 	background: #fff;
-	height:80%;
+	height:90%;
 	overflow: scroll;
 }
 
@@ -134,43 +134,4 @@ textarea {
 
 .poirow .poiInfo .poiActions i.fa-trash {
 	color: #c25d31;
-}
-
-footer {
-	position: absolute;
-	bottom: 10px;
-	background-color: white;
-	color: black;
-	padding-top: 15px;
-	margin-right:10px;
-}
-
-footer .footerTitle {
-	font-weight: 700;
-}
-
-footer a {
-	text-align: center;
-	color: white;
-	background-color: #3b4f61;
-	padding: 10px;
-	display:block;
-	width:110px;
-	margin-top: 5px;
-}
-
-footer a#finishEdition {
-	background-color: #c25d31;
-}
-
-footer a#finishEdition:hover {
-    color: white;
-    text-decoration: none;
-    background-color: #e87f62;
-}
-
-footer a#addBeacon:hover {
-    color: white;
-    text-decoration: none;
-    background-color: #5b5f71;
 }

@@ -106,34 +106,6 @@
     background-color: #2c353e;
 }
 
-footer {
-	background-color: white;
-	color: black;
-}
-
-footer .description {
-	border-top: 1px solid #000;
-}
-
-footer .footerTitle {
-	font-weight: 700;
-}
-
-footer a#newGame {
-	color: white;
-	background-color: #c25d31;
-	padding: 10px;
-	display:block;
-	width:102px;
-	margin: 30px 0 0 35px;
-}
-
-footer a#newGame:hover {
-    color: white;
-    text-decoration: none;
-    background-color: #e87f62;
-}
-
 
 
 
