@@ -60,6 +60,15 @@
 				</div>
 			</div>
 		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<ol class="breadcrumb">
+					<li class="active"><span>Desktop</span></li>
+				</ol>
+			</div>
+		</div>
+
 	</header>
 
 	<div>
@@ -69,6 +78,12 @@
 	    	<li role="presentation"><a href="#community" aria-controls="community" role="tab" data-toggle="tab">Community games</a></li>
 	  	</ul>
 
+	</div>
+
+	<div class="container">
+		<div class="col-md-12 description">
+			<p class="descriptionText"><strong>Description: </strong>With location-based challenges students discover and interact with real-world places in a playful learning experience. Create your own games or reuse the ones created by the community. Let's go!</p>
+		</div>
 	</div>
 
 	<div class="container games">
@@ -84,13 +99,7 @@
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container">
-			<div class="col-md-8 ">
-				<div class="footerText">
-					<p class="footerTitle"><b>Description:</b></p>
-					<p class="footerDescription">With location-based challenges students discover and interact with real-world places in a playful learning experience. Create your own games or reuse the ones created by the community. Let's go!</p>
-				</div>
-			</div>
-			<div class="col-md-4">
+			<div class="col-md-12">
 				<a id="newGame">+ New Game</a>
 			</div>
 		</div>
@@ -105,6 +114,10 @@
 
 		for(var index in results){
 			games.push(parseMinigameJSON(ids[index], results[index]));
+		}
+
+		function hide_description() {
+		    $('.navbar-fixed-bottom .description').animate({ height: '0' }).promise().done( function() {$('.navbar-fixed-bottom .description').hide()});
 		}
 	</script>
 	<script src="js/game.js"></script>

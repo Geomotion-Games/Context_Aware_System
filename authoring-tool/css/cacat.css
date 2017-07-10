@@ -77,3 +77,49 @@ body {
 .navbar-header {
 	width: 100%;
 }
+
+header {
+	background-color: #000;
+}
+
+.breadcrumb {
+	margin-bottom: 1px;
+	background-color: #2c353e;
+	border-radius: 0;
+	padding-left: 35px;
+}
+
+.breadcrumb li {
+	padding: 2px 1px;
+}
+
+.breadcrumb li.active span {
+	color: #afb7bb;
+}
+
+.breadcrumb > li + li:before {
+    content: '>';
+    padding-right: 10px;
+}
+
+.breadcrumb li a {
+	text-decoration: none;
+}
+
+.breadcrumb li a:hover span {
+	color: #e87f62;
+}
+
+.breadcrumb span {
+	color: #fff;
+}
+
+div.description {
+	padding-top: 15px;
+	background-color: white;
+}
+
+div.wideDescription {
+	 background-color: white;
+	 padding: 0 70px;
+}

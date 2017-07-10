@@ -53,11 +53,28 @@
 		    </div>
 		  </div>
 		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<ol class="breadcrumb">
+					<li><a href="/beaconing"><span>Desktop</span></a></li>
+					<li><span>Select plot</span></li>
+					<!--TOTO href depenent del joc...-->
+					<li class="active"><span>Edit game</span></li>
+				</ol>
+			</div>
+		</div>
 	</header>
+
+	<div class="container-fluid wideDescription">
+		<div class="col-md-12 description">
+			<p class="descriptionText"><strong>Description: </strong>Define the basic parameters of your game. Create POI (Points of Interest) clicking on the map, reorder and edit them as you wish and personalize the content of each one with funny challenges.</p>
+		</div>
+	</div>
 
 	<div class="container-fluid">
 		<div id="attributes" class="row">
-			<div class="col-md-4 attribute">
+			<div class="col-md-3 attribute">
 				<p class="attrTitle">Name of the Game</p>
 				<input class="attrValue" type="text">
 			</div>
@@ -69,7 +86,7 @@
 				<p class="attrTitle">Time limit</p>
 				<input id="timeToggle" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Limited" data-off="Unlimited">
 			</div>
-			<div class="col-md-2 attribute" id="timeLimit" style="visibility: hidden;">
+			<div class="col-md-3 attribute" id="timeLimit" style="visibility: hidden;">
 				<p class="attrTitle">Time to complete the game (in minutes)</p>
 				<input class="attrValue" type="text">
 			</div>
@@ -123,12 +140,6 @@
 
 				<footer>
 					<div>
-						<div class="col-md-9">
-							<div class="footerText">
-								<p class="footerTitle"><strong>Description:</strong></p>
-								<p class="footerDescription">Define the basic parameters of your game. Create POI (Points of Interest) clicking on the map, reorder and edit them as you wish and personalize the content of each one with funny challenges.</p>
-							</div>
-						</div>
 						<div class="col-md-3">
 							<a id="addBeacon">+ Add Beacon</a>
 							<a id="finishEdition" href="">Finish Edition</a>

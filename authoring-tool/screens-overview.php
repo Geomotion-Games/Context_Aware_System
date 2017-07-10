@@ -45,7 +45,25 @@
 		    </div>
 		  </div>
 		</nav>
+
+		<div class="container-fluid">
+			<div class="row">
+				<ol class="breadcrumb">
+					<li><a href="/beaconing"><span>Desktop</span></a></li>
+					<li><span>Select plot</span></li>
+					<!--TODO href depenent del joc...-->
+					<li><a href="/beaconing/follow-the-path.php"><span>Edit game</span></a></li>
+					<li class="active"><span>Edit POI</span></li>
+				</ol>
+			</div>
+		</div>
 	</header>
+
+	<div class="container-fluid wideDescription">
+		<div class="col-md-12 description">
+			<p class="descriptionText"><strong>Description: </strong>Preview the content of the screens that students will see on the app when arriving to a POI during the game. "Challenge description" screen shows a description of the POI and the challenge. "Challenge screen" shows the challenge that the student have to overcome when arriving at the POI. "Result screen" shows the result of the challenge: reward points, items collected, etc.</p>
+		</div>
+	</div>
 
 	<div class="container-fluid">
 		<div id="attributes" class="row">
@@ -108,12 +126,6 @@
 
 	<footer>
 		<div class="container">
-			<div class="col-md-8 ">
-				<div class="footerText">
-					<p class="footerTitle"><b>Description:</b></p>
-					<p class="footerDescription">Preview the content of the screens that students will see on the app when arriving to a POI during the game. "Challenge description" screen shows a description of the POI and the challenge. "Challenge screen" shows the challenge that the student have to overcome when arriving at the POI. "Result screen" shows the result of the challenge: reward points, items collected, etc. You can add as many screens you need to make the experience awesome!</p>
-				</div>
-			</div>
 			<div class="col-md-4">
 				<a id="qrcode" style="cursor:pointer;">Generate QR Code</a>
 				<a id="endEditing" href="index.php">Finish edition</a>
