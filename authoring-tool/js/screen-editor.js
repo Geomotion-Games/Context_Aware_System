@@ -186,7 +186,6 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
                                 <select>
                             </div>
                         </form>
-                        <a id="editMinigames" href="https://www.geomotiongames.com/">Minigames Editor</a>
                     </div>
                     <h4>Challenge</h4>
 

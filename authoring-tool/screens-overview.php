@@ -99,11 +99,11 @@
 				</div>
 				<div class="modal-body">
 					<div id="stop-editor-content">
-							<div class="col-md-6">
-							<!-- PREVIEW -->
-								<div id="stop-editor-preview">
+						<div class="col-md-6">
+						<!-- PREVIEW -->
+							<div id="stop-editor-preview">
 
-					            </div>
+				            </div>
 						</div>
 						<div class="col-md-6">
 							<form id="stop-editor-form">
@@ -127,7 +127,8 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="col-md-12">
-				<a id="endEditing" class="orangeBtn" href="index.php">Finish edition</a>	
+				<!-- FER EL LINK ON TOCA amb el ?id=XX -->
+				<a id="endEditing" class="orangeBtn" href="/follow-the-path.php">Finish edition</a>	
 				<a id="qrcode" class="blueBtn">Generate QR Code</a>
 			</div>
 		</div>
