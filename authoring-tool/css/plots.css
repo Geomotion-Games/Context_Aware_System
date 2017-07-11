@@ -8,8 +8,6 @@
 
 .gameType .image {
 	border: 1px solid #222;
-	padding: 10px;
-	height: 220px;
 }
 
 /* Zoom In #1 */
@@ -25,15 +23,8 @@
 	cursor: pointer;
 }
 
-.gameType:hover .zoomOnHover img {
-	-webkit-transform: scale(1.3);
-	transform: scale(1.3);
-	cursor: pointer;
-}
-
 .gameType {
 	text-align: center;
-	height: 280px;
 	/*margin-top: 30px;*/
 	position: relative;
 }

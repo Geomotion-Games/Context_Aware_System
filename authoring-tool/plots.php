@@ -39,11 +39,11 @@
 	<div class="container">
 		<div class="official-row">
 			<div class="row">
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<a href="follow-the-path.php?id=0">
 							<div class="zoomOnHover image">
-								<img src="images/follow-the-path.jpg">
+								<img src="images/asset-follow-the-path.jpg">
 							</div>
 							<div class="POIdescription">
 								<p>Linear geolocation game where students have to find specific Points of Interest (POI) in the real world. All points are shown in the map from the begining and the winner is the one who arrives first to the last POI.</p>
@@ -52,24 +52,24 @@
 					</div>
 					<h2>Follow the Path</h2>
 				</div>
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<!--a href=""-->
 							<div class="zoomOnHover image">
-								<img src="images/treasure-hunt.jpg" style="opacity: 0.6;">
+								<img src="images/asset-treasure-hunt.jpg" style="opacity: 0.6;">
 							</div>
 							<div class="POIdescription">
-								<p>Non-linear exploratory geolocation game where the goal is to find a hidden treasure in the real world. Individually or in groups, students will have to find clues with relevant information that has to be interpreted to find the final location of the treasure.</p>
+								<p style="font-size: 0.94em;">Non-linear exploratory geolocation game where the goal is to find a hidden treasure in the real world. Individually or in groups, students will have to find clues with relevant information that has to be interpreted to find the final location of the treasure.</p>
 							</div>
 						<!--/a-->
 					</div>
 					<h2>Treasure Hunt</h2>
 				</div>
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<!--a href=""-->
 							<div class="zoomOnHover image">
-								<img src="images/scout.jpg" style="opacity: 0.6;">
+								<img src="images/asset-capture-the-flag.jpg" style="opacity: 0.6;">
 							</div>
 							<div class="POIdescription">
 								<p>Non-linear geolocation game where students are teamed up in two different teams. Each team has a base where the flag is allocated. The goal of the game is to capture the enemy's’ flag and bring it to the base.</p>
@@ -78,11 +78,11 @@
 					</div>
 					<h2>Capture the flag</h2>
 				</div>
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<!--a href=""-->
 							<div class="zoomOnHover image">
-								<img src="images/rat-race.jpg" style="opacity: 0.6;">
+								<img src="images/asset-rat-race.jpg" style="opacity: 0.6;">
 							</div>
 							<div class="POIdescription">
 								<p>Linear competitive geolocation game where two or more teams of students have to participate on a race. The goal is to be the first to reach the finish line solving challenges on different POI (Points Of Interests).</p>
@@ -95,11 +95,11 @@
 		</div>
 		<div class="official-row">
 			<div class="row">
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<!--a href=""-->
 							<div class="zoomOnHover image">
-								<img src="images/conquest.jpg" style="opacity: 0.6;">
+								<img src="images/asset-conquest.jpg" style="opacity: 0.6;">
 							</div>
 							<div class="POIdescription">
 								<p>Non-linear geolocation game where students teamed up in different teams have to conquer the real world solving challenges. The first team to conquer a certain number of zones wins the challenge.</p>
@@ -108,11 +108,11 @@
 					</div>
 					<h2>Conquest</h2>
 				</div>
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<!--a href=""-->
 							<div class="zoomOnHover image">
-								<img src="images/jigsaw.jpg" style="opacity: 0.6;">
+								<img src="images/asset-jigsaw.jpg" style="opacity: 0.6;">
 							</div>
 							<div class="POIdescription">
 								<p style="font-size: 0.9em;">Linear geolocation game where the goal is to be the first team to arrive to a specific location overcoming challenges in different POI (Point Of Interest). Different teams start the race at different POI and every time a team solves the challenge of a POI a clue to the next one is shown.</p>
@@ -121,11 +121,11 @@
 					</div>
 					<h2>Jigsaw</h2>
 				</div>
-				<div class="col-md-3 gameType">
+				<div class="col-md-3 col-sm-6 gameType">
 					<div class="plot">
 						<!--a href=""-->
 							<div class="zoomOnHover image">
-								<img src="images/conquest.jpg" style="opacity: 0.6;">
+								<img src="images/asset-stratego.jpg" style="opacity: 0.6;">
 							</div>
 							<div class="POIdescription">
 								<p style="font-size:0.9em;">Adapted from the board game "Stratego". Non-linear strategy geolocation game where students teamed up in 2 teams. Each player has a role and each team has a base where the flag is allocated. The goal of the game is to capture the enemy's’ flag and bring it to the base.</p>
