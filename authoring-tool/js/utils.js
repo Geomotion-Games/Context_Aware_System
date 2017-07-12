@@ -16,20 +16,19 @@ function showLocation(position) {
     map.panTo(position);
 }
 
-function saveMinigame(game) {
+function savePlot(plot) {
+    plot = plot.toJSON();
 
-    var minigame = JSON.stringify(game.toJSON());
-    var id = game.id;
+    var request;
+    if(plot.id == null) request = $.ajax(`save.php?name=${plot.name}&description=${plot.description}&type=${plot.type}&time=${plot.time}&public=${plot.public}`);
+    else request = $.ajax(`save.php?id=${plot.id}&name=${plot.name}&description=${plot.description}&type=${plot.type}&time=${plot.time}&public=${plot.public}`);
 
-    console.log(minigame);
-    var request = $.ajax("save.php?id=" + id + "&minigame=" + minigame);
-    if(id == null) request = $.ajax("save.php?minigame=" + minigame);
-
+    console.log("Saving...");
     request.done(function(data) {
-        console.log("Saved! " + data);
+        console.log("Plot saved!");
     });
-    request.fail(function() {
-        console.log("Error saving...");
+    request.fail(function(error) {
+        //console.log("Error saving..." + JSON.stringify(error));
     })
 }
 

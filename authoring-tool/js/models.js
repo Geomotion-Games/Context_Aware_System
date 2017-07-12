@@ -97,7 +97,7 @@ function Game(params){
     defaultStops[999] = new Step({marker: 0, idNumber: 999});
 
     this.id = params.id || null;
-    this.type = params.type || null;
+    this.type = params.type || "FollowThePath";
     this.name = params.name || "Game name";
     this.description = params.description || "Game description";
     this.time = params.time || 0;
@@ -107,16 +107,12 @@ function Game(params){
 
 Game.prototype.toJSON = function() {
     var json = {
+        "id"            : this.id,
         "name"          : this.name,
         "type"          : this.type,
         "description"   : this.description,
         "time"          : this.time,
-        "public"        : this.public,
-        "stops"         : this.stops.filter(function(stop){
-                            return stop != null;
-                        }).map(function(stop){
-                            if(stop != null)return stop.toJSON();
-                        })
+        "public"        : this.public ? 1 : 0,
     };
 
     return json;

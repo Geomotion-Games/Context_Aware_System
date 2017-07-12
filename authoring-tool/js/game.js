@@ -47,11 +47,13 @@ function appendGame(parent, games, index){
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
             games[index].public = $(this).prop('checked');
+            savePlot(games[index]);
             showCommunityGames();
         }
     });
 
     $(".gamerow").on('click', function(e) {
+        e.preventDefault();
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
             var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
@@ -73,7 +75,8 @@ $("body").find("[aria-controls='community']").on('click', function(e) {
 });
 
 $("#newGame").on('click', function(e) {
-    saveMinigame(new Game({}));
+    e.preventDefault();
+    savePlot(new Game({}));
     window.location = "plots.php";
 });
 
@@ -82,7 +85,7 @@ function gameOnClick(parent, gameNumber, action){
         $(parent).remove();
         delete games[gameNumber];
     }else if(action == "edit"){
-        window.location = "follow-the-path.php?id=0";
+        window.location = "follow-the-path.php?id=" + games[gameNumber].id;
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);
