@@ -89,6 +89,7 @@ function gameOnClick(parent, gameNumber, action){
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);
+        savePlot(copy);
         showMyGames();
         showCommunityGames();
     }

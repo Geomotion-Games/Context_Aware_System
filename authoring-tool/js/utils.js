@@ -19,9 +19,11 @@ function showLocation(position) {
 function savePlot(plot) {
     plot = plot.toJSON();
 
-    var request;
-    if(plot.id == null) request = $.ajax(`save.php?name=${plot.name}&description=${plot.description}&type=${plot.type}&time=${plot.time}&public=${plot.public}`);
-    else request = $.ajax(`save.php?id=${plot.id}&name=${plot.name}&description=${plot.description}&type=${plot.type}&time=${plot.time}&public=${plot.public}`);
+    var request = $.ajax({
+        type: 'POST',
+        url: 'save.php',
+        data: plot
+    });
 
     console.log("Saving...");
     request.done(function(data) {
