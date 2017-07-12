@@ -97,6 +97,7 @@ function Game(params){
     defaultStops[999] = new Step({marker: 0, idNumber: 999});
 
     this.id = params.id || null;
+    this.type = params.type || null;
     this.name = params.name || "Game name";
     this.description = params.description || "Game description";
     this.time = params.time || 0;
@@ -107,14 +108,15 @@ function Game(params){
 Game.prototype.toJSON = function() {
     var json = {
         "name"          : this.name,
+        "type"          : this.type,
         "description"   : this.description,
         "time"          : this.time,
         "public"        : this.public,
         "stops"         : this.stops.filter(function(stop){
-            return stop != null;
-        }).map(function(stop){
-            if(stop != null)return stop.toJSON();
-        })
+                            return stop != null;
+                        }).map(function(stop){
+                            if(stop != null)return stop.toJSON();
+                        })
     };
 
     return json;
@@ -123,6 +125,7 @@ Game.prototype.toJSON = function() {
 Game.prototype.copy = function(){
    var copy = new Game({
        id: this.id,
+       type: this.type,
        name: "Copy of " + this.name,
        description: this.description,
        time: this.time,
@@ -133,7 +136,7 @@ Game.prototype.copy = function(){
     return copy;
 };
 
-//---
+//--- BACON
 
 function Beacon(params){
     this.name = params.name;

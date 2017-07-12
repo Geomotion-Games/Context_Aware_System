@@ -33,16 +33,14 @@ function saveMinigame(game) {
     })
 }
 
-function parseMinigameJSON(id, json){
-    var data = JSON.parse(json);
-
+function parsePlotJSON(data){
     return new Game({
-        id: id, 
+        id: data.id, 
+        type: data.type,
         name: data.name, 
         description: data.description, 
         time: data.time, 
-        public: data.public,
-        stops: parseStopsJSON(data.stops)
+        public: data.public==1 ? true : false
     });
 }
 

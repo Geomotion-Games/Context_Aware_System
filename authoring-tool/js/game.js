@@ -46,7 +46,6 @@ function appendGame(parent, games, index){
     $('.pubpriv-toggle').change(function() {
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
-            console.log("changed " + games[index].name);
             games[index].public = $(this).prop('checked');
             showCommunityGames();
         }
