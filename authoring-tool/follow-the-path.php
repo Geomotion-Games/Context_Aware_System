@@ -11,11 +11,16 @@
 
 	$id = $_REQUEST['id'];
 
-	$query = $bd->ejecutar("select * from minigames where id = " . $id);
-	$result = $bd->obtener_fila($query, 0);
-	//var_dump($result);
-	$minigameID = $result["id"];
-	$minigameResult = $result["minigame"];
+    $query = $bd->ejecutar("select * from plot WHERE id = " . $id);
+	$numRows = $bd->num_rows($query);
+
+ 	if ($query) {
+		$plot = $bd->obtener_fila($query, $i);
+    }else {
+      echo mysql_error();
+    }
+
+
 ?><html>
 <head>
 
@@ -76,19 +81,19 @@
 		<div id="attributes" class="row">
 			<div class="col-md-3 attribute">
 				<p class="attrTitle">Name of the Game</p>
-				<input class="attrValue" type="text">
+				<input id="gameName" class="attrValue" type="text">
 			</div>
 			<div class="col-md-4 attribute">
 				<p class="attrTitle">Description of the game (max. 100 characters)</p>
-				<input class="attrValue" type="text">
+				<input id="gameDescription" class="attrValue" type="text">
 			</div>
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Time limit</p>
-				<input id="timeToggle" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Limited" data-off="Unlimited">
+				<input id="timeToggle" class="pubpriv-toggle gameTimeActive" type="checkbox" data-toggle="toggle" data-on="Limited" data-off="Unlimited">
 			</div>
 			<div class="col-md-3 attribute" id="timeLimit" style="visibility: hidden;">
 				<p class="attrTitle">Time to complete the game (in minutes)</p>
-				<input class="attrValue" type="text">
+				<input id="gameTimeValue" class="attrValue" type="text">
 			</div>
 		</div>
 		<div class="row">
@@ -167,13 +172,21 @@
 				}
 		    })
 		})
-		
-		var result = <?= json_encode($minigameResult); ?>;
-		var id = <?= $minigameID ?>;
-		console.log(result);
+
 		var games = [];
-		games.push(parseMinigameJSON(id, result));
-		console.log(games);
+		var plot = <?= json_encode($plot); ?>;
+
+		games.push(parsePlotJSON(plot));
+
+		$("#gameName").val(games[0].name);
+		$("#gameDescription").val(games[0].description);
+		console.log(games[0].time)
+		if(games[0].time != 0){
+			$("#timeToggle").prop('checked', true);
+			$('#timeLimit').css("visibility", 'visible');
+			$('#gameTimeValue').val(games[0].time);
+		}
+		
 	</script>
 </body>
 </html>

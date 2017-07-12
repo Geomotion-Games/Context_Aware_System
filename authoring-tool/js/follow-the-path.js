@@ -194,7 +194,6 @@ function updateLabels() {
 					points[point].marker._tooltip.setContent(points[point].title);
 					$(this).find("span.name").text(points[point].title);
 				}else{
-					console.log("Updated for " + points[point].idNumber);
 					var name = "Stop " + points[point].idNumber;
 					if(points[point].marker) points[point].marker._tooltip.setContent(name);
 					$(this).find("span.name").text(name);
@@ -214,13 +213,11 @@ function sortPoints(){
 		newPointList.push(points[0]);
 		$("#stops").children().each(function (index) {
 			var number = $(this).attr("stop-number");
-			console.log("Index: " + index)
 			for (var stop in points) {
 				if (points[stop] && points[stop].idNumber == number) {
 					$(this).attr("stop-number", index + 1);
 					$(this).attr("id", "point" + (index + 1));
 					points[stop].idNumber = (index + 1);
-					console.log(points[stop].idNumber)
 					newPointList.push(points[stop]);
 					points.splice(stop, 1);
 					break;
@@ -229,11 +226,7 @@ function sortPoints(){
 
 		});
 		newPointList[999] = points[points.length - 1];
-		console.log(points);
-
 		points = newPointList;
-		console.log(points);
-
 		updatePath();
 	}
 }
