@@ -17,20 +17,38 @@ function showLocation(position) {
 }
 
 function savePlot(plot) {
-    plot = plot.toJSON();
+    var plotJSON = plot.toJSON();
 
     var request = $.ajax({
         type: 'POST',
-        url: 'save.php',
-        data: plot
+        url: 'savePlot.php',
+        data: plotJSON
     });
 
     console.log("Saving...");
     request.done(function(data) {
+        plot.id = data;
         console.log("Plot saved!");
     });
     request.fail(function(error) {
-        //console.log("Error saving..." + JSON.stringify(error));
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
+
+function removePlot(plot) {
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'removePlot.php',
+        data: {id:plot.id}
+    });
+
+    console.log("Removing...");
+    request.done(function(data) {
+        console.log("Plot removed!");
+    });
+    request.fail(function(error) {
+        console.log("Error removing..." + JSON.stringify(error));
     })
 }
 

@@ -1,5 +1,7 @@
 <?php
- 
+
+error_reporting( E_ALL ^ E_DEPRECATED );
+
 require 'class/db.class.php';
 require 'class/conf.class.php';
 
@@ -18,11 +20,11 @@ $public = $_REQUEST['public'];
 if($id == null){
 	$query = "INSERT INTO plot (name, description, time, type, public) VALUES ('$name','$description','$time','$type','$public')";
 	$res = $bd->ejecutar($query);
-	echo "CREATED " . mysql_insert_id();
+	echo mysql_insert_id();
 }else{
 	$query = "UPDATE plot SET name='$name', description='$description',time='$time',type='$type',public='$public' WHERE id=$id";
 	$res = $bd->ejecutar($query);
-	echo "UPDATED " . mysql_insert_id();
+	echo mysql_insert_id();
 }
 
 ?>

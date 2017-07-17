@@ -19,7 +19,6 @@ function showCommunityGames(){
 }
 
 function appendGame(parent, games, index){
-
     $(parent).append(`
        <li class="gamerow" data-index="${index}">
             <div class="row">
@@ -83,14 +82,20 @@ $("#newGame").on('click', function(e) {
 function gameOnClick(parent, gameNumber, action){
     if(action == "remove"){
         $(parent).remove();
-        delete games[gameNumber];
+        removePlot(games[gameNumber]);
+        games.splice(gameNumber, 1);
+        reorderPlots();
     }else if(action == "edit"){
         window.location = "follow-the-path.php?id=" + games[gameNumber].id;
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);
         savePlot(copy);
-        showMyGames();
-        showCommunityGames();
+        reorderPlots()
     }
+}
+
+function reorderPlots(){
+    showMyGames();
+    showCommunityGames();
 }
