@@ -5,35 +5,45 @@ var beacons = [];
 //--- STEP
 
 function Step(params) {
-    this.idNumber 	 = params.idNumber;
+    this.id 	 = params.id;
     this.type        = params.type || "normal"; // normal, beacon
+    this.lat         = params.lat || 0;
+    this.lng         = params.lng || 0;
+    this.orderNumber = params.orderNumber || 0;
+    this.beaconId    = params.beaconId,
+
     this.marker 	 = params.marker;
     this.title 	 	 = params.title;
     this.description = params.description;
     this.distance 	 = params.distance;
     this.reward 	 = params.reward;
     this.url 		 = params.url;
-    this.screens	 = params.screens || [
-        new Screen({type:"A", title: "The Robot", text: "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}),
-        new Screen({type:"B"}),
-        new Screen({type:"C", title: "The Robot", image: "images/poi2-image.png", text: "Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point"})
-    ];
+
+
+    // this.screens	 = params.screens || [
+    //     new Screen({type:"A", title: "The Robot", text: "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}),
+    //     new Screen({type:"B"}),
+    //     new Screen({type:"C", title: "The Robot", image: "images/poi2-image.png", text: "Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point"})
+    // ];
 }
 
 Step.prototype.toJSON = function() {
     var json = {
-        "idNumber" 	  : this.idNumber,
+        "id" 	      : this.id,
         "type"        : this.type,
+        "lat"         : this.marker ? this.marker.getLatLng().lat : 0,
+        "lng"         : this.marker ? this.marker.getLatLng().lng : 0,
+        "orderNumber" : this.orderNumber,
+        "beaconId"    : this.beaconId,
+
         "title" 	  : this.title,
         "description" : this.description,
-        "lat"		  : this.marker ? this.marker.getLatLng().lat : 0,
-        "lng" 		  : this.marker ? this.marker.getLatLng().lat : 0,
         "distance" 	  : this.distance,
         "reward" 	  : this.reward,
-        "url" 		  : this.url,
-        "screens"	  : this.screens.map(function(screen){
-            return screen.toJSON();
-        })
+        "url" 		  : this.url
+        // "screens"	  : this.screens.map(function(screen){
+        //     return screen.toJSON();
+        // })
     };
 
     return json;
@@ -41,15 +51,18 @@ Step.prototype.toJSON = function() {
 
 Step.prototype.copy = function() {
     var copy = new Step({
+        id: this.id,
         marker: this.marker,
-        idNumber: this.idNumber,
         type: this.type,
+        orderNumber: this.orderNumber,
+        beaconId: this.beaconId,
+
         title: this.title,
         description: this.description,
         distance: this.distance,
         reward: this.reward,
-        url: this.url,
-        screens: this.screens
+        url: this.url
+        //screens: this.screens
     });
 
     return copy;

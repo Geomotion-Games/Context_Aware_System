@@ -1,4 +1,6 @@
 <?php
+	error_reporting( E_ALL ^ E_DEPRECATED );
+
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
@@ -11,11 +13,23 @@
 
 	$id = $_REQUEST['id'];
 
-    $query = $bd->ejecutar("select * from plot WHERE id = " . $id);
+    $query = $bd->ejecutar("SELECT * FROM plot WHERE id = " . $id);
 	$numRows = $bd->num_rows($query);
 
  	if ($query) {
-		$plot = $bd->obtener_fila($query, $i);
+		$plot = $bd->obtener_fila($query, 0);
+    }else {
+      echo mysql_error();
+    }
+
+    $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id);
+	$numRows = $bd->num_rows($query);
+
+	$pois = array();
+ 	if ($query) {
+		while(($row =  mysql_fetch_assoc($query))) {
+		    $pois[] = $row;
+		}
     }else {
       echo mysql_error();
     }
@@ -157,8 +171,8 @@
 	</div>
 
 	<script src="js/lib/Control.Geocoder.js"></script>
-	<script src="js/utils.js"></script>
 	<script src="js/models.js"></script>
+	<script src="js/utils.js"></script>
 	<script src="js/follow-the-path.js"></script>
 	<script src="js/screen-editor.js"></script>
 
@@ -173,18 +187,22 @@
 		    })
 		})
 
-		var games = [];
 		var plot = <?= json_encode($plot); ?>;
+		var pois = <?= json_encode($pois); ?>;
 
-		games.push(parsePlotJSON(plot));
 
-		$("#gameName").val(games[0].name);
-		$("#gameDescription").val(games[0].description);
-		console.log(games[0].time)
-		if(games[0].time != 0){
+		var game = parsePlotJSON(plot);
+		var points = parsePOIS(pois);
+
+		console.log(points);
+
+		$("#gameName").val(game.name);
+		$("#gameDescription").val(game.description);
+
+		if(game.time != 0){
 			$("#timeToggle").prop('checked', true);
 			$('#timeLimit').css("visibility", 'visible');
-			$('#gameTimeValue').val(games[0].time);
+			$('#gameTimeValue').val(game.time);
 		}
 		
 	</script>

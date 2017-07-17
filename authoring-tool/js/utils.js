@@ -63,6 +63,21 @@ function parsePlotJSON(data){
     });
 }
 
+function parsePOIS(pois){
+    var ps = [];
+    pois.forEach(function(p){
+        ps.push(new Step({
+            id: p.id,
+            title: p.title,
+            orderNumber: p.orderNumber,
+            type: p.type,
+            marker: p.type == "normal" ? addMarker({lat: p.lat, lng: p.lng}) : null,
+            beaconId: p.beaconId
+        }));
+    });
+    return ps;
+}
+
 function parseStopsJSON(stopsJson){
     var stops = [];
     for(var s in stopsJson){
