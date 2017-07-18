@@ -196,14 +196,7 @@
 
 		console.log(points);
 
-		$("#gameName").val(game.name);
-		$("#gameDescription").val(game.description);
-
-		if(game.time != 0){
-			$("#timeToggle").prop('checked', true);
-			$('#timeLimit').css("visibility", 'visible');
-			$('#gameTimeValue').val(game.time);
-		}
+		init();
 		
 	</script>
 </body>

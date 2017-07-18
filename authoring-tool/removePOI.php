@@ -1,6 +1,6 @@
 <?php
  
-error_reporting( E_ALL ^ E_DEPRECATED );
+error_reporting(0);
 
 require 'class/db.class.php';
 require 'class/conf.class.php';

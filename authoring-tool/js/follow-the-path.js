@@ -16,6 +16,54 @@ $( function() {
 	// points[999] = new Step({marker: 0, idNumber: 999});
 });
 
+var editTimeout;
+function createEditTimeout(){
+	if(editTimeout != null) clearTimeout(editTimeout);
+	editTimeout = setTimeout(function(){
+		updateGameValues();
+		savePlot(game);
+		clearTimeout(editTimeout);
+		editTimeout = null;
+	}, 2000);
+}
+
+function updateGameValues(){
+	game.name = $("#gameName").val();
+	game.description = $("#gameDescription").val()
+	game.time = $("#timeToggle").prop('checked') ? $("#gameTimeValue").val() : 0;
+}
+
+function init(){
+	$("#gameName").val(game.name);
+	$("#gameDescription").val(game.description);
+
+	if(game.time != 0){
+		$("#timeToggle").prop('checked', true);
+		$('#timeLimit').css("visibility", 'visible');
+		$('#gameTimeValue').val(game.time);
+	}
+
+	$("#gameName").blur(onBlur);
+	$("#gameDescription").on("input", onInput);
+	$("#gameDescription").blur(onBlur);
+	$("#gameName").on("input", onInput);
+	$("#gameTimeValue").blur(onBlur);
+	$("#gameTimeValue").on("input", onInput);
+	$("#timeToggle").change(onBlur);
+
+	function onBlur(){
+		if(editTimeout != null) clearTimeout(editTimeout);
+		updateGameValues();
+		savePlot(game);
+	}
+
+	function onInput(){
+		if(editTimeout != null) clearTimeout(editTimeout);
+		createEditTimeout();
+	}
+
+}
+
 var normalMarkerIcon = new L.Icon({
 	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
 	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
