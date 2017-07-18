@@ -11,7 +11,7 @@
 
 	$bd = Db::getInstance();
 
-    $query = $bd->ejecutar("select * from plot ORDER BY id ASC");
+    $query = $bd->ejecutar("SELECT * FROM plot ORDER BY id ASC");
 	$numRows = $bd->num_rows($query);
 
 	$plots = array();

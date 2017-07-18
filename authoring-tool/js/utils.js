@@ -72,7 +72,7 @@ function savePOI(poi){
 
     console.log("Saving...");
     request.done(function(data) {
-        console.log("POI saved! " + data);
+        console.log("POI saved! ");
         poi.id = data;
     });
     request.fail(function(error) {
@@ -90,7 +90,7 @@ function removePOI(poi) {
 
     console.log("Removing...");
     request.done(function(data) {
-        console.log("POI removed!" + data);
+        console.log("POI removed!");
     });
     request.fail(function(error) {
         console.log("Error removing..." + JSON.stringify(error));

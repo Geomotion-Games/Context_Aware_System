@@ -22,7 +22,7 @@
       echo mysql_error();
     }
 
-    $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id);
+    $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id . " ORDER BY orderNumber ASC");
 	$numRows = $bd->num_rows($query);
 
 	$pois = array();

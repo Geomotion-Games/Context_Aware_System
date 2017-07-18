@@ -84,6 +84,7 @@ function loadStops(){
 	points.forEach(function(p){
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
 		showStop(p);
+		p.marker.step = p;
 	});
 	updatePath();
 }
@@ -102,6 +103,7 @@ function addMarker(latlng, draggable){
 		var target = event.target;
 		var position = target.getLatLng();
 		updatePath();
+		savePOI(marker.step);
 	});
 
 	marker.on('drag', function(event){
@@ -170,6 +172,7 @@ function showStop(stop){
 		$(".beacon-select-" + stop.orderNumber).on("change", function(e){
 			var id = $(this).val();
 			addBeaconMarker(id, stop, true);
+			savePOI(stop);
 		});
 	}
 
@@ -187,6 +190,7 @@ function addBeaconMarker(id, step, focus){
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
 	step.marker = marker;
+	step.beaconId = id;
 	if(focus){
 		map.panTo(coords);
 		map.setZoom(15);
@@ -241,6 +245,7 @@ function sortPoints(){
 					$(this).attr("id", "point" + (index + 1));
 					points[stop].orderNumber = (index + 1);
 					newPointList.push(points[stop]);
+					savePOI(points[stop]);
 					points.splice(stop, 1);
 					break;
 				}
