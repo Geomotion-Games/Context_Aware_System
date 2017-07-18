@@ -177,7 +177,7 @@ function loadStops(){
 	points.forEach(function(p){
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
 		showStop(p);
-		p.marker.step = p;
+		if(p.marker)p.marker.step = p;
 	});
 	updatePath();
 }
@@ -279,6 +279,7 @@ function addBeaconMarker(id, step, focus){
 			break;
 		}
 	}
+	if(beacon == null) return;
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
