@@ -1,8 +1,9 @@
 <?php
+
+	error_reporting(0);
+
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
-
-	error_reporting(E_ERROR | E_PARSE);
 
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
@@ -11,7 +12,7 @@
 
 	$id = $_REQUEST['id'];
 	
-	$query = $bd->ejecutar("select * from minigames where id = " . $id);
+	$query = $bd->ejecutar("select * from minigames where id = 0");
 	$result = $bd->obtener_fila($query, 0);
 	//var_dump($result);
 	$minigameID = $result["id"];
@@ -138,10 +139,6 @@
 	<script src="js/models.js"></script>
 	<script src="js/screen-editor.js"></script>
 	<script>
-		poisCreated = 2;
-		points[0]   = new Step({marker: 0, idNumber: 0});
-		points[999] = new Step({marker: 0, idNumber: 999});
-		showScreensOverview(0);
 
 		$(".preview-screen.clickable").on('click',function(e){
 	        var screen_index = $(this).attr("data-index");
@@ -159,6 +156,10 @@
 		var games = [];
 		games.push(parseMinigameJSON(id, result));
 		console.log(games);
+
+		var points = games[0].stops;
+		showScreensOverview(0);
+
 
 	</script>
 

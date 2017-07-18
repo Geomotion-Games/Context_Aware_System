@@ -1,28 +1,4 @@
-// START
-$("#start").on('click', 'li', function(e) {
-    var stopNumber = 0;
-    var action =  $(e.target).hasClass('fa-pencil') ? "edit" : "";
 
-    stopOnClick(this, stopNumber, action);
-});
-
-// FINISH
-$("#finish").on('click', 'li', function(e) {
-    var stopNumber = 999;
-    var action =  $(e.target).hasClass('fa-pencil') ? "edit" : "";
-
-    stopOnClick(this, stopNumber, action);
-});
-
-// STOPS
-$("#stops").on('click', 'li', function(e) {
-    var stopNumber = parseInt($(this).attr("stop-number"));
-    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
-    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
-    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
-
-    stopOnClick(this, stopNumber, action);
-});
 
 function showEditorScreen(screen, stopNumber){
     var stopId = "#stop-edit";
@@ -80,7 +56,7 @@ function showScreensOverview(stopNumber){
     var screens = [];
 
     for (var point in points){
-        if(points[point].idNumber == stopNumber){
+        if(points[point].id == stopNumber){
             screens = points[point].screens;
         }
     }
@@ -262,19 +238,7 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
     }
 }
 
-function stopOnClick(parent, stopNumber, action){
-    if(action == "remove"){
-        $(parent).remove();
-        map.removeLayer("point" + stopNumber);
-        map.removeLayer("pointText" + stopNumber);
-        removeStop(stopNumber);
-        return;
-    }else if(action == "edit"){
-        window.location = "screens-overview.php?id=0";
-    }else if(action == "duplicate"){
-        console.log("duplicate!");
-    }
-}
+
 
 $("#add_screen").on("click", function(e){
     var random = getRandomInt(0, 3);

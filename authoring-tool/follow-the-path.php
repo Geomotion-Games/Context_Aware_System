@@ -1,10 +1,9 @@
 <?php
-	error_reporting( E_ALL ^ E_DEPRECATED );
+
+	error_reporting(0);
 
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
-
-	error_reporting(E_ERROR | E_PARSE);
 
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');

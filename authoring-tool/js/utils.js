@@ -16,6 +16,19 @@ function showLocation(position) {
     map.panTo(position);
 }
 
+function parseMinigameJSON(id, json){
+    var data = JSON.parse(json);
+
+    return new Game({
+        id: id, 
+        name: data.name, 
+        description: data.description, 
+        time: data.time, 
+        public: data.public,
+        stops: parseStopsJSON(data.stops)
+    });
+}
+
 function savePlot(plot) {
     var plotJSON = plot.toJSON();
 
