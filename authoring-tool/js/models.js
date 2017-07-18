@@ -10,16 +10,16 @@ function Step(params) {
     this.lat         = params.lat || 0;
     this.lng         = params.lng || 0;
     this.orderNumber = params.orderNumber || 0;
-    this.beaconId    = params.beaconId,
+    this.beaconId    = params.beaconId || 0,
+    this.title       = params.title;
 
-    this.marker 	 = params.marker;
-    this.title 	 	 = params.title;
+
     this.description = params.description;
     this.distance 	 = params.distance;
     this.reward 	 = params.reward;
     this.url 		 = params.url;
 
-
+    this.marker      = params.marker;
     // this.screens	 = params.screens || [
     //     new Screen({type:"A", title: "The Robot", text: "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}),
     //     new Screen({type:"B"}),
@@ -35,8 +35,8 @@ Step.prototype.toJSON = function() {
         "lng"         : this.marker ? this.marker.getLatLng().lng : 0,
         "orderNumber" : this.orderNumber,
         "beaconId"    : this.beaconId,
-
         "title" 	  : this.title,
+
         "description" : this.description,
         "distance" 	  : this.distance,
         "reward" 	  : this.reward,
@@ -56,8 +56,8 @@ Step.prototype.copy = function() {
         type: this.type,
         orderNumber: this.orderNumber,
         beaconId: this.beaconId,
-
         title: this.title,
+
         description: this.description,
         distance: this.distance,
         reward: this.reward,

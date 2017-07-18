@@ -52,6 +52,51 @@ function removePlot(plot) {
     })
 }
 
+function savePOI(poi){
+    var poiJSON = poi.toJSON();
+    var data = {
+            plot: game.id,
+            id: poiJSON.id,
+            type: poiJSON.type,
+            lat: poiJSON.lat,
+            lng: poiJSON.lng,
+            orderNumber: poiJSON.orderNumber,
+            beaconId: poiJSON.beaconId,
+            title: poiJSON.title
+        }
+    var request = $.ajax({
+        type: 'POST',
+        url: 'savePOI.php',
+        data: data
+    });
+
+    console.log("Saving...");
+    request.done(function(data) {
+        console.log("POI saved! " + data);
+        poi.id = data;
+    });
+    request.fail(function(error) {
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
+
+function removePOI(poi) {
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'removePOI.php',
+        data: {id:poi.id}
+    });
+
+    console.log("Removing...");
+    request.done(function(data) {
+        console.log("POI removed!" + data);
+    });
+    request.fail(function(error) {
+        console.log("Error removing..." + JSON.stringify(error));
+    })
+}
+
 function parsePlotJSON(data){
     return new Game({
         id: data.id, 

@@ -118,6 +118,7 @@ function addStop(marker, type){
 
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
+	savePOI(step);
 	points[poisCreated] = step;
 	//TODO: save
 	showStop(step);
@@ -197,6 +198,7 @@ function removeStop(stopNumber) {
 	for(var point in points){
 		if (points[point] && points[point].orderNumber == stopNumber) {
 			if(points[point].marker)map.removeLayer(points[point].marker);
+			removePOI(points[point]);
 			delete points[point];
 		}
 	}
