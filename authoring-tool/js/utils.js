@@ -16,20 +16,10 @@ function showLocation(position) {
     map.panTo(position);
 }
 
-function parseMinigameJSON(id, json){
-    var data = JSON.parse(json);
-
-    return new Game({
-        id: id, 
-        name: data.name, 
-        description: data.description, 
-        time: data.time, 
-        public: data.public,
-        stops: parseStopsJSON(data.stops)
-    });
-}
 
 function savePlot(plot) {
+    $("#saving").text("Saving...");
+    $("#saving").show();
     var plotJSON = plot.toJSON();
 
     var request = $.ajax({
@@ -40,15 +30,19 @@ function savePlot(plot) {
 
     console.log("Saving...");
     request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("Saved");
+        saved = true;
         plot.id = data;
         console.log("Plot saved!");
     });
     request.fail(function(error) {
+        $("#saving").hide();
         console.log("Error saving..." + JSON.stringify(error));
     })
 }
 
 function removePlot(plot) {
+    createSavingTimeout();
 
     var request = $.ajax({
         type: 'POST',
@@ -58,14 +52,19 @@ function removePlot(plot) {
 
     console.log("Removing...");
     request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("Saved");
+        saved = true;
         console.log("Plot removed!");
     });
     request.fail(function(error) {
+        $("#saving").hide();
         console.log("Error removing..." + JSON.stringify(error));
     })
 }
 
 function savePOI(poi){
+    createSavingTimeout();
+
     var poiJSON = poi.toJSON();
     var data = {
             plot: game.id,
@@ -85,15 +84,19 @@ function savePOI(poi){
 
     console.log("Saving...");
     request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("Saved");
+        saved = true;
         console.log("POI saved! ");
         poi.id = data;
     });
     request.fail(function(error) {
+        $("#saving").hide();
         console.log("Error saving..." + JSON.stringify(error));
     })
 }
 
 function removePOI(poi) {
+    createSavingTimeout();
 
     var request = $.ajax({
         type: 'POST',
@@ -103,9 +106,12 @@ function removePOI(poi) {
 
     console.log("Removing...");
     request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("Saved");
+        saved = true;
         console.log("POI removed!");
     });
     request.fail(function(error) {
+        $("#saving").hide();
         console.log("Error removing..." + JSON.stringify(error));
     })
 }
@@ -171,4 +177,20 @@ function parseScreensJSON(screensJson){
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+var saved = false;
+var savingTimeout;
+function createSavingTimeout(){
+    saved = false;
+    $("#saving").text("Saving...");
+    $("#saving").show();
+    if(savingTimeout != null) clearTimeout(savingTimeout);
+    savingTimeout = setTimeout(function(){
+        if(saved){
+            $("#saving").text("Saved");
+        }
+        clearTimeout(savingTimeout);
+        savingTimeout = null;
+    }, 2000);
 }

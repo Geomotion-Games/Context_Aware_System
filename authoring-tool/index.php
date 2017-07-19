@@ -93,6 +93,7 @@
 		<div class="container-fluid">
 			<div class="col-md-12">
 				<a id="newGame" class="orangeBtn">+ New Game</a>
+				<div id="saving">Saving...</div>
 			</div>
 		</div>
 	</footer>

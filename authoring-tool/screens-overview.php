@@ -131,6 +131,7 @@
 				<!-- FER EL LINK ON TOCA amb el ?id=XX -->
 				<a id="endEditing" class="orangeBtn" href="../follow-the-path.php">Finish edition</a>	
 				<a id="qrcode" class="blueBtn">Generate QR Code</a>
+				<div id="saving">Saving...</div>
 			</div>
 		</div>
 	</footer>

@@ -162,6 +162,7 @@
 							<a id="finishEdition" href="" class="orangeBtn">Finish Edition</a>
 							<a id="manageBeacons" class="blueBtn">Manage Beacons</a>
 							<a id="addBeacon" class="blueBtn">+ Add Beacon</a>
+							<div id="saving">Saving...</div>
 						</div>
 					</div>
 				</footer>
