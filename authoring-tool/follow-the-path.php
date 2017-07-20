@@ -34,7 +34,8 @@
     }
 
 
-?><html>
+?>
+<html>
 <head>
 
 	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
@@ -174,7 +175,6 @@
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>
 	<script src="js/follow-the-path.js"></script>
-	<script src="js/screen-editor.js"></script>
 
 	<script>
 		$(function() {
@@ -194,7 +194,7 @@
 		var game = parsePlotJSON(plot);
 		var points = parsePOIS(pois);
 
-		console.log(points);
+		console.log(game);
 
 		init();
 		

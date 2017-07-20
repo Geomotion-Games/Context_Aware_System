@@ -1,4 +1,47 @@
+var editTimeout;
+function createEditTimeout(){
+    if(editTimeout != null) clearTimeout(editTimeout);
+    editTimeout = setTimeout(function(){
+        updateValues();
+        savePOI(poi);
+        clearTimeout(editTimeout);
+        editTimeout = null;
+    }, 2000);
+}
 
+function updateValues(){
+    poi.title = $("#poiName").val();
+    poi.triggerDistance = $("#poiTriggerDistance").val()
+    poi.rewardPoints = $("#poiReward").val()
+}
+
+function init(){
+    $("#poiName").val(poi.title);
+    $("#poiName").attr("placeholder", "Point " + poi.orderNumber);
+    $("#poiTriggerDistance").val(poi.triggerDistance);
+    $("#poiReward").val(poi.rewardPoints);
+    
+    //TODO: imagen item
+
+    $("#poiName").blur(onBlur);
+    $("#poiName").on("input", onInput);
+    $("#poiTriggerDistance").on("input", onInput);
+    $("#poiTriggerDistance").blur(onBlur);
+    $("#poiReward").blur(onBlur);
+    $("#poiReward").on("input", onInput);
+
+    function onBlur(){
+        if(editTimeout != null) clearTimeout(editTimeout);
+        updateValues();
+        savePOI(poi);
+    }
+
+    function onInput(){
+        if(editTimeout != null) clearTimeout(editTimeout);
+        createEditTimeout();
+    }
+
+}
 
 function showEditorScreen(screen, stopNumber){
     var stopId = "#stop-edit";
@@ -52,14 +95,10 @@ function showEditorScreen(screen, stopNumber){
     $(stopId).modal('show');
 }
 
-function showScreensOverview(stopNumber){
-    var screens = [];
+function showScreensOverview(){
+    var screens = poi.screens;
 
-    for (var point in points){
-        if(points[point].id == stopNumber){
-            screens = points[point].screens;
-        }
-    }
+    console.log(screens)
 
     $("#screens").empty();
 
@@ -237,8 +276,6 @@ function appendPreviewScreen(parent, screens, index, clickable, editor){
         }
     }
 }
-
-
 
 $("#add_screen").on("click", function(e){
     var random = getRandomInt(0, 3);

@@ -11,12 +11,16 @@
 	$bd = Db::getInstance();
 
 	$id = $_REQUEST['id'];
-	
-	$query = $bd->ejecutar("select * from minigames where id = 0");
-	$result = $bd->obtener_fila($query, 0);
-	//var_dump($result);
-	$minigameID = $result["id"];
-	$minigameResult = $result["minigame"];
+
+    $query = $bd->ejecutar("SELECT * FROM poi WHERE id = " . $id);
+	$numRows = $bd->num_rows($query);
+
+ 	if ($query) {
+		$poi = $bd->obtener_fila($query, 0);
+    }else {
+      echo mysql_error();
+    }
+
 ?>
 <html>
 <head>
@@ -70,19 +74,19 @@
 		<div id="attributes" class="row">
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Name of the POI</p>
-				<input class="attrValue" type="text">
+				<input id="poiName" class="attrValue" type="text">
 			</div>
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Reward Points</p>
-				<input class="attrValue" type="number">
+				<input id="poiReward" class="attrValue" type="number">
 			</div>
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Trigger distance (meters)</p>
-				<input class="attrValue" type="number">
+				<input id="poiTriggerDistance" class="attrValue" type="number">
 			</div>
 			<div class="col-md-6 attribute">
 				<p class="attrTitle">Collectable item</p>
-				<input class="attrValue" type="file" accept="image/*">
+				<input id="poiImage" class="attrValue" type="file" accept="image/*">
 			</div>
 		</div>
 
@@ -151,17 +155,11 @@
 	    	return false;
 	    });
 
-	    var result = <?= json_encode($minigameResult); ?>;
-		var id = <?= $minigameID ?>;
+	    var result = <?= json_encode($poi); ?>;
 		console.log(result);
-		var games = [];
-		games.push(parseMinigameJSON(id, result));
-		console.log(games);
-
-		var points = games[0].stops;
+		var poi = parsePOI(result);
 		showScreensOverview(0);
-
-
+		init();
 	</script>
 
 </body>

@@ -196,7 +196,7 @@ function addMarker(latlng, draggable){
 		var target = event.target;
 		var position = target.getLatLng();
 		updatePath();
-		savePOI(marker.step);
+		savePOI(marker.step, game);
 	});
 
 	marker.on('drag', function(event){
@@ -213,7 +213,7 @@ function addStop(marker, type){
 
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
-	savePOI(step);
+	savePOI(step, game);
 	points[poisCreated] = step;
 	//TODO: save
 	showStop(step);
@@ -265,7 +265,7 @@ function showStop(stop){
 		$(".beacon-select-" + stop.orderNumber).on("change", function(e){
 			var id = $(this).val();
 			addBeaconMarker(id, stop, true);
-			savePOI(stop);
+			savePOI(stop, game);
 		});
 	}
 
@@ -340,7 +340,7 @@ function sortPoints(){
 					$(this).attr("id", "point" + (index + 1));
 					points[stop].orderNumber = (index + 1);
 					newPointList.push(points[stop]);
-					savePOI(points[stop]);
+					savePOI(points[stop], game);
 					points.splice(stop, 1);
 					break;
 				}

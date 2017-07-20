@@ -130,7 +130,7 @@ footer {
 
 #saving{
 	display: none;
-	float: right;
+	float: left;
 	text-align: center;
 	color: #afb7bb;
 	width: auto;
