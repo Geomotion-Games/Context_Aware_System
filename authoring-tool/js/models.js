@@ -12,8 +12,8 @@ function Step(params) {
     this.orderNumber = params.orderNumber || 0;
     this.beaconId = params.beaconId || 0,
     this.title = params.title;
-    this.triggerDistance = params.triggerDistance;
-    this.rewardPoints = params.rewardPoints;
+    this.triggerDistance = params.triggerDistance || 20;
+    this.rewardPoints = params.rewardPoints || 10;
     this.item = params.item;
 
     this.marker      = params.marker;
@@ -66,8 +66,8 @@ Step.prototype.copy = function() {
 function Screen(params){
     this.id = params.id;
     this.type = params.type;
-    this.title = params.title;
-    this.text = params.text;
+    this.title = params.title || "";
+    this.text = params.text || "";
     this.image = params.image;
 }
 

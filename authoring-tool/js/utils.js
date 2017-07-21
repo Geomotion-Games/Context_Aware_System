@@ -29,7 +29,7 @@ function parseMinigameJSON(id, json){
     });
 }
 
-function savePlot(plot) {
+function savePlot(plot, callback) {
     createSavingTimeout();
 
     var plotJSON = plot.toJSON();
@@ -46,6 +46,7 @@ function savePlot(plot) {
         saved = true;
         plot.id = data.trim();
         console.log("Plot saved!");
+        if(callback) callback(plot.id);
     });
     request.fail(function(error) {
         $("#saving").hide();

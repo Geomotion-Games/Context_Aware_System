@@ -75,7 +75,7 @@ $("body").find("[aria-controls='community']").on('click', function(e) {
 
 $("#newGame").on('click', function(e) {
     e.preventDefault();
-    savePlot(new Game({}));
+    //savePlot(new Game({}));
     window.location = "plots.php";
 });
 
