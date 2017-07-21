@@ -21,6 +21,18 @@
       echo mysql_error();
     }
 
+    $query = $bd->ejecutar("SELECT * FROM screen WHERE poi = " . $id . " ORDER BY id ASC");
+	$numRows = $bd->num_rows($query);
+
+	$screens = array();
+ 	if ($query) {
+		while(($row =  mysql_fetch_assoc($query))) {
+		    $screens[] = $row;
+		}
+    }else {
+      echo mysql_error();
+    }
+
 ?>
 <html>
 <head>
@@ -155,10 +167,11 @@
 	    	return false;
 	    });
 
-	    var result = <?= json_encode($poi); ?>;
-		console.log(result);
-		var poi = parsePOI(result);
-		showScreensOverview(0);
+	    var resultPOI = <?= json_encode($poi); ?>;
+	    var resultScreens = <?= json_encode($screens); ?>;
+		var poi = parsePOI(resultPOI);
+		var screens = parseScreens(resultScreens);
+		showScreensOverview();
 		init();
 	</script>
 

@@ -173,18 +173,23 @@ function parseStopsJSON(stopsJson){
     return stops;
 }
 
-function parseScreensJSON(screensJson){
-    var screens = [];
-    for(var s in screensJson){
-        var data = screensJson[s];
-        screens.push(new Screen({
-            type: data.type,
-            title: data.title,
-            text: data.text,
-            image: data.image,
-        }));
+function parseScreens(screens){
+    var sc = [];
+    for(var s in screens){
+        sc.push(parseScreen(screens[s]));
     }
-    return screens;
+    return sc;
+}
+
+function parseScreen(screen){
+    var json = JSON.parse(screen.data);
+    return new Screen({
+        id: screen.id,
+        type: json.type,
+        title: json.title,
+        text: json.text,
+        image: json.image,
+    });
 }
 
 function getRandomInt(min, max) {

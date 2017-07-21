@@ -64,6 +64,7 @@ Step.prototype.copy = function() {
 //--- SCREEN
 
 function Screen(params){
+    this.id = params.id;
     this.type = params.type;
     this.title = params.title;
     this.text = params.text;
@@ -72,6 +73,7 @@ function Screen(params){
 
 Screen.prototype.toJSON = function() {
     var json = {
+        "id": this.id,
         "type"  : this.type,
         "title" : this.title,
         "text"  : this.text,
@@ -83,6 +85,7 @@ Screen.prototype.toJSON = function() {
 
 Screen.prototype.copy = function() {
     var copy = new Screen({
+        id: this.id,
         type: this.type,
         title: this.title,
         text: this.text,
