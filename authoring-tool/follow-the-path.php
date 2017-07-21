@@ -190,11 +190,8 @@
 		var plot = <?= json_encode($plot); ?>;
 		var pois = <?= json_encode($pois); ?>;
 
-
 		var game = parsePlotJSON(plot);
 		var points = parsePOIS(pois);
-
-		console.log(game);
 
 		init();
 		

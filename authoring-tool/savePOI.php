@@ -25,8 +25,18 @@ $item = $_REQUEST['item'];
 if($id == null){
 	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item')";
 	$res = $bd->ejecutar($query);
-	//if(!$res) die(mysql_error());
 	echo mysql_insert_id();
+	$newId = mysql_insert_id();
+	$screenTypes = array("A", "B", "C");
+	foreach ($screenTypes as $type) {
+		$data = "{\"type\":\"$type\"}";
+		$query = "INSERT INTO screen (poi, data) VALUES ('$newId','$data')";
+		$res = $bd->ejecutar($query);
+		// if(!$res) die(mysql_error());
+		// echo mysql_insert_id();
+	}
+	//if(!$res) die(mysql_error());
+
 }else{
 	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item' WHERE id=$id";
 	$res = $bd->ejecutar($query);

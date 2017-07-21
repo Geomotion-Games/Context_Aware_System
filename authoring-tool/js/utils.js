@@ -44,7 +44,7 @@ function savePlot(plot) {
     request.done(function(data) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
-        plot.id = data;
+        plot.id = data.trim();
         console.log("Plot saved!");
     });
     request.fail(function(error) {
@@ -91,8 +91,8 @@ function savePOI(poi, game){
     request.done(function(data) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
-        console.log("POI saved!");
-        poi.id = data;
+        console.log("POI saved!" + data);
+        poi.id = data.trim();
     });
     request.fail(function(error) {
         $("#saving").hide();
