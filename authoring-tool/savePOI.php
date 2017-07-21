@@ -27,15 +27,13 @@ if($id == null){
 	$res = $bd->ejecutar($query);
 	echo mysql_insert_id();
 	$newId = mysql_insert_id();
-	$screenTypes = array("A", "B", "C");
-	foreach ($screenTypes as $type) {
-		$data = "{\"type\":\"$type\"}";
+	$screensData = array('{"type":"A","title": "START","text": "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}','{"type":"B"}', "{\"type\":\"C\", \"title\": \"The Robot\", \"image\": \"poi2-image.png\", \"text\": \"Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let\'s do this! Check in now to show the clue to the next point\"}");
+	foreach ($screensData as $data) {
 		$query = "INSERT INTO screen (poi, data) VALUES ('$newId','$data')";
 		$res = $bd->ejecutar($query);
 		// if(!$res) die(mysql_error());
 		// echo mysql_insert_id();
 	}
-	//if(!$res) die(mysql_error());
 
 }else{
 	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item' WHERE id=$id";
