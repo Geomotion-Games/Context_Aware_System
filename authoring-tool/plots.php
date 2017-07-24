@@ -13,7 +13,7 @@
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.php">
+					<a class="navbar-brand" href="./">
 						<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 					</a>
 				</div>

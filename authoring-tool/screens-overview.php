@@ -60,7 +60,7 @@
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-				<a class="navbar-brand" href="index.php">
+				<a class="navbar-brand" href="./">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
 		    </div>
@@ -70,7 +70,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="../"><span>Desktop</span></a></li>
+					<li><a href="./"><span>Desktop</span></a></li>
 					<li><span>Select plot</span></li>
 					<!--TODO href depenent del joc...-->
 					<li><a class="endEditing" href="../follow-the-path.php"><span>Edit game</span></a></li>
