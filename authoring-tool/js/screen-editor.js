@@ -1,11 +1,23 @@
-var editTimeout;
-function createEditTimeout(){
-    if(editTimeout != null) clearTimeout(editTimeout);
-    editTimeout = setTimeout(function(){
+var editPOITimeout;
+function createEditPOITimeout(){
+    if(editPOITimeout != null) clearTimeout(editPOITimeout);
+    editPOITimeout = setTimeout(function(){
         updateValues();
         savePOI(poi);
-        clearTimeout(editTimeout);
-        editTimeout = null;
+        clearTimeout(editPOITimeout);
+        editPOITimeout = null;
+    }, 2000);
+}
+
+var editScreenTimeout;
+function createEditScreenTimeout(){
+    if(editScreenTimeout != null) clearTimeout(editScreenTimeout);
+    editScreenTimeout = setTimeout(function(){
+         if(currentScreen != -1){
+            saveScreen(screens[currentScreen], poi);
+        }
+        clearTimeout(editScreenTimeout);
+        editScreenTimeout = null;
     }, 2000);
 }
 
@@ -15,7 +27,10 @@ function updateValues(){
     poi.rewardPoints = $("#poiReward").val()
 }
 
+var currentScreen = -1;
+
 function init(){
+    // POI EDITION
     $("#poiName").val(poi.title);
     $("#poiName").attr("placeholder", "Point " + poi.orderNumber);
     $("#poiTriggerDistance").val(poi.triggerDistance);
@@ -23,12 +38,14 @@ function init(){
     
     //TODO: imagen item
 
-    $("#poiName").blur(onBlur);
-    $("#poiName").on("input", onInput);
-    $("#poiTriggerDistance").on("input", onInput);
-    $("#poiTriggerDistance").blur(onBlur);
-    $("#poiReward").blur(onBlur);
-    $("#poiReward").on("input", onInput);
+    $("#poiName").blur(onBlurPOI);
+    $("#poiName").on("input", onInputPOI);
+
+    $("#poiTriggerDistance").on("input", onInputPOI);
+    $("#poiTriggerDistance").blur(onBlurPOI);
+    
+    $("#poiReward").blur(onBlurPOI);
+    $("#poiReward").on("input", onInputPOI);
 
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
@@ -36,18 +53,21 @@ function init(){
 
     $(".endEditing").attr("href", "./follow-the-path.php?id=" + poi.plot);
 
-
-    function onBlur(){
-        if(editTimeout != null) clearTimeout(editTimeout);
+    function onBlurPOI(){
+        if(editPOITimeout != null) clearTimeout(editPOITimeout);
         updateValues();
         savePOI(poi);
     }
 
-    function onInput(){
-        if(editTimeout != null) clearTimeout(editTimeout);
-        createEditTimeout();
+    function onInputPOI(){
+        if(editPOITimeout != null) clearTimeout(editPOITimeout);
+        createEditPOITimeout();
     }
 
+
+    $('.stop-editor').on('hidden.bs.modal', function () {
+        currentScreen = -1;
+    });
 }
 
 function showEditorScreen(index){
@@ -58,20 +78,21 @@ function showEditorScreen(index){
 
     $("#stop-editor-preview").empty();
     appendPreviewScreen("#stop-editor-preview", screen, index, false, true);
+    currentScreen = index;
     appendEditor("#stop-editor-form", screen);
 
-    $("#title").on('input',function(e){
+    $("#screenTitle").on('input',function(e){
         var title = $(this).val();
         $("body").find("[data-index=" + index + "]").each(function(){
             $(this).find(".preview-title").text(title);
         });
         $(stopId + "  #preview-title").text(title);
         screen.title = title;
-        //$(this).closest('.modal-content').find('.modal-title').text( 'Editing Stop' + text + ":");
+        onInputScreen();
     });
 
     //DESCRIPTION
-    $("#txt").on('input',function(e){
+    $("#screenText").on('input',function(e){
         var text = $(this).val();
         $("body").find("[data-index=" + index + "]").each(function(){
             $(this).find(".preview-text").text(text);
@@ -79,10 +100,10 @@ function showEditorScreen(index){
 
         $(stopId + "  #preview-text").text(text);
         screen.text = text;
-        //points[stopNumber].description = $(this).val();
+        onInputScreen();
     });
 
-    $("#pwd").on('change',function(e){
+    $("#screenImage").on('change',function(e){
         console.log("image changed");
         $("body").find("[data-index=" + index + "]").each(function(){
             var imageHolder = $(this).find(".preview-img");
@@ -92,8 +113,25 @@ function showEditorScreen(index){
 
             screen.image = src;
         });
-
     });
+
+     // SCREEN EDITION
+
+    $("#screenTitle").blur(onBlurScreen);
+
+    $("#screenText").blur(onBlurScreen);
+
+    function onBlurScreen(){
+        if(editScreenTimeout != null) clearTimeout(editScreenTimeout);
+        if(currentScreen != -1){
+            saveScreen(screens[currentScreen], poi);
+        }
+    }
+
+    function onInputScreen(){
+        if(editScreenTimeout != null) clearTimeout(editScreenTimeout);
+        createEditScreenTimeout();
+    }
 
     $(stopId).modal('show');
 }
@@ -121,16 +159,16 @@ function appendEditor(parent, screen){
 
     $(parent).append(`
 	    <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="title" class="form-control" id="title" value="${title}">
+            <label for="screenTitle">Title:</label>
+            <input type="title" class="form-control" id="screenTitle" value="${title}">
         </div>
         <div class="form-group">
-            <label for="pwd">Image:</label>
-            <input class="form-control" id="pwd" type="file" accept="image/*" >
+            <label for="screenImage">Image:</label>
+            <input class="form-control" id="screenImage" type="file" accept="image/*" >
         </div>
         <div class="form-group">
-            <label for="txt">Text:</label>
-            <textarea rows="6" type="text" class="form-control" id="txt">${text}</textarea>
+            <label for="screenText">Text:</label>
+            <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
         </div>
     `);
 }

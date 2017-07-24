@@ -81,7 +81,7 @@ function savePOI(poi, game, callback){
     var poiJSON = poi.toJSON();
 
     if(game != null) poiJSON.plot = game.id;
-   
+
     var request = $.ajax({
         type: 'POST',
         url: 'savePOI.php',
@@ -95,6 +95,31 @@ function savePOI(poi, game, callback){
         console.log("POI saved!" + data);
         poi.id = data.trim();
         if(callback) callback(poi.id);
+    });
+    request.fail(function(error) {
+        $("#saving").hide();
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
+
+function saveScreen(screen, poi){
+    createSavingTimeout();
+
+    var screenJSON = screen.toJSON();
+
+    if(poi != null) screenJSON.poi = poi.id;
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'saveScreen.php',
+        data: screenJSON
+    });
+
+    console.log("Saving...");
+    request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        saved = true;
+        console.log("Screen saved!" + data);
     });
     request.fail(function(error) {
         $("#saving").hide();
@@ -124,6 +149,7 @@ function removePOI(poi) {
 }
 
 function parsePlotJSON(data){
+    console.log(data);
     return new Game({
         id: data.id, 
         type: data.type,
