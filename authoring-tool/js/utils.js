@@ -149,7 +149,6 @@ function removePOI(poi) {
 }
 
 function parsePlotJSON(data){
-    console.log(data);
     return new Game({
         id: data.id, 
         type: data.type,

@@ -26,6 +26,7 @@ if($id == null){
 	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item')";
 	$res = $bd->ejecutar($query);
 	echo mysql_insert_id();
+	echo mysql_error();
 	createDefaultScreens(mysql_insert_id(), $bd);
 }else{
 	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item' WHERE id=$id";

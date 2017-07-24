@@ -5,7 +5,7 @@ var beacons = [];
 //--- STEP
 
 function Step(params) {
-    this.id = parseInt(params.id);
+    this.id = params.id ? parseInt(params.id) : null;
     this.plot = params.plot;
     this.type = params.type || "normal"; // normal, beacon
     this.lat = params.lat || 0;
