@@ -6,6 +6,7 @@ var beacons = [];
 
 function Step(params) {
     this.id = params.id;
+    this.plot = params.plot;
     this.type = params.type || "normal"; // normal, beacon
     this.lat = params.lat || 0;
     this.lng = params.lng || 0;
@@ -44,6 +45,7 @@ Step.prototype.toJSON = function() {
 Step.prototype.copy = function() {
     var copy = new Step({
         id: this.id,
+        plot: this.plot,
         type: this.type,
         orderNumber: this.orderNumber,
         beaconId: this.beaconId,

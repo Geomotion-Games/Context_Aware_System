@@ -73,7 +73,7 @@
 					<li><a href="/beaconing"><span>Desktop</span></a></li>
 					<li><span>Select plot</span></li>
 					<!--TODO href depenent del joc...-->
-					<li><a href="/beaconing/follow-the-path.php"><span>Edit game</span></a></li>
+					<li><a class="endEditing" href="/beaconing/follow-the-path.php"><span>Edit game</span></a></li>
 					<li class="active"><span>Edit POI</span></li>
 				</ol>
 			</div>
@@ -149,7 +149,7 @@
 		<div class="container-fluid">
 			<div class="col-md-12">
 				<!-- FER EL LINK ON TOCA amb el ?id=XX -->
-				<a id="endEditing" class="orangeBtn" href="../follow-the-path.php">Finish edition</a>	
+				<a class="endEditing" class="orangeBtn" href="../follow-the-path.php">Finish edition</a>	
 				<a id="qrcode" class="blueBtn">Generate QR Code</a>
 				<div id="saving">Saving...</div>
 			</div>

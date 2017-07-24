@@ -144,6 +144,7 @@ function parsePOIS(pois){
 function parsePOI(p){
     return new Step({
         id: p.id,
+        plot: parseInt(p.plot),
         title: p.title,
         orderNumber: p.orderNumber,
         type: p.type,
