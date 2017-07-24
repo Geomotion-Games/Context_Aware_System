@@ -75,7 +75,7 @@ function removePlot(plot) {
     })
 }
 
-function savePOI(poi, game){
+function savePOI(poi, game, callback){
     createSavingTimeout();
 
     var poiJSON = poi.toJSON();
@@ -94,6 +94,7 @@ function savePOI(poi, game){
         saved = true;
         console.log("POI saved!" + data);
         poi.id = data.trim();
+        if(callback) callback(poi.id);
     });
     request.fail(function(error) {
         $("#saving").hide();

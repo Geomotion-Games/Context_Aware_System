@@ -50,12 +50,7 @@ function stopOnClick(parent, stopNumber, action){
         removeStop(stopNumber);
         return;
     }else if(action == "edit"){
-    	for(var point in points){
-			if (points[point] && points[point].orderNumber == stopNumber) {
-				window.location = "screens-overview.php?id=" + points[point].id;
-				return;
-			}
-		}
+    	
     }else if(action == "duplicate"){
         console.log("duplicate!");
     }
@@ -210,14 +205,20 @@ function addMarker(latlng, draggable){
 }
 
 function addStop(marker, type){
-
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
-	savePOI(step, game);
-	points[poisCreated] = step;
-	//TODO: save
 	showStop(step);
+	points[poisCreated] = step;
 	updatePath();
+
+	savePOI(step, game, function(id){
+		$("#stops").children().each(function() {
+			var number = $(this).attr("stop-number");
+			if(number == poisCreated){
+				$(this).find(".editPOI").attr("href","screens-overview.php?id=" + id);
+			}
+		});
+	});
 }
 
 function showStop(stop){
@@ -233,7 +234,7 @@ function showStop(stop){
 						<div class=poiActions>
 							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a class="editPOI" href="${ stop.id ? "screens-overview.php?id=" + stop.id : "#"}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -255,7 +256,7 @@ function showStop(stop){
 						<div class=poiActions>
 							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a class ="editPOI" href="${ stop.id ? "screens-overview.php?id=" + stop.id : "#"}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 						</div>
 					</div>
 				</div>
