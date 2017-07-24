@@ -30,6 +30,11 @@ function init(){
     $("#poiReward").blur(onBlur);
     $("#poiReward").on("input", onInput);
 
+    if(poi.type == "beacon"){
+        $("#triggerContainer").addClass("hidden");
+    }
+
+
     function onBlur(){
         if(editTimeout != null) clearTimeout(editTimeout);
         updateValues();
