@@ -34,7 +34,7 @@ function init(){
         $("#triggerContainer").addClass("hidden");
     }
 
-    $(".endEditing").attr("href", "../follow-the-path.php?id=" + poi.plot);
+    $(".endEditing").attr("href", "./follow-the-path.php?id=" + poi.plot);
 
 
     function onBlur(){

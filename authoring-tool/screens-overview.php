@@ -70,10 +70,10 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="/beaconing"><span>Desktop</span></a></li>
+					<li><a href="../"><span>Desktop</span></a></li>
 					<li><span>Select plot</span></li>
 					<!--TODO href depenent del joc...-->
-					<li><a class="endEditing" href="/beaconing/follow-the-path.php"><span>Edit game</span></a></li>
+					<li><a class="endEditing" href="../follow-the-path.php"><span>Edit game</span></a></li>
 					<li class="active"><span>Edit POI</span></li>
 				</ol>
 			</div>

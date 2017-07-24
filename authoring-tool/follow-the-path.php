@@ -68,7 +68,7 @@
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-				<a class="navbar-brand" href="index.php">
+				<a class="navbar-brand" href="./">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
 		    </div>
@@ -78,7 +78,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="/beaconing"><span>Desktop</span></a></li>
+					<li><a href="./"><span>Desktop</span></a></li>
 					<li><span>Select plot</span></li>
 					<!--TOTO href depenent del joc...-->
 					<li class="active"><span>Edit game</span></li>
@@ -162,7 +162,7 @@
 				<footer class="navbar-fixed-bottom">
 					<div class="container-fluid">
 						<div class="col-md-12">
-							<a id="finishEdition" href="/beaconing" class="orangeBtn">Finish Edition</a>
+							<a id="finishEdition" href="./" class="orangeBtn">Finish Edition</a>
 							<a id="manageBeacons" class="blueBtn">Manage Beacons</a>
 							<a id="addBeacon" class="blueBtn">+ Add Beacon</a>
 							<div id="saving">Saving...</div>
