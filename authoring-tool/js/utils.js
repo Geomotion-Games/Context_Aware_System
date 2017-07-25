@@ -16,10 +16,22 @@ function showLocation(position) {
     map.panTo(position);
 }
 
+function parseMinigameJSON(id, json){
+    var data = JSON.parse(json);
 
-function savePlot(plot) {
-    $("#saving").text("Saving...");
-    $("#saving").show();
+    return new Game({
+        id: id, 
+        name: data.name, 
+        description: data.description, 
+        time: data.time, 
+        public: data.public,
+        stops: parseStopsJSON(data.stops)
+    });
+}
+
+function savePlot(plot, callback) {
+    createSavingTimeout();
+
     var plotJSON = plot.toJSON();
 
     var request = $.ajax({
@@ -30,10 +42,11 @@ function savePlot(plot) {
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("Saved");
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
-        plot.id = data;
+        plot.id = data.trim();
         console.log("Plot saved!");
+        if(callback) callback(plot.id);
     });
     request.fail(function(error) {
         $("#saving").hide();
@@ -52,7 +65,7 @@ function removePlot(plot) {
 
     console.log("Removing...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("Saved");
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
         console.log("Plot removed!");
     });
@@ -62,32 +75,51 @@ function removePlot(plot) {
     })
 }
 
-function savePOI(poi){
+function savePOI(poi, game, callback){
     createSavingTimeout();
 
     var poiJSON = poi.toJSON();
-    var data = {
-            plot: game.id,
-            id: poiJSON.id,
-            type: poiJSON.type,
-            lat: poiJSON.lat,
-            lng: poiJSON.lng,
-            orderNumber: poiJSON.orderNumber,
-            beaconId: poiJSON.beaconId,
-            title: poiJSON.title
-        }
+
+    if(game != null) poiJSON.plot = game.id;
+
     var request = $.ajax({
         type: 'POST',
         url: 'savePOI.php',
-        data: data
+        data: poiJSON
     });
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("Saved");
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
-        console.log("POI saved! ");
-        poi.id = data;
+        console.log("POI saved!" + data);
+        poi.id = data.trim();
+        if(callback) callback(poi.id);
+    });
+    request.fail(function(error) {
+        $("#saving").hide();
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
+
+function saveScreen(screen, poi){
+    createSavingTimeout();
+
+    var screenJSON = screen.toJSON();
+
+    if(poi != null) screenJSON.poi = poi.id;
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'saveScreen.php',
+        data: screenJSON
+    });
+
+    console.log("Saving...");
+    request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        saved = true;
+        console.log("Screen saved!" + data);
     });
     request.fail(function(error) {
         $("#saving").hide();
@@ -106,7 +138,7 @@ function removePOI(poi) {
 
     console.log("Removing...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("Saved");
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
         console.log("POI removed!");
     });
@@ -123,23 +155,31 @@ function parsePlotJSON(data){
         name: data.name, 
         description: data.description, 
         time: data.time, 
-        public: data.public==1 ? true : false
+        public: data.public == 1 ? true : false
     });
 }
 
 function parsePOIS(pois){
     var ps = [];
     pois.forEach(function(p){
-        ps.push(new Step({
-            id: p.id,
-            title: p.title,
-            orderNumber: p.orderNumber,
-            type: p.type,
-            marker: p.type == "normal" ? addMarker({lat: p.lat, lng: p.lng}) : null,
-            beaconId: p.beaconId
-        }));
+        ps.push(parsePOI(p));
     });
     return ps;
+}
+
+function parsePOI(p){
+    return new Step({
+        id: p.id,
+        plot: parseInt(p.plot),
+        title: p.title,
+        orderNumber: p.orderNumber,
+        type: p.type,
+        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}) : null,
+        beaconId: p.beaconId,
+        triggerDistance: p.triggerDistance,
+        rewardPoints: p.rewardPoints,
+        item: p.item
+    });
 }
 
 function parseStopsJSON(stopsJson){
@@ -161,18 +201,23 @@ function parseStopsJSON(stopsJson){
     return stops;
 }
 
-function parseScreensJSON(screensJson){
-    var screens = [];
-    for(var s in screensJson){
-        var data = screensJson[s];
-        screens.push(new Screen({
-            type: data.type,
-            title: data.title,
-            text: data.text,
-            image: data.image,
-        }));
+function parseScreens(screens){
+    var sc = [];
+    for(var s in screens){
+        sc.push(parseScreen(screens[s]));
     }
-    return screens;
+    return sc;
+}
+
+function parseScreen(screen){
+    var json = JSON.parse(screen.data);
+    return new Screen({
+        id: screen.id,
+        type: json.type,
+        title: json.title,
+        text: json.text,
+        image: json.image,
+    });
 }
 
 function getRandomInt(min, max) {
@@ -188,7 +233,7 @@ function createSavingTimeout(){
     if(savingTimeout != null) clearTimeout(savingTimeout);
     savingTimeout = setTimeout(function(){
         if(saved){
-            $("#saving").text("Saved");
+            $("#saving").text("All changes have been saved");
         }
         clearTimeout(savingTimeout);
         savingTimeout = null;

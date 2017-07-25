@@ -2,6 +2,10 @@
 
 	error_reporting(0);
 
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");
+
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
@@ -11,12 +15,28 @@
 	$bd = Db::getInstance();
 
 	$id = $_REQUEST['id'];
-	
-	$query = $bd->ejecutar("select * from minigames where id = 0");
-	$result = $bd->obtener_fila($query, 0);
-	//var_dump($result);
-	$minigameID = $result["id"];
-	$minigameResult = $result["minigame"];
+
+    $query = $bd->ejecutar("SELECT * FROM poi WHERE id = " . $id);
+	$numRows = $bd->num_rows($query);
+
+ 	if ($query) {
+		$poi = $bd->obtener_fila($query, 0);
+    }else {
+      echo mysql_error();
+    }
+
+    $query = $bd->ejecutar("SELECT * FROM screen WHERE poi = " . $id . " ORDER BY id ASC");
+	$numRows = $bd->num_rows($query);
+
+	$screens = array();
+ 	if ($query) {
+		while(($row =  mysql_fetch_assoc($query))) {
+		    $screens[] = $row;
+		}
+    }else {
+      echo mysql_error();
+    }
+
 ?>
 <html>
 <head>
@@ -40,7 +60,7 @@
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
 		    <div class="navbar-header">
-				<a class="navbar-brand" href="index.php">
+				<a class="navbar-brand" href="./">
 					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 				</a>
 		    </div>
@@ -50,10 +70,10 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="/beaconing"><span>Desktop</span></a></li>
+					<li><a href="./"><span>Desktop</span></a></li>
 					<li><span>Select plot</span></li>
 					<!--TODO href depenent del joc...-->
-					<li><a href="/beaconing/follow-the-path.php"><span>Edit game</span></a></li>
+					<li><a class="endEditing" href="../follow-the-path.php"><span>Edit game</span></a></li>
 					<li class="active"><span>Edit POI</span></li>
 				</ol>
 			</div>
@@ -70,19 +90,19 @@
 		<div id="attributes" class="row">
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Name of the POI</p>
-				<input class="attrValue" type="text">
+				<input id="poiName" class="attrValue" type="text">
 			</div>
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Reward Points</p>
-				<input class="attrValue" type="number">
+				<input id="poiReward" class="attrValue" type="number">
 			</div>
-			<div class="col-md-2 attribute">
+			<div id ="triggerContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Trigger distance (meters)</p>
-				<input class="attrValue" type="number">
+				<input id="poiTriggerDistance" class="attrValue" type="number">
 			</div>
 			<div class="col-md-6 attribute">
 				<p class="attrTitle">Collectable item</p>
-				<input class="attrValue" type="file" accept="image/*">
+				<input id="poiImage" class="attrValue" type="file" accept="image/*">
 			</div>
 		</div>
 
@@ -129,7 +149,7 @@
 		<div class="container-fluid">
 			<div class="col-md-12">
 				<!-- FER EL LINK ON TOCA amb el ?id=XX -->
-				<a id="endEditing" class="orangeBtn" href="../follow-the-path.php">Finish edition</a>	
+				<a class="endEditing" class="orangeBtn" href="../follow-the-path.php">Finish edition</a>	
 				<a id="qrcode" class="blueBtn">Generate QR Code</a>
 				<div id="saving">Saving...</div>
 			</div>
@@ -151,17 +171,13 @@
 	    	return false;
 	    });
 
-	    var result = <?= json_encode($minigameResult); ?>;
-		var id = <?= $minigameID ?>;
-		console.log(result);
-		var games = [];
-		games.push(parseMinigameJSON(id, result));
-		console.log(games);
-
-		var points = games[0].stops;
-		showScreensOverview(0);
-
-
+	    var resultPOI = <?= json_encode($poi); ?>;
+	    var resultScreens = <?= json_encode($screens); ?>;
+		var poi = parsePOI(resultPOI);
+		var screens = parseScreens(resultScreens);
+		
+		showScreensOverview();
+		init();
 	</script>
 
 </body>

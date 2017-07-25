@@ -1,5 +1,9 @@
 <?php
 	error_reporting(0);
+
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+	header("Pragma: no-cache");
 	
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
@@ -46,7 +50,7 @@
 		<nav class="navbar navbar-default">
 			<div class="container-fluid">
 				<div class="navbar-header">
-					<a class="navbar-brand" href="index.php">
+					<a class="navbar-brand" href="./">
 						<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
 					</a>
 				</div>

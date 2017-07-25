@@ -5,45 +5,33 @@ var beacons = [];
 //--- STEP
 
 function Step(params) {
-    this.id 	 = params.id;
-    this.type        = params.type || "normal"; // normal, beacon
-    this.lat         = params.lat || 0;
-    this.lng         = params.lng || 0;
+    this.id = params.id ? parseInt(params.id) : null;
+    this.plot = params.plot;
+    this.type = params.type || "normal"; // normal, beacon
+    this.lat = params.lat || 0;
+    this.lng = params.lng || 0;
     this.orderNumber = params.orderNumber || 0;
-    this.beaconId    = params.beaconId || 0,
-    this.title       = params.title;
+    this.beaconId = params.beaconId || 0,
+    this.title = params.title;
+    this.triggerDistance = params.triggerDistance || 20;
+    this.rewardPoints = params.rewardPoints || 10;
+    this.item = params.item;
 
-
-    this.description = params.description;
-    this.distance 	 = params.distance;
-    this.reward 	 = params.reward;
-    this.url 		 = params.url;
-
-    this.marker      = params.marker;
-    // this.screens	 = params.screens || [
-    //     new Screen({type:"A", title: "The Robot", text: "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}),
-    //     new Screen({type:"B"}),
-    //     new Screen({type:"C", title: "The Robot", image: "images/poi2-image.png", text: "Yes! you did it! The second sensor is in your hands. The Infrared Sensor is a digital sensor that can detect infrared light reflected from solid objects. It can also detect infrared light signals sent from the Remote Infrared Beacon. Only 1 sensor left. Let's do this! Check in now to show the clue to the next point"})
-    // ];
+    this.marker = params.marker;
 }
 
 Step.prototype.toJSON = function() {
     var json = {
-        "id" 	      : this.id,
-        "type"        : this.type,
-        "lat"         : this.marker ? this.marker.getLatLng().lat : 0,
-        "lng"         : this.marker ? this.marker.getLatLng().lng : 0,
-        "orderNumber" : this.orderNumber,
-        "beaconId"    : this.beaconId,
-        "title" 	  : this.title,
-
-        "description" : this.description,
-        "distance" 	  : this.distance,
-        "reward" 	  : this.reward,
-        "url" 		  : this.url
-        // "screens"	  : this.screens.map(function(screen){
-        //     return screen.toJSON();
-        // })
+        "id": this.id,
+        "type": this.type,
+        "lat": this.marker ? this.marker.getLatLng().lat : 0,
+        "lng": this.marker ? this.marker.getLatLng().lng : 0,
+        "orderNumber": this.orderNumber,
+        "beaconId": this.beaconId,
+        "title": this.title,
+        "triggerDistance": this.triggerDistance,
+        "rewardPoints": this.rewardPoints,
+        "item": this.item
     };
 
     return json;
@@ -52,17 +40,16 @@ Step.prototype.toJSON = function() {
 Step.prototype.copy = function() {
     var copy = new Step({
         id: this.id,
-        marker: this.marker,
+        plot: this.plot,
         type: this.type,
         orderNumber: this.orderNumber,
         beaconId: this.beaconId,
         title: this.title,
+        triggerDistance: this.triggerDistance,
+        rewardPoints: this.rewardPoints,
+        item: this.item,
 
-        description: this.description,
-        distance: this.distance,
-        reward: this.reward,
-        url: this.url
-        //screens: this.screens
+        marker: this.marker
     });
 
     return copy;
@@ -74,18 +61,22 @@ Step.prototype.copy = function() {
 //--- SCREEN
 
 function Screen(params){
+    this.id = parseInt(params.id);
     this.type = params.type;
-    this.title = params.title;
-    this.text = params.text;
+    this.title = params.title || "";
+    this.text = params.text || "";
     this.image = params.image;
 }
 
 Screen.prototype.toJSON = function() {
     var json = {
-        "type"  : this.type,
-        "title" : this.title,
-        "text"  : this.text,
-        "image" : this.image
+        "id": this.id,
+        "data": JSON.stringify({
+            "type": this.type,
+            "title" : this.title,
+            "text"  : this.text,
+            "image" : this.image
+        })
     };
 
     return json;
@@ -93,6 +84,7 @@ Screen.prototype.toJSON = function() {
 
 Screen.prototype.copy = function() {
     var copy = new Screen({
+        id: this.id,
         type: this.type,
         title: this.title,
         text: this.text,
