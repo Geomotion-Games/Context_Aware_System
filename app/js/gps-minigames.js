@@ -8,7 +8,7 @@ var mapLoaded = false;
 var dataLoaded = false;
 var game = {};
 var markers = [];
-var server_url = "https://www.geomotiongames.com/beaconing/demo/images/";
+var server_url = "https://www.geomotiongames.com/beaconing/app/images/";
 var path = null;
 var startingTime;
 var lastPOITime;
@@ -18,7 +18,7 @@ var lastPosition;
 
 function gameReady() {
 
-	game = demo_info;
+	game = demo_info["POIS"];
 	var pointList = [];
 
 	for (step in game) {
@@ -35,78 +35,151 @@ function gameReady() {
 		}*/
 
 		var image = "";
+		var clue = "";
 
-		if (game[step].image != "") {
-			image = "<img src=" + server_url + game[step].image + ">";
+
+		/****** A ******/
+		
+		if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
+			image = "<img src=" + server_url + game[step]["A"].image + ">";
 		}
 
 		var textButton = "Check in";
-		if (step == 0) { textButton = "Go out and play!" }
+		if (step == 0) { textButton = "Go out and play!"; }
 
-		var checkinButton = `<a id="toClue` + game[step].idNumber + `" href="#" class="goButton" >` + textButton + `</a>`;
+		var checkinButton = `<a id="toClue` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 		if (step == 999) { checkinButton = ""; }
 
+		if (game[step]["A"].hasOwnProperty("clue") && game[step]["A"].clue != "") {
+			clue = "<p>" + game[step]["A"].clue + "</p>";
+		} else {
+			clue = "";
+		}
+
 		var POIBefore = `
-			<a href="#modal` + game[step].idNumber + `" id="openModal` + game[step].idNumber + `" style="display: none;">Open Modal</a>
-			<div id="modal` + game[step].idNumber + `" class="modalDialog">
+			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
+			<div id="modal` + step + `" class="modalDialog">
 				<div>
-					<h2>` + game[step].title + `</h2>` + image + `<p>` + game[step].description + `</p>` +
-					checkinButton
+					<h2>` + game[step]["A"].title + `</h2>
+					` + image + `
+					<p>` + game[step]["A"].text + `</p>
+					` + clue + `
+					` + checkinButton
 				+ `</div>
 			</div>
 		`;
 
-		if (game[step].image != "") {
-			image = "<img src=" + server_url + game[step].image + ">";
-		}
+		/****** B ******/
 
-		var POIAfter = `
-			<a href="#clue` + game[step].idNumber + `" id="openClue` + game[step].idNumber + `" style="display: none;">Open Modal</a>
-			<div id="clue` + game[step].idNumber + `" class="modalDialog">
-				<div>
-					<!--a href="#close" title="Close" class="close">X</a-->
-					<h2>` + game[step].title + `</h2><p>` + game[step].clue + `</p>
-					<a id="closeClue` + game[step].idNumber + `" href="#" class="goButton" >Go to map</a>
+		if (game[step].hasOwnProperty("B") && step > 0 ) {
+			if (game[step]["B"].hasOwnProperty("image") && game[step]["B"].image != "") {
+				image = "<img src=" + server_url + game[step]["B"].image + ">";
+			} else {
+				image = "";
+			}
+
+			if (game[step]["B"].hasOwnProperty("clue") && game[step]["B"].clue != "") {
+				clue = "<p>" + game[step]["B"].clue + "</p>";
+			} else {
+				clue = "";
+			}
+
+			var POIAfter = `
+				<a href="#clue` + step + `" id="openB` + step + `" style="display: none;">Open Modal</a>
+				<div id="clue` + step + `" class="modalDialog">
+					<div>
+						<!--a href="#close" title="Close" class="close">X</a-->
+						<h2>` + game[step]["B"].title + `</h2>
+						` + image + `
+						<p>` + game[step]["B"].text + `</p>
+						` + clue + `
+						<a id="closeClue` + step + `" href="#" class="goButton" >Go to map</a>
+					</div>
 				</div>
-			</div>
-		`;
+			`;
+		}
 
 		var extras = document.getElementById("extras");
 		extras.innerHTML += POIBefore;
 		extras.innerHTML += POIAfter;
 	}
 
-	document.getElementById('openModal0').click();
-	nextPOI = getFollowingPOIId(nextPOI);
+	console.log(nextPOI);
 
-	document.getElementById("toClue0").onclick = function() {
-		setTimeout(function() {
-			document.getElementById("openClue0").click();
-		}, 1000);
+	if (nextPOI == 0) {
+		document.getElementById('openA0').click();
+		nextPOI = getFollowingPOIId(nextPOI);
+	} else {
+		if (fromMinigame) {
+			fromMinigmae = false;
+			document.getElementById("openB" + nextPOI).click();
+			nextPOI = getFollowingPOIId(nextPOI);
+			updatePath();
+		} else {
+			nextPOI = getFollowingPOIId(nextPOI);
+		}
 	}
+
+
+
+	/*document.getElementById("toClue0").onclick = function() {
+		setTimeout(function() {
+			document.getElementById("openB0").click();
+		}, 1000);
+	}*/
 
 	document.getElementById("toClue1").onclick = function() {
 		setTimeout(function() {
-			document.getElementById("openClue1").click();
+
+			var challengeType = game[currentPOI]["challenge"]["type"];
+
+			if (challengeType == "minigame") {
+
+				var minigameURL = game[1]["challenge"]["url"];
+				if (minigameURL.length > 0) {
+					minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/app.php%3Fstep%3D1"
+					window.open(minigameURL, "_self")
+				} else {
+					document.getElementById("openB" + currentPOI).click();
+				}
+
+			} else if (challengeType == "upload_content") {
+				// TODO
+			} else { // checkin
+				document.getElementById("openB" + currentPOI).click();
+			}
+
 		}, 1000);
 	}
 
 	document.getElementById("toClue2").onclick = function() {
 		setTimeout(function() {
-			document.getElementById("openClue2").click();
+
+			var challengeType = game[currentPOI]["challenge"]["type"];
+
+			if (challengeType == "minigame") {
+
+				var minigameURL = game[1]["challenge"]["url"];
+				if (minigameURL.length > 0) {
+					minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/app.php%3Fstep%3D2"
+					window.open(minigameURL, "_self")
+				} else {
+					document.getElementById("openB" + currentPOI).click();
+				}
+
+			} else if (challengeType == "upload_content") {
+				// TODO
+			} else { // checkin
+				document.getElementById("openB" + currentPOI).click();
+			}
+
 		}, 1000);
 	}
 
-	document.getElementById("toClue3").onclick = function() {
+	document.getElementById("closeClue2").onclick = function() {
 		setTimeout(function() {
-			document.getElementById("openClue3").click();
-		}, 1000);
-	}
-
-	document.getElementById("toClue4").onclick = function() {
-		setTimeout(function() {
-			document.getElementById("openModal999").click();
-			tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
+			document.getElementById("openA999").click();
+			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
 
@@ -150,9 +223,9 @@ function locate() {
 	if (navigator.geolocation) {
 		setTimeout(function() {
 			
-			tracker.Flush(function(result, error){
+			/*tracker.Flush(function(result, error){
 				console.log("flushed");
-			});
+			});*/
 
 			navigator.geolocation.getCurrentPosition(function(position) {
 				if (totalDistance == 0) {
@@ -180,12 +253,12 @@ function trackProgress() {
 	var distance = 100; //TODO
 	var speed = 12; //TODO distance / lastPOITime
 
-	tracker.setVar("time", timeSpent);
+	/*tracker.setVar("time", timeSpent);
 	tracker.setVar("poiId", poiId);
 	tracker.setVar("averageSpeed", lastPOIDistance / timeSpent);
 	tracker.setVar("distance", lastPOIDistance);
 
-	tracker.Completable.Progressed("demo", tracker.Completable.CompletableType.Game, progress);
+	tracker.Completable.Progressed("demo", tracker.Completable.CompletableType.Game, progress);*/
 }
 
 function refreshUserMarker(coors) {
@@ -201,13 +274,13 @@ function getFollowingPOIId(nextPOI) {
 	var followingId = -2;
 	for (poi in game)
 	{
-		if (game[poi].idNumber == nextPOI)
+		if (poi == nextPOI)
 		{ 
 			followingId = -1;
 		}
 		else if (followingId == -1)
 		{ 
-			return game[poi].idNumber;
+			return poi;
 		}
 	}
 
