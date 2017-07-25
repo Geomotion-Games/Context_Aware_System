@@ -167,5 +167,8 @@ footer a:hover {
 	cursor: pointer;
 }
 
+.poi-tooltip + .tooltip { width: 250px; }
+.poi-tooltip + .tooltip > .tooltip-inner { background-color: white; color: black; border: 1px solid #ccc; width: 250px;}
+.poi-tooltip + .tooltip > .tooltip-arrow { border-right-color: #ccc; }
 
 

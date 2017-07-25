@@ -62,17 +62,6 @@
 					<h2>Treasure Hunt</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="CaptureTheFlag" class="plot">
-						<div class="zoomOnHover image">
-							<img src="images/asset-capture-the-flag.jpg" style="opacity: 0.6;">
-						</div>
-						<div class="POIdescription">
-							<p>Non-linear geolocation game where students are teamed up in two different teams. Each team has a base where the flag is allocated. The goal of the game is to capture the enemy's’ flag and bring it to the base.</p>
-						</div>
-					</div>
-					<h2>Capture the flag</h2>
-				</div>
-				<div class="col-md-3 col-sm-6 gameType">
 					<div id="RatRace" class="plot">
 						<div class="zoomOnHover image">
 							<img src="images/asset-rat-race.jpg" style="opacity: 0.6;">
@@ -82,21 +71,6 @@
 						</div>
 					</div>
 					<h2>Rat Race</h2>
-				</div>
-			</div>
-		</div>
-		<div class="official-row">
-			<div class="row">
-				<div class="col-md-3 col-sm-6 gameType">
-					<div id="Conquest" class="plot">
-						<div class="zoomOnHover image">
-							<img src="images/asset-conquest.jpg" style="opacity: 0.6;">
-						</div>
-						<div class="POIdescription">
-							<p>Non-linear geolocation game where students teamed up in different teams have to conquer the real world solving challenges. The first team to conquer a certain number of zones wins the challenge.</p>
-						</div>
-					</div>
-					<h2>Conquest</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
 					<div id="Jigsaw" class="plot">
@@ -108,6 +82,32 @@
 						</div>
 					</div>
 					<h2>Jigsaw</h2>
+				</div>
+			</div>
+		</div>
+		<div class="official-row">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 gameType">
+					<div id="CaptureTheFlag" class="plot">
+						<div class="zoomOnHover image">
+							<img src="images/asset-capture-the-flag.jpg" style="opacity: 0.6;">
+						</div>
+						<div class="POIdescription">
+							<p>Non-linear geolocation game where students are teamed up in two different teams. Each team has a base where the flag is allocated. The goal of the game is to capture the enemy's’ flag and bring it to the base.</p>
+						</div>
+					</div>
+					<h2>Capture the flag</h2>
+				</div>
+				<div class="col-md-3 col-sm-6 gameType">
+					<div id="Conquest" class="plot">
+						<div class="zoomOnHover image">
+							<img src="images/asset-conquest.jpg" style="opacity: 0.6;">
+						</div>
+						<div class="POIdescription">
+							<p>Non-linear geolocation game where students teamed up in different teams have to conquer the real world solving challenges. The first team to conquer a certain number of zones wins the challenge.</p>
+						</div>
+					</div>
+					<h2>Conquest</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
 					<div id="Stratego" class="plot">

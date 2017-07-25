@@ -65,7 +65,6 @@ textarea {
 	color: white;
 	display: block;
 	margin: 10px 20px;
-	height: 80px;
 }
 
 #stops .poirow {
@@ -77,7 +76,7 @@ textarea {
 
 #start .poirow .poiInfo, #finish .poirow .poiInfo {
 	background-color: #2c353e;
-	height: 80px;
+	height: 56px;
 }
 
 #stops .poirow .poiInfo {
@@ -94,7 +93,9 @@ textarea {
 	padding: 15px 0 0 5px;
 }
 
-#stops .poirow .poiInfo .poiTexts {
+#stops .poirow .poiInfo .poiTexts, 
+#start .poiInfo .poiTexts, 
+#finish .poiInfo .poiTexts {
 	float: left;
 	padding: 18px 0 0 5px;
 }
@@ -128,7 +129,15 @@ textarea {
 	padding: 25px 10px 0 10px;
 }
 
-#stops .poirow .poiInfo .poiActions i {
+#start .fa-info, #finish .fa-info {
+	font-size: 1.2em;
+	margin-left: 10px;
+	color: #e87f62;
+}
+
+#stops .poirow .poiInfo .poiActions i,
+#start .poirow .poiInfo .poiActions i,
+#finish .poirow .poiInfo .poiActions i {
 	padding: 15px 10px 0 10px;
 }
 
