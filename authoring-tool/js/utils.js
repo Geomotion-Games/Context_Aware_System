@@ -45,7 +45,7 @@ function savePlot(plot, callback) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
         plot.id = data.trim();
-        console.log("Plot saved!");
+        console.log("Plot saved!" + data);
         if(callback) callback(plot.id);
     });
     request.fail(function(error) {

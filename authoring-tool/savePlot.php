@@ -20,11 +20,31 @@ $public = $_REQUEST['public'];
 if($id == null){
 	$query = "INSERT INTO plot (name, description, time, type, public) VALUES ('$name','$description','$time','$type','$public')";
 	$res = $bd->ejecutar($query);
-	echo mysql_insert_id();
+	$lastId = mysql_insert_id();
+	echo $lastId;
+	createDefaultPois($lastId, "start", $bd);
+	createDefaultPois($lastId, "finish", $bd);
 }else{
 	$query = "UPDATE plot SET name='$name', description='$description',time='$time',type='$type',public='$public' WHERE id=$id";
 	$res = $bd->ejecutar($query);
 	echo mysql_insert_id();
+}
+
+function createDefaultPois($plotId, $type, $bd){
+	$query = "INSERT INTO poi (plot, type) VALUES ('$plotId','$type')";
+	$res = $bd->ejecutar($query);
+	echo mysql_error();
+	createDefaultScreens(mysql_insert_id(), $bd);
+}
+
+function createDefaultScreens($id, $bd){
+	$screensData = array('{"type":"A","title": "The Robot", "text": "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 3 unique sensors to finish it that you will find exploring the real world. Check in those hidden places to unlock clues to the next point. Are you ready?"}');
+	foreach ($screensData as $data) {
+		$query = "INSERT INTO screen (poi, data) VALUES ('$id','$data')";
+		$res = $bd->ejecutar($query);
+	}
+	
+	echo mysql_error();
 }
 
 ?>

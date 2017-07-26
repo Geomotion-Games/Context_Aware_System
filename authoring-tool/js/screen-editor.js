@@ -32,7 +32,7 @@ var currentScreen = -1;
 function init(){
     // POI EDITION
     $("#poiName").val(poi.title);
-    $("#poiName").attr("placeholder", "Point " + poi.orderNumber);
+    $("#poiName").attr("placeholder", "Stop " + poi.orderNumber);
     $("#poiTriggerDistance").val(poi.triggerDistance);
     $("#poiReward").val(poi.rewardPoints);
     
@@ -49,6 +49,8 @@ function init(){
 
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
+    }else if(poi.type == "start" || poi.type == "finish"){
+        $("#attributes").addClass("hidden");
     }
 
     $(".endEditing").attr("href", "./follow-the-path.php?id=" + poi.plot);

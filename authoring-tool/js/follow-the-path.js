@@ -91,6 +91,9 @@ function init(){
 	$("#gameTimeValue").on("input", onInput);
 	$("#timeToggle").change(onBlur);
 
+	$("#point0 a").attr("href", "screens-overview.php?id=" + start.id);
+	$("#point999 a").attr("href", "screens-overview.php?id=" + finish.id);
+
 	function onBlur(){
 		if(editTimeout != null) clearTimeout(editTimeout);
 		updateGameValues();
