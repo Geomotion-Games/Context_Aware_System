@@ -131,7 +131,7 @@
 				    					<p><span class="name poiTitle" style="margin: 0;">START</span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="This is the first screen that the student will see. This screen does not depend on the location of the student."><i title="info" class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="screens-overview.php?id=0"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
@@ -148,7 +148,7 @@
 				    					<p><span class="name poiTitle" style="margin: 0;">FINISH</span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="This is the last screen that the student will see. This screen will appear after the last POI."><i title="info" class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="screens-overview.php?id=0"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
