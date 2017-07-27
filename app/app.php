@@ -57,7 +57,7 @@
 */
 
 	var demo_info = {
-		"plot-type": "treasure_haunt",
+		"plot-type": "treasure_hunt",
 		"time-limit": 0,
 		"POIS": {
 			"0": { // START
@@ -65,54 +65,117 @@
 					"title": "Coding & Robotics",
 					"text": "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 4 pieces to finish it that you will find exploring the real world. Find the hidden places and answer questions to collect pieces and unlock clues to find the next place. <br/> Are you ready? Go out and play!",
 					"image": "",
-					"clue": "Clue #1:"
+					"clue": "Clue #1: Allez à ORT France"
 				}
 			},
 			"1": { // POI 1
-				"lat": 41.4367806,
-				"lng": 2.1695897,
-				"distance": 40,
-				"reward": 10,
-				"A": {
-					"title": "POI1_SCREEN_A",
-					"text": "You found the first hidden place. To collect the robot piece you need to answer a question. Go!",
-					"image": ""
-				},
-				"challenge": {
-					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=495831"
-				},
-				"B": {
-					"title": "POI1_SCREEN_B",
-					"text": "Well done! Here is the clue for the next hidden place",
-					"image": "poi1.jpg",
-					"clue": "Clue #2:"
-				}
-			},
-			"2": { // POI 2
-				"lat": 41.446713,
-				"lng": 2.168341,
+				"lat": 48.8463156,
+				"lng": 2.26091070,
 				"distance": 20,
 				"reward": 10,
 				"A": {
-					"title": "POI2_SCREEN_A",
-					"text": "Great! You found the second hidden place. To collect the robot piece you need to answer a question. Go!",
+					"title": "ORT France",
+					"text": "You found the first hidden place. You now know there are many different gears of different size that exist. One common way to differentiate all those gears is by their number of teeth. For example the smallest gear has 8 teeth and the bigger one has 40. <br/><br/> To collect the robot piece you need to answer a question. Go!",
 					"image": ""
 				},
 				"challenge": {
 					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=495831"
+					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=000000666"
 				},
 				"B": {
-					"title": "POI2_SCREEN_B",
+					"title": "ORT France",
 					"text": "Well done! Here is the clue for the next hidden place",
-					"image": "poi2.jpg"
+					"image": "f-poi1.jpg",
+					"clue": "Clue #2: Transport public le plus proche"
+				}
+			},
+			"2": { // POI 2
+				"lat": 48.847925,
+				"lng": 2.264208,
+				"distance": 20,
+				"reward": 10,
+				"A": {
+					"title": "Metro Auteuil",
+					"text": "Great! You found the second hidden place. The gear ratio is the relationship between the number of teeth on two gears that are meshed or two sprockets connected with a common roller chain. In LEGO terms, a gear ratio is simply: \"number of follower’s gear teeth : number of driver’s gear teeth\". To collect the robot piece you need to answer a question. Go!",
+					"image": ""
+				},
+				"challenge": {
+					"type": "minigame",
+					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=0000006662"
+				},
+				"B": {
+					"title": "Metro Auteuil",
+					"text": "Well done! Here is the clue for the next hidden place",
+					"image": "f-poi2.jpg",
+					"clue": "Clue #3: Touvez le Supermarché"
+				}
+			},
+			"3": { // POI 3
+				"lat": 48.8480837,
+				"lng": 2.26142942,
+				"distance": 20,
+				"reward": 10,
+				"A": {
+					"title": "Rectorate",
+					"text": "Well done! You found the third hidden place. To collect the robot piece you need to answer a question. Go!",
+					"image": ""
+				},
+				"challenge": {
+					"type": "minigame",
+					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=0000006663"
+				},
+				"B": {
+					"title": "Rectorate",
+					"text": "Well done! Here is the clue for the next hidden place",
+					"image": "f-poi3.jpg",
+					"clue": "Clue #4: Autre station de metro"
+				}
+			},
+			"4": { // POI 4
+				"lat": 48.845165,
+				"lng": 2.2616611,
+				"distance": 20,
+				"reward": 10,
+				"A": {
+					"title": "Metro Molitor",
+					"text": "Yay! You found the fourth hidden place. To collect the robot piece you need to answer a question. Go!",
+					"image": ""
+				},
+				"challenge": {
+					"type": "minigame",
+					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=999888778"
+				},
+				"B": {
+					"title": "Metro Molitor",
+					"text": "Well done! Here is the clue for the next hidden place",
+					"image": "f-poi4.jpg",
+					"clue": "Clue #5: Angle de la rue"
+				}
+			},
+			"5": { // POI 5
+				"lat": 48.845099,
+				"lng": 2.2602611,
+				"distance": 20,
+				"reward": 10,
+				"A": {
+					"title": "Street Corner",
+					"text": "Awesome! You found the fifth hidden place. To collect the robot piece you need to answer a question. Go!",
+					"image": ""
+				},
+				"challenge": {
+					"type": "minigame",
+					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=999888779"
+				},
+				"B": {
+					"title": "Street Corner",
+					"text": "Well done!",
+					"image": "f-poi5.jpg"
 				}
 			},
 			"999": { // FINISH
 				"A": {
 					"title": "Coding & Robotics",
-					"text": "The Earth Special Agency congratulates you! Show this screen to the teacher and get the package with LEGO bricks in it to start building your new robot. Congratulations! ",
+					"text": "The Earth Special Agency congratulates you! Show this screen to the teacher and get the package with LEGO bricks in it to start building your new robot. Congratulations!",
 					"image": ""
 				},
 			}

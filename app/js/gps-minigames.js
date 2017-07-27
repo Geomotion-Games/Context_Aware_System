@@ -23,7 +23,9 @@ function gameReady() {
 
 	for (step in game) {
 
-		/*if (step != 0 && step != 999) {
+		/*
+		For follow the path
+		if (step != 0 && step != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
 			var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
@@ -39,12 +41,12 @@ function gameReady() {
 
 
 		/****** A ******/
-		
+
 		if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
 			image = "<img src=" + server_url + game[step]["A"].image + ">";
 		}
 
-		var textButton = "Check in";
+		var textButton = "Go to challenge";
 		if (step == 0) { textButton = "Go out and play!"; }
 
 		var checkinButton = `<a id="toClue` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
@@ -93,7 +95,7 @@ function gameReady() {
 						` + image + `
 						<p>` + game[step]["B"].text + `</p>
 						` + clue + `
-						<a id="closeClue` + step + `" href="#" class="goButton" >Go to map</a>
+						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
 				</div>
 			`;
@@ -103,8 +105,6 @@ function gameReady() {
 		extras.innerHTML += POIBefore;
 		extras.innerHTML += POIAfter;
 	}
-
-	console.log(nextPOI);
 
 	if (nextPOI == 0) {
 		document.getElementById('openA0').click();
@@ -120,63 +120,36 @@ function gameReady() {
 		}
 	}
 
+	for (i=1; i<Object.keys(game).length-1; i++){
 
+		document.getElementById("toClue"+i).onclick = function() {
 
-	/*document.getElementById("toClue0").onclick = function() {
-		setTimeout(function() {
-			document.getElementById("openB0").click();
-		}, 1000);
-	}*/
+			setTimeout(function() {
 
-	document.getElementById("toClue1").onclick = function() {
-		setTimeout(function() {
+				var challengeType = game[currentPOI]["challenge"]["type"];
 
-			var challengeType = game[currentPOI]["challenge"]["type"];
+				if (challengeType == "minigame") {
 
-			if (challengeType == "minigame") {
+					var minigameURL = game[currentPOI]["challenge"]["url"];
+					if (minigameURL.length > 0) {
+						minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/game16.php%3Fstep%3D" + currentPOI
+						window.open(minigameURL, "_self")
+					} else {
+						document.getElementById("openB" + currentPOI).click();
+					}
 
-				var minigameURL = game[1]["challenge"]["url"];
-				if (minigameURL.length > 0) {
-					minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/app.php%3Fstep%3D1"
-					window.open(minigameURL, "_self")
-				} else {
+				} else if (challengeType == "upload_content") {
+					// TODO
+				} else { // checkin
 					document.getElementById("openB" + currentPOI).click();
 				}
 
-			} else if (challengeType == "upload_content") {
-				// TODO
-			} else { // checkin
-				document.getElementById("openB" + currentPOI).click();
-			}
-
-		}, 1000);
+			}, 1000);
+		};
 	}
 
-	document.getElementById("toClue2").onclick = function() {
-		setTimeout(function() {
-
-			var challengeType = game[currentPOI]["challenge"]["type"];
-
-			if (challengeType == "minigame") {
-
-				var minigameURL = game[1]["challenge"]["url"];
-				if (minigameURL.length > 0) {
-					minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/app.php%3Fstep%3D2"
-					window.open(minigameURL, "_self")
-				} else {
-					document.getElementById("openB" + currentPOI).click();
-				}
-
-			} else if (challengeType == "upload_content") {
-				// TODO
-			} else { // checkin
-				document.getElementById("openB" + currentPOI).click();
-			}
-
-		}, 1000);
-	}
-
-	document.getElementById("closeClue2").onclick = function() {
+	var lastPOIId = Object.keys(game)[Object.keys(game).length-2];
+	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
 			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
