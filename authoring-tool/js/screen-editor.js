@@ -53,7 +53,7 @@ function init(){
         $("#attributes").addClass("hidden");
     }
 
-    $(".endEditing").attr("href", "./follow-the-path.php?id=" + poi.plot);
+    $(".endEditing").attr("href", "./" + gameTypeToUrl(game.type) +".php?id=" + poi.plot);
 
     function onBlurPOI(){
         if(editPOITimeout != null) clearTimeout(editPOITimeout);
@@ -117,10 +117,16 @@ function showEditorScreen(index){
         });
     });
 
-     // SCREEN EDITION
+     $("#screenClue").on('input',function(e){
+        var clue = $(this).val();
+        screen.clue = clue;
+        onInputScreen();
+    });
 
+    // SCREEN EDITION
+
+    $("#screenClue").blur(onBlurScreen);
     $("#screenTitle").blur(onBlurScreen);
-
     $("#screenText").blur(onBlurScreen);
 
     function onBlurScreen(){
@@ -158,6 +164,9 @@ function appendEditor(parent, screen){
     var title = screen.title;
     var text = screen.text;
     var image = screen.image;
+    var clue = screen.clue;
+    var type = screen.type;
+    var gameType = game.type;
 
     $(parent).append(`
 	    <div class="form-group">
@@ -172,7 +181,17 @@ function appendEditor(parent, screen){
             <label for="screenText">Text:</label>
             <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
         </div>
+        
     `);
+
+    if(gameType == "TreasureHunt" && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
+        $(parent).append(`
+            <div class="form-group">
+                <label for="screenClue">Clue for the next POI:</label>
+                <textarea rows="6" type="text" placeholder="Write here the clue for the next POI" class="form-control" id="screenClue">${clue}</textarea>
+            </div>
+        `);
+    }
 }
 
 function appendPreviewScreen(parent, screen, index, clickable, editor){

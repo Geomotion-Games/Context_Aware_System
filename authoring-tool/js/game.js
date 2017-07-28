@@ -19,18 +19,19 @@ function showCommunityGames(){
 }
 
 function appendGame(parent, games, index){
+    var url = gameTypeToUrl(games[index].type) + ".php?id=" + games[index].id;
     $(parent).append(`
        <li class="gamerow" data-index="${index}">
             <div class="row">
                 <div class="col-md-8 gameinfo">
                     <div class="gametexts">
-                        <p class="gameTitle">${games[index].name}</p>
+                        <p class="gameTitle">${games[index].name} - ${games[index].type}</p>
                         <p class="gameType">${games[index].description}</p>
                     </div>
                     <div class=gameactions>
                         <a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
                         <a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                        <a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                        <a href="${url}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
                     </div>
                 </div>
                 <div class="col-md-4 pubpriv">
@@ -52,7 +53,6 @@ function appendGame(parent, games, index){
     });
 
     $(".gamerow").on('click', function(e) {
-        e.preventDefault();
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
             var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
@@ -73,12 +73,6 @@ $("body").find("[aria-controls='community']").on('click', function(e) {
     showCommunityGames();
 });
 
-$("#newGame").on('click', function(e) {
-    e.preventDefault();
-    //savePlot(new Game({}));
-    window.location = "plots.php";
-});
-
 function gameOnClick(parent, gameNumber, action){
     if(action == "remove"){
         $(parent).remove();
@@ -86,7 +80,6 @@ function gameOnClick(parent, gameNumber, action){
         games.splice(gameNumber, 1);
         reorderPlots();
     }else if(action == "edit"){
-        window.location = "follow-the-path.php?id=" + games[gameNumber].id;
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);

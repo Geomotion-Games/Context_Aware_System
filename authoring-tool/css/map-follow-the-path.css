@@ -93,6 +93,13 @@ textarea {
 	padding: 15px 0 0 5px;
 }
 
+.poiChest {
+	width: min-content;
+	float: left;
+	padding-top: 13px;
+	margin-right: 5px;
+}
+
 #stops .poirow .poiInfo .poiTexts, 
 #start .poiInfo .poiTexts, 
 #finish .poiInfo .poiTexts {

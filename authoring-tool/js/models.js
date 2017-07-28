@@ -66,6 +66,7 @@ function Screen(params){
     this.title = params.title || "";
     this.text = params.text || "";
     this.image = params.image;
+    this.clue = params.clue || "";
 }
 
 Screen.prototype.toJSON = function() {
@@ -75,7 +76,8 @@ Screen.prototype.toJSON = function() {
             "type": this.type,
             "title" : this.title,
             "text"  : this.text,
-            "image" : this.image
+            "image" : this.image,
+            "clue"  : this.clue
         })
     };
 
@@ -88,7 +90,8 @@ Screen.prototype.copy = function() {
         type: this.type,
         title: this.title,
         text: this.text,
-        image: this.image
+        image: this.image,
+        clue: this.clue
     });
 
     return copy;

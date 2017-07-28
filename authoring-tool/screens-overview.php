@@ -16,6 +16,7 @@
 
 	$id = $_REQUEST['id'];
 
+	// POI
     $query = $bd->ejecutar("SELECT * FROM poi WHERE id = " . $id);
 	$numRows = $bd->num_rows($query);
 
@@ -25,6 +26,18 @@
       echo mysql_error();
     }
 
+    // PLOT
+    $plotId = $poi["plot"];
+    $query = $bd->ejecutar("SELECT * FROM plot WHERE id = " . $plotId);
+	$numRows = $bd->num_rows($query);
+
+ 	if ($query) {
+		$plot = $bd->obtener_fila($query, 0);
+    }else {
+      echo mysql_error();
+    }
+
+    // SCREENS
     $query = $bd->ejecutar("SELECT * FROM screen WHERE poi = " . $id . " ORDER BY id ASC");
 	$numRows = $bd->num_rows($query);
 
@@ -171,11 +184,16 @@
 	    	return false;
 	    });
 
+
 	    var resultPOI = <?= json_encode($poi); ?>;
+	    var resultPlot = <?= json_encode($plot); ?>;
 	    var resultScreens = <?= json_encode($screens); ?>;
 		var poi = parsePOI(resultPOI);
 		var screens = parseScreens(resultScreens);
-		
+		var game = parsePlotJSON(resultPlot);
+
+		console.log(screens)
+
 		showScreensOverview();
 		init();
 	</script>

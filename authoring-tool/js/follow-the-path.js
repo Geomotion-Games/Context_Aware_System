@@ -78,7 +78,8 @@ function init(){
 	$("#gameName").val(game.name);
 	$("#gameDescription").val(game.description);
 
-	console.log(game.time)
+	if(game.type == "TreasureHunt") $(".poiChest").removeClass("hidden");
+
 	if(game.time != 0){
 		$("#timeToggle").prop('checked', true);
 		$('#timeLimit').css("visibility", 'visible');

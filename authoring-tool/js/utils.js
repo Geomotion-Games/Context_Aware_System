@@ -104,6 +104,8 @@ function saveScreen(screen, poi){
         data: screenJSON
     });
 
+    console.log(screenJSON)
+
     console.log("Saving...");
     request.done(function(data) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
@@ -206,6 +208,7 @@ function parseScreen(screen){
         title: json.title,
         text: json.text,
         image: json.image,
+        clue: json.clue
     });
 }
 
@@ -227,4 +230,9 @@ function createSavingTimeout(){
         clearTimeout(savingTimeout);
         savingTimeout = null;
     }, 2000);
+}
+
+function gameTypeToUrl(type){
+    if(type == "FollowThePath") return "follow-the-path";
+    if(type == "TreasureHunt") return "treasure-hunt";
 }

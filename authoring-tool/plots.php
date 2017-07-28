@@ -53,7 +53,7 @@
 				<div class="col-md-3 col-sm-6 gameType">
 					<div id="TreasureHunt" class="plot">
 						<div class="zoomOnHover image">
-							<img src="images/asset-treasure-hunt.jpg" style="opacity: 0.6;">
+							<img src="images/asset-treasure-hunt.jpg">
 						</div>
 						<div class="POIdescription">
 							<p style="font-size: 0.94em;">Non-linear exploratory geolocation game where the goal is to find a hidden treasure in the real world. Individually or in groups, students will have to find clues with relevant information that has to be interpreted to find the final location of the treasure.</p>
@@ -62,7 +62,7 @@
 					<h2>Treasure Hunt</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="RatRace" class="plot">
+					<div id="RatRace" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/asset-rat-race.jpg" style="opacity: 0.6;">
 						</div>
@@ -73,7 +73,7 @@
 					<h2>Rat Race</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="Jigsaw" class="plot">
+					<div id="Jigsaw" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/asset-jigsaw.jpg" style="opacity: 0.6;">
 						</div>
@@ -88,7 +88,7 @@
 		<div class="official-row">
 			<div class="row">
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="CaptureTheFlag" class="plot">
+					<div id="CaptureTheFlag" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/asset-capture-the-flag.jpg" style="opacity: 0.6;">
 						</div>
@@ -99,7 +99,7 @@
 					<h2>Capture the flag</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="Conquest" class="plot">
+					<div id="Conquest" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/asset-conquest.jpg" style="opacity: 0.6;">
 						</div>
@@ -110,7 +110,7 @@
 					<h2>Conquest</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="Stratego" class="plot">
+					<div id="Stratego" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/asset-stratego.jpg" style="opacity: 0.6;">
 						</div>
