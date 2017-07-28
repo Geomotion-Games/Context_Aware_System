@@ -70,13 +70,15 @@ function createEditTimeout(){
 function updateGameValues(){
 	game.name = $("#gameName").val();
 	game.description = $("#gameDescription").val()
-	game.time = $("#timeToggle").prop('checked') ? $("#gameTimeValue").val() : 0;
+	game.time = $("#timeToggle").prop('checked') ? parseInt($("#gameTimeValue").val()) : 0;
+	console.log(game.time);
 }
 
 function init(){
 	$("#gameName").val(game.name);
 	$("#gameDescription").val(game.description);
 
+	console.log(game.time)
 	if(game.time != 0){
 		$("#timeToggle").prop('checked', true);
 		$('#timeLimit').css("visibility", 'visible');

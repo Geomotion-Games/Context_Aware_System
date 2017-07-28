@@ -25,9 +25,10 @@ if($id == null){
 	createDefaultPois($lastId, "start", $bd);
 	createDefaultPois($lastId, "finish", $bd);
 }else{
-	$query = "UPDATE plot SET name='$name', description='$description',time='$time',type='$type',public='$public' WHERE id=$id";
+	$query = "UPDATE plot SET name='$name', description='$description', time='$time', type='$type', public='$public' WHERE id=$id";
 	$res = $bd->ejecutar($query);
-	echo mysql_insert_id();
+	echo mysql_error();
+	echo $id;
 }
 
 function createDefaultPois($plotId, $type, $bd){
