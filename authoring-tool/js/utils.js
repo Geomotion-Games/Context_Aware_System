@@ -159,6 +159,7 @@ function parsePOIS(pois){
 }
 
 function parsePOI(p){
+    console.log(p)
     return new Step({
         id: p.id,
         plot: parseInt(p.plot),
@@ -166,6 +167,8 @@ function parsePOI(p){
         orderNumber: p.orderNumber,
         type: p.type,
         marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}) : null,
+        lat: p.lat,
+        lng: p.lng,
         beaconId: p.beaconId,
         triggerDistance: p.triggerDistance,
         rewardPoints: p.rewardPoints,

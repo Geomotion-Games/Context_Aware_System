@@ -18,7 +18,7 @@ if($id != null){
 	$query = "UPDATE screen SET poi='$poi',data='$data' WHERE id=$id";
 	$res = $bd->ejecutar($query);
 	echo mysql_error();
-	echo mysql_insert_id();
+	echo $id;
 }
 
 ?>

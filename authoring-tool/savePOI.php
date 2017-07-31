@@ -32,7 +32,7 @@ if($id == null){
 	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item' WHERE id=$id";
 	$res = $bd->ejecutar($query);
 	//if(!$res) die(mysql_error());
-	echo mysql_insert_id();
+	echo $id;
 }
 
 function createDefaultScreens($id, $bd){

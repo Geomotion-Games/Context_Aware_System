@@ -24,8 +24,8 @@ Step.prototype.toJSON = function() {
     var json = {
         "id": this.id,
         "type": this.type,
-        "lat": this.marker ? this.marker.getLatLng().lat : 0,
-        "lng": this.marker ? this.marker.getLatLng().lng : 0,
+        "lat": this.marker ? this.marker.getLatLng().lat : this.lat,
+        "lng": this.marker ? this.marker.getLatLng().lng : this.lng,
         "orderNumber": this.orderNumber,
         "beaconId": this.beaconId,
         "title": this.title,
