@@ -1,11 +1,135 @@
 <?php
+
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-Control: post-check=0, pre-check=0", false);
+		header("Pragma: no-cache");
+	
+	error_reporting(0);
+
+	require 'class/db.class.php';
+	require 'class/conf.class.php';
+
+	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+	date_default_timezone_set('Europe/Madrid');
+
+	$bd = Db::getInstance();
+
+	$game_id = isset($_REQUEST['game']) && ctype_digit($_REQUEST['game']) ? $_REQUEST['game'] : "0";
+
+    /*$query = $bd->ejecutar("SELECT * FROM plot WHERE id = " . $id);
+	$numRows = $bd->num_rows($query);
+
+ 	if ($numRows > 0) {
+		$plot = $bd->obtener_fila($query, 0);
+    }*/
+
+    $query = $bd->ejecutar(sprintf("SELECT poi.*, plot.id as plotId, plot.time as time_limit, plot.type as game_type
+    								FROM poi
+    				  				INNER JOIN plot 
+    				  				ON poi.plot = plot.id 
+    				  				WHERE plot = %s 
+    				  				ORDER BY orderNumber ASC", $game_id));
+
+
+   /* var_dump(sprintf("SELECT poi.*, plot.id as plotId, plot.time as time_limit, plot.type as game_type
+    								FROM poi
+    				  				INNER JOIN plot 
+    				  				ON poi.plot = plot.id 
+    				  				WHERE plot = %s 
+    				  				ORDER BY orderNumber ASC", $game_id));
+    *//*
+
+	if ($bd->num_rows($query) > 0) {
+
+ 		$pois = array();
+ 		$poiIDs = array();
+
+		while ($row = mysql_fetch_assoc($query)) {
+		    $pois[$row["orderNumber"]] = $row;
+		    $poiIDs[] = $row["id"];
+		}
+
+		$finish_poi = $pois[1];
+		array_pop($pois[1]);
+		$pois[ $finish_poi["orderNumber"] ] = $finish_poi;
+		
+		$finish_poi_id = $poiIDs[1];
+		unset($poiIDs[1]);
+		$poiIDs[] = $finish_poi_id;
+
+		$query = $bd->ejecutar(sprintf( "SELECT * FROM screen WHERE poi IN (%s)", implode(",", $poiIDs) ));
+
+		if ($bd->num_rows($query) > 0) {
+
+			//$completePOIs = array();
+			while ($row = mysql_fetch_assoc($query)) {
+				$pois[$row["poi"]][] = json_decode($row["data"]);
+		   	}
+		}
+    }
+
+    */
+
+
+ 	if ($bd->num_rows($query) > 0) {
+
+ 		$pois = array();
+ 		$poiIDs = array();
+
+		while ($row = mysql_fetch_assoc($query)) {
+		    $pois[$row["id"]] = $row;
+		    $poiIDs[] = $row["id"];
+		}
+
+		$query = $bd->ejecutar(sprintf( "SELECT * FROM screen WHERE poi IN (%s)", implode(",", $poiIDs) ));
+
+		if ($bd->num_rows($query) > 0) {
+
+			while ($row = mysql_fetch_assoc($query)) {
+				$screen = json_decode($row["data"], true);
+				$pois[$row["poi"]][$screen["type"]] = $screen;
+		   	}
+		}
+		
+		$finish_index = array_keys($pois)[1];
+    	$finish_poi = $pois[$finish_index];
+    	unset($pois[$finish_index]);
+
+    	//sort by orderNumber
+    	usort($your_data, function($a, $b)
+		{
+    		return strcmp($a->orderNumber, $b->orderNumber);
+		});
+
+		//change keys
+		$keys_to_remove = array_keys($pois);
+		$size = sizeof($pois);
+		for($i=0; $i<$size; $i++) {
+			$key = $keys_to_remove[$i];
+			$pois[$i] = $pois[$key];
+		}
+
+		//var_dump($pois);
+		foreach($keys_to_remove as $key) {
+			unset($pois[$key]);
+		}
+
+    	$pois[999] = $finish_poi;
+    }
+
 	$fromMinigame = false;
 	$currentPOI = 0;
-	
+
 	if (isset($_REQUEST['step']) && ctype_digit($_REQUEST['step'])) {
 		$currentPOI = $_REQUEST['step'];
 		$fromMinigame = true;
 	}
+
+	$game = array();
+	$game['POIS'] = $pois; 
+
+	//var_dump($game);
+
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +140,7 @@
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
+
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css" />
@@ -56,131 +180,7 @@
 	});
 */
 
-	var demo_info = {
-		"plot-type": "treasure_hunt",
-		"time-limit": 0,
-		"POIS": {
-			"0": { // START
-				"A": {
-					"title": "Coding & Robotics",
-					"text": "Alfred is building a robot that will help the Earth Special Agents on their duty. The problem is that he needs 4 pieces to finish it that you will find exploring the real world. Find the hidden places and answer questions to collect pieces and unlock clues to find the next place. <br/> Are you ready? Go out and play!",
-					"image": "",
-					"clue": "Clue #1: Allez à ORT France"
-				}
-			},
-			"1": { // POI 1
-				"lat": 48.8463156,
-				"lng": 2.26091070,
-				"distance": 20,
-				"reward": 10,
-				"A": {
-					"title": "ORT France",
-					"text": "You found the first hidden place. You now know there are many different gears of different size that exist. One common way to differentiate all those gears is by their number of teeth. For example the smallest gear has 8 teeth and the bigger one has 40. <br/><br/> To collect the robot piece you need to answer a question. Go!",
-					"image": ""
-				},
-				"challenge": {
-					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=000000666"
-				},
-				"B": {
-					"title": "ORT France",
-					"text": "Well done! Here is the clue for the next hidden place",
-					"image": "f-poi1.jpg",
-					"clue": "Clue #2: Transport public le plus proche"
-				}
-			},
-			"2": { // POI 2
-				"lat": 48.847925,
-				"lng": 2.264208,
-				"distance": 20,
-				"reward": 10,
-				"A": {
-					"title": "Metro Auteuil",
-					"text": "Great! You found the second hidden place. The gear ratio is the relationship between the number of teeth on two gears that are meshed or two sprockets connected with a common roller chain. In LEGO terms, a gear ratio is simply: \"number of follower’s gear teeth : number of driver’s gear teeth\". To collect the robot piece you need to answer a question. Go!",
-					"image": ""
-				},
-				"challenge": {
-					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=0000006662"
-				},
-				"B": {
-					"title": "Metro Auteuil",
-					"text": "Well done! Here is the clue for the next hidden place",
-					"image": "f-poi2.jpg",
-					"clue": "Clue #3: Touvez le Supermarché"
-				}
-			},
-			"3": { // POI 3
-				"lat": 48.8480837,
-				"lng": 2.26142942,
-				"distance": 20,
-				"reward": 10,
-				"A": {
-					"title": "Rectorate",
-					"text": "Well done! You found the third hidden place. To collect the robot piece you need to answer a question. Go!",
-					"image": ""
-				},
-				"challenge": {
-					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=0000006663"
-				},
-				"B": {
-					"title": "Rectorate",
-					"text": "Well done! Here is the clue for the next hidden place",
-					"image": "f-poi3.jpg",
-					"clue": "Clue #4: Autre station de metro"
-				}
-			},
-			"4": { // POI 4
-				"lat": 48.845165,
-				"lng": 2.2616611,
-				"distance": 20,
-				"reward": 10,
-				"A": {
-					"title": "Metro Molitor",
-					"text": "Yay! You found the fourth hidden place. To collect the robot piece you need to answer a question. Go!",
-					"image": ""
-				},
-				"challenge": {
-					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=999888778"
-				},
-				"B": {
-					"title": "Metro Molitor",
-					"text": "Well done! Here is the clue for the next hidden place",
-					"image": "f-poi4.jpg",
-					"clue": "Clue #5: Angle de la rue"
-				}
-			},
-			"5": { // POI 5
-				"lat": 48.845099,
-				"lng": 2.2602611,
-				"distance": 20,
-				"reward": 10,
-				"A": {
-					"title": "Street Corner",
-					"text": "Awesome! You found the fifth hidden place. To collect the robot piece you need to answer a question. Go!",
-					"image": ""
-				},
-				"challenge": {
-					"type": "minigame",
-					"url": "http://beaconing.seriousgames.it/games/genericquiz/?session_id=999888779"
-				},
-				"B": {
-					"title": "Street Corner",
-					"text": "Well done!",
-					"image": "f-poi5.jpg"
-				}
-			},
-			"999": { // FINISH
-				"A": {
-					"title": "Coding & Robotics",
-					"text": "The Earth Special Agency congratulates you! Show this screen to the teacher and get the package with LEGO bricks in it to start building your new robot. Congratulations!",
-					"image": ""
-				},
-			}
-		}
-	};
+	var demo_info = <?= json_encode($game); ?>
 
 	var currentPOI = <?= $currentPOI ?>;
 	var nextPOI = currentPOI; //TODO 0 no pq ja hi ha una amb 0... tractar el primer poi com la resta
@@ -250,10 +250,19 @@
 			}
 
 			if (currentPOI == 0) {
-				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI]["A"].clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
+				//TODO UNDEFINED
+				var clue = game[currentPOI]["A"].clue;
+				if (clue) {
+					clue = "";
+				}
+				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
 				document.getElementById('clueLayer').className = "shown";
 			} else if (game[currentPOI]["B"].hasOwnProperty("clue")) {
-				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI]["B"].clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
+				var clue = game[currentPOI]["B"].clue;
+				if (clue) {
+					clue = "";
+				}
+				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
 				document.getElementById('clueLayer').className = "shown";
 			}
 			
