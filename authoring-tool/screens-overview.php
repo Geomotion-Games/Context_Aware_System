@@ -192,8 +192,6 @@
 		var screens = parseScreens(resultScreens);
 		var game = parsePlotJSON(resultPlot);
 
-		console.log(screens)
-
 		showScreensOverview();
 		init();
 	</script>

@@ -127,14 +127,15 @@ Game.prototype.toJSON = function() {
 };
 
 Game.prototype.copy = function(){
-   var copy = new Game({
-       type: this.type,
-       name: "Copy of " + this.name,
-       description: this.description,
-       time: this.time,
-       public: this.public,
-       stops: this.stops
-   });
+    var copy = new Game({
+        id: this.id,
+        type: this.type,
+        name: "Copy of " + this.name,
+        description: this.description,
+        time: this.time,
+        public: this.public,
+        stops: this.stops
+    });
 
     return copy;
 };
