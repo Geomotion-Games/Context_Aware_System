@@ -83,8 +83,10 @@ function gameOnClick(parent, gameNumber, action){
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
         games.push(copy);
-        duplicatePlot(copy);
-        reorderPlots()
+        duplicatePlot(copy, function(id){
+            copy.id = id;
+            reorderPlots();
+        });
     }
 }
 
