@@ -64,6 +64,33 @@ function duplicatePlot(plot, callback){
     })
 }
 
+function duplicatePOI(poi, game, callback){
+    createSavingTimeout();
+
+    var poiJSON = poi.toJSON();
+
+    if(game != null) poiJSON.plot = game.id;
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'duplicatePOI.php',
+        data: poiJSON
+    });
+
+    console.log("Saving...");
+    request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        saved = true;
+        poi.id = data.trim();
+        console.log("Plot saved!" + data);
+        if(callback) callback(poi.id)
+    });
+    request.fail(function(error) {
+        $("#saving").hide();
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
+
 function removePlot(plot) {
     createSavingTimeout();
 

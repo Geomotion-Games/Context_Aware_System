@@ -52,7 +52,7 @@ function stopOnClick(parent, stopNumber, action){
     }else if(action == "edit"){
     	
     }else if(action == "duplicate"){
-        console.log("duplicate!");
+       duplicate(stopNumber);
     }
 }
 
@@ -210,6 +210,22 @@ function addMarker(latlng, draggable){
 	return marker;
 }
 
+function duplicate(stopNumber){
+ 	for(var point in points){
+		if (points[point] && points[point].orderNumber == stopNumber) {
+			poisCreated++;
+			var copy = points[point].copy();
+			copy.orderNumber = poisCreated;
+    		duplicatePOI(copy, game, function(id){
+    			console.log("duplicated!")
+    			showStop(copy);
+    			points[poisCreated] = copy;
+    			updatePath();
+    		});
+		}
+	}
+}
+
 function addStop(marker, type){
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
@@ -330,7 +346,6 @@ function updateLabels() {
 		}
 	});
 }
-
 
 function sortPoints(){
 	var len = Object.keys(points).length;

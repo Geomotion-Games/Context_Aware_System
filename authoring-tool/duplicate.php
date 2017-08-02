@@ -9,7 +9,7 @@ function duplicatePlot($id, $name, $description, $time, $type, $public, $bd){
 }
 
 function duplicatePois($lastPlotId, $newPlotId, $bd){
-	$query = "INSERT INTO poi (`plot`, `type`, `lat`, `lng`, `orderNumber`, `beaconId`, `title`, `rewardPoints`, `triggerDistance`, `item`)
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item)
 			SELECT $newPlotId, po.type, po.lat, po.lng, po.orderNumber, po.beaconId, po.title, po.rewardPoints, po.triggerDistance, po.item
 			FROM plot pl 
 			JOIN poi po ON po.plot = pl.id 
@@ -33,6 +33,16 @@ function duplicatePois($lastPlotId, $newPlotId, $bd){
 		$i++;
 	}
 }
+
+function duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $bd){
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item)
+			VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item')";
+	$res = $bd->ejecutar($query);
+	$newPoiId = mysql_insert_id();
+	duplicateScreens($id, $newPoiId, $bd);
+	return $newPoiId;
+}
+
 
 function duplicateScreens($lastPoiId, $newPoiId, $bd){
 	$query = "INSERT INTO screen (`poi`, `data`)

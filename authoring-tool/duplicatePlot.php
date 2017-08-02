@@ -22,6 +22,4 @@ $public = $_REQUEST['public'];
 if($id != null){
 	echo duplicatePlot($id, $name, $description, $time, $type, $public, $bd);
 }
-
-
 ?>
