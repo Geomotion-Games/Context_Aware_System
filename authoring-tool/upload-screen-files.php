@@ -1,12 +1,13 @@
 <?php
+	
+	error_reporting(0);
 
-	$gameId = 0;
-	if ( isset($_REQUEST["gameId"]) && $_REQUEST["gameId"] != "" ) {
-		$gameId = $_REQUEST;
-	} else { die; }
+	$type = $_REQUEST["type"];
+	$screenId = $_REQUEST["screenId"];
+	$screenType = $_REQUEST["screenId"];
+	$poiId = $_REQUEST["poiId"];
 
-	if(isset($_FILES["file"]["type"]))
-	{
+	if(isset($_FILES["file"]["type"])){
 		$validextensions = array("jpeg", "jpg", "png");
 		$temp = explode(".", $_FILES["file"]["name"]);
 		$file_extension = end($temp);
@@ -21,19 +22,29 @@
 				echo $_FILES["file"]["error"];
 			}
 			else {
+				$base = "uploads/images";
 
-				if (!file_exists("games/images/" . $gameId)) {
-    				mkdir("games/images/" . $gameId, 0777, true);
+				if($type == "screens") $base = "uploads/images/screens/" . $screenId;
+				if (!file_exists($base)) {
+    				mkdir($base, 0777, true);
 				}
 
 				$sourcePath = $_FILES['file']['tmp_name'];
-				$targetPath = "games/images/" . $gameId . $_FILES['file']['name'];
-				move_uploaded_file($sourcePath,$targetPath);
-				echo "ok";
+				$targetPath = $base . "/poi_" . $poiId . "_item.";
+
+				// borrar imagenes con el mismo nombre pero diferente extension
+				foreach ($validextensions as $key => $value) {
+					unlink($targetPath . $value);
+				}
+
+				move_uploaded_file($sourcePath, $targetPath . $file_extension);
+				echo "ok-" . $targetPath . $file_extension;
 			}
 		}
 		else {
 			echo "Invalid file size or type";
 		}
+	}else{
+		echo "Invalid form data";
 	}
 ?>

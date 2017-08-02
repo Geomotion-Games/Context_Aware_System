@@ -47,6 +47,50 @@ function init(){
     $("#poiReward").blur(onBlurPOI);
     $("#poiReward").on("input", onInputPOI);
 
+    $("#poiImage").change(function(e) {
+        //$("#message").empty(); // borramos mensaje de error
+        var file = this.files[0];
+        if(!file) return;
+        var imagefile = file.type;
+        var match= ["image/jpeg","image/png","image/jpg"];
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            //$("#message").html("<p id='error'>Please Select A valid Image File. Only jpeg, jpg and png Images type allowed</p>");
+            return false;
+        }
+        else{
+            var formData = new FormData();
+            formData.append("poiId", poi.id);
+            formData.append("file", e.target.files[0]);
+            formData.append("type", "pois");
+
+            for (var pair of formData.entries()) {
+                console.log(pair[0]+ ', ' + pair[1]); 
+            }
+
+            $.ajax({
+                url: "upload-screen-files.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+                    //$('#loading').hide();
+                    if (data.startsWith("ok")) {
+                        var url = data.split("-")[1];
+                        console.log("succes upload " + url);
+                        poi.item = url;
+                        // show preview
+                        savePOI(poi);
+                    } else {
+                        console.log("error upload " + data)
+                        //$("#message").html("<p id='error'>" + data + "</p>");   
+                    }
+                }
+            });
+        }
+    });
+
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
     }else if(poi.type == "start" || poi.type == "finish"){
