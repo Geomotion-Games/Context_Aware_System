@@ -16,21 +16,32 @@ function duplicatePois($lastPlotId, $newPlotId, $bd){
 			WHERE pl.id = $lastPlotId
 			";
 	$res = $bd->ejecutar($query);
-	$newPoiId = mysql_insert_id();
-	duplicateScreens($lastPlotId, $newPoiId, $bd);
-	return $newPoiId;
+
+	$query = "SELECT id FROM poi WHERE plot = $lastPlotId";
+	$res = $bd->ejecutar($query);
+	$lastPoiIds = array();
+	while(($row = mysql_fetch_assoc($res))) {
+		$lastPoiIds[] = $row['id'];
+	}
+	
+	$query = "SELECT id FROM poi WHERE plot = $newPlotId";
+	$res = $bd->ejecutar($query);
+	$i = 0;
+	while(($row = mysql_fetch_assoc($res))) {
+		$id = $row['id'];
+		duplicateScreens($lastPoiIds[$i], $id, $bd);
+		$i++;
+	}
 }
 
-function duplicateScreens($lastPlotId, $newPoiId, $bd){
+function duplicateScreens($lastPoiId, $newPoiId, $bd){
 	$query = "INSERT INTO screen (`poi`, `data`)
-			SELECT $newPoiId, p.data,
+			SELECT $newPoiId, s.data
 			FROM poi p 
 			JOIN screen s ON s.poi = p.id 
-			WHERE p.plot = $lastPlotId
+			WHERE p.id = $lastPoiId
 			";
 	$res = $bd->ejecutar($query);
-	$newScreenId = mysql_insert_id();
-	return $newScreenId;
 }
 
 ?>

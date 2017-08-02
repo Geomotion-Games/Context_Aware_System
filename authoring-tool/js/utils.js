@@ -27,8 +27,6 @@ function savePlot(plot, callback) {
         data: plotJSON
     });
 
-    console.log(plotJSON);
-
     console.log("Saving...");
     request.done(function(data) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
