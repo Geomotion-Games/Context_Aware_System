@@ -2,7 +2,7 @@ $( function() {
 
 	$( "#stops" ).sortable( {
 		update: function(event, ui) {
-			sortPoints();
+			sortPoints(true);
 		}
 	});  
 	poisCreated = points.length;
@@ -126,6 +126,17 @@ var beaconMarkerIcon = new L.Icon({
 	shadowSize: [41, 41]
 });
 
+var chestMarkerIcon = L.icon({
+    iconUrl: 'images/chestMarker.jpg',
+    //shadowUrl: 'leaf-shadow.png',
+
+    iconSize:     [50, 43], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [25, 43], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
 var x = document.getElementById("location");
 var map = L.map('map');
 
@@ -174,17 +185,19 @@ map.on('click', function(e) {
 
 function loadStops(){
 	points.forEach(function(p){
+		 console.log(p)
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
 		showStop(p);
 		if(p.marker)p.marker.step = p;
 	});
+	sortPoints();
 	updatePath();
 }
 
 function addMarker(latlng, draggable){
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
-		icon: draggable === undefined || draggable == true ? normalMarkerIcon : beaconMarkerIcon
+		icon: draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon
 	}).bindTooltip("Stop " + (poisCreated + 1),
 		{
 			permanent: true,
@@ -225,11 +238,14 @@ function duplicate(stopNumber){
 }
 
 function addStop(marker, type){
+	var lastPoi = poisCreated;
+
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
 	showStop(step);
 	points[poisCreated] = step;
 	updatePath();
+	sortPoints();
 
 	savePOI(step, game, function(id){
 		$("#stops").children().each(function() {
@@ -317,6 +333,7 @@ function addBeaconMarker(id, step, focus){
 		map.panTo(coords);
 		map.setZoom(15);
 	}
+	sortPoints(null, true);
 	updatePath();
 }
 
@@ -330,7 +347,7 @@ function removeStop(stopNumber) {
 	}
 
 	poisCreated--;
-	sortPoints();
+	sortPoints(true);
 }
 
 function updateLabels() {
@@ -352,34 +369,43 @@ function updateLabels() {
 	});
 }
 
-function sortPoints(){
+function sortPoints(save, skipSort){
 	var len = Object.keys(points).length;
 
 	if (len > 1) {
 		var newPointList = [];
 
-		$("#stops").children().each(function (index) {
-			var number = $(this).attr("stop-number");
-			for (var stop in points) {
-				if (points[stop] && points[stop].orderNumber == number) {
-					$(this).attr("stop-number", index + 1);
-					$(this).attr("id", "point" + (index + 1));
-					points[stop].orderNumber = (index + 1);
-					newPointList.push(points[stop]);
-					savePOI(points[stop], game);
-					points.splice(stop, 1);
-					break;
+		if(!skipSort){
+			$("#stops").children().each(function (index) {
+				var number = $(this).attr("stop-number");
+				for (var stop in points) {
+					if (points[stop] && points[stop].orderNumber == number) {
+						$(this).attr("stop-number", index + 1);
+						$(this).attr("id", "point" + (index + 1));
+						points[stop].orderNumber = (index + 1);
+						newPointList.push(points[stop]);
+						if(save)savePOI(points[stop], game);
+						points.splice(stop, 1);
+						break;
+					}
 				}
-			}
 
-		});
-		points = newPointList;
-		updatePath();
-		
+			});
+			points = newPointList;
+			updatePath();
+		}
+
 		if(game.type == "TreasureHunt"){
 			$(".poiChest").addClass("hidden");
 			var childrens = $("#stops").children();
 			$(childrens[points.length - 1]).find(".poiChest").removeClass("hidden");
+
+			points.forEach(function (p) {
+				if(p.marker) p.marker.setIcon(p.type == "normal" ? normalMarkerIcon : beaconMarkerIcon);
+			});
+
+			var p = points[points.length - 1];
+			if(p.marker) p.marker.setIcon(chestMarkerIcon);
 		}
 	}
 }
