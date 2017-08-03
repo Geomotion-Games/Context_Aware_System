@@ -78,8 +78,6 @@ function init(){
 	$("#gameName").val(game.name);
 	$("#gameDescription").val(game.description);
 
-	if(game.type == "TreasureHunt") $(".poiChest").removeClass("hidden");
-
 	if(game.time != 0){
 		$("#timeToggle").prop('checked', true);
 		$('#timeLimit').css("visibility", 'visible');
@@ -244,11 +242,15 @@ function addStop(marker, type){
 }
 
 function showStop(stop){
+	var last = game.type == "TreasureHunt" && (stop.orderNumber == points.length);
 	if(stop.type == "normal") {
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
+						<div class="poiChest ${last?"":"hidden"}">
+				    		<img src="images/chest.png">
+				    	</div>
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
@@ -267,6 +269,9 @@ function showStop(stop){
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
+						<div class="poiChest ${last?"":"hidden"}">
+				    		<img src="images/chest.png">
+				    	</div>
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
@@ -353,7 +358,6 @@ function sortPoints(){
 	if (len > 1) {
 		var newPointList = [];
 
-		newPointList.push(points[0]);
 		$("#stops").children().each(function (index) {
 			var number = $(this).attr("stop-number");
 			for (var stop in points) {
@@ -369,9 +373,14 @@ function sortPoints(){
 			}
 
 		});
-		newPointList[999] = points[points.length - 1];
 		points = newPointList;
 		updatePath();
+		
+		if(game.type == "TreasureHunt"){
+			$(".poiChest").addClass("hidden");
+			var childrens = $("#stops").children();
+			$(childrens[points.length - 1]).find(".poiChest").removeClass("hidden");
+		}
 	}
 }
 
