@@ -160,7 +160,7 @@
 				<footer class="navbar-fixed-bottom">
 					<div class="container-fluid">
 						<div class="col-md-12">
-							<a id="finishEdition" href="./" class="orangeBtn">Finish Edition</a>
+							<a id="finishEdition" href="./" class="orangeBtn">Finish game edition</a>
 							<a id="manageBeacons" class="blueBtn">Manage Beacons</a>
 							<a id="addBeacon" class="blueBtn">+ Add Beacon</a>
 							<div id="saving">Saving...</div>

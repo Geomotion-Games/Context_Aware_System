@@ -162,7 +162,7 @@
 		<div class="container-fluid">
 			<div class="col-md-12">
 				<!-- FER EL LINK ON TOCA amb el ?id=XX -->
-				<a class="endEditing" class="orangeBtn" href="../follow-the-path.php">Finish edition</a>	
+				<a class="endEditing orangeBtn" href="../follow-the-path.php">Finish POI edition</a>	
 				<a id="qrcode" class="blueBtn">Generate QR Code</a>
 				<div id="saving">Saving...</div>
 			</div>
