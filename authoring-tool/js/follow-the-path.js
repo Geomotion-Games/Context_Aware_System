@@ -264,10 +264,10 @@ function showStop(stop){
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
-						<div class="poiChest ${last?"":"hidden"}">
+					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+					 	<div class="poiChest ${last?"":"hidden"}">
 				    		<img src="images/chest.png">
 				    	</div>
-					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
 						</div>
