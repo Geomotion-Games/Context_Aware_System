@@ -185,7 +185,6 @@ map.on('click', function(e) {
 
 function loadStops(){
 	points.forEach(function(p){
-		 console.log(p)
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
 		showStop(p);
 		if(p.marker)p.marker.step = p;
@@ -227,12 +226,16 @@ function duplicate(stopNumber){
 			poisCreated++;
 			var copy = points[point].copy();
 			copy.orderNumber = poisCreated;
+			var lastMarker = copy.marker;
+			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
+			copy.marker = addMarker(newPosition, copy.type != "beacon");
+			map.panTo(copy.marker._latlng);
     		duplicatePOI(copy, game, function(id){
-    			console.log("duplicated!")
     			showStop(copy);
     			points[poisCreated] = copy;
     			updatePath();
     			sortPoints();
+    			
     		});
 		}
 	}

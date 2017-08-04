@@ -284,3 +284,9 @@ function gameTypeToUrl(type){
     if(type == "FollowThePath") return "follow-the-path";
     if(type == "TreasureHunt") return "treasure-hunt";
 }
+
+function addMetersToCoordinates(coords, x, y){
+    var xx = x * 0.0000089;
+    var yy = y * 0.0000089;
+    return {lat: coords.lat + yy, lng: coords.lng + xx / Math.cos(coords.lng * 0.018)}
+}
