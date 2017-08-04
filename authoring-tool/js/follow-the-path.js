@@ -232,6 +232,7 @@ function duplicate(stopNumber){
     			showStop(copy);
     			points[poisCreated] = copy;
     			updatePath();
+    			sortPoints();
     		});
 		}
 	}
