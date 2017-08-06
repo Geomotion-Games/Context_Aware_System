@@ -138,22 +138,22 @@ footer {
 	margin: 5px 20px 5px 0;
 }
 
-footer a.orangeBtn {
+a.orangeBtn {
 	background-color: #c25d31;
 }
 
-footer a.orangeBtn:hover {
+a.orangeBtn:hover {
     background-color: #e87f62;
 }
 
-footer a.blueBtn:hover {
+a.blueBtn:hover {
     background-color: #5b5f71;
 }
 
-footer a {
+footer a{
 	float: right;
 	text-align: center;
-	color: white;
+	color: white !important;
 	background-color: #3b4f61;
 	padding: 10px;
 	display:block;
@@ -161,14 +161,41 @@ footer a {
 	margin: 5px 20px 5px 0;
 }
 
-footer a:hover {
+footer a:hover{
 	text-decoration: none;
 	color: white;
 	cursor: pointer;
+}
+
+.warningBtn{
+	float: left;
+	text-align: center;
+	color: white;
+	background-color: #3b4f61;
+	padding: 10px;
+	display: block;
+	width: 100px;
+	margin: 0px 20px 5px 0;
+	background-color: #c25d31;
+}
+
+.warningBtn:hover{
+	text-decoration: none;
+	color: white;
+	cursor: pointer;
+	background-color: #e87f62;
 }
 
 .poi-tooltip + .tooltip { width: 250px; }
 .poi-tooltip + .tooltip > .tooltip-inner { background-color: white; color: black; border: 1px solid #ccc; width: 250px;}
 .poi-tooltip + .tooltip > .tooltip-arrow { border-right-color: #ccc; }
 
+#remove-warning .modal-dialog {
+	width: 330px;
+	margin-top:200px;
+}
 
+#remove-warning .modal-content {
+	padding: 20px;
+	height: 200px;
+}

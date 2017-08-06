@@ -53,6 +53,7 @@ function appendGame(parent, games, index){
     });
 
     $(".gamerow").on('click', function(e) {
+        e.preventDefault();
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
             var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
@@ -75,10 +76,7 @@ $("body").find("[aria-controls='community']").on('click', function(e) {
 
 function gameOnClick(parent, gameNumber, action){
     if(action == "remove"){
-        $(parent).remove();
-        removePlot(games[gameNumber]);
-        games.splice(gameNumber, 1);
-        reorderPlots();
+        showRemoveWarning(parent, gameNumber);
     }else if(action == "edit"){
     }else if(action == "duplicate"){
         var copy = games[gameNumber].copy();
@@ -93,4 +91,18 @@ function gameOnClick(parent, gameNumber, action){
 function reorderPlots(){
     showMyGames();
     showCommunityGames();
+}
+
+function showRemoveWarning(parent, gameNumber){
+    $("#remove-warning").modal('show');
+    $(".warning-action-remove").click(function(){
+        $(parent).remove();
+        removePlot(games[gameNumber]);
+        games.splice(gameNumber, 1);
+        reorderPlots();
+        $("#remove-warning").modal('hide');
+    });
+    $(".warning-action-cancel").click(function(){
+        $("#remove-warning").modal('hide');
+    });
 }

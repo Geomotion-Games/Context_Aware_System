@@ -92,6 +92,17 @@
 		</div>
 		
 	</div>
+	<div class="remove-warning modal fade" id="remove-warning" tabindex="-1" role="dialog" aria-labelledby="remove-warning">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<h4><b>Warning!</b></h4>
+				<hr>
+				<p>Are you sure you want to remove the game XX ?</p>
+				<a class="warningBtn warning-action-remove">Remove</a>
+				<a class="warningBtn warning-action-cancel">Cancel</a>
+			</div>
+		</div>
+	</div>
 
 	<footer class="navbar-fixed-bottom">
 		<div class="container-fluid">
