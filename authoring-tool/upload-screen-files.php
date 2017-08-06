@@ -24,13 +24,15 @@
 			else {
 				$base = "uploads/images";
 
-				if($type == "screens") $base = "uploads/images/screens/" . $screenId;
 				if (!file_exists($base)) {
     				mkdir($base, 0777, true);
 				}
 
 				$sourcePath = $_FILES['file']['tmp_name'];
 				$targetPath = $base . "/poi_" . $poiId . "_item.";
+
+				if($type == "screens") $targetPath = $base . "/screen_" . $screenId . "_image.";
+
 
 				// borrar imagenes con el mismo nombre pero diferente extension
 				foreach ($validextensions as $key => $value) {

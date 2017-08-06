@@ -48,56 +48,22 @@ function init(){
     $("#poiReward").on("input", onInputPOI);
 
     $("#poiImage").change(function(e) {
-        //$("#message").empty(); // borramos mensaje de error
-        var file = this.files[0];
-        if(!file) return;
-        var imagefile = file.type;
-        var match= ["image/jpeg","image/png","image/jpg"];
-        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
-            //$("#message").html("<p id='error'>Please Select A valid Image File. Only jpeg, jpg and png Images type allowed</p>");
-            return false;
-        }
-        else{
-            $("body").find("[data-index=2]").each(function(){
-                var imageHolder = $(this).find(".preview-img");
-                imageHolder.empty();
-                var src = URL.createObjectURL(e.target.files[0]);
-                imageHolder.attr('src', src);
-
-                screen.image = src;
-            });
-
-            var formData = new FormData();
-            formData.append("poiId", poi.id);
-            formData.append("file", e.target.files[0]);
-            formData.append("type", "pois");
-
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
+        uploadImage({
+            file: e.target.files[0], 
+            preCallback: function(file){
+                $("body").find("[data-index=2]").each(function(){
+                    var imageHolder = $(this).find(".preview-img");
+                    imageHolder.empty();
+                    var src = URL.createObjectURL(file);
+                    imageHolder.attr('src', src);
+                    screen.image = src;
+                });
+            }, 
+            postCallback: function(url){
+                poi.item = url;
+                savePOI(poi);
             }
-
-            $.ajax({
-                url: "upload-screen-files.php",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function(data){
-                    //$('#loading').hide();
-                    if (data.startsWith("ok")) {
-                        var url = data.split("-")[1];
-                        console.log("succes upload " + url);
-                        poi.item = url;
-                        // show preview
-                        savePOI(poi);
-                    } else {
-                        console.log("error upload " + data)
-                        //$("#message").html("<p id='error'>" + data + "</p>");   
-                    }
-                }
-            });
-        }
+        }); 
     });
 
     if(poi.type == "beacon"){
@@ -160,17 +126,26 @@ function showEditorScreen(index){
 
     $("#screenImage").on('change',function(e){
         console.log("image changed");
-        $("body").find("[data-index=" + index + "]").each(function(){
-            var imageHolder = $(this).find(".preview-img");
-            imageHolder.empty();
-            var src = URL.createObjectURL(e.target.files[0]);
-            imageHolder.attr('src', src);
-
-            screen.image = src;
-        });
+         uploadImage({
+            screenId: screen.id,
+            type: "screens",
+            file: e.target.files[0], 
+            preCallback: function(file){
+                $("body").find("[data-index=" + index + "]").each(function(){
+                    var imageHolder = $(this).find(".preview-img");
+                    imageHolder.empty();
+                    var src = URL.createObjectURL(e.target.files[0]);
+                    imageHolder.attr('src', src);
+                });
+            }, 
+            postCallback: function(url){
+                screen.image = url;
+                saveScreen(screen, poi);
+            }
+        }); 
     });
 
-     $("#screenClue").on('input',function(e){
+    $("#screenClue").on('input',function(e){
         var clue = $(this).val();
         screen.clue = clue;
         onInputScreen();
@@ -381,7 +356,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
-                        <img class="preview-img" id="preview-img-A" src="${image?"images/"+image:""}">
+                        <img class="preview-img" id="preview-img-A" src="${image?image:""}">
                         <p class="preview-text" id="preview-text-A">${text}</p>
                         <p class="preview-button" id="preview-button-A">Go out and play!</p>
                     </div>
@@ -405,4 +380,41 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
             `);
         }
     }
+}
+
+function uploadImage(options){
+        var file = options.file;
+        if(!file) return;
+        var imagefile = file.type;
+        var match= ["image/jpeg","image/png","image/jpg"];
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            return false;
+        }
+        else{
+            options.preCallback(file);
+
+            var formData = new FormData();
+            formData.append("poiId", poi.id);
+            formData.append("file", file);
+            formData.append("type", options.type || "pois");
+            if(options.screenId) formData.append("screenId", options.screenId);
+
+            $.ajax({
+                url: "upload-screen-files.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+                    if (data.startsWith("ok")) {
+                        var url = data.split("-")[1];
+                        console.log("succes upload " + url);
+                        options.postCallback(url);
+                    } else {
+                        console.log("error upload " + data)
+                    }
+                }
+            });
+        }
 }
