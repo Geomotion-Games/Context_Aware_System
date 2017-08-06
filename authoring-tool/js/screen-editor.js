@@ -58,6 +58,15 @@ function init(){
             return false;
         }
         else{
+            $("body").find("[data-index=2]").each(function(){
+                var imageHolder = $(this).find(".preview-img");
+                imageHolder.empty();
+                var src = URL.createObjectURL(e.target.files[0]);
+                imageHolder.attr('src', src);
+
+                screen.image = src;
+            });
+
             var formData = new FormData();
             formData.append("poiId", poi.id);
             formData.append("file", e.target.files[0]);
@@ -212,21 +221,34 @@ function appendEditor(parent, screen){
     var type = screen.type;
     var gameType = game.type;
 
-    $(parent).append(`
-	    <div class="form-group">
-            <label for="screenTitle">Title:</label>
-            <input type="title" class="form-control" id="screenTitle" value="${title}">
-        </div>
-        <div class="form-group">
-            <label for="screenImage">Image:</label>
-            <input class="form-control" id="screenImage" type="file" accept="image/*" >
-        </div>
-        <div class="form-group">
-            <label for="screenText">Text:</label>
-            <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
-        </div>
-        
-    `);
+    if(type == "A"){
+        $(parent).append(`
+    	    <div class="form-group">
+                <label for="screenTitle">Title:</label>
+                <input type="title" class="form-control" id="screenTitle" value="${title}">
+            </div>
+            <div class="form-group">
+                <label for="screenImage">Image:</label>
+                <input class="form-control" id="screenImage" type="file" accept="image/*" >
+            </div>
+            <div class="form-group">
+                <label for="screenText">Text:</label>
+                <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
+            </div>
+            
+        `);
+    }else{
+        $(parent).append(`
+            <div class="form-group">
+                <label for="screenTitle">Title:</label>
+                <input type="title" class="form-control" id="screenTitle" value="${title}">
+            </div>
+            <div class="form-group">
+                <label for="screenText">Text:</label>
+                <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
+            </div>
+        `);
+    }
 
     if(gameType == "TreasureHunt" && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
         $(parent).append(`
@@ -244,6 +266,8 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var image = screen.image || "";
     var type = screen.type;
 
+    var item = poi.item;
+
     var singleScreen = poi.type == "start" || poi.type == "finish";
 
     if(!editor) {
@@ -255,7 +279,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
-                                    <img class="preview-img" id="preview-img-A" src="${image?"images/"+image:""}">
+                                    <img class="preview-img" id="preview-img-A" src="${image?image:""}">
                                     <p class="preview-text" id="preview-text-A">${text}</p>
                                     <p class="preview-button" id="preview-button-A">Go out and play!</p>
                                 </div>
@@ -334,7 +358,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                                    <img class="preview-img" id="preview-img-C" src="${image?"images/"+image:""}">
+                                    <img class="preview-img" id="preview-img-C" src="${item?item:""}">
                                     <p class="preview-text" id="preview-text-C">${text}</p>
                                     <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
@@ -370,7 +394,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">
                    <div class="content">
                         <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                        <img class="preview-img" id="preview-img-C" src="${image?"images/"+image:""}">
+                        <img class="preview-img" id="preview-img-C" src="${item?item:""}">
                         <p class="preview-text" id="preview-text-C">${text}</p>
                         <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
                         <p class="preview-button" id="preview-button-C">Go to map!</p>
@@ -382,14 +406,3 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
         }
     }
 }
-
-$("#add_screen").on("click", function(e){
-    var random = getRandomInt(0, 3);
-    var type = "";
-    if(random == 0) type = "A";
-    else if(random == 1) type = "B";
-    else if(random == 2) type = "C";
-    points[0].screens.push(new Screen({type:type, description: "description"}));
-    var index = points[0].screens.length;
-    appendPreviewScreen("#screens", points[0].screens, index - 1, true);
-});
