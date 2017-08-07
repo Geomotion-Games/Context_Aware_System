@@ -45,7 +45,12 @@ function init(){
     $("#poiTriggerDistance").blur(onBlurPOI);
     
     $("#poiReward").blur(onBlurPOI);
-    $("#poiReward").on("input", onInputPOI);
+    $("#poiReward").on("input", function(){
+        onInputPOI();
+         $("body").find("[data-index=2]").each(function(){
+            $(this).find(".preview-reward > span").html($("#poiReward").val());
+         });
+    });
 
     $("#poiImage").change(function(e) {
         uploadImage({
@@ -242,6 +247,8 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var type = screen.type;
 
     var item = poi.item;
+    var reward = poi.rewardPoints;
+
 
     var singleScreen = poi.type == "start" || poi.type == "finish";
 
@@ -335,7 +342,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
                                     <img class="preview-img" id="preview-img-C" src="${item?item:image}">
                                     <p class="preview-text" id="preview-text-C">${text}</p>
-                                    <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
+                                    <p class="preview-reward" id="preview-reward-C">You won <span>${reward}</span> points</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
                                 </div>
                                 <div class="background-front"></div>
@@ -371,7 +378,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                         <h4 class="preview-title" id="preview-title-C">${title}</h4>
                         <img class="preview-img" id="preview-img-C" src="${item?item:image}">
                         <p class="preview-text" id="preview-text-C">${text}</p>
-                        <p class="preview-reward" id="preview-reward-C">You won <span>10</span> points</p>
+                        <p class="preview-reward" id="preview-reward-C">You won <span>${reward}</span> points</p>
                         <p class="preview-button" id="preview-button-C">Go to map!</p>
                     </div>
                     <div class="background-front"></div>
