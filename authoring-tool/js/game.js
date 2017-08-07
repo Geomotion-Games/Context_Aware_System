@@ -53,12 +53,13 @@ function appendGame(parent, games, index){
     });
 
     $(".gamerow").on('click', function(e) {
-        e.preventDefault();
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
             var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
             action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
             action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
+       
+            if(action != "edit") e.preventDefault();
 
             gameOnClick(this, gameNumber, action);
         }
