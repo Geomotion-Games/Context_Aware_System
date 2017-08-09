@@ -256,6 +256,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
         if (type == "A") {
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
+                    <h4>Screen before challenge</h4>
                     <div href="" class="edit-screen">
                         <div class="preview-screen clickable" id="preview-screen-A" data-index="${index}">
                             <div class="hover">
@@ -273,13 +274,13 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             </div>
                         </div>
                     </div>
-                    <h4>Challenge description</h4>
                 </div>
                 
             `);
         } else if (type == "B") {
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
+                    <h4>Screen for challenge</h4>
                     <div class="preview-screen" id="preview-screen-B" data-screen-index="2">
                         <form id="challenge-form">
                             <div class="form-group">
@@ -314,7 +315,6 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             </div>
                         </form>
                     </div>
-                    <h4>Challenge</h4>
 
                     <script>
                         $( "#challenge-type-selector" ).change(function() {
@@ -335,6 +335,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
         } else if (type == "C") {
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
+                    <h4>Screen after challenge</h4>
                     <div href="" class="edit-screen">
                         <div class="preview-screen clickable" id="preview-screen-C" data-index="${index}">
                             <div class="hover">
@@ -353,7 +354,6 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             </div>
                         </div>
                     </div>
-                    <h4>Challenge description</h4>
                 </div>
             `);
         }

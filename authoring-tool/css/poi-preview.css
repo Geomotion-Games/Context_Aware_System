@@ -104,12 +104,13 @@
 }
 
 #screens {
-	margin: 30px 0 70px;
-	overflow:auto;
+	margin: 10px 0 70px;
+	//overflow:auto;
 }
 
 #screens h4 {
 	text-align: center;
+	padding-bottom: 10px;
 }
 
 .hover:hover .background, 
