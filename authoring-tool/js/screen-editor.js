@@ -73,8 +73,12 @@ function init(){
 
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
-    }else if(poi.type == "start" || poi.type == "finish"){
+    }else if(poi.type == "start"){
         $("#attributes").addClass("hidden");
+    }else if(poi.type == "finish"){
+        $("#nameContainer").addClass("hidden");
+        $("#rewardContainer").addClass("hidden");
+        $("#imageContainer").addClass("hidden");
     }
 
     $(".endEditing").attr("href", "./" + gameTypeToUrl(game.type) +".php?id=" + poi.plot);

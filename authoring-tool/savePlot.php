@@ -32,7 +32,7 @@ if($id == null){
 }
 
 function createDefaultPois($plotId, $type, $bd){
-	$query = "INSERT INTO poi (plot, type) VALUES ('$plotId','$type')";
+	$query = "INSERT INTO poi (plot, type, lat, lng, triggerDistance) VALUES ('$plotId','$type',0,0,20)";
 	$res = $bd->ejecutar($query);
 	echo mysql_error();
 	createDefaultScreens(mysql_insert_id(), $bd);

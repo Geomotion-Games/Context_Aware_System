@@ -101,19 +101,19 @@
 
 	<div class="container-fluid">
 		<div id="attributes" class="row">
-			<div class="col-md-2 attribute">
+			<div id="nameContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Name of the POI</p>
 				<input id="poiName" class="attrValue" type="text">
 			</div>
-			<div class="col-md-2 attribute">
+			<div id="rewardContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Reward Points</p>
 				<input id="poiReward" class="attrValue" type="number">
 			</div>
-			<div id ="triggerContainer" class="col-md-2 attribute">
+			<div id="triggerContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Trigger distance (meters)</p>
 				<input id="poiTriggerDistance" class="attrValue" type="number">
 			</div>
-			<div class="col-md-6 attribute">
+			<div id="imageContainer" class="col-md-6 attribute">
 				<p class="attrTitle">Collectable item</p>
 				<input id="poiImage" class="attrValue" type="file" accept="image/*">
 			</div>

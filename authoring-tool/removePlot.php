@@ -15,8 +15,10 @@ $id = $_REQUEST['id'];
 //TODO: only delete if the current user is the owner of the plot
 
 if($id != null){
-	$query = "DELETE FROM plot WHERE id = '$id'";
+	$query = "UPDATE plot SET archived='1' WHERE id=$id";
 	$res = $bd->ejecutar($query);
+	// $query = "DELETE FROM plot WHERE id = '$id'";
+	// $res = $bd->ejecutar($query);
 	echo "Removed plot " . $id;
 }else{
 	echo "Error: Id is null";

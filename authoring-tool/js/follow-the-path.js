@@ -95,6 +95,8 @@ function init(){
 	$("#point0 a").attr("href", "screens-overview.php?id=" + start.id);
 	$("#point999 a").attr("href", "screens-overview.php?id=" + finish.id);
 
+	if(game.type=="TreasureHunt") $(".poiChest").removeClass("hidden");
+
 	function onBlur(){
 		if(editTimeout != null) clearTimeout(editTimeout);
 		updateGameValues();
@@ -164,6 +166,8 @@ function updatePath() {
 		}
 	}
 
+	if(game.type=="TreasureHunt") pointList.push(finish.marker.getLatLng());
+
 	if (path != null) map.removeLayer(path);
 
 	path = new L.Polyline(pointList, {
@@ -189,15 +193,21 @@ function loadStops(){
 		showStop(p);
 		if(p.marker)p.marker.step = p;
 	});
+	if(game.type=="TreasureHunt"){
+		console.log(finish);
+		finish.marker = addMarker({lat: finish.lat, lng:finish.lng}, true, true);
+		finish.marker.step = finish;
+	}
 	sortPoints();
 	updatePath();
 }
 
-function addMarker(latlng, draggable){
+function addMarker(latlng, draggable, isFinish){
+	var icon = isFinish ? chestMarkerIcon : draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon;
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
-		icon: draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon
-	}).bindTooltip("Stop " + (poisCreated + 1),
+		icon: icon
+	}).bindTooltip(!isFinish ? "Stop " + (poisCreated + 1) : "FINISH",
 		{
 			permanent: true,
 			direction: 'bottom'
@@ -268,9 +278,6 @@ function showStop(stop){
 				<div class="row">
 					<div class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
-					 	<div class="poiChest ${last?"":"hidden"}">
-				    		<img src="images/chest.png">
-				    	</div>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
 						</div>
@@ -288,9 +295,6 @@ function showStop(stop){
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
-						<div class="poiChest ${last?"":"hidden"}">
-				    		<img src="images/chest.png">
-				    	</div>
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
@@ -396,19 +400,6 @@ function sortPoints(save, skipSort){
 			});
 			points = newPointList;
 			updatePath();
-		}
-
-		if(game.type == "TreasureHunt"){
-			$(".poiChest").addClass("hidden");
-			var childrens = $("#stops").children();
-			$(childrens[points.length - 1]).find(".poiChest").removeClass("hidden");
-
-			points.forEach(function (p) {
-				if(p.marker) p.marker.setIcon(p.type == "normal" ? normalMarkerIcon : beaconMarkerIcon);
-			});
-
-			var p = points[points.length - 1];
-			if(p.marker) p.marker.setIcon(chestMarkerIcon);
 		}
 	}
 }
