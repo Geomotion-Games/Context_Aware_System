@@ -183,8 +183,16 @@ function updatePath() {
 }
 
 map.on('click', function(e) {
-	var marker = addMarker(e.latlng);
-	addStop(marker, "normal");
+	if(finish.marker._latlng.lat == 0 && finish.marker._latlng.lng == 0){
+		console.log("finish!")
+		finish.marker.setLatLng(e.latlng);
+		map.addLayer(finish.marker);
+		savePOI(finish, game);
+	}else{
+		var marker = addMarker(e.latlng);
+		addStop(marker, "normal");
+		map.addLayer(marker);
+	}
 });
 
 function loadStops(){
@@ -196,13 +204,14 @@ function loadStops(){
 	if(game.type=="TreasureHunt"){
 		console.log(finish);
 		finish.marker = addMarker({lat: finish.lat, lng:finish.lng}, true, true);
+		if(finish.marker._latlng.lat != 0 && finish.marker._latlng.lng != 0) map.addLayer(finish.marker);
 		finish.marker.step = finish;
 	}
 	sortPoints();
 	updatePath();
 }
 
-function addMarker(latlng, draggable, isFinish){
+function addMarker(latlng, draggable, isFinish, addToMap){
 	var icon = isFinish ? chestMarkerIcon : draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon;
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
@@ -226,7 +235,7 @@ function addMarker(latlng, draggable, isFinish){
 		updatePath();
 	});
 
-	map.addLayer(marker);
+	if(addToMap) map.addLayer(marker);
 	return marker;
 }
 
@@ -239,6 +248,7 @@ function duplicate(stopNumber){
 			var lastMarker = copy.marker;
 			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
 			copy.marker = addMarker(newPosition, copy.type != "beacon");
+			map.addLayer(copy.marker);
 			map.panTo(copy.marker._latlng);
     		duplicatePOI(copy, game, function(id){
     			showStop(copy);
@@ -334,6 +344,7 @@ function addBeaconMarker(id, step, focus){
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
+	map.addMarker(marker);
 	step.marker = marker;
 	step.beaconId = id;
 	if(focus){
