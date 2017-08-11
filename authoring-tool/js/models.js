@@ -67,9 +67,20 @@ function Screen(params){
     this.text = params.text || "";
     this.image = params.image;
     this.clue = params.clue || "";
+    if(params.challenge){
+        this.challengeType = params.challenge.type || "";
+        this.challengeURL = params.challenge.url || "";
+    }
+
+    console.log(this);
 }
 
 Screen.prototype.toJSON = function() {
+    var challenge = {};
+    if(this.challengeType != ""){
+        challenge.type = this.challengeType;
+        if(this.challengeURL != "")challenge.url = this.challengeURL;
+    }
     var json = {
         "id": this.id,
         "data": JSON.stringify({
@@ -77,7 +88,8 @@ Screen.prototype.toJSON = function() {
             "title" : this.title,
             "text"  : this.text,
             "image" : this.image,
-            "clue"  : this.clue
+            "clue"  : this.clue,
+            "challenge": challenge
         })
     };
 

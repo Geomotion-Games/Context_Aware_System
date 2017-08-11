@@ -249,6 +249,7 @@ function parseScreens(screens){
 }
 
 function parseScreen(screen){
+    console.log(screen);
     var json = JSON.parse(screen.data);
     return new Screen({
         id: screen.id,
@@ -256,7 +257,8 @@ function parseScreen(screen){
         title: json.title,
         text: json.text,
         image: json.image,
-        clue: json.clue
+        clue: json.clue,
+        challenge: json.challenge
     });
 }
 

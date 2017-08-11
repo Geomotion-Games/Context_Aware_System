@@ -98,6 +98,48 @@ function init(){
     $('.stop-editor').on('hidden.bs.modal', function () {
         currentScreen = -1;
     });
+
+    //SCREEN TYPE B
+
+    if(screens[1] && screens[1].type == "B"){
+        if(screens[1].challengeType != ""){
+            $("#challenge-type-selector").val(screens[1].challengeType);
+        }
+        if(screens[1].challengeURL != ""){
+            $("#challenge-form input").val(screens[1].challengeURL);
+        }
+        updateChallengeSelector();
+    }
+
+    $("#challenge-form input").on("input", function(){
+        console.log($(this).val());
+        screens[1].challengeType = "minigame";
+        screens[1].challengeURL = $(this).val();
+        saveScreen(screens[1], poi);
+    });
+
+    function updateChallengeSelector(){
+        var val = $("#challenge-type-selector").val();
+        if (val == "checkin") { // check in
+            screens[1].challengeType = "checkin";
+            $( "#minigame-select-div" ).addClass('hidden');
+            $("#challenge-form input").val("");
+        } else if (val == "minigame") { // minigame
+            screens[1].challengeType = "minigame";
+            $( "#minigame-select-div" ).removeClass('hidden');
+        }
+    }
+
+    $( "#challenge-type-selector" ).change(function() {
+        updateChallengeSelector();
+        var val = $(this).val();
+       
+        if(val == "checkin"){
+            screens[1].challengeType = val;
+            screens[1].challengeURL = "";
+            saveScreen(screens[1], poi);
+        }
+    });
 }
 
 function showEditorScreen(index){
@@ -291,49 +333,17 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <label for="challenge-type-selector">Challenge:</label>
                                 <select class="form-control" id="challenge-type-selector">
                                     <option value="">Select the Challenge</option>
-                                    <option value="1">Check In</option>
-                                    <option value="2">Minigame</option>
-                                    <option value="3">Upload Content</option>
+                                    <option value="checkin">Check In</option>
+                                    <option value="minigame">Minigame</option>
                                 <select>
                             </div>
 
                             <div class="form-group hidden" id="minigame-select-div"">
-                                <label for="minigame-selector">Minigame:</label>
-                                <select class="form-control" id="minigame-selector">
-                                    <option value="">Select the Minigame</option>
-                                    <option value="1">Minigame 1</option>
-                                    <option value="2">Minigame 2</option>
-                                    <option value="3">Minigame 3</option>
-                                    <option value="4">Minigame 4</option>
-                                <select>
-                            </div>
-
-                            <div class="form-group hidden" id="file-type-selector-div">
-                                <label for="file-type-selector">Type of content:</label>
-                                <select class="form-control" id="file-type-selector">
-                                    <option value="">Select the type</option>
-                                    <option value="1">Image file</option>
-                                    <option value="2">Video file</option>
-                                    <option value="3">Audio file</option>
-                                <select>
+                                <label for="minigame-selector">Minigame URL:</label>
+                                <input type="text" name="minigame-selector"><br>
                             </div>
                         </form>
                     </div>
-
-                    <script>
-                        $( "#challenge-type-selector" ).change(function() {
-                            if ($(this).val() == 1) { // check in
-                                $( "#minigame-select-div" ).addClass('hidden');
-                                $( "#file-type-selector-div" ).addClass('hidden');
-                            } else if ($(this).val() == 2) { // minigame
-                                $( "#minigame-select-div" ).removeClass('hidden');
-                                $( "#file-type-selector-div" ).addClass('hidden');
-                            } else if ($(this).val() == 3) { // upload content
-                                $( "#minigame-select-div" ).addClass('hidden');
-                                $( "#file-type-selector-div" ).removeClass('hidden');
-                            }
-                        });
-                    </script>
                 </div>
             `);
         } else if (type == "C") {

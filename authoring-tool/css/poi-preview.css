@@ -182,3 +182,7 @@ div.edit-screen {
 	width: 330px;
 	margin-top:50px;
 }
+
+#challenge-form input{
+	width:266px;
+}
