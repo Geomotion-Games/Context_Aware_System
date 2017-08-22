@@ -334,10 +334,10 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <select class="form-control" id="challenge-type-selector">
                                     <option value="">Select the Challenge</option>
                                     <option value="checkin">Check In</option>
+                                    <option value="upload_content">Upload Content</option>
                                     <option value="minigame">Minigame</option>
                                 <select>
                             </div>
-
                             <div class="form-group hidden" id="minigame-select-div"">
                                 <label for="minigame-selector">Minigame URL:</label>
                                 <input type="text" name="minigame-selector"><br>
