@@ -13,7 +13,7 @@
 
 	$bd = Db::getInstance();
 
-    $query = $bd->ejecutar("SELECT * FROM plot WHERE archived != 1 ORDER BY id ASC");
+    $query = $bd->ejecutar("SELECT * FROM plot WHERE archived != 1 ORDER BY id DESC");
 	$numRows = $bd->num_rows($query);
 
 	$plots = array();
