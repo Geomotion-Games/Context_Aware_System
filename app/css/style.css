@@ -2,6 +2,50 @@ body { padding: 0; margin: 0; font-family: Raleway !important; }
 
 html, body, #map { height: 100vh; width: 100vw; }
 
+#topBar {
+	background-color: transparent;
+	position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    right: 0;
+}
+
+#topBar #gameInfo {
+	float: right;
+}
+
+#topBar #distance {
+	position: absolute;
+    right: 5px;
+    color: white;
+    font-size: 0.75em;
+    top: 25px;
+}
+
+#topBar #clueLayer {
+	position: absolute;
+    top: 0;
+    left: 0px;
+    right: 0px;
+    color: white;
+    font-size: 0.7em;
+    z-index: -1;
+    background-color: rgb(43, 37, 72);
+
+    max-height: 100px;
+    min-height: 80px;
+    background: rgb(43, 37, 72); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, rgb(43, 37, 72), rgba(43, 37, 72, 0.5)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, rgb(43, 37, 72), rgba(43, 37, 72, 0.5)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, rgb(43, 37, 72), rgba(43, 37, 72, 0.5)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(right, rgb(43, 37, 72), rgba(43, 37, 72, 0.5)); /* Standard syntax (must be last) */
+}
+
+#topBar #clueLayer p {
+	margin: 12px 110px 10px 35px;
+}
+
 #clueLayer.shown {
 	position: absolute;
     top: 10px;
@@ -13,7 +57,7 @@ html, body, #map { height: 100vh; width: 100vw; }
     border-radius: 11px;
 }
 
-#clueLayer.hidden {
+.hidden {
 	display: none;
 }
 
@@ -34,9 +78,17 @@ html, body, #map { height: 100vh; width: 100vw; }
 	pointer-events: none;
 }
 
-.modalDialog img {
+.modalDialog.screen img {
     width: 60%;
 	margin: 5px auto;
+}
+
+.modalDialog.screen .pointsWon {
+	text-align: center;
+}
+
+.modalDialog.screen .pointsWon span {
+	font-size: 1.2em;
 }
 
 .modalDialog:target {
@@ -44,7 +96,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 	pointer-events: auto;
 }
 
-.modalDialog > div {
+.modalDialog.screen > div {
 	width: 80%;
 	position: relative;
 	margin: 10% auto;
@@ -59,6 +111,48 @@ html, body, #map { height: 100vh; width: 100vw; }
 .modalDialog p {
 	text-align: left;
 	margin-top: 0;
+}
+
+.modalDialog input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.modalDialog input[type="file"] + label {
+	color: white;
+    background-color: #d3394c;
+    max-width: 80%;
+    font-size: 1em;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    padding: 0.625rem 1.25rem;
+    margin-bottom: 20px;
+}
+
+.modalDialog input[type="file"] + label svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: currentColor;
+    margin-top: -0.25em;
+    margin-right: 0.25em;
+}
+
+.modalDialog input[type="file"]:focus + label,
+.modalDialog input[type="file"] + label:hover {
+    background-color: red;
+}
+
+.modalDialog input[type="file"] + label {
+	cursor: pointer; /* "hand" cursor */
 }
 
 .close {
@@ -86,8 +180,104 @@ html, body, #map { height: 100vh; width: 100vw; }
 	padding: 10px;
     background-color: #F26B3F;
     text-decoration: none;
-    color: #fff;
+    color: #FFFFFF;
     font-weight: 700;
     border-radius: 10px;
     display:block;
 }
+
+#inventory {
+	z-index: -1;
+	background: #dadada;
+	overflow-y: scroll;
+	pointer-events: all;
+}
+
+#inventory-header {
+	background: rgb(43, 37, 72); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(right, rgb(43, 37, 72), rgb(149, 185, 173)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(left, rgb(43, 37, 72), rgb(149, 185, 173)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(left, rgb(43, 37, 72), rgb(149, 185, 173)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(left, rgb(43, 37, 72), rgb(149, 185, 173)); /* Standard syntax (must be last) */
+    width: 100%;
+    height: 86px;
+}
+
+#inventory #inventory-header #inventory-title {
+	text-align: center;
+	font-size: 1.3em;
+	color: white;
+	padding-top: 28px;
+	display: inline-block;
+}
+
+#inventory #inventory-header #return {
+	font-size: 1.8em;
+	background-color: #c25d31;
+	text-decoration: none;
+	padding: 4px 20px;
+	border-radius: 7px;
+	margin-left: 35px;
+	margin-top: 20px;
+	color: white;
+	position: absolute;
+	left: 13px;
+}
+
+#inventory #inventory-header #inventory-progress {
+	position: fixed;
+    top: 62px;
+    font-size: 0.9em;
+    color: white;
+    right: 23px;
+}
+
+#inventory #inventory-header-image {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+#inventory #inventory-grid .row {
+	min-height: 244px;
+}
+
+#inventory #inventory-grid .collectable {
+	width: 50%;
+	float: left;
+}
+
+#inventory #inventory-grid .collectable .collectable-image {
+	height: 190px;
+	margin: 10px 10px 0 10px;
+}
+
+#inventory #inventory-grid .collectable .collectable-name {
+	background-color: #c25d31;
+	color: white;
+	margin: 0 10px 10px 10px;
+}
+
+#inventory #inventory-grid .collectable .collectable-name p {
+	padding: 6px;
+	font-size: 0.9em;
+}
+
+#inventory #inventory-grid .collectable .no-collectable-question-mark {
+	background-color: #ededed;
+	min-height: 219px;
+	color: white;
+	margin: 10px 10px 0 10px;
+}
+
+#inventory #inventory-grid .collectable .no-collectable-question-mark p {
+	font-size: 9em;
+	text-align: center; 
+	padding-top: 25px;
+	margin-bottom: 0;
+}
+
+
+
+
+

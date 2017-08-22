@@ -8,7 +8,8 @@ var mapLoaded = false;
 var dataLoaded = false;
 var game = {};
 var markers = [];
-var server_url = "https://www.geomotiongames.com/beaconing/app/images/";
+var server_url = "https://www.geomotiongames.com/beaconing/";
+var uploaded_images_server = "https://www.geomotiongames.com/beaconing/";
 var path = null;
 var startingTime;
 var lastPOITime;
@@ -38,7 +39,7 @@ function gameReady() {
 
 		var image = "";
 		var clue = "";
-
+		var extras = document.getElementById("extras");
 
 		/****** A ******/
 
@@ -49,7 +50,7 @@ function gameReady() {
 		var textButton = "Go to challenge";
 		if (step == 0) { textButton = "Go out and play!"; }
 
-		var checkinButton = `<a id="toClue` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
+		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 		if (step == 999) { checkinButton = ""; }
 
 		if (game[step]["A"].hasOwnProperty("clue") && game[step]["A"].clue != "") {
@@ -60,7 +61,7 @@ function gameReady() {
 
 		var POIBefore = `
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
-			<div id="modal` + step + `" class="modalDialog">
+			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>
 					` + image + `
@@ -71,39 +72,73 @@ function gameReady() {
 			</div>
 		`;
 
+		extras.innerHTML += POIBefore;
+
+
 		/****** B ******/
 
 		if (game[step].hasOwnProperty("B") && step > 0 ) {
-			if (game[step]["B"].hasOwnProperty("image") && game[step]["B"].image != "") {
-				image = "<img src=" + server_url + game[step]["B"].image + ">";
+
+			var challenge = game[step]["B"]["challenge"];
+			if (challenge.hasOwnProperty("type")) {
+				challengeType = challenge["type"];
+
+				if (challengeType == "upload_content") {
+
+					var POIChallenge = `
+						<a href="#challenge` + step + `" id="openB` + step + `" style="display: none;">Open Modal</a>
+						<div id="challenge` + step + `" class="modalDialog screen">
+							<div>
+								<h2>UPLOAD CONTENT</h2>
+								<!--http://code.hootsuite.com/html5/-->
+								<input id="file" type="file" accept="image/*">
+								<label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
+								<a id="toClue` + step + `" href="#" class="goButton">Continue</a>
+							</div>
+						</div>
+					`;
+
+					extras.innerHTML += POIChallenge;
+
+					document.getElementById("toClue" + step).onclick = function() {
+						setTimeout(function() {
+							document.getElementById("openC" + currentPOI).click();
+						}, 1000);
+					};
+
+				}
+			}
+		}
+
+
+		/****** C ******/
+
+		if (game[step].hasOwnProperty("C") && step > 0 ) {
+
+			if (game[step].hasOwnProperty("item") && game[step].item != "") {
+				image = "<img src=" + uploaded_images_server + game[step].item + ">";
 			} else {
 				image = "";
 			}
 
-			if (game[step]["B"].hasOwnProperty("clue") && game[step]["B"].clue != "") {
-				clue = "<p>" + game[step]["B"].clue + "</p>";
-			} else {
-				clue = "";
-			}
+			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
+			var points = game[step]["rewardPoints"];
 
 			var POIAfter = `
-				<a href="#clue` + step + `" id="openB` + step + `" style="display: none;">Open Modal</a>
-				<div id="clue` + step + `" class="modalDialog">
+				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
+				<div id="clue` + step + `" class="modalDialog screen">
 					<div>
-						<!--a href="#close" title="Close" class="close">X</a-->
-						<h2>` + game[step]["B"].title + `</h2>
+						<h2>` + game[step]["C"].title + `</h2>
 						` + image + `
-						<p>` + game[step]["B"].text + `</p>
-						` + clue + `
+						<p>` + game[step]["C"].text + `</p>
+						<p class="pointsWon">You won <span>`+ points +`</span> points</p>
 						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
 				</div>
 			`;
-		}
 
-		var extras = document.getElementById("extras");
-		extras.innerHTML += POIBefore;
-		extras.innerHTML += POIAfter;
+			extras.innerHTML += POIAfter;
+		}
 	}
 
 	if (nextPOI == 0) {
@@ -112,7 +147,7 @@ function gameReady() {
 	} else {
 		if (fromMinigame) {
 			fromMinigmae = false;
-			document.getElementById("openB" + nextPOI).click();
+			document.getElementById("openC" + nextPOI).click();
 			nextPOI = getFollowingPOIId(nextPOI);
 			updatePath();
 		} else {
@@ -120,28 +155,35 @@ function gameReady() {
 		}
 	}
 
-	for (i=1; i<Object.keys(game).length-1; i++){
+	for (i=1; i<Object.keys(game).length-1; i++) {
 
-		document.getElementById("toClue"+i).onclick = function() {
+		document.getElementById("toChallenge"+i).onclick = function() {
 
 			setTimeout(function() {
 
-				var challengeType = game[currentPOI]["challenge"]["type"];
+				var challenge = game[currentPOI]["B"]["challenge"];
 
-				if (challengeType == "minigame") {
+				if (challenge.hasOwnProperty("type")) {
 
-					var minigameURL = game[currentPOI]["challenge"]["url"];
-					if (minigameURL.length > 0) {
-						minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/game16.php%3Fstep%3D" + currentPOI
-						window.open(minigameURL, "_self")
-					} else {
+					challengeType = challenge["type"];
+					if (challengeType == "minigame") {
+
+						var minigameURL = challenge["url"];
+						if (minigameURL.length > 0) {
+							minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/app.php%3Fgame%3D"+ game_id +"%26step%3D" + currentPOI
+							window.open(minigameURL, "_self")
+						} else {
+							document.getElementById("openC" + currentPOI).click();
+						}
+
+					} else if (challengeType == "upload_content") {
 						document.getElementById("openB" + currentPOI).click();
+					} else { // checkin
+						document.getElementById("openC" + currentPOI).click();
 					}
 
-				} else if (challengeType == "upload_content") {
-					// TODO
-				} else { // checkin
-					document.getElementById("openB" + currentPOI).click();
+				} else {
+					document.getElementById("openC" + currentPOI).click();
 				}
 
 			}, 1000);
@@ -155,7 +197,6 @@ function gameReady() {
 			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
-
 }
 
 
@@ -181,9 +222,9 @@ function updatePath() {
 	}
 
 	path = new L.Polyline(pointList, {
-    	color: 'green',
+    	color: '#1c3587',
     	weight: 4,
-    	opacity: 0.6,
+    	opacity: 0.5,
     	smoothFactor: 1
 	});
 
@@ -195,7 +236,6 @@ function locate() {
 	
 	if (navigator.geolocation) {
 		setTimeout(function() {
-			
 			/*tracker.Flush(function(result, error){
 				console.log("flushed");
 			});*/
@@ -277,6 +317,7 @@ function errorHandler(err) {
         default:
             document.getElementById("message").innerHTML = 'Geolocation returned an error.code';
     }
+    console.log(err);
 }
 
 function getDistanceFromLatLon(lat1,lon1,lat2,lon2) {
@@ -295,3 +336,130 @@ function getDistanceFromLatLon(lat1,lon1,lat2,lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
+
+function showInventory(id) {
+
+	addCollectablesToInventory();
+
+	// TODO omplir al principi amb totes les imatges i posarles hidden o shown
+	document.getElementById('inventory').style.zIndex = "9999";
+	document.getElementById('inventory').style.opacity = "1";
+
+	document.getElementById('return').onclick = function() {
+		document.getElementById('inventory').style.zIndex = "-1";
+		document.getElementById('inventory').style.opacity = "0";
+		return true;
+	};
+}
+
+function addCollectablesToInventory() {
+
+	game = demo_info["POIS"];
+
+	var inventory = document.getElementById('inventory-grid');
+	var progress = document.getElementById('inventory-progress');
+	inventory.innerHTML = "";
+	var rowHTML = "";
+	var i = 0; //Number of collectables
+
+	for (step in game) {
+
+		if (game[step].hasOwnProperty("item") && game[step].item !="") {
+			if (i % 2 == 0) {
+
+				if (currentPOI > i) {
+					rowHTML = `<div class="row">
+										<div class="collectable">
+											<div class="collectable-image" style="
+												background-image:url('`+ uploaded_images_server + game[step].item +`');
+												background-size:cover;
+											"></div>
+											<div class="collectable-name">
+												<p>ITEM `+ i+1 +`</p>
+											</div>
+										</div>`;
+				} else {
+					rowHTML = `<div class="row">
+								<div class="collectable">
+									<div class="no-collectable-question-mark">
+										<p>?</p>
+									</div>
+								</div>`;
+				}
+
+				
+			} else {
+				if (currentPOI > i) {
+					rowHTML += `
+							<div class="collectable">
+								<div class="collectable-image" style="
+									background-image:url('`+ uploaded_images_server + game[step].item +`');
+									background-size:cover;
+								"></div>
+								<div class="collectable-name">
+									<p>ITEM `+ i +`</p>
+								</div>
+							</div>
+						</div>`;
+				} else {
+					rowHTML += `
+							<div class="collectable">
+								<div class="no-collectable-question-mark">
+									<p>?</p>
+								</div>
+							</div>
+						</div>`;
+				}
+
+				inventory.innerHTML += rowHTML;
+				rowHTML = "";
+			}
+			i++;
+		}
+	}
+
+	if (rowHTML != "") {
+		inventory.innerHTML += rowHTML + "</div>";
+	}
+
+	progress.innerHTML = currentPOI + "/" + i;
+
+	`<div class="row">
+		<div class="collectable">
+			<div class="collectable-image"></div>
+			<div class="collectable-name">
+				<p>hoalhoalhoasd</p>
+			</div>
+		</div>
+		<div class="collectable">
+			<div class="no-collectable-question-mark">
+				<p>?</p>
+			</div>
+		</div>
+	</div>`
+}
+
+/*
+function uploadContent() {
+	if ( !isUploadSupported() ) {
+		//TODO disable or show error message
+	}
+}
+
+function isUploadSupported() {
+    if (navigator.userAgent.match(/(Android (1.0|1.1|1.5|1.6|2.0|2.1))|(Windows Phone (OS 7|8.0))|(XBLWP)|(ZuneWP)|(w(eb)?OSBrowser)|(webOS)|(Kindle\/(1.0|2.0|2.5|3.0))/)) {
+        return false;
+    }
+    var elem = document.createElement('input');
+    elem.type = 'file';
+    return !elem.disabled;
+};
+
+*/
+
+
+
+
+
+
+

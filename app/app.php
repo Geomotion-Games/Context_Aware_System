@@ -30,16 +30,7 @@
     				  				WHERE plot = %s 
     				  				ORDER BY orderNumber ASC", $game_id));
 
-
-   /* var_dump(sprintf("SELECT poi.*, plot.id as plotId, plot.time as time_limit, plot.type as game_type
-    								FROM poi
-    				  				INNER JOIN plot 
-    				  				ON poi.plot = plot.id 
-    				  				WHERE plot = %s 
-    				  				ORDER BY orderNumber ASC", $game_id));
-    *//*
-
-	if ($bd->num_rows($query) > 0) {
+    /*	if ($bd->num_rows($query) > 0) {
 
  		$pois = array();
  		$poiIDs = array();
@@ -109,7 +100,6 @@
 			$pois[$i] = $pois[$key];
 		}
 
-		//var_dump($pois);
 		foreach($keys_to_remove as $key) {
 			unset($pois[$key]);
 		}
@@ -127,9 +117,6 @@
 
 	$game = array();
 	$game['POIS'] = $pois; 
-
-	//var_dump($game);
-
 ?>
 
 <!DOCTYPE html>
@@ -141,7 +128,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="css/leaflet.css" />
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css" />
 
@@ -153,10 +140,36 @@
 </head>
 <body>
 
-<div id="clueLayer" class="hidden"><p class="clue"></p></div>
-<p id="message" style="display: none;"></p>
+<div id="topBar">
+	<p id="distance"></p>
+	<div id="gameInfo">
+		<img src="images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButton">
+		<map name="inventoryButton" id="inventoryButton">
+    		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
+		</map>
+	</div>
+	<div id="left-icon-div" class="hidden"><img src="images/ui-app-i-treasure.png" id="left-icon"></div>
+	<div id="clueLayer" class="hidden"><p class="clue"></p></div>
+
+	<!-- extra -->
+	<p id="message" style="display: none;"></p>
+</div>
 <div id="map"></div>
 <div id="extras"></div>
+
+<div id="inventory" class="modalDialog">
+	<div>
+		<div id="inventory-header">
+			<a id="return" href="#"><</a>
+			<p id="inventory-title">Inventory</p>
+			<img src="images/inventory-header.png" id="inventory-header-image">
+			<p id="inventory-progress"></p>
+		</div>
+		<div id="inventory-grid">
+			<!--inventory content-->
+		</div>
+	</div>
+</div>
 
 <script>
 
@@ -180,6 +193,7 @@
 	});
 */
 
+	var game_id = <?= $game_id; ?>;
 	var demo_info = <?= json_encode($game); ?>
 
 	var currentPOI = <?= $currentPOI ?>;
@@ -193,28 +207,26 @@
 	map.removeControl( map.attributionControl );
 
 	var stopIcon = L.icon({
-	    iconUrl:    'https://www.geomotiongames.com/beaconing/demo/images/map-marker.png',
-	    iconSize:   [40, 40], // size of the icon
-	    iconAnchor: [20, 40], // point of the icon which will correspond to marker's location
+	    iconUrl:    'https://www.geomotiongames.com/beaconing/app/images/map-marker-blue.png',
+	    iconSize:   [26, 42], // size of the icon
+	    iconAnchor: [13, 42], // point of the icon which will correspond to marker's location
 	});
 
 	var locationIcon = L.icon({
-	    iconUrl:   'https://www.geomotiongames.com/beaconing/images/map-marker.png',
-	    iconSize:     [24, 50], // size of the icon
-	    iconAnchor:   [12, 50], // point of the icon which will correspond to marker's location
+	    iconUrl:   'https://www.geomotiongames.com/beaconing/app/images/avatar-marker.png',
+	    iconSize:     [40, 50], // size of the icon
+	    iconAnchor:   [20, 50], // point of the icon which will correspond to marker's location
 	});
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/citynostra/ciw6pvt9g00012qppdm7txtet/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW5vc3RyYSIsImEiOiJTa2FCY0RzIn0.DoxoeVwC6gVhVtsEr0mA6Q', {
 		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 		id: 'mapbox.streets'
 	}).addTo(map);
 
 	locate();
 
     function newLocation(position) {
+
     	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
 
     	//tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
@@ -237,41 +249,55 @@
 
 	    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-			if (distanceToNextPOI < game[nextPOI].distance) {
+			if (distanceToNextPOI < game[nextPOI].triggerDistance) {
 
 				//trackProgress();
 				document.getElementById('openA' + nextPOI).click();
 				currentPOI = nextPOI;
 				nextPOI = getFollowingPOIId(nextPOI);
+				updatePath();
 			}
 
 			if (fromMinigame) { 
 				updatePath();
 			}
 
-			if (currentPOI == 0) {
-				//TODO UNDEFINED
-				var clue = game[currentPOI]["A"].clue;
-				if (clue) {
-					clue = "";
-				}
-				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
-				document.getElementById('clueLayer').className = "shown";
-			} else if (game[currentPOI]["B"].hasOwnProperty("clue")) {
-				var clue = game[currentPOI]["B"].clue;
-				if (clue) {
-					clue = "";
-				}
-				document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue + "<br/><br/> <span style='font-size:0.8em;'>Distance: " + parseInt(distanceToNextPOI) + " meters</span>";
-				document.getElementById('clueLayer').className = "shown";
-			}
-			
+			updateTopInfo( distanceToNextPOI );
 		}
 
 		this.refreshUserMarker(coors);
 	}
 
 	gameReady();
+
+	function updateTopInfo( distanceToNextPOI ) {
+
+		if (currentPOI == 0) {
+			var clue = "";
+			if (game[currentPOI]["A"].hasOwnProperty("clue")) {
+				clue = game[currentPOI]["A"].clue;
+			}
+
+			document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue;
+			document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+			document.getElementById('clueLayer').className = "shown";
+			document.getElementById('left-icon-div').className = "shown";
+		} else if (game[currentPOI]["C"].hasOwnProperty("clue")) {
+
+			document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI]["C"].clue;
+			document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+			document.getElementById('clueLayer').className = "shown";
+			document.getElementById('left-icon-div').className = "shown";
+
+			if (currentPOI == '999') {
+				document.getElementById("left-icon").src="images/ui-app-i-treasure-finish.png";
+			}
+
+		} else {
+			document.getElementById('clueLayer').className = "hidden";
+			document.getElementById('left-icon-div').className = "hidden";
+		}
+	}
 
 </script>
 
