@@ -13,8 +13,7 @@ function showMyGames(){
     var text_to_append = '<div class="gamerow" data-index="${index}"><div class="row">';
 
     for(var game in games){
-        if(games[game].public) text_to_append += appendGame("#mygames", games, game);
-        console.log(text_to_append);
+        text_to_append += appendGame("#mygames", games, game);
     }
 
     text_to_append += "</div></div>";
@@ -22,18 +21,17 @@ function showMyGames(){
     $('#mygames').append(text_to_append);
 
     for(var game in games){
-        if(games[game].public) setEvents("#mygames", games, game);
+        setEvents("#mygames", games, game);
     }
 }
 
 function showCommunityGames(){
     $("#community").empty();
 
-    var text_to_append = '<div class="gamerow" data-index="${index}"><div class="row">';
+    var text_to_append = '<div class="gamerow"><div class="row">';
 
     for(var game in games){
         if(games[game].public) text_to_append += appendGame("#community", games, game);
-        console.log(text_to_append);
     }
 
     text_to_append += "</div></div>";
@@ -49,7 +47,7 @@ function appendGame(parent, games, index){
     var url = gameTypeToUrl(games[index].type) + ".php?id=" + games[index].id;
 
     var game = `<div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="gameinfo">
+                    <div class="gameinfo" data-index="${index}">
                         <div class="gametexts">
                             <p class="gameTitle">${games[index].name} - ${games[index].type}</p>
                             <p class="gameType">${games[index].description}</p>
@@ -82,7 +80,7 @@ function setEvents(parent, games, index) {
         }
     });
 
-    $(".gamerow").on('click', function(e) {
+    $(".gamerow .gameinfo").on('click', function(e) {
         var gameNumber = parseInt($(this).attr("data-index"));
         if(gameNumber == index) {
             var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
