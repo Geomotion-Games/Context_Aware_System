@@ -85,10 +85,10 @@
 	<div class="container games">
 		<!-- Tab panes -->
 	  	<div class="tab-content">
-	    	<ul role="tabpanel" class="tab-pane active" id="mygames">
-	    	</ul>
-	    	<ul role="tabpanel" class="tab-pane" id="community">
-			</ul>
+	    	<div role="tabpanel" class="tab-pane active" id="mygames">
+	    	</div>
+	    	<div role="tabpanel" class="tab-pane" id="community">
+			</div>
 		</div>
 		
 	</div>

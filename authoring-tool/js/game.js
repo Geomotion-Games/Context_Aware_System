@@ -3,44 +3,74 @@
 showMyGames();
 
 function showMyGames(){
-    $("#mygames").empty();
+    /*$("#mygames").empty();
 
     for(var game in games){
         appendGame("#mygames", games, game);
+    }*/
+    $("#mygames").empty();
+
+    var text_to_append = '<div class="gamerow" data-index="${index}"><div class="row">';
+
+    for(var game in games){
+        if(games[game].public) text_to_append += appendGame("#mygames", games, game);
+        console.log(text_to_append);
+    }
+
+    text_to_append += "</div></div>";
+
+    $('#mygames').append(text_to_append);
+
+    for(var game in games){
+        if(games[game].public) setEvents("#mygames", games, game);
     }
 }
 
 function showCommunityGames(){
     $("#community").empty();
 
+    var text_to_append = '<div class="gamerow" data-index="${index}"><div class="row">';
+
     for(var game in games){
-        if(games[game].public) appendGame("#community", games, game);
+        if(games[game].public) text_to_append += appendGame("#community", games, game);
+        console.log(text_to_append);
+    }
+
+    text_to_append += "</div></div>";
+
+    $('#community').append(text_to_append);
+
+    for(var game in games){
+        if(games[game].public) setEvents("#community", games, game);
     }
 }
 
 function appendGame(parent, games, index){
     var url = gameTypeToUrl(games[index].type) + ".php?id=" + games[index].id;
-    $(parent).append(`
-       <li class="gamerow" data-index="${index}">
-            <div class="row">
-                <div class="col-md-8 gameinfo">
-                    <div class="gametexts">
-                        <p class="gameTitle">${games[index].name} - ${games[index].type}</p>
-                        <p class="gameType">${games[index].description}</p>
-                    </div>
-                    <div class=gameactions>
-                        <a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                        <a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                        <a href="${url}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                    </div>
-                </div>
-                <div class="col-md-4 pubpriv">
-                    <input data-index="${index}" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private" ${games[index].public?"checked":""}>
-                </div>
-            </div>
-        </li>
-    `);
 
+    var game = `<div class="col-md-4 col-sm-6 col-xs-12">
+                    <div class="gameinfo">
+                        <div class="gametexts">
+                            <p class="gameTitle">${games[index].name} - ${games[index].type}</p>
+                            <p class="gameType">${games[index].description}</p>
+                        </div>
+                        <div class="options">
+                            <div class="pubpriv">
+                                <input data-index="${index}" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private" ${games[index].public?"checked":""}>
+                            </div>
+                            <div class=gameactions>
+                                <a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a href="${url}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+    return game;
+}
+
+function setEvents(parent, games, index) {
     $('.pubpriv-toggle').bootstrapToggle();
 
     $('.pubpriv-toggle').change(function() {

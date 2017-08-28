@@ -64,12 +64,12 @@
 
 .games .gamerow .gameinfo {
 	background-color: #2c353e;
-	height: 70px;
+	height: 190px;
 }
 
 .gamerow .gameinfo .gametexts {
-	float: left;
-	padding: 13px 0 0 5px;
+	width: 100%;
+	padding: 13px 15px 0 15px;
 }
 
 .gamerow .gameinfo .gametexts .gameTitle {
@@ -78,12 +78,18 @@
 
 .gamerow .gameinfo .gametexts .gameType {
 	color: #afb7bb;
+	height: 100px;
+}
+
+.gamerow .gameinfo .gameactions {
+	width: 150px;
+	float: right;
 }
 
 .gamerow .gameinfo .gameactions i {
 	float: right;
 	color: #e87f62;
-	padding: 20px 10px 0 10px;
+	padding: 5px 10px 0 10px;
 }
 
 .gamerow .gameinfo .gameactions i.fa-trash {
@@ -92,7 +98,19 @@
 
 .games .pubpriv {
 	height: 80px;
-	padding: 16px 0 0 50px;
+	float: left;
+}
+
+.games .options {
+	position: absolute;
+	bottom: 12px;
+	height: 35px;
+	width: 95%;
+	padding: 0 12px;
+}
+
+.row > div {
+	margin-bottom: 10px;
 }
 
 .games .pubpriv .toggle {
