@@ -135,3 +135,5 @@ function showRemoveWarning(parent, gameNumber){
         $("#remove-warning").modal('hide');
     });
 }
+
+if ( tab == "community" ) { $('#communitytab').click(); }

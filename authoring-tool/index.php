@@ -17,6 +17,7 @@
 	$numRows = $bd->num_rows($query);
 
 	$plots = array();
+	$tab = isset($_REQUEST['tab']) ? $_REQUEST['tab'] : "";
 
  	if ($query) {
  		for($i = 0; $i < $numRows; $i++){
@@ -71,7 +72,7 @@
 	  	<!-- Nav tabs -->
 	  	<ul class="nav nav-tabs" role="tablist">
 	    	<li role="presentation" class="active notlast"><a href="#mygames" aria-controls="mygames" role="tab" data-toggle="tab">My games</a></li>
-	    	<li role="presentation"><a href="#community" aria-controls="community" role="tab" data-toggle="tab">Community games</a></li>
+	    	<li role="presentation"><a id="communitytab" href="#community" aria-controls="community" role="tab" data-toggle="tab">Community games</a></li>
 	  	</ul>
 
 	</div>
@@ -126,6 +127,9 @@
 		function hide_description() {
 		    $('.navbar-fixed-bottom .description').animate({ height: '0' }).promise().done( function() {$('.navbar-fixed-bottom .description').hide()});
 		}
+
+		var tab = "<?= $tab; ?>";
+
 	</script>
 	<script src="js/game.js"></script>
 </body>
