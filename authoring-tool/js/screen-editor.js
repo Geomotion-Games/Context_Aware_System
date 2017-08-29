@@ -338,8 +338,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <p class="preview-text" id="preview-text-A">${text}</p>
                                     `;
             
-
-            if(game.type == "TreasureHunt" && poi.type == "finish"){      
+            if(poi.type == "finish"){      
                 var totalTime = 0;            
                 content += `
                                     <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
@@ -432,8 +431,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
                        <p class="preview-text" id="preview-text-A">${text}</p>`;
             
-
-            if(game.type == "TreasureHunt" && poi.type == "finish"){      
+            if(poi.type == "finish"){      
                 var totalTime = 0;            
                 content += `
                                     <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
