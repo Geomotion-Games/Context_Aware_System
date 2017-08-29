@@ -1,3 +1,5 @@
+var noClue = false;
+
 var editPOITimeout;
 function createEditPOITimeout(){
     if(editPOITimeout != null) clearTimeout(editPOITimeout);
@@ -141,6 +143,8 @@ function init(){
             saveScreen(screens[1], poi);
         }
     });
+
+    noClue = window.location.search.includes("noClue");
 }
 
 function showEditorScreen(index){
@@ -277,7 +281,7 @@ function appendEditor(parent, screen){
         `);
     }
 
-    if(gameType == "TreasureHunt" && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
+    if(gameType == "TreasureHunt" && !noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
         $(parent).append(`
             <div class="form-group">
                 <label for="screenClue">Clue for the next POI:</label>

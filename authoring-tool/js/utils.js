@@ -211,7 +211,7 @@ function parsePOI(p){
         title: p.title,
         orderNumber: p.orderNumber,
         type: p.type,
-        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true, false, true) : null,
+        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true) : null,
         lat: p.lat,
         lng: p.lng,
         beaconId: p.beaconId,
@@ -249,7 +249,6 @@ function parseScreens(screens){
 }
 
 function parseScreen(screen){
-    console.log(screen);
     var json = JSON.parse(screen.data);
     return new Screen({
         id: screen.id,
