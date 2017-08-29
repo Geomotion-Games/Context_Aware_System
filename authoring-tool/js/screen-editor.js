@@ -76,9 +76,10 @@ function init(){
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
     }else if(poi.type == "start"){
+        $("footer .endEditing").text("Finish edition");
         $("#attributes").addClass("hidden");
     }else if(poi.type == "finish"){
-        $(".endEditing").text("Finish edition");
+        $("footer .endEditing").text("Finish edition");
         $("#nameContainer").addClass("hidden");
         $("#rewardContainer").addClass("hidden");
         $("#imageContainer").addClass("hidden");
