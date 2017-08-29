@@ -71,8 +71,6 @@ function Screen(params){
         this.challengeType = params.challenge.type || "";
         this.challengeURL = params.challenge.url || "";
     }
-
-    console.log(this);
 }
 
 Screen.prototype.toJSON = function() {

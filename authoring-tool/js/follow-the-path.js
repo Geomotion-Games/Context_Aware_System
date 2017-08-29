@@ -152,11 +152,9 @@ L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 var path;
 
 function updatePath() {
-	console.log("updatepath")
 	var pointList = [];
 	for (var stop in points) {
 		if (points[stop] && points[stop].marker) {
-			console.log(points[stop].marker)
 			pointList.push(points[stop].marker.getLatLng());
 		}
 	}
@@ -255,7 +253,8 @@ function addStop(marker, type){
 		$("#stops").children().each(function() {
 			var number = $(this).attr("stop-number");
 			if(number == poisCreated){
-				$(this).find(".editPOI").attr("href","screens-overview.php?id=" + id);
+				var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+				$(this).find(".editPOI").attr("href", url);
 			}
 		});
 	});
@@ -265,6 +264,7 @@ function showStop(stop){
 	var len = Object.keys(points).length;
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
 
+	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#"
 	if(stop.type == "normal") {
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
@@ -280,7 +280,7 @@ function showStop(stop){
 						<div class=poiActions>
 							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a class="editPOI" href="${ stop.id ? "screens-overview.php?id=" + stop.id : "#"}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a class="editPOI" href="${ url }"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -305,7 +305,7 @@ function showStop(stop){
 						<div class=poiActions>
 							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a class ="editPOI" href="${ stop.id ? "screens-overview.php?id=" + stop.id : "#"}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a class ="editPOI" href="${ url }"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -408,6 +408,14 @@ function sortPoints(save, skipSort){
 		var childrens = $("#stops").children();
 		$(childrens[len - 1]).find(".poiChest").removeClass("hidden");
 
+		childrens.each(function(index){
+			var e = $(childrens[index]).find(".editPOI");
+			e.attr("href", e.attr("href").replace("&noClue", ""));
+		});
+
+		var e = $(childrens[len - 1]).find(".editPOI");
+		e.attr("href", e.attr("href") + "&noClue");
+		
 		points.forEach(function (p) {
 			if(p.marker) p.marker.setIcon(p.type == "normal" ? normalMarkerIcon : beaconMarkerIcon);
 		});
