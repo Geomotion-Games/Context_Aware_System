@@ -315,7 +315,7 @@ function appendEditor(parent, screen){
 function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
-    var image = screen.image || "";
+    var image = screen.image || "images/poi2-image.png";
     var type = screen.type;
 
     var item = poi.item;
