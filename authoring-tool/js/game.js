@@ -112,7 +112,7 @@ function gameOnClick(parent, gameNumber, action){
         games.push(copy);
         duplicatePlot(copy, function(id){
             copy.id = id;
-            window.location="?tab=community"
+            $( "#communitytab" ).parent().hasClass( "active" ) ? window.location="?tab=community" : window.location="";
         });
     }
 }
@@ -125,11 +125,9 @@ function reorderPlots(){
 function showRemoveWarning(parent, gameNumber){
     $("#remove-warning").modal('show');
     $(".warning-action-remove").click(function() {
-        $(parent).parent().remove();
         removePlot(games[gameNumber]);
-        games.splice(gameNumber, 1);
-        //reorderPlots();
         $("#remove-warning").modal('hide');
+        $( "#communitytab" ).parent().hasClass( "active" ) ? window.location="?tab=community" : window.location="";
     });
     $(".warning-action-cancel").click(function(){
         $("#remove-warning").modal('hide');
