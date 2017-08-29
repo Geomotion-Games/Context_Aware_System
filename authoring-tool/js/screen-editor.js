@@ -369,7 +369,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <input type="text" name="minigame-selector"><br>
                             </div>
                              <div class="form-group hidden" id="upload-select-div"">
-                                <label for="upload-type-selector">Upload content type:</label>
+                                <label for="upload-type-selector">Content type:</label>
                                  <select class="form-control" id="upload-type-selector">
                                     <option value="any">Any</option>
                                     <option value="photo">Photo</option>
