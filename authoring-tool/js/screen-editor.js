@@ -107,6 +107,9 @@ function init(){
     if(screens[1] && screens[1].type == "B"){
         if(screens[1].challengeType != ""){
             $("#challenge-type-selector").val(screens[1].challengeType);
+            if(screens[1].challengeType == "upload_content"){
+                $("#upload-type-selector").val(screens[1].challengeUploadType);
+            }
         }
         if(screens[1].challengeURL != ""){
             $("#challenge-form input").val(screens[1].challengeURL);
@@ -121,15 +124,29 @@ function init(){
         saveScreen(screens[1], poi);
     });
 
+    $("#upload-type-selector").change(function(){
+        console.log($(this).val());
+        screens[1].challengeType = "upload_content";
+        screens[1].challengeUploadType = $(this).val();
+        saveScreen(screens[1], poi);
+    });
+
     function updateChallengeSelector(){
         var val = $("#challenge-type-selector").val();
         if (val == "checkin") { // check in
             screens[1].challengeType = "checkin";
-            $( "#minigame-select-div" ).addClass('hidden');
+            $("#minigame-select-div").addClass('hidden');
+            $("#upload-select-div").addClass('hidden');
+            $("#challenge-form input").val("");
+        }if (val == "upload_content") { // check in
+            screens[1].challengeType = "upload_content";
+            $("#minigame-select-div").addClass('hidden');
+            $("#upload-select-div").removeClass('hidden');
             $("#challenge-form input").val("");
         } else if (val == "minigame") { // minigame
             screens[1].challengeType = "minigame";
-            $( "#minigame-select-div" ).removeClass('hidden');
+            $("#upload-select-div").addClass('hidden');
+            $("#minigame-select-div").removeClass('hidden');
         }
     }
 
@@ -140,6 +157,10 @@ function init(){
         if(val == "checkin"){
             screens[1].challengeType = val;
             screens[1].challengeURL = "";
+            saveScreen(screens[1], poi);
+        }else if(val == "upload_content"){
+            screens[1].challengeType = val;
+            screens[1].challengeUploadType = $("#upload-type-selector").val();
             saveScreen(screens[1], poi);
         }
     });
@@ -346,6 +367,15 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             <div class="form-group hidden" id="minigame-select-div"">
                                 <label for="minigame-selector">Minigame URL:</label>
                                 <input type="text" name="minigame-selector"><br>
+                            </div>
+                             <div class="form-group hidden" id="upload-select-div"">
+                                <label for="upload-type-selector">Content type:</label>
+                                 <select class="form-control" id="upload-type-selector">
+                                    <option value="any">Any</option>
+                                    <option value="photo">Photo</option>
+                                    <option value="video">Video</option>
+                                    <option value="audio">Audio</option>
+                                <select>
                             </div>
                         </form>
                     </div>

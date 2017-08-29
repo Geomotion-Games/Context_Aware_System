@@ -70,6 +70,7 @@ function Screen(params){
     if(params.challenge){
         this.challengeType = params.challenge.type || "";
         this.challengeURL = params.challenge.url || "";
+        this.challengeUploadType = params.challenge.uploadType || "";
     }
 }
 
@@ -78,6 +79,7 @@ Screen.prototype.toJSON = function() {
     if(this.challengeType != ""){
         challenge.type = this.challengeType;
         if(this.challengeURL != "")challenge.url = this.challengeURL;
+        if(this.challengeUploadType != "")challenge.uploadType = this.challengeUploadType;
     }
     var json = {
         "id": this.id,
