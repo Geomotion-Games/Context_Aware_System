@@ -11,9 +11,6 @@ $( function() {
 		beacons = b;
 		loadStops();
 	});
-
-	// points[0]   = new Step({marker: 0, idNumber: 0});
-	// points[999] = new Step({marker: 0, idNumber: 999});
 });
 
 // START
@@ -71,7 +68,6 @@ function updateGameValues(){
 	game.name = $("#gameName").val();
 	game.description = $("#gameDescription").val()
 	game.time = $("#timeToggle").prop('checked') ? parseInt($("#gameTimeValue").val()) : 0;
-	console.log(game.time);
 }
 
 function init(){
@@ -94,8 +90,6 @@ function init(){
 
 	$("#point0 a").attr("href", "screens-overview.php?id=" + start.id);
 	$("#point999 a").attr("href", "screens-overview.php?id=" + finish.id);
-
-	if(game.type=="TreasureHunt") $(".poiChest").removeClass("hidden");
 
 	function onBlur(){
 		if(editTimeout != null) clearTimeout(editTimeout);
@@ -158,15 +152,14 @@ L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 var path;
 
 function updatePath() {
-
+	console.log("updatepath")
 	var pointList = [];
 	for (var stop in points) {
 		if (points[stop] && points[stop].marker) {
+			console.log(points[stop].marker)
 			pointList.push(points[stop].marker.getLatLng());
 		}
 	}
-
-	if(game.type=="TreasureHunt") pointList.push(finish.marker.getLatLng());
 
 	if (path != null) map.removeLayer(path);
 
@@ -183,16 +176,9 @@ function updatePath() {
 }
 
 map.on('click', function(e) {
-	if(finish.marker._latlng.lat == 0 && finish.marker._latlng.lng == 0){
-		console.log("finish!")
-		finish.marker.setLatLng(e.latlng);
-		map.addLayer(finish.marker);
-		savePOI(finish, game);
-	}else{
-		var marker = addMarker(e.latlng);
-		addStop(marker, "normal");
-		map.addLayer(marker);
-	}
+	var marker = addMarker(e.latlng);
+	addStop(marker, "normal");
+	map.addLayer(marker);
 });
 
 function loadStops(){
@@ -201,22 +187,17 @@ function loadStops(){
 		showStop(p);
 		if(p.marker)p.marker.step = p;
 	});
-	if(game.type=="TreasureHunt"){
-		console.log(finish);
-		finish.marker = addMarker({lat: finish.lat, lng:finish.lng}, true, true);
-		if(finish.marker._latlng.lat != 0 && finish.marker._latlng.lng != 0) map.addLayer(finish.marker);
-		finish.marker.step = finish;
-	}
+	
 	sortPoints();
 	updatePath();
 }
 
-function addMarker(latlng, draggable, isFinish, addToMap){
-	var icon = isFinish ? chestMarkerIcon : draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon;
+function addMarker(latlng, draggable){
+	var icon = draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon;
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
 		icon: icon
-	}).bindTooltip(!isFinish ? "Stop " + (poisCreated + 1) : "FINISH",
+	}).bindTooltip( "Stop " + (poisCreated + 1),
 		{
 			permanent: true,
 			direction: 'bottom'
@@ -235,7 +216,7 @@ function addMarker(latlng, draggable, isFinish, addToMap){
 		updatePath();
 	});
 
-	if(addToMap) map.addLayer(marker);
+	map.addLayer(marker);
 	return marker;
 }
 
@@ -265,8 +246,8 @@ function addStop(marker, type){
 
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
-	showStop(step);
 	points[poisCreated] = step;
+	showStop(step);
 	updatePath();
 	sortPoints();
 
@@ -281,13 +262,18 @@ function addStop(marker, type){
 }
 
 function showStop(stop){
-	var last = game.type == "TreasureHunt" && (stop.orderNumber == points.length);
+	var len = Object.keys(points).length;
+	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
+
 	if(stop.type == "normal") {
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+						<div class="poiChest ${last?"":"hidden"}">
+				    		<img src="images/chest.png">
+				    	</div>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
 						</div>
@@ -306,6 +292,9 @@ function showStop(stop){
 				<div class="row">
 					<div class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+						<div class="poiChest ${last?"":"hidden"}">
+				    		<img src="images/chest.png">
+				    	</div>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
 							<select name="beacon-id" class="beacon-select-${stop.orderNumber}">
@@ -389,8 +378,8 @@ function updateLabels() {
 
 function sortPoints(save, skipSort){
 	var len = Object.keys(points).length;
+	if (len >= 1) {
 
-	if (len > 1) {
 		var newPointList = [];
 
 		if(!skipSort){
@@ -412,6 +401,19 @@ function sortPoints(save, skipSort){
 			points = newPointList;
 			updatePath();
 		}
+	}
+
+	if(game.type == "TreasureHunt"){
+		$(".poiChest").addClass("hidden");
+		var childrens = $("#stops").children();
+		$(childrens[len - 1]).find(".poiChest").removeClass("hidden");
+
+		points.forEach(function (p) {
+			if(p.marker) p.marker.setIcon(p.type == "normal" ? normalMarkerIcon : beaconMarkerIcon);
+		});
+
+		var p = points[points.length - 1];
+		if(p && p.marker) p.marker.setIcon(chestMarkerIcon);
 	}
 }
 
