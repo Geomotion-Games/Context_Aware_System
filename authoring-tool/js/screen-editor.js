@@ -326,7 +326,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
 
     if(!editor) {
         if (type == "A") {
-            $(parent).append(`
+            var content = `
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
                     <h4>Screen before challenge</h4>
                     <div href="" class="edit-screen">
@@ -336,7 +336,22 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
                                     <img class="preview-img" id="preview-img-A" src="${image?image:""}">
                                     <p class="preview-text" id="preview-text-A">${text}</p>
-                                    <p class="preview-button" id="preview-button-A">Go out and play!</p>
+                                    `;
+            
+
+            if(game.type == "TreasureHunt" && poi.type == "finish"){      
+                var totalTime = 0;            
+                content += `
+                                    <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
+                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span> minutes</p>
+                                    <p class="preview-button" id="preview-button-A">Finish Game</p>
+                    `;
+            }else{
+                content += ` <p class="preview-button" id="preview-button-A">Go out and play!</p>`;
+            }
+
+            content += `
+                               
                                 </div>
                                 <div class="background-front"></div>
                                 <img class="background" src="css/map-background.png">
@@ -348,7 +363,8 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     </div>
                 </div>
                 
-            `);
+            `;
+            $(parent).append(content);
         } else if (type == "B") {
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
@@ -382,7 +398,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                 </div>
             `);
         } else if (type == "C") {
-            $(parent).append(`
+             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
                     <h4>Screen after challenge</h4>
                     <div href="" class="edit-screen">
@@ -405,21 +421,37 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     </div>
                 </div>
             `);
+   
         }
     }else{
         if (type == "A") {
-            $(parent).append(`
+            var content = `
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                        <p class="preview-text" id="preview-text-A">${text}</p>
-                        <p class="preview-button" id="preview-button-A">Go out and play!</p>
-                    </div>
+                       <p class="preview-text" id="preview-text-A">${text}</p>`;
+            
+
+            if(game.type == "TreasureHunt" && poi.type == "finish"){      
+                var totalTime = 0;            
+                content += `
+                                    <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
+                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span> minutes</p>
+                                    <p class="preview-button" id="preview-button-A">Finish Game</p>
+                    `;
+            }else{
+                content += ` <p class="preview-button" id="preview-button-A">Go out and play!</p>`;
+            }
+
+            content += `
+                               
+                                </div>
                     <div class="background-front"></div>
                     <img class="background" src="css/map-background.png">
                 </div>
-            `);
+            `;
+            $(parent).append(content);
         } else if (type == "C") {
             $(parent).append(`
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">

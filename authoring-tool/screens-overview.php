@@ -50,6 +50,11 @@
       echo mysql_error();
     }
 
+    // TOTAL REWARD POINTS
+
+    $result = mysql_query("SELECT SUM(rewardPoints) AS total FROM poi WHERE plot = " . $plotId);
+    $row = mysql_fetch_assoc($result); 
+	$sum = $row['total'];
 ?>
 <html>
 <head>
@@ -191,6 +196,7 @@
 		var poi = parsePOI(resultPOI);
 		var screens = parseScreens(resultScreens);
 		var game = parsePlotJSON(resultPlot);
+		var totalRewardPoints = <?= $sum; ?>;
 
 		showScreensOverview();
 		init();
