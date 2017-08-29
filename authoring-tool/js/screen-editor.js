@@ -76,6 +76,7 @@ function init(){
     }else if(poi.type == "start"){
         $("#attributes").addClass("hidden");
     }else if(poi.type == "finish"){
+        $(".endEditing").text("Finish edition");
         $("#nameContainer").addClass("hidden");
         $("#rewardContainer").addClass("hidden");
         $("#imageContainer").addClass("hidden");
