@@ -15,13 +15,7 @@
 	$bd = Db::getInstance();
 
 	$game_id = isset($_REQUEST['game']) && ctype_digit($_REQUEST['game']) ? $_REQUEST['game'] : "0";
-
-    /*$query = $bd->ejecutar("SELECT * FROM plot WHERE id = " . $id);
-	$numRows = $bd->num_rows($query);
-
- 	if ($numRows > 0) {
-		$plot = $bd->obtener_fila($query, 0);
-    }*/
+	$game_id = isset($_REQUEST['game']) && ctype_digit($_REQUEST['game']) ? $_REQUEST['game'] : "0";
 
     $query = $bd->ejecutar(sprintf("SELECT poi.*, plot.id as plotId, plot.time as time_limit, plot.type as game_type
     								FROM poi
@@ -29,38 +23,6 @@
     				  				ON poi.plot = plot.id 
     				  				WHERE plot = %s 
     				  				ORDER BY orderNumber ASC", $game_id));
-
-    /*	if ($bd->num_rows($query) > 0) {
-
- 		$pois = array();
- 		$poiIDs = array();
-
-		while ($row = mysql_fetch_assoc($query)) {
-		    $pois[$row["orderNumber"]] = $row;
-		    $poiIDs[] = $row["id"];
-		}
-
-		$finish_poi = $pois[1];
-		array_pop($pois[1]);
-		$pois[ $finish_poi["orderNumber"] ] = $finish_poi;
-		
-		$finish_poi_id = $poiIDs[1];
-		unset($poiIDs[1]);
-		$poiIDs[] = $finish_poi_id;
-
-		$query = $bd->ejecutar(sprintf( "SELECT * FROM screen WHERE poi IN (%s)", implode(",", $poiIDs) ));
-
-		if ($bd->num_rows($query) > 0) {
-
-			//$completePOIs = array();
-			while ($row = mysql_fetch_assoc($query)) {
-				$pois[$row["poi"]][] = json_decode($row["data"]);
-		   	}
-		}
-    }
-
-    */
-
 
  	if ($bd->num_rows($query) > 0) {
 
@@ -115,6 +77,11 @@
 		$fromMinigame = true;
 	}
 
+	$startingTime = 0;
+	if (isset($_REQUEST['startingtime']) && ctype_digit($_REQUEST['startingtime'])) {
+		$startingTime = $_REQUEST['startingtime'];
+	}
+
 	$game = array();
 	$game['POIS'] = $pois; 
 ?>
@@ -132,7 +99,18 @@
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" href="css/style.css" />
 
-	<script src="js/gps-minigames.js"></script>
+	<?php switch($game["POIS"][0]["game_type"]): 
+		
+		case "TreasureHunt": ?>
+			<script src="js/treasure-hunt.js"></script>
+		<?php break; ?>
+
+		<?php case "FollowThePath": ?>
+		    <script src="js/follow-the-path.js"></script>
+		<?php break; ?>
+
+	<?php endswitch; ?>
+
 	<script src="js/leaflet.js"></script>
 	<script type="text/javascript" src="js/analytics/dist/js-tracker.bundle.js"></script>
 	<script type="text/javascript" src="js/analytics/plugins/geolocation.js"></script>
@@ -193,30 +171,37 @@
 	});
 */
 
+	var server_url = (window.location.href).indexOf("/pre/") !== -1 ? 
+					"https://www.geomotiongames.com/pre/beaconing/" : 
+					"https://www.geomotiongames.com/beaconing/";
+
 	var game_id = <?= $game_id; ?>;
-	var demo_info = <?= json_encode($game); ?>
+	var game_info = <?= json_encode($game); ?>;
+	var game_type = game_info["POIS"][0]["game_type"];
+	var time_limit = game_info["POIS"][0]["time_limit"] * 60;
+	var startingTime = <?= $startingTime; ?>;
 
 	var currentPOI = <?= $currentPOI ?>;
-	var nextPOI = currentPOI; //TODO 0 no pq ja hi ha una amb 0... tractar el primer poi com la resta
+	var nextPOI = currentPOI;
 	var nextDistance = 1000;
 	var located = false;
 	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
 
-	var map = L.map('map', { zoomControl:false }).fitWorld();
-
-	map.removeControl( map.attributionControl );
-
 	var stopIcon = L.icon({
 	    iconUrl:    'https://www.geomotiongames.com/beaconing/app/images/map-marker-blue.png',
-	    iconSize:   [26, 42], // size of the icon
-	    iconAnchor: [13, 42], // point of the icon which will correspond to marker's location
+	    iconSize:   [26, 42],
+	    iconAnchor: [13, 42],
 	});
 
 	var locationIcon = L.icon({
 	    iconUrl:   'https://www.geomotiongames.com/beaconing/app/images/avatar-marker.png',
-	    iconSize:     [40, 50], // size of the icon
-	    iconAnchor:   [20, 50], // point of the icon which will correspond to marker's location
+	    iconSize:     [40, 50],
+	    iconAnchor:   [20, 50],
 	});
+
+	var map = L.map('map', { zoomControl:false }).fitWorld();
+
+	map.removeControl( map.attributionControl );
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/citynostra/ciw6pvt9g00012qppdm7txtet/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW5vc3RyYSIsImEiOiJTa2FCY0RzIn0.DoxoeVwC6gVhVtsEr0mA6Q', {
 		maxZoom: 18,
@@ -225,79 +210,7 @@
 
 	locate();
 
-    function newLocation(position) {
-
-    	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
-
-    	//tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
-
-    	distanceToNextPOI += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
-    	totalDistance     += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
-    	lastPosition = position.coords;
-
-    	if (!located) {
-    		map.setZoom(18);
-    		map.panTo(coors);
-    		located = true;
-
-    		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
-    		startingTime = new Date().getTime() / 1000;
-    		lastPOITime  = new Date().getTime() / 1000;
-    	}
-
-    	if (nextPOI > 0 && nextPOI < 999) {
-
-	    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
-
-			if (distanceToNextPOI < game[nextPOI].triggerDistance) {
-
-				//trackProgress();
-				document.getElementById('openA' + nextPOI).click();
-				currentPOI = nextPOI;
-				nextPOI = getFollowingPOIId(nextPOI);
-				updatePath();
-			}
-
-			if (fromMinigame) { 
-				updatePath();
-			}
-
-			updateTopInfo( distanceToNextPOI );
-		}
-
-		this.refreshUserMarker(coors);
-	}
-
 	gameReady();
-
-	function updateTopInfo( distanceToNextPOI ) {
-
-		if (currentPOI == 0) {
-			var clue = "";
-			if (game[currentPOI]["A"].hasOwnProperty("clue")) {
-				clue = game[currentPOI]["A"].clue;
-			}
-
-			document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue;
-			document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
-			document.getElementById('clueLayer').className = "shown";
-			document.getElementById('left-icon-div').className = "shown";
-		} else if (game[currentPOI]["C"].hasOwnProperty("clue")) {
-
-			document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI]["C"].clue;
-			document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
-			document.getElementById('clueLayer').className = "shown";
-			document.getElementById('left-icon-div').className = "shown";
-
-			if (currentPOI == '999') {
-				document.getElementById("left-icon").src="images/ui-app-i-treasure-finish.png";
-			}
-
-		} else {
-			document.getElementById('clueLayer').className = "hidden";
-			document.getElementById('left-icon-div').className = "hidden";
-		}
-	}
 
 </script>
 

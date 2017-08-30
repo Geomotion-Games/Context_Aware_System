@@ -1,6 +1,6 @@
 
 /*****************************************/
-/*    GENERIC FUNCTIONS FOR ALL GAMES    */
+/*          TREASURE HUNG LOGIC          */
 /*			  Geomotion Games			 */
 /*****************************************/
 
@@ -8,34 +8,19 @@ var mapLoaded = false;
 var dataLoaded = false;
 var game = {};
 var markers = [];
-var server_url = "https://www.geomotiongames.com/beaconing/";
-var uploaded_images_server = "https://www.geomotiongames.com/beaconing/";
 var path = null;
-var startingTime;
 var lastPOITime;
 var lastPOIDistance = 0;
 var totalDistance = 0;
 var lastPosition;
+var challengeType = "";
 
 function gameReady() {
 
-	game = demo_info["POIS"];
+	game = game_info["POIS"];
 	var pointList = [];
 
 	for (step in game) {
-
-		/*
-		For follow the path
-		if (step != 0 && step != 999) {
-
-			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
-			var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
-
-			markers.push(marker);
-			if (step < nextPOI) {
-				pointList.push(latlng);
-			}
-		}*/
 
 		var image = "";
 		var clue = "";
@@ -48,6 +33,23 @@ function gameReady() {
 		}
 
 		var textButton = "Go to challenge";
+
+		if (game[step].hasOwnProperty("B") && step > 0 ) {
+
+			if (game[step]["B"].hasOwnProperty("challenge")) {
+				var challenge = game[step]["B"]["challenge"];
+				if (challenge.hasOwnProperty("type")) {
+					if (challenge["type"] == "checkin") {
+						challengeType = "checkin";
+						textButton = "Check-in"
+					} else if (challenge["type"] == "upload_content") {
+						challengeType = "upload_content";
+					} else if (challenge["type"] == "minigame") {
+						challengeType = "minigame";
+					}
+				}
+			}
+		}
 		if (step == 0) { textButton = "Go out and play!"; }
 
 		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
@@ -65,10 +67,11 @@ function gameReady() {
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>
 					` + image + `
-					<p>` + game[step]["A"].text + `</p>
-					` + clue + `
-					` + checkinButton
-				+ `</div>
+					<p>` + game[step]["A"].text + `</p>` + 
+					clue +
+					'<div class="totalTimeSpent"></div>' +
+					checkinButton + 
+				`</div>
 			</div>
 		`;
 
@@ -79,10 +82,7 @@ function gameReady() {
 
 		if (game[step].hasOwnProperty("B") && step > 0 ) {
 
-			var challenge = game[step]["B"]["challenge"];
-			if (challenge.hasOwnProperty("type")) {
-				challengeType = challenge["type"];
-
+			if (challengeType != "") {
 				if (challengeType == "upload_content") {
 
 					var POIChallenge = `
@@ -105,7 +105,6 @@ function gameReady() {
 							document.getElementById("openC" + currentPOI).click();
 						}, 1000);
 					};
-
 				}
 			}
 		}
@@ -116,7 +115,7 @@ function gameReady() {
 		if (game[step].hasOwnProperty("C") && step > 0 ) {
 
 			if (game[step].hasOwnProperty("item") && game[step].item != "") {
-				image = "<img src=" + uploaded_images_server + game[step].item + ">";
+				image = "<img src=" + server_url + game[step].item + ">";
 			} else {
 				image = "";
 			}
@@ -146,9 +145,10 @@ function gameReady() {
 		nextPOI = getFollowingPOIId(nextPOI);
 	} else {
 		if (fromMinigame) {
-			fromMinigmae = false;
+			fromMinigame = false;
 			document.getElementById("openC" + nextPOI).click();
 			nextPOI = getFollowingPOIId(nextPOI);
+
 			updatePath();
 		} else {
 			nextPOI = getFollowingPOIId(nextPOI);
@@ -161,16 +161,16 @@ function gameReady() {
 
 			setTimeout(function() {
 
-				var challenge = game[currentPOI]["B"]["challenge"];
-
-				if (challenge.hasOwnProperty("type")) {
-
-					challengeType = challenge["type"];
+				if (challengeType != "") {
 					if (challengeType == "minigame") {
 
 						var minigameURL = challenge["url"];
 						if (minigameURL.length > 0) {
-							minigameURL += "&callbackurl=https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/app.php%3Fgame%3D"+ game_id +"%26step%3D" + currentPOI
+							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
+								"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
+								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
+
+							minigameURL += "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime
 							window.open(minigameURL, "_self")
 						} else {
 							document.getElementById("openC" + currentPOI).click();
@@ -194,8 +194,108 @@ function gameReady() {
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
+			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
+			var seconds = spent%60;
+			var timeSpent = "<h3>Total time played: <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
+			var timeDivs = document.getElementsByClassName('totalTimeSpent');
+			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
+
 			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
+	}
+
+	console.log("time limit " + time_limit);
+	if (time_limit != 0) {
+		setInterval(function() { updateTimeLabel(); }, 1000);
+	}
+
+	startingTime = startingTime != 0 ? startingTime : new Date().getTime();
+}
+
+function newLocation(position) {
+
+	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
+
+	//tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
+
+	distanceToNextPOI += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
+	totalDistance     += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
+	lastPosition = position.coords;
+
+	if (!located) {
+		map.setZoom(18);
+		map.panTo(coors);
+		located = true;
+
+		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
+		lastPOITime  = new Date().getTime();
+	}
+
+	if (nextPOI > 0 && nextPOI < 999) {
+
+    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
+
+		if (distanceToNextPOI < game[nextPOI].triggerDistance) {
+
+			//trackProgress();
+			document.getElementById('openA' + nextPOI).click();
+			currentPOI = nextPOI;
+			nextPOI = getFollowingPOIId(nextPOI);
+			updatePath();
+		}
+
+		/*if (fromMinigame) { 
+			updatePath();
+		}*/
+
+		updateTopInfo( distanceToNextPOI );
+	}
+
+	this.refreshUserMarker(coors);
+}
+
+function updateTimeLabel() {
+
+	console.log("tracking time");
+
+	var now = new Date().getTime();
+	var time_spent = now - parseInt(startingTime);
+	var remaining_time = Math.round(time_limit - time_spent/1000);
+
+	//document.getElementById('timespent').innerHTML = (now - parseInt(startingTime));
+}
+
+function updateTopInfo( distanceToNextPOI ) {
+
+	if (currentPOI == 0) {
+		
+		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+
+		var clue = "";
+		if (game[currentPOI]["A"].hasOwnProperty("clue")) {
+			clue = game[currentPOI]["A"].clue;
+		}
+
+		document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = clue;
+			
+		document.getElementById('clueLayer').className = "shown";
+		document.getElementById('left-icon-div').className = "shown";
+		
+	} else if (game[currentPOI]["C"].hasOwnProperty("clue")) {
+
+		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+
+		document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI]["C"].clue;
+		document.getElementById('clueLayer').className = "shown";
+		document.getElementById('left-icon-div').className = "shown";
+
+		if (currentPOI == '999') {
+			document.getElementById("left-icon").src="images/ui-app-i-treasure-finish.png";
+		}
+
+	} else {
+		document.getElementById('clueLayer').className = "hidden";
+		document.getElementById('left-icon-div').className = "hidden";
 	}
 }
 
@@ -233,7 +333,7 @@ function updatePath() {
 
 
 function locate() {
-	
+
 	if (navigator.geolocation) {
 		setTimeout(function() {
 			/*tracker.Flush(function(result, error){
@@ -262,16 +362,16 @@ function trackProgress() {
 	var timeSpent = t - lastPOITime;
 	lastPOITime = t;
 	var poiId = "POI" + nextPOI;
-	
+
 	var distance = 100; //TODO
 	var speed = 12; //TODO distance / lastPOITime
 
-	/*tracker.setVar("time", timeSpent);
+	tracker.setVar("time", timeSpent);
 	tracker.setVar("poiId", poiId);
 	tracker.setVar("averageSpeed", lastPOIDistance / timeSpent);
 	tracker.setVar("distance", lastPOIDistance);
 
-	tracker.Completable.Progressed("demo", tracker.Completable.CompletableType.Game, progress);*/
+	tracker.Completable.Progressed("demo", tracker.Completable.CompletableType.Game, progress);
 }
 
 function refreshUserMarker(coors) {
@@ -354,7 +454,7 @@ function showInventory(id) {
 
 function addCollectablesToInventory() {
 
-	game = demo_info["POIS"];
+	game = game_info["POIS"];
 
 	var inventory = document.getElementById('inventory-grid');
 	var progress = document.getElementById('inventory-progress');
@@ -371,11 +471,11 @@ function addCollectablesToInventory() {
 					rowHTML = `<div class="row">
 										<div class="collectable">
 											<div class="collectable-image" style="
-												background-image:url('`+ uploaded_images_server + game[step].item +`');
+												background-image:url('`+ server_url + game[step].item +`');
 												background-size:cover;
 											"></div>
 											<div class="collectable-name">
-												<p>ITEM `+ i+1 +`</p>
+												<p>ITEM `+ (i+1) +`</p>
 											</div>
 										</div>`;
 				} else {
@@ -393,11 +493,11 @@ function addCollectablesToInventory() {
 					rowHTML += `
 							<div class="collectable">
 								<div class="collectable-image" style="
-									background-image:url('`+ uploaded_images_server + game[step].item +`');
+									background-image:url('`+ server_url + game[step].item +`');
 									background-size:cover;
 								"></div>
 								<div class="collectable-name">
-									<p>ITEM `+ i +`</p>
+									<p>ITEM `+ (i+1) +`</p>
 								</div>
 							</div>
 						</div>`;
