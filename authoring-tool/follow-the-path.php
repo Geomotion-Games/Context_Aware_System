@@ -161,7 +161,7 @@
 					<div class="container-fluid">
 						<div class="col-md-12">
 							<a id="finishEdition" href="./" class="orangeBtn">Finish game edition</a>
-							<a id="manageBeacons" href="http://lbc.prod.pisanello.net.pl/" class="blueBtn">Manage Beacons</a>
+							<a id="manageBeacons" href="http://lbc.prod.pisanello.net.pl/" target="_blank" class="blueBtn">Manage Beacons</a>
 							<a id="addBeacon" class="blueBtn">+ Add Beacon</a>
 							<div id="saving">Saving...</div>
 						</div>
