@@ -309,7 +309,15 @@ function updatePath() {
 		if (step < nextPOI && step != 0 && step != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
-			var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
+			if (game[step].hasOwnProperty("title")) {
+				var marker = L.marker(latlng, { icon: stopIcon }).bindTooltip( game[step]["title"],
+							{
+								permanent: true,
+								direction: 'bottom'
+							}).addTo(map);
+			} else {
+				var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
+			}
 
 			markers.push(marker);
 

@@ -124,17 +124,18 @@ function gameReady() {
 			}
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
-			var points = game[step]["rewardPoints"];
+			var points = game[step]["rewardPoints"] == 0 ? 
+								"" : "<p class="pointsWon">You won <span>"+ points +"</span> points</p>";
 
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen">
 					<div>
-						<h2>` + game[step]["C"].title + `</h2>
-						` + image + `
-						<p>` + game[step]["C"].text + `</p>
-						<p class="pointsWon">You won <span>`+ points +`</span> points</p>
-						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						<h2>` + game[step]["C"].title + `</h2>`
+						+ image +
+						`<p>` + game[step]["C"].text + `</p>`
+						+ points +
+						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
 				</div>
 			`;
@@ -261,7 +262,16 @@ function updatePath() {
 		if (step != 0 && step != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
-			var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
+
+			if (game[step].hasOwnProperty("title")) {
+				var marker = L.marker(latlng, { icon: stopIcon }).bindTooltip( game[step]["title"],
+							{
+								permanent: true,
+								direction: 'bottom'
+							}).addTo(map);
+			} else {
+				var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
+			}
 
 			markers.push(marker);
 
