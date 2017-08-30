@@ -80,7 +80,7 @@
 				<ol class="breadcrumb">
 					<li><a href="./"><span>Desktop</span></a></li>
 					<li><span>Select plot</span></li>
-					<!--TOTO href depenent del joc...-->
+					<!--TODO href depenent del joc...-->
 					<li class="active"><span>Edit game</span></li>
 				</ol>
 			</div>

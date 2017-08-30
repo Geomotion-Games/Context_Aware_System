@@ -136,9 +136,9 @@ var chestMarkerIcon = L.icon({
 var x = document.getElementById("location");
 var map = L.map('map');
 
-var OpenStreetMap_Mapnik = L.tileLayer('http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
 	maxZoom: 19,
-	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	attribution: ""/*'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'*/
 }).addTo(map);
 
 map.on('load', function() {
@@ -430,7 +430,8 @@ $("#addBeacon").on('click', function(e) {
 });
 
 function getBeacons(callback){
-	$.getJSON( "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123", function( data ) {
+	/*$.getJSON( "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123", function( data ) {*/
+	$.getJSON( "https://www.geomotiongames.com/beaconing/authoring-tool/beacons-xml.xml", function( data ) {
 		var beacons = [];
 		$.each( data, function( key, val ) {
 			var b = new Beacon(val);
