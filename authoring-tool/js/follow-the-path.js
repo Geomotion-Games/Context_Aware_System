@@ -174,6 +174,7 @@ function updatePath() {
 }
 
 map.on('click', function(e) {
+	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
 	var marker = addMarker(e.latlng);
 	addStop(marker, "normal");
 	map.addLayer(marker);
