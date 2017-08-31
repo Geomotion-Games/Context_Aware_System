@@ -244,6 +244,7 @@ function addStop(marker, type){
 
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
+	marker.step = step;
 	points[poisCreated] = step;
 	showStop(step);
 	updatePath();
