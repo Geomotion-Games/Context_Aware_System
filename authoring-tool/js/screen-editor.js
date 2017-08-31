@@ -340,10 +340,10 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     `;
             
             if(poi.type == "finish"){      
-                var totalTime = 0;            
+                var totalTime = "0:00";            
                 content += `
                                     <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
-                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span> minutes</p>
+                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span></p>
                                     <p class="preview-button" id="preview-button-A">Finish Game</p>
                     `;
             }else{
@@ -433,10 +433,10 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                        <p class="preview-text" id="preview-text-A">${text}</p>`;
             
             if(poi.type == "finish"){      
-                var totalTime = 0;            
+                var totalTime = "0:00";
                 content += `
                                     <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
-                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span> minutes</p>
+                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span></p>
                                     <p class="preview-button" id="preview-button-A">Finish Game</p>
                     `;
             }else{
