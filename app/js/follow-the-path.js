@@ -51,14 +51,7 @@ function gameReady() {
 		if (step == 0) { textButton = "Go out and play!"; }
 
 		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
-		var timeSpent = "";
-		if (step == 999) { 
-			checkinButton = ""; 
-			if (time_limit == 0) {
-				var spent = new Date().getTime() - parseInt(startingTime);
-				timeSpent = "<h3>Total time played: <span>" + spent/60 + ":" + spent%60 + "</span><h3>";
-			}
-		}
+		if (step == 999) { checkinButton = ""; }
 
 		if (game[step]["A"].hasOwnProperty("clue") && game[step]["A"].clue != "") {
 			clue = "<p>" + game[step]["A"].clue + "</p>";
@@ -70,11 +63,12 @@ function gameReady() {
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
-					<h2>` + game[step]["A"].title + `</h2>
-					` + image + `
-					<p>` + game[step]["A"].text + `</p>` + 
+					<h2>` + game[step]["A"].title + `</h2>` + 
+					image +
+					`<p>` + game[step]["A"].text + `</p>` +
 					clue +
-					timeSpent +
+					`<div class="totalPointsEarned"></div>` +
+					`<div class="totalTimeSpent"></div>` +
 					checkinButton + 
 				`</div>
 			</div>
@@ -124,8 +118,8 @@ function gameReady() {
 			}
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
-			var points = game[step]["rewardPoints"] == 0 ? 
-								"" : "<p class="pointsWon">You won <span>"+ points +"</span> points</p>";
+			var points = game[step]["rewardPoints"] == 0 
+						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
 
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
@@ -199,13 +193,29 @@ function gameReady() {
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
+
+			// TIME
+			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
+			var seconds = spent%60;
+			var timeSpent = "<h3>Total time played: <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
+			var timeDivs = document.getElementsByClassName('totalTimeSpent');
+			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
+
+			// POINTS
+			var pointsEarned = 0
+			for (step in game) pointsEarned += parseInt(game[step]["rewardPoints"]);
+			
+			if (pointsEarned > 0) {
+				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
+				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
+			}
 			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
 
 	updatePath();
 	if (time_limit != 0) { setInterval(function() { updateTimeLabel(); }, 1000); }
-	startingTime = startingTime != 0 ? startingTime : new Date().getTime() / 1000;
+	startingTime = startingTime != 0 ? startingTime : new Date().getTime();
 }
 
 function newLocation(position) {
