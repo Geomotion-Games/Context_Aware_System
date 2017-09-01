@@ -187,6 +187,21 @@ div.edit-screen {
 	margin-top:50px;
 }
 
+#fileSizeWarning .modal-dialog {
+	width: 330px;
+	margin-top:50px;
+}
+#fileSizeWarning .modal-content{
+	padding: 10px;
+	height: 180px;
+}
+.fileSizeWarning-close{
+	float: none;
+	margin-top:20px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 #challenge-form input{
 	width:266px;
 }
