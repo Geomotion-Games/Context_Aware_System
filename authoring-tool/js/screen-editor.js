@@ -58,17 +58,18 @@ function init(){
         uploadImage({
             file: e.target.files[0], 
             preCallback: function(file){
-                $("body").find("[data-index=2]").each(function(){
-                    var imageHolder = $(this).find(".preview-img");
-                    imageHolder.empty();
-                    var src = URL.createObjectURL(file);
-                    imageHolder.attr('src', src);
-                    screen.image = src;
-                });
+               
             }, 
             postCallback: function(url){
                 poi.item = url;
                 savePOI(poi);
+                $("body").find("[data-index=2]").each(function(){
+                    var imageHolder = $(this).find(".preview-img");
+                    imageHolder.empty();
+                    var src = URL.createObjectURL(e.target.files[0]);
+                    imageHolder.attr('src', src);
+                    screen.image = src;
+                });
             }
         }); 
     });
@@ -208,17 +209,15 @@ function showEditorScreen(index){
             screenId: screen.id,
             type: "screens",
             file: e.target.files[0], 
-            preCallback: function(file){
+            postCallback: function(url){
+                screen.image = url;
+                saveScreen(screen, poi);
                 $("body").find("[data-index=" + index + "]").each(function(){
                     var imageHolder = $(this).find(".preview-img");
                     imageHolder.empty();
                     var src = URL.createObjectURL(e.target.files[0]);
                     imageHolder.attr('src', src);
                 });
-            }, 
-            postCallback: function(url){
-                screen.image = url;
-                saveScreen(screen, poi);
             }
         }); 
     });
@@ -281,7 +280,7 @@ function appendEditor(parent, screen){
                 <input type="title" class="form-control" id="screenTitle" value="${title}">
             </div>
             <div class="form-group">
-                <label for="screenImage">Image:</label>
+                <label for="screenImage">Image (max 300kb): </label>
                 <input class="form-control" id="screenImage" type="file" accept="image/*" >
             </div>
             <div class="form-group">
@@ -478,8 +477,6 @@ function uploadImage(options){
             return false;
         }
         else{
-            options.preCallback(file);
-
             var formData = new FormData();
             formData.append("poiId", poi.id);
             formData.append("file", file);
@@ -499,9 +496,17 @@ function uploadImage(options){
                         console.log("succes upload " + url);
                         options.postCallback(url);
                     } else {
+                        showFileSizeWarning();
                         console.log("error upload " + data)
                     }
                 }
             });
         }
+}
+
+function showFileSizeWarning(message){
+    $(".fileSizeWarning").modal('show');
+    $(".fileSizeWarning-close").click(function(){
+        $(".fileSizeWarning").modal('hide');
+    })
 }

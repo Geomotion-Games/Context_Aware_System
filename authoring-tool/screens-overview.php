@@ -98,6 +98,7 @@
 		</div>
 	</header>
 
+
 	<div class="container-fluid wideDescription">
 		<div class="col-md-12 description">
 			<p class="descriptionText"><strong>Description: </strong>Preview the content of the screens that students will see on the app when arriving to a POI during the game. "Challenge description" screen shows a description of the POI and the challenge. "Challenge screen" shows the challenge that the student have to overcome when arriving at the POI. "Result screen" shows the result of the challenge: reward points, items collected, etc.</p>
@@ -119,7 +120,7 @@
 				<input id="poiTriggerDistance" class="attrValue" type="number">
 			</div>
 			<div id="imageContainer" class="col-md-6 attribute">
-				<p class="attrTitle">Collectable item</p>
+				<p class="attrTitle">Collectable item (max 300kb)</p>
 				<input id="poiImage" class="attrValue" type="file" accept="image/*">
 			</div>
 		</div>
@@ -159,6 +160,17 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				 <image src="images/geomotion-qr.png">
+			</div>
+		</div>
+	</div>
+
+	<div class="fileSizeWarning modal fade" id="fileSizeWarning" tabindex="-1" role="dialog" aria-labelledby="fileSizeWarning">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<h4><b>Warning!</b></h4>
+				<hr>
+				<p>The image exceeds the 300kb limit</p>
+				<a class="warningBtn fileSizeWarning-close">Ok</a>
 			</div>
 		</div>
 	</div>
