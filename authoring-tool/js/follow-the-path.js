@@ -433,8 +433,8 @@ $("#addBeacon").on('click', function(e) {
 
 function getBeacons(callback){
 	//var url = "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123"; //pro
-	var url = "https://www.geomotiongames.com/beaconing/authoring-tool/beacons-xml.xml"; //pre
-	//var url = "../beacons-xml.xml"; // local
+	//var url = "https://www.geomotiongames.com/beaconing/authoring-tool/beacons-xml.xml"; //pre
+	var url = "../beacons-xml.xml"; // local
 	$.getJSON( url, function( data ) {
 		var beacons = [];
 		$.each( data, function( key, val ) {

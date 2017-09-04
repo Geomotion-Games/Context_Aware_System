@@ -50,7 +50,9 @@ function init(){
     $("#poiReward").on("input", function(){
         onInputPOI();
          $("body").find("[data-index=2]").each(function(){
-            $(this).find(".preview-reward > span").html($("#poiReward").val());
+            var points = $("#poiReward").val();
+            if(points > 0) $(this).find(".preview-reward").html("You won <span>" + points + "</span> points");
+            else $(this).find(".preview-reward").html("");
          });
     });
 
@@ -339,9 +341,13 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     `;
             
             if(poi.type == "finish"){      
-                var totalTime = "0:00";            
-                content += `
+                var totalTime = "0:00"; 
+                if(totalRewardPoints != 0){
+                     content += `
                                     <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
+                    `;
+                }           
+                content += `
                                     <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span></p>
                                     <p class="preview-button" id="preview-button-A">Finish Game</p>
                     `;
@@ -407,7 +413,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
                                     <img class="preview-img" id="preview-img-C" src="${item?item:image}">
                                     <p class="preview-text" id="preview-text-C">${text}</p>
-                                    <p class="preview-reward" id="preview-reward-C">You won <span>${reward}</span> points</p>
+                                    <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points": ""}</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
                                 </div>
                                 <div class="background-front"></div>
@@ -432,9 +438,13 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                        <p class="preview-text" id="preview-text-A">${text}</p>`;
             
             if(poi.type == "finish"){      
-                var totalTime = "0:00";
-                content += `
+                 var totalTime = "0:00"; 
+                if(totalRewardPoints != 0){
+                     content += `
                                     <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
+                    `;
+                }           
+                content += `
                                     <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span></p>
                                     <p class="preview-button" id="preview-button-A">Finish Game</p>
                     `;
@@ -457,7 +467,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                         <h4 class="preview-title" id="preview-title-C">${title}</h4>
                         <img class="preview-img" id="preview-img-C" src="${item?item:image}">
                         <p class="preview-text" id="preview-text-C">${text}</p>
-                        <p class="preview-reward" id="preview-reward-C">You won <span>${reward}</span> points</p>
+                        <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points" : ""}</p>
                         <p class="preview-button" id="preview-button-C">Go to map!</p>
                     </div>
                     <div class="background-front"></div>
