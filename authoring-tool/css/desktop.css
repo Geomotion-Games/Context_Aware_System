@@ -86,6 +86,10 @@
 	float: right;
 }
 
+.gamerow .gameinfo .gameactions a:hover {
+	text-decoration: none;
+}
+
 .gamerow .gameinfo .gameactions i {
 	float: right;
 	color: #e87f62;
@@ -121,6 +125,7 @@
 .games .pubpriv .btn-primary {
     color: #fff;
     background-color: #e87f62;
+    border: 1px solid transparent;
 }
 
 .games .pubpriv .btn-default.active {

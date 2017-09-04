@@ -51,14 +51,7 @@ function gameReady() {
 		if (step == 0) { textButton = "Go out and play!"; }
 
 		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
-		var timeSpent = "";
-		if (step == 999) { 
-			checkinButton = ""; 
-			if (time_limit == 0) {
-				var spent = new Date().getTime() - parseInt(startingTime);
-				timeSpent = "<h3>Total time played: <span>" + spent/60 + ":" + spent%60 + "</span><h3>";
-			}
-		}
+		if (step == 999) { checkinButton = ""; }
 
 		if (game[step]["A"].hasOwnProperty("clue") && game[step]["A"].clue != "") {
 			clue = "<p>" + game[step]["A"].clue + "</p>";
@@ -70,11 +63,12 @@ function gameReady() {
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
-					<h2>` + game[step]["A"].title + `</h2>
-					` + image + `
-					<p>` + game[step]["A"].text + `</p>` + 
+					<h2>` + game[step]["A"].title + `</h2>` + 
+					image +
+					`<p>` + game[step]["A"].text + `</p>` +
 					clue +
-					timeSpent +
+					`<div class="totalPointsEarned"></div>` +
+					`<div class="totalTimeSpent"></div>` +
 					checkinButton + 
 				`</div>
 			</div>
@@ -124,8 +118,8 @@ function gameReady() {
 			}
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
-			var points = game[step]["rewardPoints"] == 0 ? 
-								"" : "<p class="pointsWon">You won <span>"+ points +"</span> points</p>";
+			var points = game[step]["rewardPoints"] == 0 
+						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
 
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
@@ -168,6 +162,7 @@ function gameReady() {
 				if (challengeType != "") {
 					if (challengeType == "minigame") {
 
+						var challenge = game[currentPOI]["B"]["challenge"];
 						var minigameURL = challenge["url"];
 						if (minigameURL.length > 0) {
 
@@ -199,13 +194,31 @@ function gameReady() {
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
+
+			// TIME
+			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
+			var seconds = spent%60;
+			var timeSpent = "<h3>Total time played: <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
+			var timeDivs = document.getElementsByClassName('totalTimeSpent');
+			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
+
+			// POINTS
+			var pointsEarned = 0
+			for (step in game) pointsEarned += parseInt(game[step]["rewardPoints"]);
+
+			if (pointsEarned > 0) {
+				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
+				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
+			}
 			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
 
 	updatePath();
+	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
+
 	if (time_limit != 0) { setInterval(function() { updateTimeLabel(); }, 1000); }
-	startingTime = startingTime != 0 ? startingTime : new Date().getTime() / 1000;
+	startingTime = startingTime != 0 ? startingTime : new Date().getTime();
 }
 
 function newLocation(position) {
@@ -237,6 +250,7 @@ function newLocation(position) {
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
 			nextPOI = getFollowingPOIId(nextPOI);
+			document.getElementById('main-progress').text = getInventoryProgressAsString; //TODO després del challenge si l'ha superat?
 		}
 
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
@@ -246,10 +260,10 @@ function newLocation(position) {
 }
 
 function updateTimeLabel() {
-		var now = new Date().getTime();
-		var time_spent = now - parseInt(startingTime);
-		var remaining_time = Math.round(time_limit - time_spent/1000)
-		//document.getElementById('timespent').innerHTML = (now - parseInt(startingTime));
+	var now = new Date().getTime();
+	var time_spent = now - parseInt(startingTime);
+	var remaining_time = Math.round(time_limit - time_spent/1000)
+	//document.getElementById('timespent').innerHTML = (now - parseInt(startingTime));
 }
 
 function updatePath() {
@@ -262,15 +276,16 @@ function updatePath() {
 		if (step != 0 && step != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
+			var poiIcon = step == 1 ? flagIcon : stopIcon;
 
 			if (game[step].hasOwnProperty("title")) {
-				var marker = L.marker(latlng, { icon: stopIcon }).bindTooltip( game[step]["title"],
+				var marker = L.marker(latlng, { icon: poiIcon }).bindTooltip( game[step]["title"],
 							{
 								permanent: true,
 								direction: 'bottom'
 							}).addTo(map);
 			} else {
-				var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
+				var marker = L.marker(latlng, { icon: poiIcon }).addTo(map);
 			}
 
 			markers.push(marker);
@@ -442,7 +457,6 @@ function addCollectablesToInventory() {
 									</div>
 								</div>`;
 				}
-
 				
 			} else {
 				if (currentPOI > i) {
@@ -478,7 +492,7 @@ function addCollectablesToInventory() {
 		inventory.innerHTML += rowHTML + "</div>";
 	}
 
-	progress.innerHTML = currentPOI + "/" + i;
+	progress.innerHTML = getInventoryProgressAsString(); //TODO current POI no, contar quants en porta
 
 	`<div class="row">
 		<div class="collectable">
@@ -494,6 +508,29 @@ function addCollectablesToInventory() {
 		</div>
 	</div>`
 }
+
+function getInventoryProgressAsString() {
+
+	game = game_info["POIS"];
+
+	var totalItems = 0; //Number of collectables
+	var currentProgress = 0; //Number of collectables collected
+
+	for (step in game) {
+
+		if (game[step].hasOwnProperty("item") && game[step].item !="") {
+
+			if (step <= currentPOI) {
+				currentProgress += 1;
+			}
+
+			totalItems++;
+		}
+	}
+
+	return currentProgress + "/" + totalItems; //TODO current POI no, contar quants en porta
+}
+
 
 /*
 function uploadContent() {

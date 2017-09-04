@@ -121,6 +121,7 @@
 	<p id="distance"></p>
 	<div id="gameInfo">
 		<img src="images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButton">
+		<p id="main-progress"></p>
 		<map name="inventoryButton" id="inventoryButton">
     		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
 		</map>
@@ -187,15 +188,21 @@
 	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
 
 	var stopIcon = L.icon({
-	    iconUrl:    'https://www.geomotiongames.com/beaconing/app/images/map-marker-blue.png',
+	    iconUrl:    server_url + 'app/images/map-marker-blue.png',
 	    iconSize:   [26, 42],
 	    iconAnchor: [13, 42],
 	});
 
+	var flagIcon = L.icon({
+	    iconUrl:    server_url + 'app/images/start-red-flag.png',
+	    iconSize:   [26, 39],
+	    iconAnchor: [4, 39],
+	});
+
 	var locationIcon = L.icon({
-	    iconUrl:   'https://www.geomotiongames.com/beaconing/app/images/avatar-marker.png',
-	    iconSize:     [40, 50],
-	    iconAnchor:   [20, 50],
+	    iconUrl: 	server_url + 'app/images/avatar-marker.png',
+	    iconSize:   [40, 50],
+	    iconAnchor: [20, 50],
 	});
 
 	var map = L.map('map', { zoomControl:false }).fitWorld();

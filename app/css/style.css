@@ -64,6 +64,10 @@ html, body, #map { height: 100vh; width: 100vw; }
     border-radius: 11px;
 }
 
+.totalTimeSpent span, .totalPointsEarned span {
+	font-size:1.2em;
+}
+
 .hidden {
 	display: none;
 }
@@ -237,6 +241,14 @@ html, body, #map { height: 100vh; width: 100vw; }
     font-size: 0.9em;
     color: white;
     right: 23px;
+}
+
+#topBar #gameInfo #main-progress{
+	position: fixed;
+    top: 90px;
+    font-size: 0.9em;
+    color: white;
+    right: 20px;
 }
 
 #inventory #inventory-header-image {

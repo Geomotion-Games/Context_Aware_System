@@ -69,6 +69,7 @@ function gameReady() {
 					` + image + `
 					<p>` + game[step]["A"].text + `</p>` + 
 					clue +
+					'<div class="totalPointsEarned"></div>' +
 					'<div class="totalTimeSpent"></div>' +
 					checkinButton + 
 				`</div>
@@ -121,17 +122,20 @@ function gameReady() {
 			}
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
-			var points = game[step]["rewardPoints"];
+			var points = game[step]["rewardPoints"] == 0 
+						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
+
+			console.log(points);
 
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen">
 					<div>
-						<h2>` + game[step]["C"].title + `</h2>
-						` + image + `
-						<p>` + game[step]["C"].text + `</p>
-						<p class="pointsWon">You won <span>`+ points +`</span> points</p>
-						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						<h2>` + game[step]["C"].title + `</h2>` 
+						+ image + 
+						`<p>` + game[step]["C"].text + `</p>`
+						+ points +
+						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
 				</div>
 			`;
@@ -150,6 +154,7 @@ function gameReady() {
 			nextPOI = getFollowingPOIId(nextPOI);
 
 			updatePath();
+			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
 		} else {
 			nextPOI = getFollowingPOIId(nextPOI);
 		}
@@ -164,6 +169,7 @@ function gameReady() {
 				if (challengeType != "") {
 					if (challengeType == "minigame") {
 
+						var challenge = game[currentPOI]["B"]["challenge"];
 						var minigameURL = challenge["url"];
 						if (minigameURL.length > 0) {
 							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
@@ -194,12 +200,22 @@ function gameReady() {
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
+
+			// TIME
 			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
 			var seconds = spent%60;
 			var timeSpent = "<h3>Total time played: <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
 			var timeDivs = document.getElementsByClassName('totalTimeSpent');
 			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
 
+			// POINTS
+			var pointsEarned = 0
+			for (step in game) pointsEarned += parseInt(game[step]["rewardPoints"]);
+
+			if (pointsEarned > 0) {
+				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
+				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
+			}
 			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
@@ -289,7 +305,9 @@ function updateTopInfo( distanceToNextPOI ) {
 		document.getElementById('clueLayer').className = "shown";
 		document.getElementById('left-icon-div').className = "shown";
 
-		if (currentPOI == '999') {
+		var keys = Object.keys(game);
+		var lastPOIId = keys[keys.length-2];
+		if (nextPOI == lastPOIId) {
 			document.getElementById("left-icon").src="images/ui-app-i-treasure-finish.png";
 		}
 
@@ -297,6 +315,8 @@ function updateTopInfo( distanceToNextPOI ) {
 		document.getElementById('clueLayer').className = "hidden";
 		document.getElementById('left-icon-div').className = "hidden";
 	}
+
+	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
 }
 
 
@@ -309,14 +329,16 @@ function updatePath() {
 		if (step < nextPOI && step != 0 && step != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
+			var poiIcon = step == 1 ? flagIcon : stopIcon;
+
 			if (game[step].hasOwnProperty("title")) {
-				var marker = L.marker(latlng, { icon: stopIcon }).bindTooltip( game[step]["title"],
+				var marker = L.marker(latlng, { icon: poiIcon }).bindTooltip( game[step]["title"],
 							{
 								permanent: true,
 								direction: 'bottom'
 							}).addTo(map);
 			} else {
-				var marker = L.marker(latlng, { icon: stopIcon }).addTo(map);
+				var marker = L.marker(latlng, { icon: poiIcon }).addTo(map);
 			}
 
 			markers.push(marker);
@@ -545,6 +567,28 @@ function addCollectablesToInventory() {
 			</div>
 		</div>
 	</div>`
+}
+
+function getInventoryProgressAsString() {
+
+	game = game_info["POIS"];
+
+	var totalItems = 0; //Number of collectables
+	var currentProgress = 0; //Number of collectables collected
+
+	for (step in game) {
+
+		if (game[step].hasOwnProperty("item") && game[step].item !="") {
+
+			if (step <= currentPOI) {
+				currentProgress += 1;
+			}
+
+			totalItems++;
+		}
+	}
+
+	return currentProgress + "/" + totalItems; //TODO current POI no, contar quants en porta
 }
 
 /*
