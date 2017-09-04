@@ -70,9 +70,9 @@
 .preview-screen .content .preview-text {
 	font-size: 0.8em;
 	text-align: left;
-	height: 165px;
     overflow: scroll;
     max-height:170px;
+    white-space: pre-wrap;
 }
 
 .preview-screen a#editMinigames {
