@@ -120,11 +120,16 @@
 <div id="topBar">
 	<p id="distance"></p>
 	<div id="gameInfo">
-		<img src="images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButton">
-		<p id="main-progress"></p>
+		<img id="topImageNoTime" class="hidden" src="images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButtonNoTime">
+		<map name="inventoryButtonNoTime" id="inventoryButtonNoTime">
+    		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
+		</map>
+		<img id="topImageTime" class="hidden" src="images/ui-app-d-follow-treasure.png" usemap="#inventoryButton">
 		<map name="inventoryButton" id="inventoryButton">
     		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
 		</map>
+		<p id="remaining-time"></p>
+		<p id="main-progress"></p>
 	</div>
 	<div id="left-icon-div" class="hidden"><img src="images/ui-app-i-treasure.png" id="left-icon"></div>
 	<div id="clueLayer" class="hidden"><p class="clue"></p></div>
@@ -146,6 +151,15 @@
 		<div id="inventory-grid">
 			<!--inventory content-->
 		</div>
+	</div>
+</div>
+
+<div id="time-limit" class="modalDialog screen">
+	<div>
+		<H2>Time is over</H2>
+		<img src="images/timelimit.jpg" id="time-limit-image">
+		<p>Oh! The time limit to complete the game is over.</p>
+		<a id="time-limit-button" href="#" class="goButton">Go out</a>
 	</div>
 </div>
 
@@ -194,7 +208,7 @@
 	});
 
 	var flagIcon = L.icon({
-	    iconUrl:    server_url + 'app/images/start-red-flag.png',
+	    iconUrl:    server_url + 'app/images/start-blue-flag.png',
 	    iconSize:   [26, 39],
 	    iconAnchor: [4, 39],
 	});

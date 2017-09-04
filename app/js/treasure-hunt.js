@@ -55,12 +55,6 @@ function gameReady() {
 		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 		if (step == 999) { checkinButton = ""; }
 
-		if (game[step]["A"].hasOwnProperty("clue") && game[step]["A"].clue != "") {
-			clue = "<p>" + game[step]["A"].clue + "</p>";
-		} else {
-			clue = "";
-		}
-
 		var POIBefore = `
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
 			<div id="modal` + step + `" class="modalDialog screen">
@@ -68,7 +62,6 @@ function gameReady() {
 					<h2>` + game[step]["A"].title + `</h2>
 					` + image + `
 					<p>` + game[step]["A"].text + `</p>` + 
-					clue +
 					'<div class="totalPointsEarned"></div>' +
 					'<div class="totalTimeSpent"></div>' +
 					checkinButton + 
@@ -220,12 +213,15 @@ function gameReady() {
 		}, 1000);
 	}
 
-	console.log("time limit " + time_limit);
-	if (time_limit != 0) {
-		setInterval(function() { updateTimeLabel(); }, 1000);
+	if (time_limit != 0) { 
+		document.getElementById("main-progress").className = "time";
+		document.getElementById("distance").className = "time";
+		document.getElementById("topImageTime").className = "time";
+	} else {
+		document.getElementById("main-progress").className = "notime";
+		document.getElementById("distance").className = "notime";
+		document.getElementById("topImageNoTime").className = "notime";
 	}
-
-	startingTime = startingTime != 0 ? startingTime : new Date().getTime();
 }
 
 function newLocation(position) {
@@ -245,6 +241,8 @@ function newLocation(position) {
 
 		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
 		lastPOITime  = new Date().getTime();
+		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
+		setInterval(function() { updateTimeLabel(); }, 1000);
 	}
 
 	if (nextPOI > 0 && nextPOI < 999) {
@@ -271,14 +269,17 @@ function newLocation(position) {
 }
 
 function updateTimeLabel() {
-
-	console.log("tracking time");
-
 	var now = new Date().getTime();
 	var time_spent = now - parseInt(startingTime);
-	var remaining_time = Math.round(time_limit - time_spent/1000);
+	var remaining_time = Math.round(time_limit - time_spent/1000)
+	var r_sec = remaining_time%60;
 
-	//document.getElementById('timespent').innerHTML = (now - parseInt(startingTime));
+	if (remaining_time > 0) {
+		document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
+	} else {
+		document.getElementById('time-limit').style.zIndex = "9999";
+		document.getElementById('time-limit').style.opacity = "1";
+	}
 }
 
 function updateTopInfo( distanceToNextPOI ) {
