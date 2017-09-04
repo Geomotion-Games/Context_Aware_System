@@ -245,7 +245,7 @@ function addStop(marker, type){
 
 	poisCreated++;
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
-	marker.step = step;
+	if(marker)marker.step = step;
 	points[poisCreated] = step;
 	showStop(step);
 	updatePath();
@@ -335,7 +335,7 @@ function addBeaconMarker(id, step, focus){
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
-	map.addMarker(marker);
+	map.addLayer(marker);
 	step.marker = marker;
 	step.beaconId = id;
 	if(focus){
@@ -432,8 +432,8 @@ $("#addBeacon").on('click', function(e) {
 });
 
 function getBeacons(callback){
-	//var url = "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123"; // real
-	var url = "../beacons-xml.xml";
+	//var url = "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123"; //pro
+	var url = "./beacons-xml.xml"; // local - pre
 	$.getJSON( url, function( data ) {
 		var beacons = [];
 		$.each( data, function( key, val ) {
