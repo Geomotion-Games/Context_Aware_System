@@ -121,7 +121,14 @@
 			</div>
 			<div id="imageContainer" class="col-md-6 attribute">
 				<p class="attrTitle">Collectable item (max 300kb)</p>
-				<input id="poiImage" class="attrValue" type="file" accept="image/*">
+				<div class="row">
+                    <div class="col-md-11">
+                         	<input id="poiImage" class="attrValue" type="file" accept="image/*">
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-times fa-2x" id="removeImageC" aria-hidden="true" title="Remove Image"></i>
+                    </div>
+                </div>
 			</div>
 		</div>
 

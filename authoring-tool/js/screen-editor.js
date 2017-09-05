@@ -76,6 +76,15 @@ function init(){
         }); 
     });
 
+    $("#removeImageC").click(function(){
+        if(poi.item == null || poi.item == "") return;
+        poi.item = null;
+        $("body").find("[data-index=" + 2 + "]").each(function(){
+            var imageHolder = $(this).find(".preview-img").attr("src", "");
+        });
+        savePOI(poi);
+    });
+
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
     }else if(poi.type == "start"){
@@ -183,6 +192,15 @@ function showEditorScreen(index){
     currentScreen = index;
     appendEditor("#stop-editor-form", screen);
 
+    $("#removeImageA").click(function(){
+        if(screens[0].image == null) return;
+        screens[0].image = null;
+        $("body").find("[data-index=" + 0 + "]").each(function(){
+            var imageHolder = $(this).find(".preview-img").attr("src", "");
+        });
+        saveScreen(screens[0], poi);
+    });
+
     $("#screenTitle").on('input',function(e){
         var title = $(this).val();
         $("body").find("[data-index=" + index + "]").each(function(){
@@ -283,7 +301,14 @@ function appendEditor(parent, screen){
             </div>
             <div class="form-group">
                 <label for="screenImage">Image (max 300kb): </label>
-                <input class="form-control" id="screenImage" type="file" accept="image/*" >
+                <div class="row">
+                    <div class="col-md-10">
+                        <input class="form-control" id="screenImage" type="file" accept="image/*" >
+                    </div>
+                    <div class="col-md-1">
+                        <i class="fa fa-times fa-2x" id="removeImageA" aria-hidden="true" title="Remove Image"></i>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="screenText">Text:</label>
@@ -291,6 +316,7 @@ function appendEditor(parent, screen){
             </div>
             
         `);
+
     }else{
         $(parent).append(`
             <div class="form-group">
@@ -312,6 +338,8 @@ function appendEditor(parent, screen){
             </div>
         `);
     }
+
+    
 }
 
 function appendPreviewScreen(parent, screen, index, clickable, editor){
@@ -435,7 +463,8 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                       <p class="preview-text" id="preview-text-A">${text}</p>`;
+                        <p class="preview-text" id="preview-text-A">${text}</p>
+                        `;
             
             if(poi.type == "finish"){      
                  var totalTime = "0:00"; 

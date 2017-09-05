@@ -205,3 +205,9 @@ div.edit-screen {
 #challenge-form input{
 	width:266px;
 }
+
+#removeImageA, #removeImageC{
+	margin-right: 10px;
+    color: #F26B3F;
+}
+   
