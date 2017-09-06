@@ -23,6 +23,7 @@ function gameReady() {
 	for (step in game) {
 
 		var image = "";
+		var classP = "p67vh";
 		var clue = "";
 		var extras = document.getElementById("extras");
 
@@ -30,6 +31,7 @@ function gameReady() {
 
 		if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
 			image = "<img src=" + server_url + game[step]["A"].image + ">";
+			classP = "p30vh";
 		}
 
 		var textButton = "Go to challenge";
@@ -60,8 +62,8 @@ function gameReady() {
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>
-					` + image + `
-					<p>` + game[step]["A"].text + `</p>` + 
+					` + image
+					`<p class="`+ classP +`">` + game[step]["A"].text + `</p>` + 
 					'<div class="totalPointsEarned"></div>' +
 					'<div class="totalTimeSpent"></div>' +
 					checkinButton + 
@@ -110,8 +112,10 @@ function gameReady() {
 
 			if (game[step].hasOwnProperty("item") && game[step].item != "") {
 				image = "<img src=" + server_url + game[step].item + ">";
+				classP = "p25vh";
 			} else {
 				image = "";
+				classP = "p50vh";
 			}
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
@@ -126,7 +130,7 @@ function gameReady() {
 					<div>
 						<h2>` + game[step]["C"].title + `</h2>` 
 						+ image + 
-						`<p>` + game[step]["C"].text + `</p>`
+						`<p class="`+ classP +`">` + game[step]["C"].text + `</p>`
 						+ points +
 						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
