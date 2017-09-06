@@ -124,9 +124,10 @@
 		<map name="inventoryButtonNoTime" id="inventoryButtonNoTime">
     		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
 		</map>
+
 		<img id="topImageTime" class="hidden" src="images/ui-app-d-follow-treasure.png" usemap="#inventoryButton">
 		<map name="inventoryButton" id="inventoryButton">
-    		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
+    		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,89,107,138" />
 		</map>
 		<p id="remaining-time"></p>
 		<p id="main-progress"></p>

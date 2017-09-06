@@ -242,7 +242,9 @@ function newLocation(position) {
 		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
 		lastPOITime  = new Date().getTime() / 1000;
 		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
-		setInterval(function() { updateTimeLabel(); }, 1000);
+		if (time_limit != 0) {
+			setInterval(function() { updateTimeLabel(); }, 1000);
+		}
 	}
 
 	if (nextPOI > 0 && nextPOI < 999) {
