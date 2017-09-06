@@ -99,8 +99,10 @@
 				<h4><b>Warning!</b></h4>
 				<hr>
 				<p>Are you sure you want to remove this game?</p>
-				<a class="warningBtn warning-action-remove">Yes</a>
-				<a class="warningBtn warning-action-cancel">No</a>
+				<div id="remove-buttons">
+					<a class="warningBtn warning-action-remove">Yes</a>
+					<a class="warningBtn warning-action-cancel">No</a>
+				</div>
 			</div>
 		</div>
 	</div>
