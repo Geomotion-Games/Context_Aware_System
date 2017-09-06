@@ -112,8 +112,8 @@
 				<input id="poiName" class="attrValue" type="text">
 			</div>
 			<div id="rewardContainer" class="col-md-2 attribute">
-				<p class="attrTitle">Reward Points</p>
-				<input id="poiReward" class="attrValue" type="number">
+				<p class="attrTitle">Reward Points (max 1000000)</p>
+				<input id="poiReward" class="attrValue" type="number" max="1000000">
 			</div>
 			<div id="triggerContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Trigger distance (meters)</p>

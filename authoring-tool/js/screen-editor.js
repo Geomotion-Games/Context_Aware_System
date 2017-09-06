@@ -25,8 +25,8 @@ function createEditScreenTimeout(){
 
 function updateValues(){
     poi.title = $("#poiName").val();
-    poi.triggerDistance = $("#poiTriggerDistance").val()
-    poi.rewardPoints = $("#poiReward").val()
+    poi.triggerDistance = $("#poiTriggerDistance").val();
+    if(points <= 1000000) poi.rewardPoints = $("#poiReward").val();
 }
 
 var currentScreen = -1;
@@ -48,9 +48,14 @@ function init(){
     
     $("#poiReward").blur(onBlurPOI);
     $("#poiReward").on("input", function(){
+        var points = $("#poiReward").val();
+        if(points > 1000000){
+            $("#poiReward").val(1000000);
+            points = 1000000;
+        }
+        console.log(points);
         onInputPOI();
          $("body").find("[data-index=2]").each(function(){
-            var points = $("#poiReward").val();
             if(points > 0) $(this).find(".preview-reward").html("You won <span>" + points + "</span> points");
             else $(this).find(".preview-reward").html("");
          });
