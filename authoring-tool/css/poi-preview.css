@@ -206,8 +206,12 @@ div.edit-screen {
 	width:266px;
 }
 
-#removeImageA, #removeImageC{
+#removeImageA, #removeImageC {
 	margin-right: 10px;
     color: #F26B3F;
+    position: absolute;
+    font-size: 1.6em;
+    padding-top: 5px;
+    right: 8px;
 }
    
