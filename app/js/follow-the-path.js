@@ -282,8 +282,8 @@ function updateTimeLabel() {
 
 function updatePath() {
 
-	var pointList = [];
-	var markers = [];
+	var pointList_pre = [];
+	var pointList_post = [];
 
 	for (step in game) {
 
@@ -291,27 +291,42 @@ function updatePath() {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
 			var poiIcon = step == 1 ? flagIcon : stopIcon;
+			var marker;
 
 			if (game[step].hasOwnProperty("title")) {
-				var marker = L.marker(latlng, { icon: poiIcon }).bindTooltip( game[step]["title"],
+				marker = L.marker(latlng, { icon: poiIcon }).bindTooltip( game[step]["title"],
 							{
 								permanent: true,
 								direction: 'bottom'
-							}).addTo(map);
+							});
 			} else {
-				var marker = L.marker(latlng, { icon: poiIcon }).addTo(map);
+				marker = L.marker(latlng, { icon: poiIcon });
 			}
 
-			markers.push(marker);
+			if (currentPOI >= step) {
+				marker.setOpacity(0.5);
+				pointList_pre.push(latlng);
+			}
 
-			pointList.push(latlng);
+			if (currentPOI <= step) {
+				pointList_post.push(latlng);
+			}
+
+			marker.addTo(map);
 		}
 	}
 
-	new L.Polyline(pointList, {
+	new L.Polyline(pointList_pre, {
     	color: '#1c3587',
     	weight: 4,
     	opacity: 0.5,
+    	smoothFactor: 1
+	}).addTo(map);
+
+	new L.Polyline(pointList_post, {
+    	color: '#1c3587',
+    	weight: 4,
+    	opacity: 1,
     	smoothFactor: 1
 	}).addTo(map);
 }
