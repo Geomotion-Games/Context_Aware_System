@@ -369,7 +369,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
                                     <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                                    <p class="preview-text" id="preview-text-A">${text}</p>
+                                    <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
                                     `;
             
             if(poi.type == "finish"){      
@@ -467,7 +467,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                        <p class="preview-text" id="preview-text-A">${text}</p>
+                        <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
                         `;
             
             if(poi.type == "finish"){      
