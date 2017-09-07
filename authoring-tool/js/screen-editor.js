@@ -25,8 +25,8 @@ function createEditScreenTimeout(){
 
 function updateValues(){
     poi.title = $("#poiName").val();
-    poi.triggerDistance = $("#poiTriggerDistance").val()
-    poi.rewardPoints = $("#poiReward").val()
+    poi.triggerDistance = $("#poiTriggerDistance").val();
+    if(points <= 1000000) poi.rewardPoints = $("#poiReward").val();
 }
 
 var currentScreen = -1;
@@ -48,9 +48,14 @@ function init(){
     
     $("#poiReward").blur(onBlurPOI);
     $("#poiReward").on("input", function(){
+        var points = $("#poiReward").val();
+        if(points > 1000000){
+            $("#poiReward").val(1000000);
+            points = 1000000;
+        }
+        console.log(points);
         onInputPOI();
          $("body").find("[data-index=2]").each(function(){
-            var points = $("#poiReward").val();
             if(points > 0) $(this).find(".preview-reward").html("You won <span>" + points + "</span> points");
             else $(this).find(".preview-reward").html("");
          });
@@ -71,18 +76,21 @@ function init(){
                     var src = URL.createObjectURL(e.target.files[0]);
                     imageHolder.attr('src', src);
                     screen.image = src;
+                    $("#removeImageC").show();
                 });
             }
         }); 
     });
 
+    if(poi.item == null || poi.item == "") $("#removeImageC").hide();
     $("#removeImageC").click(function(){
         if(poi.item == null || poi.item == "") return;
-        poi.item = null;
+        poi.item = "";
         $("body").find("[data-index=" + 2 + "]").each(function(){
             var imageHolder = $(this).find(".preview-img").attr("src", "");
         });
         savePOI(poi);
+        $("#removeImageC").hide();
     });
 
     if(poi.type == "beacon"){
@@ -192,13 +200,15 @@ function showEditorScreen(index){
     currentScreen = index;
     appendEditor("#stop-editor-form", screen);
 
+    if(screens[0].image == null || screens[0].image == "") $("#removeImageA").hide();
     $("#removeImageA").click(function(){
-        if(screens[0].image == null) return;
-        screens[0].image = null;
+        if(screens[0].image == null || screens[0].image == "") return;
+        screens[0].image = "";
         $("body").find("[data-index=" + 0 + "]").each(function(){
             var imageHolder = $(this).find(".preview-img").attr("src", "");
         });
         saveScreen(screens[0], poi);
+        $("#removeImageA").hide();
     });
 
     $("#screenTitle").on('input',function(e){
@@ -237,6 +247,7 @@ function showEditorScreen(index){
                     imageHolder.empty();
                     var src = URL.createObjectURL(e.target.files[0]);
                     imageHolder.attr('src', src);
+                    $("#removeImageA").show();
                 });
             }
         }); 
@@ -302,10 +313,8 @@ function appendEditor(parent, screen){
             <div class="form-group">
                 <label for="screenImage">Image (max 300kb): </label>
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-12">
                         <input class="form-control" id="screenImage" type="file" accept="image/*" >
-                    </div>
-                    <div class="col-md-1">
                         <i class="fa fa-times fa-2x" id="removeImageA" aria-hidden="true" title="Remove Image"></i>
                     </div>
                 </div>
@@ -345,7 +354,7 @@ function appendEditor(parent, screen){
 function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
-    var image = screen.image || "images/poi2-image.png";
+    var image = screen.image != null ? screen.image : "images/poi2-image.png";
     var type = screen.type;
 
     var item = poi.item;
@@ -365,7 +374,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
                                     <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                                    <p class="preview-text" id="preview-text-A">${text}</p>
+                                    <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
                                     `;
             
             if(poi.type == "finish"){      
@@ -439,7 +448,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                                    <img class="preview-img" id="preview-img-C" src="${item?item:image}">
+                                    <img class="preview-img" id="preview-img-C" src="${item != null ? item : image}">
                                     <p class="preview-text" id="preview-text-C">${text}</p>
                                     <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points": ""}</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
@@ -463,7 +472,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                        <p class="preview-text" id="preview-text-A">${text}</p>
+                        <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
                         `;
             
             if(poi.type == "finish"){      

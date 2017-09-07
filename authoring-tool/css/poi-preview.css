@@ -64,7 +64,7 @@
 .preview-screen .content .preview-img {
 	max-width: 189px;
 	margin-bottom: 10px;
-	max-height: 190px;
+	max-height: 160px;
 }
 
 .preview-screen .content .preview-text {
@@ -213,5 +213,10 @@ div.edit-screen {
     font-size: 1.6em;
     padding-top: 5px;
     right: 8px;
+    top: 0px;
+}
+
+#removeImageA:hover, #removeImageC:hover {
+	cursor: pointer; 
 }
    
