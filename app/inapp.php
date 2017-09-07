@@ -68,22 +68,17 @@
     	$pois[999] = $finish_poi;
     }
 
+	$fromMinigame = false;
+	$currentPOI = 0;
 	$device = "app";
+
 	if (isset($_REQUEST['device']) && $_REQUEST['device']) {
 		$device = $_REQUEST['device'];
 	}
 
-	$currentPOI = 0;
-	$fromMinigame = false;
 	if (isset($_REQUEST['step']) && ctype_digit($_REQUEST['step'])) {
 		$currentPOI = $_REQUEST['step'];
 		$fromMinigame = true;
-	}
-
-	$teleport = false;
-	if (isset($_REQUEST['teleport']) && ctype_digit($_REQUEST['teleport'])) {
-		$currentPOI = $_REQUEST['teleport'] - 1;
-		$teleport = true;
 	}
 
 	$startingTime = 0;
@@ -109,7 +104,7 @@
 	<link rel="stylesheet" href="css/style.css" />
 
 	<?php switch($game["POIS"][0]["game_type"]): 
-		
+
 		case "TreasureHunt": ?>
 			<script src="js/treasure-hunt.js"></script>
 		<?php break; ?>
@@ -126,6 +121,9 @@
 
 </head>
 <body>
+
+<!--div style="width: 100%; height: 100px; display: block; position:fixed; top:0; left:0; z-index: 99999;"><p id="jsoutput"></p><div-->
+<a id="chooseBtn" href="http://www.google.es" style="opacity:1; position:fixed; z-index:99999;">choose game</a>
 
 <div id="topBar">
 	<p id="distance"></p>
@@ -196,17 +194,20 @@
 	});
 */
 
+	var game_id = <?= $game_id; ?>;
+	if (game_id == 1) {
+		window.open("https://www.geomotiongames.com/pre/beaconing/app/choose-game.php", "_self");
+	}
+
 	var server_url = (window.location.href).indexOf("/pre/") !== -1 ? 
 					"https://www.geomotiongames.com/pre/beaconing/" : 
 					"https://www.geomotiongames.com/beaconing/";
 
-	var game_id = <?= $game_id; ?>;
 	var game_info = <?= json_encode($game); ?>;
 	var game_type = game_info["POIS"][0]["game_type"];
 	var time_limit = game_info["POIS"][0]["time_limit"] * 60;
 	var startingTime = <?= $startingTime; ?>;
 	var device = "<?= $device; ?>";
-	var teleport = <?= $teleport ? 1 : 0 ?>;
 
 	var currentPOI = <?= $currentPOI ?>;
 	var nextPOI = currentPOI;
@@ -241,12 +242,8 @@
 		id: 'mapbox.streets'
 	}).addTo(map);
 
-	if (device == "app") {
-		locate_app();
-	} else {
-		locate_browser();
-	}
-
+	locate_app();
+	
 	gameReady();
 
 </script>

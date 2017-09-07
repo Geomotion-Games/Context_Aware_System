@@ -7,7 +7,6 @@
 var mapLoaded = false;
 var dataLoaded = false;
 var game = {};
-var markers = [];
 var path = null;
 var lastPOITime;
 var lastPOIDistance = 0;
@@ -62,7 +61,7 @@ function gameReady() {
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>
-					` + image
+					` + image +
 					`<p class="`+ classP +`">` + game[step]["A"].text + `</p>` + 
 					'<div class="totalPointsEarned"></div>' +
 					'<div class="totalTimeSpent"></div>' +
@@ -122,8 +121,6 @@ function gameReady() {
 			var points = game[step]["rewardPoints"] == 0 
 						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
 
-			console.log(points);
-
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen">
@@ -168,12 +165,13 @@ function gameReady() {
 
 						var challenge = game[currentPOI]["B"]["challenge"];
 						var minigameURL = challenge["url"];
+						var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 						if (minigameURL.length > 0) {
 							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
 								"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
 								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
 
-							minigameURL += "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime
+							minigameURL += "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
 							window.open(minigameURL, "_self")
 						} else {
 							document.getElementById("openC" + currentPOI).click();
@@ -226,52 +224,18 @@ function gameReady() {
 		document.getElementById("distance").className = "notime";
 		document.getElementById("topImageNoTime").className = "notime";
 	}
+
+	teleportIfNeeded()
 }
 
-function newLocation(position) {
-
-	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
-
-	//tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
-
-	distanceToNextPOI += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
-	totalDistance     += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
-	lastPosition = position.coords;
-
-	if (!located) {
-		map.setZoom(18);
-		map.panTo(coors);
-		located = true;
-
-		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
-		lastPOITime  = new Date().getTime();
-		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
-		if (time_limit != 0) {
-			setInterval(function() { updateTimeLabel(); }, 1000);
-		}
+function teleportIfNeeded() {
+	if ( teleport ) {
+		var position = { coords : {longitude: game[currentPOI+1].lng, latitude: game[currentPOI+1].lat}};
+		lastPosition = position;
+		//var coors = { lng: game[currentPOI+1].lng, lat: game[currentPOI+1].lat };
+		teleport = false;
+		newLocation(position);
 	}
-
-	if (nextPOI > 0 && nextPOI < 999) {
-
-    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
-
-		if (distanceToNextPOI < game[nextPOI].triggerDistance) {
-
-			//trackProgress();
-			document.getElementById('openA' + nextPOI).click();
-			currentPOI = nextPOI;
-			nextPOI = getFollowingPOIId(nextPOI);
-			updatePath();
-		}
-
-		/*if (fromMinigame) { 
-			updatePath();
-		}*/
-
-		updateTopInfo( distanceToNextPOI );
-	}
-
-	this.refreshUserMarker(coors);
 }
 
 function updateTimeLabel() {
@@ -333,22 +297,22 @@ function updatePath() {
 
 	for (step in game) {
 
+		var marker;
+
 		if (step < nextPOI && step != 0 && step != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
 			var poiIcon = step == 1 ? flagIcon : stopIcon;
 
-			if (game[step].hasOwnProperty("title")) {
-				var marker = L.marker(latlng, { icon: poiIcon }).bindTooltip( game[step]["title"],
+			if (game[step].hasOwnProperty("title") && game[step]["title"] != "") {
+				marker = L.marker(latlng, { icon: poiIcon }).bindTooltip( game[step]["title"],
 							{
 								permanent: true,
 								direction: 'bottom'
 							}).addTo(map);
 			} else {
-				var marker = L.marker(latlng, { icon: poiIcon }).addTo(map);
+				marker = L.marker(latlng, { icon: poiIcon }).addTo(map);
 			}
-
-			markers.push(marker);
 
 			pointList.push(latlng);
 		}
@@ -369,10 +333,10 @@ function updatePath() {
 }
 
 
-function locate() {
+function locate_browser() {
 
 	if (navigator.geolocation) {
-		setTimeout(function() {
+		setInterval(function() {
 			/*tracker.Flush(function(result, error){
 				console.log("flushed");
 			});*/
@@ -383,7 +347,6 @@ function locate() {
 				}
 				newLocation(position);
 				mapLoaded = true;
-				locate();
 			}, errorHandler, { enableHighAccuracy: true });
 
 		}, 3000);
@@ -391,6 +354,80 @@ function locate() {
 		console.log("no va");
 		document.getElementById("message").innerHTML = "Geolocation is not supported by this browser.";
 	}
+}
+
+
+function locate_app() {
+
+	setInterval(function() {
+		/*tracker.Flush(function(result, error){
+			console.log("flushed");
+		});*/
+
+		window.location.href = "?getGPSData";
+	}, 3000);
+}
+
+
+function setGPSData(data) {			
+
+	var d = JSON.parse(data);
+
+	var position = {};
+	position = { coords: {longitude: parseFloat(d.lon), latitude: parseFloat(d.lat) } };
+
+	if (totalDistance == 0) {
+		lastPosition = position.coords;
+	}
+	newLocation(position);
+	mapLoaded = true;
+}
+
+
+function newLocation(position) {
+
+	var coors = { lng: position.coords.longitude, lat: position.coords.latitude };
+
+	//tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
+
+	distanceToNextPOI += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
+	totalDistance     += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
+	lastPosition = position.coords;
+
+	if (!located) {
+		map.setZoom(18);
+		map.panTo(coors);
+		located = true;
+
+		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
+		lastPOITime  = new Date().getTime();
+		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
+		if (time_limit != 0) {
+			setInterval(function() { updateTimeLabel(); }, 1000);
+		}
+	}
+
+	if (nextPOI > 0 && nextPOI < 999) {
+
+    	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
+
+		if (distanceToNextPOI < game[nextPOI].triggerDistance) {
+
+			//trackProgress();
+			document.getElementById('openA' + nextPOI).click();
+			currentPOI = nextPOI;
+			nextPOI = getFollowingPOIId(nextPOI);
+			updatePath();
+		}
+
+		/*if (fromMinigame) { 
+			updatePath();
+		}*/
+
+		updateTopInfo( distanceToNextPOI );
+	}
+
+	this.refreshUserMarker(coors);
 }
 
 function trackProgress() {
