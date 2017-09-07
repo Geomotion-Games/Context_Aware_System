@@ -430,7 +430,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <label for="upload-type-selector">Content type:</label>
                                  <select class="form-control" id="upload-type-selector">
                                     <option value="any">Any</option>
-                                    <option value="photo">Photo</option>
+                                    <option value="image">Image</option>
                                     <option value="video">Video</option>
                                     <option value="audio">Audio</option>
                                 <select>

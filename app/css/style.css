@@ -135,9 +135,6 @@ html, body, #map { height: 100vh; width: 100vw; }
 	padding: 5px 20px 13px 20px;
 	border-radius: 10px;
 	background: #fff;
-	/*background: -moz-linear-gradient(#fff, #999);
-	background: -webkit-linear-gradient(#fff, #999);
-	background: -o-linear-gradient(#fff, #999);*/
 }
 
 .modalDialog p {
@@ -155,36 +152,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 }
 
 .modalDialog input[type="file"] + label {
-	color: white;
-    background-color: #d3394c;
-    max-width: 80%;
-    font-size: 1em;
-    font-weight: 700;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     cursor: pointer;
-    display: inline-block;
-    overflow: hidden;
-    padding: 0.625rem 1.25rem;
-    margin-bottom: 20px;
-}
-
-.modalDialog input[type="file"] + label svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    fill: currentColor;
-    margin-top: -0.25em;
-    margin-right: 0.25em;
-}
-
-.modalDialog input[type="file"]:focus + label,
-.modalDialog input[type="file"] + label:hover {
-    background-color: red;
-}
-
-.modalDialog input[type="file"] + label {
-	cursor: pointer; /* "hand" cursor */
 }
 
 .close {

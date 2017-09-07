@@ -39,6 +39,7 @@ function gameReady() {
 		}
 
 		var textButton = "Go to challenge";
+		var uploadContentButton = "";
 
 		if (game[step].hasOwnProperty("B") && step > 0 ) {
 
@@ -47,42 +48,52 @@ function gameReady() {
 				if (challenge.hasOwnProperty("type")) {
 					if (challenge["type"] == "checkin") {
 						challengeType = "checkin";
-						textButton = "Check-in"
+						textButton = "Check-in";
 					} else if (challenge["type"] == "upload_content") {
 						challengeType = "upload_content";
+						var contentType = "content";
+						var acceptableType = "media_type";
+						if (challenge["uploadType"] != "any") {
+							contentType = challenge["uploadType"];
+							acceptableType = challenge["uploadType"] + "/*";
+						}
+						uploadContentButton = `<input id="file` + step + `" type="file" accept="`+ acceptableType +`"><label class="goButton" for="file` + step + `"><span>Upload `+ contentType +`</span></label>` +
+											  `<a style="display:none;" id="toChallenge` + step + `" href="#" >` + textButton + `</a>`;
+						
 						//TODO textbutton depending on the file type
 					} else if (challenge["type"] == "minigame") {
 						challengeType = "minigame";
 					}
-				}
+				} else { challengeType = "checkin"; }
 			}
-		}
+		} else { challengeType = "checkin"; }
+
+		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 
 		if (step == 0) { textButton = "Go out and play!"; }
-
-		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
-		if (step == 999) { checkinButton = ""; }
+		if (step == 999) { button = ""; }
+		else if (challengeType == "upload_content") button = uploadContentButton;
 
 		var POIBefore = `
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
-					<h2>` + game[step]["A"].title + `</h2>` + 
+					<h2>` + game[step]["A"].title + `</h2>` +
 					image +
 					`<p class="`+ classP +`">` + game[step]["A"].text + `</p>` +
 					`<div class="totalPointsEarned"></div>` +
 					`<div class="totalTimeSpent"></div>` +
-					checkinButton + 
+					button + 
 				`</div>
 			</div>
 		`;
 
 		extras.innerHTML += POIBefore;
 
-
 		/****** B ******/
 
-		if (game[step].hasOwnProperty("B") && step > 0 ) {
+		//TODO borrar
+		/*if (game[step].hasOwnProperty("B") && step > 0 ) {
 
 			if (challengeType != "") {
 				if (challengeType == "upload_content") {
@@ -108,7 +119,7 @@ function gameReady() {
 					};
 				}
 			}
-		}
+		}*/
 
 		/****** C ******/
 
@@ -235,7 +246,27 @@ function gameReady() {
 
 	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
 
+	attachUploadContentEvents();
 	teleportIfNeeded();
+}
+
+function attachUploadContentEvents() {
+	for (step in game) {
+		if (game[step].hasOwnProperty("B") && step > 0 && step < 999 ) {
+			if (game[step]["B"].hasOwnProperty("challenge")) {
+				var challenge = game[step]["B"]["challenge"];
+				if (challenge.hasOwnProperty("type")) {
+					if (challenge["type"] == "upload_content") {
+
+						document.getElementById("file" + step).onchange = function () {
+			    			document.getElementById("toChallenge" + this.id.substr(-1)).click();
+						};
+
+					}
+				}
+			}
+		}		
+	}
 }
 
 function teleportIfNeeded() {
