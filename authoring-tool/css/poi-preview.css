@@ -219,4 +219,8 @@ div.edit-screen {
 #removeImageA:hover, #removeImageC:hover {
 	cursor: pointer; 
 }
-   
+
+#qr-viewer img{
+	width: 100%;
+    image-rendering: pixelated;
+}

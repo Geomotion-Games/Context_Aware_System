@@ -9,6 +9,7 @@
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
+
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
 
@@ -164,7 +165,7 @@
 	<div class="qr-viewer modal fade" id="qr-viewer" tabindex="-1" role="dialog" aria-labelledby="qr-viewer">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				 <image src="images/geomotion-qr.png">
+				 <image src="">
 			</div>
 		</div>
 	</div>
@@ -183,7 +184,6 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="col-md-12">
-				<!-- FER EL LINK ON TOCA amb el ?id=XX -->
 				<a class="endEditing orangeBtn" href="../follow-the-path.php">Finish POI edition</a>	
 				<a id="qrcode" class="blueBtn">Generate QR Code</a>
 				<div id="saving">Saving...</div>
@@ -202,6 +202,11 @@
 	    });
 
 	    $("#qrcode").on('click',function(e){
+	    	var isPre = (window.location.href).indexOf("/pre/") !== -1 ? true : false;
+
+	    	var url = "qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + "&isPre=" + isPre;
+	    	var img = $("#qr-viewer img");
+	    	img.attr("src", url);
 	    	$("#qr-viewer").modal('show');
 	    	return false;
 	    });
