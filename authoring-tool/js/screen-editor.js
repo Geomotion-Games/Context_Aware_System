@@ -82,10 +82,11 @@ function init(){
         }); 
     });
 
-    if(poi.item == null || poi.item == "") $("#removeImageC").hide();
+    if(poi.item == "-" || poi.item == "") $("#removeImageC").hide();
+
     $("#removeImageC").click(function(){
-        if(poi.item == null || poi.item == "") return;
-        poi.item = "";
+        if(poi.item == "-" || poi.item == "") return;
+        poi.item = "-";
         $("body").find("[data-index=" + 2 + "]").each(function(){
             var imageHolder = $(this).find(".preview-img").attr("src", "");
         });
@@ -201,6 +202,7 @@ function showEditorScreen(index){
     appendEditor("#stop-editor-form", screen);
 
     if(screens[0].image == null || screens[0].image == "") $("#removeImageA").hide();
+
     $("#removeImageA").click(function(){
         if(screens[0].image == null || screens[0].image == "") return;
         screens[0].image = "";
@@ -292,7 +294,6 @@ function showScreensOverview(){
         var index = $(this).attr("data-index");
         showEditorScreen(index);
     });
-
 }
 
 function appendEditor(parent, screen){
@@ -347,14 +348,12 @@ function appendEditor(parent, screen){
             </div>
         `);
     }
-
-    
 }
 
 function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
-    var image = screen.image != null ? screen.image : "images/poi2-image.png";
+    var image = screen.image != null ? screen.image : "images/no-image.jpg";
     var type = screen.type;
 
     var item = poi.item;
@@ -448,7 +447,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                                    <img class="preview-img" id="preview-img-C" src="${item != null ? item : image}">
+                                    <img class="preview-img" id="preview-img-C" src="${item != "" ? item : image}">
                                     <p class="preview-text" id="preview-text-C">${text}</p>
                                     <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points": ""}</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
@@ -503,7 +502,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                 <div class="preview-screen" id="preview-screen-A" data-index="${index}">
                    <div class="content">
                         <h4 class="preview-title" id="preview-title-C">${title}</h4>
-                        <img class="preview-img" id="preview-img-C" src="${item?item:image}">
+                        <img class="preview-img" id="preview-img-C" src="${item != "" ? item : image}">
                         <p class="preview-text" id="preview-text-C">${text}</p>
                         <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points" : ""}</p>
                         <p class="preview-button" id="preview-button-C">Go to map!</p>
