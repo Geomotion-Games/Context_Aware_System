@@ -91,7 +91,7 @@ function duplicatePOI(poi, game, callback){
     })
 }
 
-function removePlot(plot) {
+function removePlot(plot, callback) {
     createSavingTimeout();
 
     var request = $.ajax({
@@ -104,6 +104,7 @@ function removePlot(plot) {
     request.done(function(data) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
+        if(callback) callback();
         console.log("Plot removed!");
     });
     request.fail(function(error) {
