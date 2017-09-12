@@ -40,8 +40,8 @@ $("#stops").on('click', 'li', function(e) {
     	for(var point in points){
 			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
 				var latlng = points[point].marker.getLatLng();
-				map.panTo(latlng);
-				map.setZoom(20);
+				console.log(latlng);
+				map.setView(latlng, 20);
 			}
 		}
     }
@@ -348,8 +348,7 @@ function addBeaconMarker(id, step, focus){
 	step.marker = marker;
 	step.beaconId = id;
 	if(focus){
-		map.panTo(coords);
-		map.setZoom(20);
+		map.setView(coords, 20);
 	}
 	sortPoints(null, true);
 	updatePath();
