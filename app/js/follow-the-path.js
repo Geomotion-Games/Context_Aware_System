@@ -68,9 +68,9 @@ function gameReady() {
 			}
 		} else { challengeType = "checkin"; }
 
+		if (step == 0) { textButton = "Go out and play!"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 
-		if (step == 0) { textButton = "Go out and play!"; }
 		if (step == 999) { button = ""; }
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
@@ -144,37 +144,31 @@ function gameReady() {
 
 			setTimeout(function() {
 
-				if (challengeType != "") {
-					if (challengeType == "minigame") {
+				var challenge = game[currentPOI]["B"]["challenge"];
 
-						var challenge = game[currentPOI]["B"]["challenge"];
+				if (challenge.hasOwnProperty("type")) {
+					if (challenge["type"] == "upload_content") {
+						document.getElementById("openB" + currentPOI).click();
+					} else if (challenge["type"] == "minigame") {
 						var minigameURL = challenge["url"];
 						var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 						var playerId = "playerid=" + encodeURI(tracker.playerId);
 						var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
 						if (minigameURL.length > 0) {
-
 							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
 								"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
 								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
 
 							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
 							window.open(minigameURL, "_self");
-						} else {
-							document.getElementById("openC" + currentPOI).click();
 						}
-
-					} else if (challengeType == "upload_content") {
-						document.getElementById("openB" + currentPOI).click();
-					} else { // checkin
+					} else {
 						document.getElementById("openC" + currentPOI).click();
 					}
-
 				} else {
 					document.getElementById("openC" + currentPOI).click();
 				}
-
 			}, 1000);
 		};
 	}
