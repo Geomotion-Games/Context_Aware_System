@@ -34,6 +34,7 @@ function gameReady() {
 		}
 
 		var textButton = "Go to challenge";
+		var uploadContentButton = "";
 
 		if (game[step].hasOwnProperty("B") && step > 0 ) {
 
@@ -42,68 +43,47 @@ function gameReady() {
 				if (challenge.hasOwnProperty("type")) {
 					if (challenge["type"] == "checkin") {
 						challengeType = "checkin";
-						textButton = "Check-in"
+						textButton = "Check-in";
 					} else if (challenge["type"] == "upload_content") {
 						challengeType = "upload_content";
+						var contentType = "content";
+						var acceptableType = "media_type";
+						if (challenge["uploadType"] != "any") {
+							contentType = challenge["uploadType"];
+							acceptableType = challenge["uploadType"] + "/*";
+						}
+						uploadContentButton = `<input id="file` + step + `" type="file" accept="`+ acceptableType +`"><label class="goButton" for="file` + step + `"><span>Upload `+ contentType +`</span></label>` +
+											  `<a style="display:none;" id="toChallenge` + step + `" href="#" >` + textButton + `</a>`;
+						
+						//TODO textbutton depending on the file type
 					} else if (challenge["type"] == "minigame") {
 						challengeType = "minigame";
 					}
-				}
+				} else { challengeType = "checkin"; }
 			}
-		}
-		if (step == 0) { textButton = "Go out and play!"; }
+		} else { challengeType = "checkin"; }
 
-		var checkinButton = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
-		if (step == 999) { checkinButton = ""; }
+		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
+
+		if (step == 0) { textButton = "Go out and play!"; }
+		if (step == 999) { button = ""; }
+		else if (challengeType == "upload_content") button = uploadContentButton;
 
 		var POIBefore = `
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
-					<h2>` + game[step]["A"].title + `</h2>
-					` + image +
+					<h2>` + game[step]["A"].title + `</h2>` +
+					image +
 					`<p class="`+ classP +`">` + game[step]["A"].text + `</p>` + 
 					'<div class="totalPointsEarned"></div>' +
 					'<div class="totalTimeSpent"></div>' +
-					checkinButton + 
+					button + 
 				`</div>
 			</div>
 		`;
 
 		extras.innerHTML += POIBefore;
-
-
-		/****** B ******/
-
-		if (game[step].hasOwnProperty("B") && step > 0 ) {
-
-			if (challengeType != "") {
-				if (challengeType == "upload_content") {
-
-					var POIChallenge = `
-						<a href="#challenge` + step + `" id="openB` + step + `" style="display: none;">Open Modal</a>
-						<div id="challenge` + step + `" class="modalDialog screen">
-							<div>
-								<h2>UPLOAD CONTENT</h2>
-								<!--http://code.hootsuite.com/html5/-->
-								<input id="file" type="file" accept="image/*">
-								<label for="file"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg> <span>Choose a file…</span></label>
-								<a id="toClue` + step + `" href="#" class="goButton">Continue</a>
-							</div>
-						</div>
-					`;
-
-					extras.innerHTML += POIChallenge;
-
-					document.getElementById("toClue" + step).onclick = function() {
-						setTimeout(function() {
-							document.getElementById("openC" + currentPOI).click();
-						}, 1000);
-					};
-				}
-			}
-		}
-
 
 		/****** C ******/
 
@@ -166,13 +146,16 @@ function gameReady() {
 						var challenge = game[currentPOI]["B"]["challenge"];
 						var minigameURL = challenge["url"];
 						var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
+						var playerId = "playerid=" + encodeURI(tracker.playerId);
+						var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+
 						if (minigameURL.length > 0) {
 							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
 								"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
 								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
 
-							minigameURL += "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
-							window.open(minigameURL, "_self")
+							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+							window.open(minigameURL, "_self");
 						} else {
 							document.getElementById("openC" + currentPOI).click();
 						}
@@ -211,7 +194,7 @@ function gameReady() {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
 				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
 			}
-			//tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
+			tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
 
@@ -225,14 +208,33 @@ function gameReady() {
 		document.getElementById("topImageNoTime").className = "notime";
 	}
 
+	attachUploadContentEvents();
 	teleportIfNeeded()
+}
+
+function attachUploadContentEvents() {
+	for (step in game) {
+		if (game[step].hasOwnProperty("B") && step > 0 && step < 999 ) {
+			if (game[step]["B"].hasOwnProperty("challenge")) {
+				var challenge = game[step]["B"]["challenge"];
+				if (challenge.hasOwnProperty("type")) {
+					if (challenge["type"] == "upload_content") {
+
+						document.getElementById("file" + step).onchange = function () {
+			    			document.getElementById("toChallenge" + this.id.substr(-1)).click();
+						};
+
+					}
+				}
+			}
+		}		
+	}
 }
 
 function teleportIfNeeded() {
 	if ( teleport ) {
 		var position = { coords : {longitude: game[currentPOI+1].lng, latitude: game[currentPOI+1].lat}};
 		lastPosition = position;
-		//var coors = { lng: game[currentPOI+1].lng, lat: game[currentPOI+1].lat };
 		teleport = false;
 		newLocation(position);
 	}
@@ -337,9 +339,9 @@ function locate_browser() {
 
 	if (navigator.geolocation) {
 		setInterval(function() {
-			/*tracker.Flush(function(result, error){
+			tracker.Flush(function(result, error){
 				console.log("flushed");
-			});*/
+			});
 
 			navigator.geolocation.getCurrentPosition(function(position) {
 				if (totalDistance == 0) {
@@ -360,9 +362,9 @@ function locate_browser() {
 function locate_app() {
 
 	setInterval(function() {
-		/*tracker.Flush(function(result, error){
+		tracker.Flush(function(result, error){
 			console.log("flushed");
-		});*/
+		});
 
 		window.location.href = "?getGPSData";
 	}, 3000);
@@ -388,7 +390,7 @@ function newLocation(position) {
 
 	var coors = { lng: position.coords.longitude, lat: position.coords.latitude };
 
-	//tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
+	tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
 
 	distanceToNextPOI += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
 	totalDistance     += getDistanceFromLatLon(coors.lat, coors.lng, lastPosition.latitude, lastPosition.longitude);
@@ -399,7 +401,7 @@ function newLocation(position) {
 		map.panTo(coors);
 		located = true;
 
-		//tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
+		tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
 		lastPOITime  = new Date().getTime();
 		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
 		if (time_limit != 0) {
@@ -413,16 +415,16 @@ function newLocation(position) {
 
 		if (distanceToNextPOI < game[nextPOI].triggerDistance) {
 
-			//trackProgress();
+			trackProgress();
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
 			nextPOI = getFollowingPOIId(nextPOI);
 			updatePath();
 		}
 
-		/*if (fromMinigame) { 
+		if (fromMinigame) { 
 			updatePath();
-		}*/
+		}
 
 		updateTopInfo( distanceToNextPOI );
 	}

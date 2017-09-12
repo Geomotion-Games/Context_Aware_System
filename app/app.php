@@ -68,7 +68,7 @@
     	$pois[999] = $finish_poi;
     }
 
-	$device = "app";
+	$device = "browser";
 	if (isset($_REQUEST['device']) && $_REQUEST['device']) {
 		$device = $_REQUEST['device'];
 	}
@@ -176,10 +176,10 @@
 
 <script>
 
-/*	var tracker = new TrackerAsset();
+	var tracker = new TrackerAsset();
 
-	tracker.settings.host = "https://rage.e-ucm.es//";
-	tracker.settings.trackingCode = "592d716bb7353f006d52312eddska7hn2ji0y66r";
+	tracker.settings.host = "https://analytics.beaconing.eu/";
+	tracker.settings.trackingCode = "59b69f88aba6bc006e35313dpgkbz8pt4ax4unmi";
 
 	//Add the plugin
 	tracker.addPlugin(new TrackerPlugins.Geolocation());
@@ -194,7 +194,6 @@
         console.log("start error")
       }
 	});
-*/
 
 	var server_url = (window.location.href).indexOf("/pre/") !== -1 ? 
 					"https://www.geomotiongames.com/pre/beaconing/" : 
