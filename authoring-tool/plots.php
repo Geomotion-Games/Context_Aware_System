@@ -23,7 +23,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="/beaconing"><span>Desktop</span></a></li>
+					<li><a href="./"><span>Desktop</span></a></li>
 					<li class="active"><span>Select plot</span></li>
 				</ol>
 			</div>
