@@ -154,7 +154,7 @@ map.on('load', function() {
   	locate();
 });
 
-L.easyButton('fa-compass fa-2x', function(btn, map){
+L.easyButton('<img id="locate" src="images/location.png">', function(btn, map){
     locate();
 }).addTo(map);
 
