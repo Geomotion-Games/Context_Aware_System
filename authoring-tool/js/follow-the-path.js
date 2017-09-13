@@ -154,6 +154,10 @@ map.on('load', function() {
   	locate();
 });
 
+L.easyButton('fa-compass fa-2x', function(btn, map){
+    locate();
+}).addTo(map);
+
 map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);

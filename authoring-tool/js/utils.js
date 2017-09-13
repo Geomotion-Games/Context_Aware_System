@@ -1,10 +1,13 @@
+var userCoordsCache;
+
 function locate() {
-    if (navigator.geolocation) {
+    if(userCoordsCache){
+        map.setView(userCoordsCache, 15);
+    }else if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function(position) {
-                var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
-                map.panTo(coors);
-                map.setZoom(15);
+                userCoordsCache = [position.coords.latitude, position.coords.longitude];
+                map.setView(userCoordsCache, 15);
             });
     } else {
         coordinates.innerHTML = "Geolocation is not supported by this browser.";
