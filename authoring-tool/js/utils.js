@@ -26,7 +26,7 @@ function savePlot(plot, callback) {
 
     var request = $.ajax({
         type: 'POST',
-        url: 'savePlot.php',
+        url: 'php/savePlot.php',
         data: plotJSON
     });
 
@@ -49,7 +49,7 @@ function duplicatePlot(plot, callback){
 
     var request = $.ajax({
         type: 'POST',
-        url: 'duplicatePlot.php',
+        url: 'php/duplicatePlot.php',
         data: plot.toJSON()
     });
 
@@ -76,7 +76,7 @@ function duplicatePOI(poi, game, callback){
 
     var request = $.ajax({
         type: 'POST',
-        url: 'duplicatePOI.php',
+        url: 'php/duplicatePOI.php',
         data: poiJSON
     });
 
@@ -99,7 +99,7 @@ function removePlot(plot, callback) {
 
     var request = $.ajax({
         type: 'POST',
-        url: 'removePlot.php',
+        url: 'php/removePlot.php',
         data: {id:plot.id}
     });
 
@@ -125,7 +125,7 @@ function savePOI(poi, game, callback){
 
     var request = $.ajax({
         type: 'POST',
-        url: 'savePOI.php',
+        url: 'php/savePOI.php',
         data: poiJSON
     });
 
@@ -152,7 +152,7 @@ function saveScreen(screen, poi){
 
     var request = $.ajax({
         type: 'POST',
-        url: 'saveScreen.php',
+        url: 'php/saveScreen.php',
         data: screenJSON
     });
 
@@ -173,7 +173,7 @@ function removePOI(poi) {
 
     var request = $.ajax({
         type: 'POST',
-        url: 'removePOI.php',
+        url: 'php/removePOI.php',
         data: {id:poi.id}
     });
 

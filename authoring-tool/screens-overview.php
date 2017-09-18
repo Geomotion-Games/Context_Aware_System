@@ -204,7 +204,7 @@
 	    $("#qrcode").on('click',function(e){
 	    	var isPre = (window.location.href).indexOf("/pre/") !== -1 ? true : false;
 
-	    	var url = "qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + "&isPre=" + isPre;
+	    	var url = "php/qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + "&isPre=" + isPre;
 	    	var img = $("#qr-viewer img");
 	    	img.attr("src", url);
 	    	$("#qr-viewer").modal('show');

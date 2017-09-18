@@ -531,7 +531,7 @@ function uploadImage(options){
             if(options.screenId) formData.append("screenId", options.screenId);
 
             $.ajax({
-                url: "upload-screen-files.php",
+                url: "php/upload-screen-files.php",
                 type: "POST",
                 data: formData,
                 contentType: false,
