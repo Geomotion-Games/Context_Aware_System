@@ -1,17 +1,3 @@
-$( function() { 
-
-	$( "#stops" ).sortable( {
-		update: function(event, ui) {
-			sortPoints(true);
-		}
-	});  
-	poisCreated = points.length;
-
-	getBeacons(function (b) {
-		beacons = b;
-		loadStops();
-	});
-});
 
 // START
 $("#start").on('click', 'li', function(e) {
@@ -40,7 +26,6 @@ $("#stops").on('click', 'li', function(e) {
     	for(var point in points){
 			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
 				var latlng = points[point].marker.getLatLng();
-				console.log(latlng);
 				map.setView(latlng, 20);
 			}
 		}
@@ -142,49 +127,6 @@ var chestMarkerIcon = L.icon({
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
-var x = document.getElementById("location");
-var map = L.map('map');
-
-var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-	maxZoom: 19,
-	attribution: ""/*'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'*/
-}).addTo(map);
-
-map.on('load', function() {
-  	locate();
-});
-
-L.easyButton('<img id="locate" src="images/location.png">', function(btn, map){
-    locate();
-}).addTo(map);
-
-map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
-
-L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
-
-var path;
-
-function updatePath() {
-	var pointList = [];
-	for (var stop in points) {
-		if (points[stop] && points[stop].marker) {
-			pointList.push(points[stop].marker.getLatLng());
-		}
-	}
-
-	if (path != null) map.removeLayer(path);
-
-	path = new L.Polyline(pointList, {
-    	color: 'green',
-    	weight: 4,
-    	opacity: 0.6,
-    	smoothFactor: 1
-	});
-
-	path.addTo(map);
-
-	updateLabels();
-}
 
 map.on('click', function(e) {
 	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
@@ -437,21 +379,4 @@ function sortPoints(save, skipSort){
 		var p = points[points.length - 1];
 		if(p && p.marker) p.marker.setIcon(chestMarkerIcon);
 	}
-}
-
-$("#addBeacon").on('click', function(e) {
-	addStop(null, "beacon");
-});
-
-function getBeacons(callback){
-	//var url = "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123"; //pro
-	var url = "./beacons-xml.xml"; // local - pre
-	$.getJSON( url, function( data ) {
-		var beacons = [];
-		$.each( data, function( key, val ) {
-			var b = new Beacon(val);
-			beacons.push(b);
-		});
-		callback(beacons);
-	});
 }

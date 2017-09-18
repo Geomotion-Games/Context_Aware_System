@@ -177,6 +177,11 @@
 	<script src="js/lib/Control.Geocoder.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>
+	<script src="js/parse.js"></script>
+	<script src="js/save.js"></script>
+	<script src="js/remove.js"></script>
+	<script src="js/duplicate.js"></script>
+	<script src="js/map.js"></script>
 	<script src="js/follow-the-path.js"></script>
 
 	<script>

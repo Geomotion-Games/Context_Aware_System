@@ -125,6 +125,10 @@
 	</div>
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>
+	<script src="js/parse.js"></script>
+	<script src="js/save.js"></script>
+	<script src="js/remove.js"></script>
+	<script src="js/duplicate.js"></script>
 	<script src="js/plot.js"></script>
 </body>
 </html>
