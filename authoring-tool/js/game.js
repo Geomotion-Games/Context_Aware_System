@@ -45,11 +45,12 @@ function showCommunityGames(){
 
 function appendGame(parent, games, index){
     var url = gameTypeToUrl(games[index].type) + ".php?id=" + games[index].id;
+    var type = gameTypeToDisplayName(games[index].type);
 
     var game = `<div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="gameinfo" data-index="${index}">
                         <div class="gametexts">
-                            <p class="gameTitle">${games[index].name} - ${games[index].type}</p>
+                            <p class="gameTitle">${games[index].name} - ${type}</p>
                             <p class="gameType">${games[index].description}</p>
                         </div>
                         <div class="options">

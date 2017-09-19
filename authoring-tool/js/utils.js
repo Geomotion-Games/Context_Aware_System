@@ -27,6 +27,20 @@ function gameTypeToUrl(type){
     if(type == "FollowThePath") return "follow-the-path";
     else if(type == "TreasureHunt") return "treasure-hunt";
     else if(type == "RatRace") return "rat-race";
+    else if(type == "Jigsaw") return "jigsaw";
+    else if(type == "CaptureTheFlag") return "rat-race";
+    else if(type == "Conquest") return "conquest";
+    else if(type == "Stratego") return "stratego";
+}
+
+function gameTypeToDisplayName(type){
+    if(type == "FollowThePath") return "Follow The Path";
+    else if(type == "TreasureHunt") return "Treasure Hunt";
+    else if(type == "RatRace") return "Rat Race";
+    else if(type == "Jigsaw") return "Jigsaw";
+    else if(type == "CaptureTheFlag") return "Capture The Flag";
+    else if(type == "Conquest") return "Conquest";
+    else if(type == "Stratego") return "Stratego";
 }
 
 function addMetersToCoordinates(coords, x, y){

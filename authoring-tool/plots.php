@@ -62,9 +62,9 @@
 					<h2>Treasure Hunt</h2>
 				</div>
 				<div class="col-md-3 col-sm-6 gameType">
-					<div id="RatRace" class="plot plotDisabled">
+					<div id="RatRace" class="plot">
 						<div class="zoomOnHover image">
-							<img src="images/asset-rat-race.jpg" style="opacity: 0.6;">
+							<img src="images/asset-rat-race.jpg">
 						</div>
 						<div class="POIdescription">
 							<p>Linear competitive geolocation game where two or more teams of students have to participate on a race. The goal is to be the first to reach the finish line solving challenges on different POI (Points Of Interests).</p>

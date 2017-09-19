@@ -6,8 +6,7 @@ $(".plot").on('click', function(e) {
 	savePlot(new Game({
 		type: type
     }), function(id){
-    	var url = "follow-the-path";
-    	if(type == "TreasureHunt") url = "treasure-hunt";
+    	var url = gameTypeToUrl(type);
     	window.location = url + ".php?id=" + id;
     });
 });
