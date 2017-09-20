@@ -1,13 +1,18 @@
-var userCoordsCache;
+var lastLocation = loadLastLocation();
 
 function locate() {
-    if(userCoordsCache){
-        map.setView(userCoordsCache, 15);
-    }else if (navigator.geolocation) {
+    if(lastLocation){
+        map.setView(lastLocation, 15);
+    }
+
+    if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function(position) {
-                userCoordsCache = [position.coords.latitude, position.coords.longitude];
-                map.setView(userCoordsCache, 15);
+                if(lastLocation.lat != position.coords.latitude || lastLocation.lng != position.coords.longitude){
+                    lastLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+                    map.setView(lastLocation, 15);
+                    saveLastLocation(lastLocation);
+                }
             });
     } else {
         coordinates.innerHTML = "Geolocation is not supported by this browser.";
@@ -15,12 +20,21 @@ function locate() {
 }
 
 function showLocation(position) {
-    var coords = {lng: position.coords.longitude, lat: position.coords.latitude};
+    var coords = {lat: position.coords.latitude, lng: position.coords.longitude};
     map.panTo(position);
 }
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function loadLastLocation(){
+    var lastLocation = localStorage.getItem("lastLocation");
+    return lastLocation ? JSON.parse(lastLocation) : null;
+}
+
+function saveLastLocation(location){
+    localStorage.setItem("lastLocation", JSON.stringify(location));
 }
 
 function gameTypeToUrl(type){

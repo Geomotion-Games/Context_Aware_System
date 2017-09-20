@@ -16,8 +16,7 @@ L.easyButton('<img id="locate" src="images/location.png">', function(btn, map){
     locate();
 }).addTo(map);
 
-// TODO: Que se centre automáticamente en la ultima posición que se obtuvo. Que se guarde en localStorage
-map.setView([51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
+map.setView(lastLocation? lastLocation : [51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 

@@ -158,15 +158,19 @@ textarea {
     margin-top: 3px;
 }
 
-/*.leaflet-right {
-right: 41px;
+.leaflet-right {
+	right: 41px;
 }
 
-.leaflet-bar.leaflet-control {
-position: absolute;
-right: 10px;
+.leaflet-bar.leaflet-control.easy-button-container {
+	position: absolute;
+	right: 10px;
 }
 
 .leaflet-top.leaflet-left {
-width: 100%;
-}*/
+	width: 100%;
+}
+
+.leaflet-control-attribution{
+	visibility: hidden;
+}
