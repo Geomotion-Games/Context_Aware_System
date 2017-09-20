@@ -98,36 +98,6 @@ function init(){
 
 }
 
-var normalMarkerIcon = new L.Icon({
-	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
-});
-
-var beaconMarkerIcon = new L.Icon({
-	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
-});
-
-var chestMarkerIcon = L.icon({
-    iconUrl: 'images/chestMarker.jpg',
-    //shadowUrl: 'leaf-shadow.png',
-
-    iconSize:     [50, 43], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [25, 43], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-});
-
-
 map.on('click', function(e) {
 	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
 	var marker = addMarker(e.latlng);
@@ -144,34 +114,6 @@ function loadStops(){
 	
 	sortPoints();
 	updatePath();
-}
-
-function addMarker(latlng, draggable){
-	var icon = draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon;
-	var marker = new L.marker(latlng, {
-		draggable: draggable === undefined ? 'true' : draggable,
-		icon: icon
-	}).bindTooltip( "Stop " + (poisCreated + 1),
-		{
-			permanent: true,
-			direction: 'bottom'
-		});
-
-	marker.on('dragend', function(event){
-		var target = event.target;
-		var position = target.getLatLng();
-		updatePath();
-		savePOI(marker.step, game);
-	});
-
-	marker.on('drag', function(event){
-		var target = event.target;
-		var position = target.getLatLng();
-		updatePath();
-	});
-
-	map.addLayer(marker);
-	return marker;
 }
 
 function duplicate(stopNumber){
@@ -373,10 +315,10 @@ function sortPoints(save, skipSort){
 		e.attr("href", e.attr("href") + "&noClue");
 		
 		points.forEach(function (p) {
-			if(p.marker) p.marker.setIcon(p.type == "normal" ? normalMarkerIcon : beaconMarkerIcon);
+			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(1): generateMarker(1, true));
 		});
 
 		var p = points[points.length - 1];
-		if(p && p.marker) p.marker.setIcon(chestMarkerIcon);
+		if(p && p.marker) p.marker.setIcon(finishTreasureMarkerIcon);
 	}
 }

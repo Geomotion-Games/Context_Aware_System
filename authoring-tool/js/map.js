@@ -23,27 +23,56 @@ L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
 // MARKER STYLE
 
-var normalMarkerIcon = new L.Icon({
-	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png',
-	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
-});
+var colorTeamMarker = [
+	"#30499b",
+	"#EE4035",
+	"#56B949",
+	"#F3A530",
+	"#844D9E",
+	"#F9ED3A",
+	"#4CB2D4",
+	"#EB7B2D",
+	"#88C542",
+	"#EC4A94"
+];
 
-var beaconMarkerIcon = new L.Icon({
-	iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
-	shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-	iconSize: [25, 41],
-	iconAnchor: [12, 41],
-	popupAnchor: [1, -34],
-	shadowSize: [41, 41]
-});
+var colorTeamPath = [
+	"#233674",
+	"#c91b10",
+	"#3f8b35",
+	"#ce800b",
+	"#633976",
+	"#dfd106",
+	"#298dae",
+	"#bf5912",
+	"#66962e",
+	"#d2166c"
+];
 
-var chestMarkerIcon = L.icon({
-    iconUrl: 'images/chestMarker.jpg',
-    //shadowUrl: 'leaf-shadow.png',
+function generateMarker(team, isBeacon){
+	return normalMarkerIcon = new L.Icon({
+		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + team + ".png",
+		shadowUrl: "images/markers/shadow.png",
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+}
+
+function generateStartMarker(team){
+	return normalMarkerIcon = new L.Icon({
+		iconUrl: "images/markers/start_" + team + ".png",
+		shadowUrl: "images/markers/shadow.png",
+		iconSize: [25, 41],
+		iconAnchor: [12, 41],
+		popupAnchor: [1, -34],
+		shadowSize: [41, 41]
+	});
+}
+
+var finishTreasureMarkerIcon = L.icon({
+    iconUrl: 'images/markers/finish_treasure.jpg',
 
     iconSize:     [50, 43], // size of the icon
     shadowSize:   [50, 64], // size of the shadow
@@ -166,7 +195,7 @@ function loadStops(){
 }
 
 function addMarker(latlng, draggable){
-	var icon = draggable === undefined || draggable == true ? normalMarkerIcon: beaconMarkerIcon;
+	var icon = draggable === undefined || draggable == true ? generateMarker(1): generateMarker(1, true);
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
 		icon: icon
