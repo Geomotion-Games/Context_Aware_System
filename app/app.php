@@ -120,8 +120,9 @@
 
 	<?php endswitch; ?>
 
+	<script src="js/tracking.js"></script>
 	<script src="js/leaflet.js"></script>
-	<script type="text/javascript" src="js/analytics/dist/js-tracker.bundle.js"></script>
+	<script type="text/javascript" src="js/analytics/dist/js-tracker.bundle.min.js"></script>
 	<script type="text/javascript" src="js/analytics/plugins/geolocation.js"></script>
 
 </head>
@@ -178,6 +179,27 @@
 
 	var tracker = new TrackerAsset();
 
+	// 
+	var teleport = <?= $teleport ? 1 : 0 ?>;
+	var currentPOI = <?= $currentPOI ?>;
+	var cookieNeeded = false;
+
+	if (teleport) { // From QR
+		var userToken = getCookie("userToken");
+		console.log("cookie found: " + userToken);
+	    if (userToken != "") {
+	        // we have it
+	        console.log("We had the token! " + userToken);
+	        tracker.settings.userToken = userToken;
+	    } else {
+	    	// first time
+	        cookieNeeded = true;
+    	}
+	} else {
+		// set new playerId
+		cookieNeeded = true;
+	}
+
 	tracker.settings.host = "https://analytics.beaconing.eu/";
 	tracker.settings.trackingCode = "59b69f88aba6bc006e35313dpgkbz8pt4ax4unmi";
 
@@ -187,9 +209,15 @@
 	var connected = false;
 	  tracker.Start(function(result, error){
       if(!error){
+      	console.log("tracker started");
       	connected = true;
-        console.log("tracker started");
-        //tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
+    	if (cookieNeeded) { 
+    		console.log("Saving UserToken.. " + tracker.userToken)	;
+    		setCookie("userToken", tracker.userToken, 365); 
+    	} else {
+    		console.log("Using saved UserToken: " + tracker.userToken);
+    	}
+    	tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
       }else{
         console.log("start error")
       }
@@ -205,9 +233,7 @@
 	var time_limit = game_info["POIS"][0]["time_limit"] * 60;
 	var startingTime = <?= $startingTime; ?>;
 	var device = "<?= $device; ?>";
-	var teleport = <?= $teleport ? 1 : 0 ?>;
 
-	var currentPOI = <?= $currentPOI ?>;
 	var nextPOI = currentPOI;
 	var nextDistance = 1000;
 	var located = false;

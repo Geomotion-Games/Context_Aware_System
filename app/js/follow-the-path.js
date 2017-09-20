@@ -403,7 +403,10 @@ function newLocation(position) {
 
 
 function trackProgress() {
-	var progress = nextPOI > 0 ? nextPOI / (game.length - 3) : 0;
+	
+	var progress = nextPOI > 0 ? nextPOI / (Object.keys(game).length - 2) : 0;
+	console.log("new progress: " + progress);
+
 	var t = new Date().getTime() / 1000;
 	var timeSpent = t - lastPOITime;
 	lastPOITime = t;
@@ -412,7 +415,8 @@ function trackProgress() {
 	var distance = 100; //TODO
 	var speed = 12; //TODO distance / lastPOITime
 
-	tracker.setVar("time", timeSpent);
+	//tracker.setVar("time", timeSpent);
+	tracker.setVar("time", Math.floor(Math.random() * 20) + 20);
 	tracker.setVar("poiId", poiId);
 	tracker.setVar("averageSpeed", lastPOIDistance / timeSpent);
 	tracker.setVar("distance", lastPOIDistance);
