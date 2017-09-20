@@ -8,7 +8,7 @@ function locate() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             function(position) {
-                if(lastLocation.lat != position.coords.latitude || lastLocation.lng != position.coords.longitude){
+                if(!lastLocation || (lastLocation.lat != position.coords.latitude || lastLocation.lng != position.coords.longitude)){
                     lastLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
                     map.setView(lastLocation, 15);
                     saveLastLocation(lastLocation);
