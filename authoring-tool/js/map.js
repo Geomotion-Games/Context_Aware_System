@@ -49,11 +49,11 @@ var colorTeamPath = [
 ];
 
 function generateMarker(team, isBeacon){
-	return normalMarkerIcon = new L.Icon({
+	return new L.Icon({
 		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + team + ".png",
 		shadowUrl: "images/markers/shadow.png",
-		iconSize: [25, 41],
-		iconAnchor: [12, 41],
+		iconSize: isBeacon ? [26, 54] : [25, 41],
+		iconAnchor: isBeacon ? [13, 54] : [12, 41],
 		popupAnchor: [1, -34],
 		shadowSize: [41, 41]
 	});
