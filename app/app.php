@@ -81,8 +81,9 @@
 	}
 
 	$teleport = false;
+	$teleportId = -1;
 	if (isset($_REQUEST['teleport']) && ctype_digit($_REQUEST['teleport'])) {
-		$currentPOI = $_REQUEST['teleport'] - 1;
+		$teleportId = $_REQUEST['teleport'];
 		$teleport = true;
 	}
 
@@ -177,11 +178,24 @@
 
 <script>
 
+	function teleportTo( current ) {
+		if (teleport) {
+			var game = game_info["POIS"];
+			for (step in game) {
+				if (game[step]["id"] == "<?= $teleportId ?>") {
+					console.log(step);
+					return step - 1;
+				}
+			}
+		}
+
+		return current;
+	}
+
 	var tracker = new TrackerAsset();
 
 	// 
 	var teleport = <?= $teleport ? 1 : 0 ?>;
-	var currentPOI = <?= $currentPOI ?>;
 	var cookieNeeded = false;
 
 	if (teleport) { // From QR
@@ -234,6 +248,8 @@
 	var startingTime = <?= $startingTime; ?>;
 	var device = "<?= $device; ?>";
 
+	var currentPOI = teleportTo(<?= $currentPOI ?>);
+
 	var nextPOI = currentPOI;
 	var nextDistance = 1000;
 	var located = false;
@@ -278,3 +294,6 @@
 
 </body>
 </html>
+
+
+

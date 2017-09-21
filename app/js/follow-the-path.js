@@ -313,9 +313,9 @@ function locate_browser() {
 
 	if (navigator.geolocation) {
 		setInterval(function() {
-			tracker.Flush(function(result, error){
+			/*tracker.Flush(function(result, error){
 				console.log("flushed");
-			});
+			});*/
 
 			navigator.geolocation.getCurrentPosition(function(position) {
 				if (totalDistance == 0) {

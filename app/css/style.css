@@ -294,7 +294,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 }
 
 .p25vh, .p30vh, .p50vh, .p67vh {
-	overflow: scroll;
+	overflow-y: scroll;
 }
 
 .p25vh {
