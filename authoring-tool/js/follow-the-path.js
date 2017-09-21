@@ -1,52 +1,4 @@
 
-// START
-$("#start").on('click', 'li', function(e) {
-    var stopNumber = 0;
-    var action =  $(e.target).hasClass('fa-pencil') ? "edit" : "";
-
-    stopOnClick(this, stopNumber, action);
-});
-
-// FINISH
-$("#finish").on('click', 'li', function(e) {
-    var stopNumber = 999;
-    var action =  $(e.target).hasClass('fa-pencil') ? "edit" : "";
-
-    stopOnClick(this, stopNumber, action);
-});
-
-// STOPS
-$("#stops").on('click', 'li', function(e) {
-    var stopNumber = parseInt($(this).attr("stop-number"));
-    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
-    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
-    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
-
-    if(!action){
-    	for(var point in points){
-			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
-				var latlng = points[point].marker.getLatLng();
-				map.setView(latlng, 20);
-			}
-		}
-    }
-    stopOnClick(this, stopNumber, action);
-});
-
-function stopOnClick(parent, stopNumber, action){
-    if(action == "remove"){
-        $(parent).remove();
-        map.removeLayer("point" + stopNumber);
-        map.removeLayer("pointText" + stopNumber);
-        removeStop(stopNumber);
-        return;
-    }else if(action == "edit"){
-    	
-    }else if(action == "duplicate"){
-       duplicate(stopNumber);
-    }
-}
-
 var editTimeout;
 function createEditTimeout(){
 	if(editTimeout != null) clearTimeout(editTimeout);
@@ -97,13 +49,6 @@ function init(){
 	}
 
 }
-
-map.on('click', function(e) {
-	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
-	var marker = addMarker(e.latlng);
-	addStop(marker, "normal");
-	map.addLayer(marker);
-});
 
 function loadStops(){
 	points.forEach(function(p){
