@@ -11,8 +11,11 @@ $user='ddb93918';
  
 //Password 
 $password='Boidousatu2010'; 
- 
+
+// pre ddb99059
+// pro ddb99887
+
 //Base de datos 
-$db='ddb93918';
+$db='ddb99059';
 
 ?> 
