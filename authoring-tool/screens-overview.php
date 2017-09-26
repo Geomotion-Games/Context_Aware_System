@@ -206,9 +206,7 @@
 	    });
 
 	    $("#qrcode").on('click',function(e){
-	    	var isPre = (window.location.href).includes("/pre/") || (window.location.href).includes("localhost")
-
-	    	var url = "php/qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + (isPre ? "&isPre" : "");
+	    	var url = "php/qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + (isPre() ? "&isPre" : "");
 	    	console.log(url)
 	    	var img = $("#qr-viewer img");
 	    	img.attr("src", url);

@@ -163,3 +163,12 @@ function Beacon(params){
     this.lng = params.lng;
 }
 
+function Student(params){
+    this.id = params.id;
+    this.name = params.name;
+}
+
+function Team(params){
+    this.id = params.beaconId;
+    this.members = params.members;
+}

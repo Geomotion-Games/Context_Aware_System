@@ -61,6 +61,7 @@ function appendGame(parent, games, index){
                                 <a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
                                 <a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
                                 <a href="${url}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a href="#"><i title="Test Game" class="fa fa-external-link fa-2x" aria-hidden="true"></i>&nbsp;</a>
                             </div>
                         </div>
                     </div>
@@ -93,6 +94,12 @@ function setEvents(parent, games, index) {
             gameOnClick(this, gameNumber, action);
         }
     });
+
+    $("body").find("[data-index=" + index + "]").find(".fa-external-link").click(function(){
+        var gameUrl = generateGameUrl(games[index]);
+        showTestGame(gameUrl)
+
+    });
 }
 
 
@@ -121,6 +128,11 @@ function gameOnClick(parent, gameNumber, action){
 function reorderPlots(){
     showMyGames();
     showCommunityGames();
+}
+
+function showTestGame(url){
+    //TODO: mostarr modal para compartir
+    window.open(url, '_blank');
 }
 
 function showRemoveWarning(parent, gameNumber){

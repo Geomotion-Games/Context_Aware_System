@@ -57,6 +57,16 @@ function gameTypeToDisplayName(type){
     else if(type == "Stratego") return "Stratego";
 }
 
+function generateGameUrl(game){
+    var pre = isPre() ? "pre/" : "";
+    var url = "https://www.geomotiongames.com/" + pre + "beaconing/app/app.php?game=" + game.id + "&device=browser";
+    return url;
+}
+
+function isPre(){
+    return (window.location.href).includes("/pre/") || (window.location.href).includes("localhost");
+}
+
 function addMetersToCoordinates(coords, x, y){
     var xx = x * 0.0000089;
     var yy = y * 0.0000089;
