@@ -80,6 +80,10 @@
 	color: #afb7bb;
 }
 
+.gameDate{
+	font-size: 12px;
+}
+
 .gameType{
 	height: 80px;
 }
