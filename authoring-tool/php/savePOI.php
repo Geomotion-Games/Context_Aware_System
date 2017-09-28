@@ -28,11 +28,16 @@ if($id == null){
 	echo mysql_insert_id();
 	echo mysql_error();
 	createDefaultScreens(mysql_insert_id(), $bd);
+	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
+	$res = $bd->ejecutar($query);
 }else{
 	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item' WHERE id=$id";
 	$res = $bd->ejecutar($query);
 	//if(!$res) die(mysql_error());
 	echo $id;
+
+	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
+	$res = $bd->ejecutar($query);
 }
 
 function createDefaultScreens($id, $bd){

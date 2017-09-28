@@ -5,6 +5,7 @@ function parsePlotJSON(data){
         name: data.name, 
         description: data.description, 
         time: parseInt(data.time), 
+        last_update: data.last_update,
         public: data.public == 1 ? true : false
     });
 }

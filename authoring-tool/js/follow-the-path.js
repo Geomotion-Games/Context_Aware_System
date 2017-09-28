@@ -191,7 +191,7 @@ function removeStop(stopNumber) {
 	for(var point in points){
 		if (points[point] && points[point].orderNumber == stopNumber) {
 			if(points[point].marker)map.removeLayer(points[point].marker);
-			removePOI(points[point]);
+			removePOI(points[point], game);
 			delete points[point];
 		}
 	}

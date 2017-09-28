@@ -54,6 +54,8 @@ function appendGame(parent, games, index){
                             <p class="gameType">${games[index].description}</p>
                         </div>
                         <div class="options">
+                            <p class="gameDate">${games[index].last_update} - Last modification</p>
+
                             <div class="pubpriv">
                                 <input data-index="${index}" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private" ${games[index].public?"checked":""}>
                             </div>
@@ -93,6 +95,13 @@ function setEvents(parent, games, index) {
 
             gameOnClick(this, gameNumber, action);
         }
+    });
+    $("body").find("[data-index=" + index + "]").find('.gameType').ellipsis({
+        lines: 3
+    });
+
+    $("body").find("[data-index=" + index + "]").find('.gameTitle').ellipsis({
+        lines: 1
     });
 
     $("body").find("[data-index=" + index + "]").find(".fa-external-link").click(function(){

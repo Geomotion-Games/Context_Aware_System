@@ -76,9 +76,12 @@
 	margin-bottom: 5px;
 }
 
-.gamerow .gameinfo .gametexts .gameType {
+.gamerow .gameinfo .gametexts .gameType, .gameDate{
 	color: #afb7bb;
-	height: 100px;
+}
+
+.gameType{
+	height: 80px;
 }
 
 .gamerow .gameinfo .gameactions {
@@ -106,7 +109,7 @@
 
 .games .options {
 	position: absolute;
-	bottom: 12px;
+	bottom: 35px;
 	height: 35px;
 	width: 95%;
 	padding: 0 12px;
@@ -132,6 +135,27 @@
     background-color: #2c353e;
 }
 
+.gameType{
+	text-overflow: ellipsis;
+}
+
+.ellip {
+  display: block;
+}
+
+.ellip-line {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+  max-width: 100%;
+}
+
+.ellip,
+.ellip-line {
+  position: relative;
+  overflow: hidden;
+}
 
 
 

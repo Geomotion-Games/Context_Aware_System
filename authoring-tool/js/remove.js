@@ -20,13 +20,13 @@ function removePlot(plot, callback) {
     })
 }
 
-function removePOI(poi) {
+function removePOI(poi, game) {
     createSavingTimeout();
 
     var request = $.ajax({
         type: 'POST',
         url: 'php/removePOI.php',
-        data: {id:poi.id}
+        data: {id:poi.id, plot: game.id}
     });
 
     console.log("Removing...");

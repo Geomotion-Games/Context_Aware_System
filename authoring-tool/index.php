@@ -36,6 +36,9 @@
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/lib/moment.min.js"></script>
+	<script src="js/lib/jquery.ellipsis.min.js"></script>
+
 
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 

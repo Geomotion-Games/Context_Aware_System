@@ -122,6 +122,7 @@ function Game(params){
     this.description = params.description || "Game description";
     this.time = params.time || 0;
     this.public = params.public || false;
+    this.last_update = timestampToDate(params.last_update);
     this.stops = params.stops || defaultStops;
 }
 
@@ -133,6 +134,7 @@ Game.prototype.toJSON = function() {
         "description"   : this.description,
         "time"          : this.time,
         "public"        : this.public ? 1 : 0,
+        "last_update"   : this.last_update
     };
 
     return json;
@@ -145,6 +147,7 @@ Game.prototype.copy = function(){
         name: "Copy of " + this.name,
         description: this.description,
         time: this.time,
+        last_update: moment().format("L"),
         public: this.public,
         stops: this.stops
     });
