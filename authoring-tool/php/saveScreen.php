@@ -12,6 +12,7 @@ $bd = Db::getInstance();
 
 $id = $_REQUEST['id'];
 $poi = $_REQUEST['poi'];
+$plot = $_REQUEST['plot'];
 $data = addSlashes($_REQUEST['data']);
 
 if($id != null){
@@ -19,6 +20,8 @@ if($id != null){
 	$res = $bd->ejecutar($query);
 	echo mysql_error();
 	echo $id;
+	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
+	$res = $bd->ejecutar($query);
 }
 
 ?>

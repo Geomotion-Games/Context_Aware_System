@@ -37,6 +37,13 @@ function saveLastLocation(location){
     localStorage.setItem("lastLocation", JSON.stringify(location));
 }
 
+function timestampToDate(timestamp){
+    if(!timestamp) return Date.now();
+    var t = timestamp.split(/[- :]/);
+    var d = new Date(Date.UTC(t[0], t[1]-1, t[2], t[3], t[4], t[5]));
+    return typeof moment !== 'undefined' ? moment(d).format("YYYY-MM-DD") : d;
+}
+
 function gameTypeToUrl(type){
     if(type == "FollowThePath") return "follow-the-path";
     else if(type == "TreasureHunt") return "treasure-hunt";

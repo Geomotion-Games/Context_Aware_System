@@ -5,7 +5,7 @@ function createEditPOITimeout(){
     if(editPOITimeout != null) clearTimeout(editPOITimeout);
     editPOITimeout = setTimeout(function(){
         updateValues();
-        savePOI(poi);
+        savePOI(poi, game);
         clearTimeout(editPOITimeout);
         editPOITimeout = null;
     }, 2000);
@@ -16,7 +16,7 @@ function createEditScreenTimeout(){
     if(editScreenTimeout != null) clearTimeout(editScreenTimeout);
     editScreenTimeout = setTimeout(function(){
          if(currentScreen != -1){
-            saveScreen(screens[currentScreen], poi);
+            saveScreen(screens[currentScreen], poi, game);
         }
         clearTimeout(editScreenTimeout);
         editScreenTimeout = null;
@@ -69,7 +69,7 @@ function init(){
             }, 
             postCallback: function(url){
                 poi.item = url;
-                savePOI(poi);
+                savePOI(poi, game);
                 $("body").find("[data-index=2]").each(function(){
                     var imageHolder = $(this).find(".preview-img");
                     imageHolder.empty();
@@ -90,7 +90,7 @@ function init(){
         $("body").find("[data-index=" + 2 + "]").each(function(){
             var imageHolder = $(this).find(".preview-img").attr("src", "");
         });
-        savePOI(poi);
+        savePOI(poi, game);
         $("#removeImageC").hide();
     });
 
@@ -111,7 +111,7 @@ function init(){
     function onBlurPOI(){
         if(editPOITimeout != null) clearTimeout(editPOITimeout);
         updateValues();
-        savePOI(poi);
+        savePOI(poi, game);
     }
 
     function onInputPOI(){
@@ -143,14 +143,14 @@ function init(){
         console.log($(this).val());
         screens[1].challengeType = "minigame";
         screens[1].challengeURL = $(this).val();
-        saveScreen(screens[1], poi);
+        saveScreen(screens[1], poi, game);
     });
 
     $("#upload-type-selector").change(function(){
         console.log($(this).val());
         screens[1].challengeType = "upload_content";
         screens[1].challengeUploadType = $(this).val();
-        saveScreen(screens[1], poi);
+        saveScreen(screens[1], poi, game);
     });
 
     function updateChallengeSelector(){
@@ -179,11 +179,11 @@ function init(){
         if(val == "checkin"){
             screens[1].challengeType = val;
             screens[1].challengeURL = "";
-            saveScreen(screens[1], poi);
+            saveScreen(screens[1], poi, game);
         }else if(val == "upload_content"){
             screens[1].challengeType = val;
             screens[1].challengeUploadType = $("#upload-type-selector").val();
-            saveScreen(screens[1], poi);
+            saveScreen(screens[1], poi, game);
         }
     });
 
@@ -209,7 +209,7 @@ function showEditorScreen(index){
         $("body").find("[data-index=" + 0 + "]").each(function(){
             var imageHolder = $(this).find(".preview-img").attr("src", "");
         });
-        saveScreen(screens[0], poi);
+        saveScreen(screens[0], poi, game);
         $("#removeImageA").hide();
     });
 
@@ -243,7 +243,7 @@ function showEditorScreen(index){
             file: e.target.files[0], 
             postCallback: function(url){
                 screen.image = url;
-                saveScreen(screen, poi);
+                saveScreen(screen, poi, game);
                 $("body").find("[data-index=" + index + "]").each(function(){
                     var imageHolder = $(this).find(".preview-img");
                     imageHolder.empty();
@@ -270,7 +270,7 @@ function showEditorScreen(index){
     function onBlurScreen(){
         if(editScreenTimeout != null) clearTimeout(editScreenTimeout);
         if(currentScreen != -1){
-            saveScreen(screens[currentScreen], poi);
+            saveScreen(screens[currentScreen], poi, game);
         }
     }
 

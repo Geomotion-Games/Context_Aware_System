@@ -50,12 +50,13 @@ function savePOI(poi, game, callback){
     })
 }
 
-function saveScreen(screen, poi){
+function saveScreen(screen, poi, game){
     createSavingTimeout();
 
     var screenJSON = screen.toJSON();
 
     if(poi != null) screenJSON.poi = poi.id;
+    if(game != null) screenJSON.plot = game.id;
 
     var request = $.ajax({
         type: 'POST',
