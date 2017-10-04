@@ -189,6 +189,6 @@ function Student(params){
 }
 
 function Team(params){
-    this.id = params.beaconId;
+    this.id = params.id;
     this.members = params.members;
 }

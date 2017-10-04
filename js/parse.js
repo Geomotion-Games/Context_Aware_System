@@ -55,6 +55,22 @@ function parseStopsJSON(stopsJson){
     return stops;
 }
 
+function parseTeam(t){
+    return new Team({
+        id: t.id,
+        members: t.members
+    });
+}
+
+function parseTeams(teamsJSON){
+    var teams = [];
+    for(var s in teamsJSON){
+        var data = teamsJSON[s];
+        teams.push(parseTeam(data));
+    }
+    return teams;
+}
+
 function parseScreens(screens){
     var sc = [];
     for(var s in screens){

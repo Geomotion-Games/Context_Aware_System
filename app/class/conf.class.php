@@ -17,6 +17,7 @@ class Conf{
       } else {
          require 'config.local.php';
       }
+
       $this->_domain=$domain; 
       $this->_userdb=$user; 
       $this->_passdb=$password; 
