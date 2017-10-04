@@ -2,6 +2,9 @@
 // MAP INIT
 
 var map = L.map('map');
+var layers = createTeamLayers();
+
+var currentTeam = 0;
 
 var OpenStreetMap_Mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
 	maxZoom: 19,
@@ -19,6 +22,16 @@ L.easyButton('<img id="locate" src="images/location.png">', function(btn, map){
 map.setView(lastLocation? lastLocation : [51.505, -0.09], 13).addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
+
+function createTeamLayers(){
+	var layers = [];
+	for(var i = 0; i < 10; i++){
+		var layer = new L.layerGroup();
+		layers.push(layer);
+		map.addLayer(layer);
+	}
+	return layers;
+}
 
 // MARKER STYLE
 
@@ -49,6 +62,7 @@ var colorTeamPath = [
 ];
 
 function generateMarker(team, isBeacon){
+	team++;
 	return new L.Icon({
 		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + team + ".png",
 		shadowUrl: "images/markers/shadow.png",
@@ -60,6 +74,7 @@ function generateMarker(team, isBeacon){
 }
 
 function generateStartMarker(team){
+	team++;
 	return normalMarkerIcon = new L.Icon({
 		iconUrl: "images/markers/start_" + team + ".png",
 		shadowUrl: "images/markers/shadow.png",
@@ -87,8 +102,6 @@ map.on('click', function(e) {
 	addStop(marker, "normal");
 	map.addLayer(marker);
 });
-
-
 
 // POI EVENTS
 
@@ -160,18 +173,17 @@ var path;
 
 function updatePath() {
 	var pointList = [];
-	for (var stop in points) {
-		if (points[stop] && points[stop].marker) {
-			pointList.push(points[stop].marker.getLatLng());
-		}
-	}
+
+	layers[currentTeam].eachLayer(function(marker){
+		pointList.push(marker._latlng)
+	});
 
 	if (path != null) map.removeLayer(path);
 
 	path = new L.Polyline(pointList, {
-    	color: 'green',
+    	color: colorTeamPath[currentTeam],
     	weight: 4,
-    	opacity: 0.6,
+    	opacity: 0.6, 
     	smoothFactor: 1
 	});
 
@@ -193,8 +205,31 @@ function loadStops(){
 	updatePath();
 }
 
-function addMarker(latlng, draggable){
-	var icon = draggable === undefined || draggable == true ? generateMarker(1): generateMarker(1, true);
+function addBeaconMarker(id, step, focus){
+	var beacon = null;
+	for(var b in beacons){
+		if(beacons[b].id == id){
+			beacon = beacons[b];
+			break;
+		}
+	}
+	if(beacon == null) return;
+	if(step.marker) map.removeLayer(step.marker);
+	var coords = {lat: beacon.lat, lng: beacon.lng};
+	var marker = addMarker(coords, false);
+	map.addLayer(marker);
+	step.marker = marker;
+	step.beaconId = id;
+	if(focus){
+		map.setView(coords, 20);
+	}
+	sortPoints(null, true);
+	updatePath();
+}
+
+function addMarker(latlng, draggable, team){
+	team = team || 0;
+	var icon = draggable === undefined || draggable == true ? generateMarker(team): generateMarker(team, true);
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
 		icon: icon
@@ -229,8 +264,21 @@ function addMarker(latlng, draggable){
 		updatePath();
 	});
 
-	map.addLayer(marker);
+	layers[team].addLayer(marker);
+
 	return marker;
+}
+
+function getTeamNumberFromId(id){
+	for(var i = 0; i < teams.length; i++){
+		if(teams[i].id == id) return i;
+	}
+	return 0;
+}
+
+function setCurrentTeam(team){
+	currentTeam = team;
+	updatePath();
 }
 
 // BEACONS

@@ -194,6 +194,7 @@
 		pois.splice(0, 2);
 
 		var game = parsePlotJSON(plot);
+		var teams = [];
 		var points = parsePOIS(pois);
 
 		init();

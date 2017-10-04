@@ -168,28 +168,6 @@ function showStop(stop){
 
 }
 
-function addBeaconMarker(id, step, focus){
-	var beacon = null;
-	for(var b in beacons){
-		if(beacons[b].id == id){
-			beacon = beacons[b];
-			break;
-		}
-	}
-	if(beacon == null) return;
-	if(step.marker) map.removeLayer(step.marker);
-	var coords = {lat: beacon.lat, lng: beacon.lng};
-	var marker = addMarker(coords, false);
-	map.addLayer(marker);
-	step.marker = marker;
-	step.beaconId = id;
-	if(focus){
-		map.setView(coords, 20);
-	}
-	sortPoints(null, true);
-	updatePath();
-}
-
 function removeStop(stopNumber) {
 	for(var point in points){
 		if (points[point] && points[point].orderNumber == stopNumber) {
@@ -263,7 +241,7 @@ function sortPoints(save, skipSort){
 		e.attr("href", e.attr("href") + "&noClue");
 		
 		points.forEach(function (p) {
-			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(1): generateMarker(1, true));
+			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(0): generateMarker(0, true));
 		});
 
 		var p = points[points.length - 1];

@@ -25,7 +25,7 @@ function parsePOI(p){
         title: p.title,
         orderNumber: p.orderNumber,
         type: p.type,
-        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true) : null,
+        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true, getTeamNumberFromId(p.team)) : null,
         lat: p.lat,
         lng: p.lng,
         beaconId: p.beaconId,
@@ -33,26 +33,8 @@ function parsePOI(p){
         rewardPoints: p.rewardPoints,
         item: p.item,
         itemName: p.itemName
+        team: p.team
     });
-}
-
-function parseStopsJSON(stopsJson){
-    var stops = [];
-    for(var s in stopsJson){
-        var data = stopsJson[s];
-        stops.push(new Step({
-            idNumber: data.idNumber,
-            type: data.type,
-            marker: null, //TODO: create marker
-            title: data.title,
-            description: data.description,
-            distance: data.distance,
-            reward: data.reward,
-            url: data.url,
-            screens: parseScreensJSON(data.screens)
-        }));
-    }
-    return stops;
 }
 
 function parseTeam(t){

@@ -151,6 +151,9 @@
 				    	<li class="stop-row poirow" id="point0" stop-number="0">
 				    		<div class="row">
 				    			<div class="col-md-12 poiInfo">
+				    				<div class="poiChest">
+							    		<img src="images/start.png">
+							    	</div>
 				    				<div class="poiTexts">
 				    					<p><span class="name poiTitle" style="margin: 0;">START</span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="This is the first screen that the student will see. This screen does not depend on the location of the student."><i class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
 				    				</div>
@@ -168,6 +171,9 @@
 				    	<li class="stop-row poirow" id="point999" stop-number="999">
 				    		<div class="row">
 				    			<div class="col-md-12 poiInfo">
+				    				<div class="poiChest">
+							    		<img src="images/finish.png">
+							    	</div>
 				    				<div class="poiTexts">
 				    					<p><span class="name poiTitle" style="margin: 0;">FINISH</span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="This is the last screen that the student will see. This screen will appear after the last POI."><i class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
 				    				</div>
@@ -226,8 +232,8 @@
 		pointsJSON.splice(0, 2);
 
 		var game = parsePlotJSON(gameJSON);
-		var points = parsePOIS(pointsJSON);
 		var teams = parseTeams(teamJSON);
+		var points = parsePOIS(pointsJSON);
 
 		console.log(teams);
 

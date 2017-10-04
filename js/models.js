@@ -17,6 +17,7 @@ function Step(params) {
     this.rewardPoints = params.rewardPoints || 10;
     this.item = params.item;
     this.itemName = params.itemName || "";
+    this.team = params.team;
 
     this.marker = params.marker;
 }
@@ -33,7 +34,11 @@ Step.prototype.toJSON = function() {
         "triggerDistance": this.triggerDistance,
         "rewardPoints": this.rewardPoints,
         "item": this.item,
+<<<<<<< HEAD
         "itemName": this.itemName
+=======
+        "team": this.team
+>>>>>>> Markers added to layers with the appropriate team color
     };
 
     return json;
@@ -50,7 +55,11 @@ Step.prototype.copy = function() {
         triggerDistance: this.triggerDistance,
         rewardPoints: this.rewardPoints,
         item: this.item,
+<<<<<<< HEAD
         itemName: this.itemName,
+=======
+        team: this.team,
+>>>>>>> Markers added to layers with the appropriate team color
 
         marker: this.marker
     });
