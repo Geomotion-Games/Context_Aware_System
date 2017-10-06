@@ -330,9 +330,10 @@ function updateLabels() {
 
 function addStop(marker, type){
 	var lastPoi = poisCreated;
+	var team = teams[currentTeam] ? teams[currentTeam].id : null;
 
 	poisCreated++;
-	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
+	var step = new Step({marker: marker, orderNumber: poisCreated, type: type, team: team});
 	if(marker)marker.step = step;
 	points[poisCreated] = step;
 	showStop(step);
@@ -348,6 +349,19 @@ function addStop(marker, type){
 			}
 		});
 	});
+}
+
+function removeStop(stopNumber) {
+	for(var point in points){
+		if (points[point] && points[point].orderNumber == stopNumber) {
+			if(points[point].marker)map.removeLayer(points[point].marker);
+			removePOI(points[point], game);
+			delete points[point];
+		}
+	}
+
+	poisCreated--;
+	sortPoints(true);
 }
 
 function getTeamNumberFromId(id){

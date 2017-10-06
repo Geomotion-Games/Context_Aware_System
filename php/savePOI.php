@@ -22,9 +22,10 @@ $triggerDistance = $_REQUEST['triggerDistance'];
 $rewardPoints = $_REQUEST['rewardPoints'];
 $item = $_REQUEST['item'];
 $itemName = $_REQUEST['itemName'];
+$team = $_REQUEST['team'];
 
 if($id == null){
-	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, itemName) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item','$itemName')";
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, team, itemName) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item','$team', $itemName')";
 	$res = $bd->ejecutar($query);
 	echo mysqli_insert_id($bd->link);
 	echo mysqli_error($bd->link);
@@ -32,7 +33,7 @@ if($id == null){
 	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
 	$res = $bd->ejecutar($query);
 }else{
-	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item',itemName='$itemName' WHERE id=$id";
+	$query = "UPDATE poi SET lat='$lat',lng='$lng',orderNumber='$orderNumber',beaconId='$beaconId',title='$title',triggerDistance='$triggerDistance',rewardPoints='$rewardPoints',item='$item',itemName='$itemName',team='$team' WHERE id=$id";
 	$res = $bd->ejecutar($query);
 	//if(!$res) die(mysql_error());
 	echo $id;

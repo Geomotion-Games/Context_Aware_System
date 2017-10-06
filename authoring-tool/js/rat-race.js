@@ -121,19 +121,6 @@ function showStop(stop){
 
 }
 
-function removeStop(stopNumber) {
-	for(var point in points){
-		if (points[point] && points[point].orderNumber == stopNumber) {
-			if(points[point].marker)map.removeLayer(points[point].marker);
-			removePOI(points[point], game);
-			delete points[point];
-		}
-	}
-
-	poisCreated--;
-	sortPoints(true);
-}
-
 function sortPoints(save, skipSort){
 	var len = Object.keys(points).length;
 	if (len >= 1) {
