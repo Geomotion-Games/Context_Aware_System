@@ -3,6 +3,7 @@
 
 var map = L.map('map');
 var layers = createTeamLayers();
+var paths = [];
 
 var currentTeam = 0;
 
@@ -172,24 +173,28 @@ function stopOnClick(parent, stopNumber, action){
 var path;
 
 function updatePath() {
-	var pointList = [];
+	for(var i = 0; i < teams.length; i++){
 
-	layers[currentTeam].eachLayer(function(marker){
-		pointList.push(marker._latlng)
-	});
+		var pointList = [];
 
-	if (path != null) map.removeLayer(path);
+		layers[i].eachLayer(function(marker){
+			pointList.push(marker._latlng)
+		});
 
-	path = new L.Polyline(pointList, {
-    	color: colorTeamPath[currentTeam],
-    	weight: 4,
-    	opacity: 0.6, 
-    	smoothFactor: 1
-	});
+		if (paths[i] != null) map.removeLayer(paths[i]);
 
-	path.addTo(map);
+		paths[i] = new L.Polyline(pointList, {
+	    	color: colorTeamPath[i],
+	    	weight: 4,
+	    	opacity: i == currentTeam ? 0.6 : 0.2, 
+	    	smoothFactor: 1
+		});
 
-	updateLabels();
+		paths[i].addTo(map);
+
+		updateLabels();
+	}
+
 }
 
 // POI LOADING
@@ -276,9 +281,19 @@ function getTeamNumberFromId(id){
 	return 0;
 }
 
+function updateMarkersOpacity(){
+	for(var i = 0; i < teams.length; i++){
+		layers[i].eachLayer(function(marker){
+			if(i == currentTeam) marker.setOpacity(1);
+			else marker.setOpacity(0.5);
+		});
+	}
+}
+
 function setCurrentTeam(team){
 	currentTeam = team;
 	updatePath();
+	updateMarkersOpacity();
 }
 
 // BEACONS
