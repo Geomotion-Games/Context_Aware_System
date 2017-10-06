@@ -43,8 +43,6 @@
 
     // GET TEAMS
 
-    // SELECT DISTINCT id, students FROM (SELECT t.id, t.students FROM team t JOIN poi p ON t.id = p.team WHERE p.plot = 341) T
-
     $query = $bd->ejecutar("SELECT DISTINCT id, members FROM (SELECT t.id, t.members FROM team t JOIN poi p ON t.id = p.team WHERE p.plot = 341) T");
 	$numRows = $bd->num_rows($query);
 
@@ -234,8 +232,6 @@
 		var game = parsePlotJSON(gameJSON);
 		var teams = parseTeams(teamJSON);
 		var points = parsePOIS(pointsJSON);
-
-		console.log(teams);
 
 		init();
 

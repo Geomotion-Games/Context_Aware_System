@@ -173,11 +173,10 @@ function stopOnClick(parent, stopNumber, action){
 var path;
 
 function updatePath() {
-	for(var i = 0; i < teams.length; i++){
-
+	for(var i = 0; i < teams.length || 1; i++){
+		if(!layers[i]) break;
 		var pointList = [];
-
-		layers[i].eachLayer(function(marker){
+		layers[i].eachLayer(function(marker, i){
 			pointList.push(marker._latlng)
 		});
 
@@ -195,6 +194,7 @@ function updatePath() {
 		updateLabels();
 	}
 
+	updateMarkersOpacity();
 }
 
 // POI LOADING
@@ -293,7 +293,8 @@ function updateMarkersOpacity(){
 function setCurrentTeam(team){
 	currentTeam = team;
 	updatePath();
-	updateMarkersOpacity();
+	// TODO: Mostrar nombre del poi/marker con el numero correcto
+	// TODO: Mostrar solo los pois del equipo actual
 }
 
 // BEACONS
