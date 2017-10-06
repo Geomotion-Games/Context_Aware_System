@@ -60,49 +60,6 @@ function loadStops(){
 	updatePath();
 }
 
-function duplicate(stopNumber){
- 	for(var point in points){
-		if (points[point] && points[point].orderNumber == stopNumber) {
-			poisCreated++;
-			var copy = points[point].copy();
-			copy.orderNumber = poisCreated;
-			var lastMarker = copy.marker;
-			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
-			copy.marker = addMarker(newPosition, copy.type != "beacon");
-			map.addLayer(copy.marker);
-			map.panTo(copy.marker._latlng);
-    		duplicatePOI(copy, game, function(id){
-    			showStop(copy);
-    			points[poisCreated] = copy;
-    			updatePath();
-    			sortPoints();
-    		});
-		}
-	}
-}
-
-function addStop(marker, type){
-	var lastPoi = poisCreated;
-
-	poisCreated++;
-	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
-	if(marker)marker.step = step;
-	points[poisCreated] = step;
-	showStop(step);
-	updatePath();
-	sortPoints();
-
-	savePOI(step, game, function(id){
-		$("#stops").children().each(function() {
-			var number = $(this).attr("stop-number");
-			if(number == poisCreated){
-				var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
-				$(this).find(".editPOI").attr("href", url);
-			}
-		});
-	});
-}
-
 function showStop(stop){
 	var len = Object.keys(points).length;
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
@@ -175,25 +132,6 @@ function removeStop(stopNumber) {
 
 	poisCreated--;
 	sortPoints(true);
-}
-
-function updateLabels() {
-	$("#stops").children().each(function() {
-		var number = $(this).attr("stop-number");
-		for(var point in points){
-			if (points[point] && points[point].orderNumber == number){
-				if (points[point].title && points[point].title.length > 0){
-					points[point].marker._tooltip.setContent(points[point].title);
-					$(this).find("span.name").text(points[point].title);
-				}else{
-					var name = "Stop " + points[point].orderNumber;
-					if(points[point].marker) points[point].marker._tooltip.setContent(name);
-					$(this).find("span.name").text(name);
-				}
-				break;
-			}
-		}
-	});
 }
 
 function sortPoints(save, skipSort){

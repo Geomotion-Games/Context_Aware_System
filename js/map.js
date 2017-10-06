@@ -63,9 +63,8 @@ var colorTeamPath = [
 ];
 
 function generateMarker(team, isBeacon){
-	team++;
 	return new L.Icon({
-		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + team + ".png",
+		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + (team + 1) + ".png",
 		shadowUrl: "images/markers/shadow.png",
 		iconSize: isBeacon ? [26, 54] : [25, 41],
 		iconAnchor: isBeacon ? [13, 54] : [12, 41],
@@ -75,9 +74,8 @@ function generateMarker(team, isBeacon){
 }
 
 function generateStartMarker(team){
-	team++;
 	return normalMarkerIcon = new L.Icon({
-		iconUrl: "images/markers/start_" + team + ".png",
+		iconUrl: "images/markers/start_" + (team + 1) + ".png",
 		shadowUrl: "images/markers/shadow.png",
 		iconSize: [25, 41],
 		iconAnchor: [12, 41],
@@ -99,9 +97,10 @@ var finishTreasureMarkerIcon = L.icon({
 
 map.on('click', function(e) {
 	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
-	var marker = addMarker(e.latlng);
+	var marker = addMarker(e.latlng, undefined, currentTeam);
 	addStop(marker, "normal");
-	map.addLayer(marker);
+	//map.addLayer(marker);
+	//updatePath();
 });
 
 // POI EVENTS
@@ -176,7 +175,8 @@ function updatePath() {
 	for(var i = 0; i < teams.length || 1; i++){
 		if(!layers[i]) break;
 		var pointList = [];
-		layers[i].eachLayer(function(marker, i){
+
+		layers[i].eachLayer(function(marker){
 			pointList.push(marker._latlng)
 		});
 
@@ -191,9 +191,9 @@ function updatePath() {
 
 		paths[i].addTo(map);
 
-		updateLabels();
 	}
 
+	updateLabels();
 	updateMarkersOpacity();
 }
 
@@ -210,6 +210,27 @@ function loadStops(){
 	updatePath();
 }
 
+function duplicate(stopNumber){
+ 	for(var point in points){
+		if (points[point] && points[point].orderNumber == stopNumber) {
+			poisCreated++;
+			var copy = points[point].copy();
+			copy.orderNumber = poisCreated;
+			var lastMarker = copy.marker;
+			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
+			copy.marker = addMarker(newPosition, copy.type != "beacon");
+			map.addLayer(copy.marker);
+			map.panTo(copy.marker._latlng);
+    		duplicatePOI(copy, game, function(id){
+    			showStop(copy);
+    			points[poisCreated] = copy;
+    			updatePath();
+    			sortPoints();
+    		});
+		}
+	}
+}
+
 function addBeaconMarker(id, step, focus){
 	var beacon = null;
 	for(var b in beacons){
@@ -222,7 +243,7 @@ function addBeaconMarker(id, step, focus){
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
-	map.addLayer(marker);
+	//map.addLayer(marker);
 	step.marker = marker;
 	step.beaconId = id;
 	if(focus){
@@ -272,6 +293,61 @@ function addMarker(latlng, draggable, team){
 	layers[team].addLayer(marker);
 
 	return marker;
+}
+
+function updateLabels() {
+	for(var i = 0; i < teams.length || 1; i++){
+		if(!layers[i]) break;
+		var pointList = [];
+
+		var count = 1;
+		layers[i].eachLayer(function(marker){
+			if(marker.step.title == "" || !marker.step.title) {
+				marker._tooltip.setContent("Stop " + count);
+			}
+			pointList.push(marker._latlng)
+			count++;
+		});
+	}
+
+	$("#stops").children().each(function() {
+		var number = $(this).attr("stop-number");
+		for(var point in points){
+			if (points[point] && points[point].orderNumber == number){
+				if (points[point].title && points[point].title.length > 0){
+					//points[point].marker._tooltip.setContent(points[point].title);
+					$(this).find("span.name").text(points[point].title);
+				}else{
+					var name = "Stop " + points[point].orderNumber;
+					//if(points[point].marker) points[point].marker._tooltip.setContent(name);
+					$(this).find("span.name").text(name);
+				}
+				break;
+			}
+		}
+	});
+}
+
+function addStop(marker, type){
+	var lastPoi = poisCreated;
+
+	poisCreated++;
+	var step = new Step({marker: marker, orderNumber: poisCreated, type: type});
+	if(marker)marker.step = step;
+	points[poisCreated] = step;
+	showStop(step);
+	updatePath();
+	sortPoints();
+
+	savePOI(step, game, function(id){
+		$("#stops").children().each(function() {
+			var number = $(this).attr("stop-number");
+			if(number == poisCreated){
+				var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+				$(this).find(".editPOI").attr("href", url);
+			}
+		});
+	});
 }
 
 function getTeamNumberFromId(id){
