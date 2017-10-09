@@ -112,7 +112,7 @@ var finishTreasureMarkerIcon = L.icon({
 
 map.on('click', function(e) {
 	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
-	var marker = addMarker(e.latlng, undefined, teams[currentTeam].color);
+	var marker = addMarker(e.latlng, undefined, currentTeam, teams[currentTeam].color);
 	addStop(marker, "normal");
 	//map.addLayer(marker);
 	//updatePath();
@@ -188,7 +188,7 @@ var path;
 
 function updatePath() {
 	for(var i = 0; i < teams.length || 1; i++){
-		if(!layers[i]) break;
+		if(!layers[i] || !teams[i]) break;
 		var pointList = [];
 
 		layers[i].eachLayer(function(marker){
@@ -198,7 +198,7 @@ function updatePath() {
 		if (paths[i] != null) map.removeLayer(paths[i]);
 
 		paths[i] = new L.Polyline(pointList, {
-	    	color: colorTeamPath[i],
+	    	color: colorTeamPath[teamColorToId(teams[i].color)],
 	    	weight: 4,
 	    	opacity: i == currentTeam ? 0.6 : 0.2, 
 	    	smoothFactor: 1
@@ -268,9 +268,8 @@ function addBeaconMarker(id, step, focus){
 	updatePath();
 }
 
-function addMarker(latlng, draggable, teamColor){
+function addMarker(latlng, draggable, team, teamColor){
 	teamColor = teamColor || colorNames[0];
-	var team = teamColorToId(teamColor);
 
 	var icon = draggable === undefined || draggable == true ? generateMarker(teamColor): generateMarker(teamColor, true);
 	var marker = new L.marker(latlng, {
