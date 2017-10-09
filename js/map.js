@@ -112,7 +112,8 @@ var finishTreasureMarkerIcon = L.icon({
 
 map.on('click', function(e) {
 	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
-	var marker = addMarker(e.latlng, undefined, currentTeam, teams[currentTeam].color);
+	var color = teams.length > 0 ? teams[currentTeam].color : colorNames[0];
+	var marker = addMarker(e.latlng, undefined, currentTeam, color);
 	addStop(marker, "normal");
 	//map.addLayer(marker);
 	//updatePath();
@@ -188,7 +189,7 @@ var path;
 
 function updatePath() {
 	for(var i = 0; i < teams.length || 1; i++){
-		if(!layers[i] || !teams[i]) break;
+		if(!layers[i]) break;
 		var pointList = [];
 
 		layers[i].eachLayer(function(marker){
@@ -197,8 +198,11 @@ function updatePath() {
 
 		if (paths[i] != null) map.removeLayer(paths[i]);
 
+
+		var color = teams.length > 0 && teams[i] ? teams[i].color : colorNames[0];
+
 		paths[i] = new L.Polyline(pointList, {
-	    	color: colorTeamPath[teamColorToId(teams[i].color)],
+	    	color: colorTeamPath[teamColorToId(color)],
 	    	weight: 4,
 	    	opacity: i == currentTeam ? 0.6 : 0.2, 
 	    	smoothFactor: 1

@@ -224,13 +224,14 @@
 		var pointsJSON = <?= json_encode($pois); ?>;
 		var teamJSON = <?= json_encode($teams); ?>;
 
+		var teams = [];
 		var start = parsePOI(pointsJSON[0]);
 		var finish = parsePOI(pointsJSON[1]);
 
 		pointsJSON.splice(0, 2);
 
 		var game = parsePlotJSON(gameJSON);
-		var teams = parseTeams(teamJSON);
+		teams = parseTeams(teamJSON);
 		var points = parsePOIS(pointsJSON);
 
 		init();

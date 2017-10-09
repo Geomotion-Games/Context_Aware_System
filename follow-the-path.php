@@ -188,13 +188,14 @@
 		var plot = <?= json_encode($plot); ?>;
 		var pois = <?= json_encode($pois); ?>;
 
+		var teams = [];
+		
 		var start = parsePOI(pois[0]);
 		var finish = parsePOI(pois[1]);
 
 		pois.splice(0, 2);
 
 		var game = parsePlotJSON(plot);
-		var teams = [];
 		var points = parsePOIS(pois);
 
 		init();

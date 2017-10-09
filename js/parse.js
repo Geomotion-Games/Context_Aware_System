@@ -19,13 +19,17 @@ function parsePOIS(pois){
 }
 
 function parsePOI(p){
+    var isTeamGame = teams.length > 0;
+    var team = isTeamGame ? getTeamNumberFromId(p.team) : 0;
+    var color = isTeamGame ? teams[getTeamNumberFromId(p.team)].color : colorNames[0];
+
     return new Step({
         id: p.id,
         plot: parseInt(p.plot),
         title: p.title,
         orderNumber: p.orderNumber,
         type: p.type,
-        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true, getTeamNumberFromId(p.team), teams[getTeamNumberFromId(p.team)].color) : null,
+        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true, team, color) : null,
         lat: p.lat,
         lng: p.lng,
         beaconId: p.beaconId,
