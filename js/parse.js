@@ -25,7 +25,7 @@ function parsePOI(p){
         title: p.title,
         orderNumber: p.orderNumber,
         type: p.type,
-        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true, getTeamNumberFromId(p.team)) : null,
+        marker: p.type == "normal" && typeof(addMarker) == "function" ? addMarker({lat: p.lat, lng: p.lng}, true, teams[getTeamNumberFromId(p.team)].color) : null,
         lat: p.lat,
         lng: p.lng,
         beaconId: p.beaconId,
@@ -40,7 +40,8 @@ function parsePOI(p){
 function parseTeam(t){
     return new Team({
         id: t.id,
-        members: t.members
+        members: t.members,
+        color: t.color
     });
 }
 

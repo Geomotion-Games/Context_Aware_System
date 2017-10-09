@@ -62,7 +62,21 @@ var colorTeamPath = [
 	"#d2166c"
 ];
 
-function generateMarker(team, isBeacon){
+var colorNames = [
+	"blue_dark",
+	"red",
+	"green_dark",
+	"orange_dark",
+	"purple",
+	"yellow",
+	"blue_light",
+	"orange_light",
+	"green_light",
+	"pink"
+]
+
+function generateMarker(teamColor, isBeacon){
+	var team = teamColorToId(teamColor);
 	return new L.Icon({
 		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + (team + 1) + ".png",
 		shadowUrl: "images/markers/shadow.png",
@@ -73,7 +87,8 @@ function generateMarker(team, isBeacon){
 	});
 }
 
-function generateStartMarker(team){
+function generateStartMarker(teamColor){
+	var team = teamColorToId(teamColor);
 	return normalMarkerIcon = new L.Icon({
 		iconUrl: "images/markers/start_" + (team + 1) + ".png",
 		shadowUrl: "images/markers/shadow.png",
@@ -97,7 +112,7 @@ var finishTreasureMarkerIcon = L.icon({
 
 map.on('click', function(e) {
 	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
-	var marker = addMarker(e.latlng, undefined, currentTeam);
+	var marker = addMarker(e.latlng, undefined, teams[currentTeam].color);
 	addStop(marker, "normal");
 	//map.addLayer(marker);
 	//updatePath();
@@ -253,9 +268,11 @@ function addBeaconMarker(id, step, focus){
 	updatePath();
 }
 
-function addMarker(latlng, draggable, team){
-	team = team || 0;
-	var icon = draggable === undefined || draggable == true ? generateMarker(team): generateMarker(team, true);
+function addMarker(latlng, draggable, teamColor){
+	teamColor = teamColor || colorNames[0];
+	var team = teamColorToId(teamColor);
+
+	var icon = draggable === undefined || draggable == true ? generateMarker(teamColor): generateMarker(teamColor, true);
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
 		icon: icon
@@ -385,6 +402,20 @@ function setCurrentTeam(team){
 	updatePath();
 	// TODO: Mostrar nombre del poi/marker con el numero correcto
 	// TODO: Mostrar solo los pois del equipo actual
+}
+
+function getAvailableTeam(){
+	for(var i = 0; i < colorNames.length; i++){
+		var found = false;
+		var j = 0;
+		while(!found && j < teams.length){
+			if(teams[j].color == colorNames[i]) found = true;
+			j++;
+		}
+
+		if(!found) return colorNames[i];
+	}
+	return "";
 }
 
 // BEACONS
