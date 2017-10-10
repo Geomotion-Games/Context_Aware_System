@@ -52,12 +52,14 @@ function showStop(stop){
 	var len = Object.keys(points).length;
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
 
+	var color = getTeamColorFromTeamId(stop.team);
+	var style = `style="background-color:${color};"`;
 	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#"
 	if(stop.type == "normal") {
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
-					<div class="col-md-12 poiInfo">
+					<div ${style} class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiChest ${last?"":"hidden"}">
 				    		<img src="images/chest.png">
@@ -78,7 +80,7 @@ function showStop(stop){
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
-					<div class="col-md-12 poiInfo">
+					<div ${style} class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiChest ${last?"":"hidden"}">
 				    		<img src="images/chest.png">

@@ -462,6 +462,10 @@ function getAvailableTeam(){
 	return "";
 }
 
+function getTeamColorFromTeamId(id){
+	return colorTeamMarker[teamColorToId(teams[getTeamNumberFromId(id)].color)];
+}
+
 // BEACONS
 
 $("#addBeacon").on('click', function(e) {
