@@ -156,6 +156,8 @@ $( function() {
 	});  
 	poisCreated = points.length;
 
+	showTeams();
+
 	getBeacons(function (b) {
 		beacons = b;
 		loadStops();
@@ -227,6 +229,45 @@ function loadStops(){
 	
 	sortPoints();
 	updatePath();
+}
+
+function showTeams(){
+	$("#teams").empty();
+	for(var i = 0; i < teams.length; i++){
+		$("#teams").append(`
+			<li style="background-color:${colorTeamMarker[teamColorToId(teams[i].color)]}" team-index="${i}">
+				<div class="teamTitle">
+					Team ${i + 1}
+				</div>
+				<div class="teamActions">
+					<a><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+					<a><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+					<a><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				</div>
+			</li>
+		`);
+	}
+
+	$("#teams").on('click', 'li', function(e) {
+		var index = parseInt($(this).attr("team-index"));
+	    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
+	    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
+	    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
+
+	    if(action){
+	    	switch(action){
+	    		case "edit":
+	    			setCurrentTeam(index);
+	    		break;
+	    		case "duplicate":
+	    		break;
+	    		case "remove":
+	    		break;
+	    	}
+	    }else{
+
+	    }
+	});
 }
 
 function duplicate(stopNumber){

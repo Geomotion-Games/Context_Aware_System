@@ -191,3 +191,36 @@ textarea {
 	visibility: hidden;
 }
 
+#teams{
+	padding: 0;
+	background-color: #eee;
+	margin: 0 5px;
+}
+
+.teamTitle{
+	font-size: 1.2em;
+}
+
+#teams > li {
+	color: #eee;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	padding: 2px 5px;
+	text-align: center;
+	display: inline-block;
+	list-style: none;
+	background-color: red;
+}
+
+#teams .teamActions{
+	float: right;
+}
+
+#teams a{
+	color: #eee;
+}
+
+#teams a:hover{
+	color: white !important;
+	text-decoration: none;
+}

@@ -46,18 +46,6 @@ function init(){
 		if(editTimeout != null) clearTimeout(editTimeout);
 		createEditTimeout();
 	}
-
-}
-
-function loadStops(){
-	points.forEach(function(p){
-		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
-		showStop(p);
-		if(p.marker)p.marker.step = p;
-	});
-	
-	sortPoints();
-	updatePath();
 }
 
 function showStop(stop){

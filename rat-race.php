@@ -144,7 +144,8 @@
 			</div>
 			<div class="col-md-6 section">
 				<div class="block-right">
-
+					<ul id="teams">
+					</ul>
 					<ul id="start" class="sortable">
 				    	<li class="stop-row poirow" id="point0" stop-number="0">
 				    		<div class="row">
