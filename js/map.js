@@ -233,6 +233,9 @@ function loadStops(){
 
 function showTeams(){
 	$("#teams").empty();
+	$("#teams").append(`<li class="addTeam">
+							<p>+ Add team</p>
+						</li>`);
 	for(var i = 0; i < teams.length; i++){
 		$("#teams").append(`
 			<li style="background-color:${colorTeamMarker[teamColorToId(teams[i].color)]}" team-index="${i}">

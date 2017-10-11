@@ -210,7 +210,10 @@ textarea {
 	display: inline-block;
 	list-style: none;
 	background-color: red;
+	height: 60px;
+	width:100px;
 }
+
 
 #teams .teamActions{
 	float: right;
@@ -223,4 +226,20 @@ textarea {
 #teams a:hover{
 	color: white !important;
 	text-decoration: none;
+	cursor: hand; 
+}
+
+.addTeam{
+	background-color: #2c353e !important;
+	padding-top: 4px !important;
+}
+
+.addTeam:hover{
+	cursor: hand; 
+}
+
+.addTeam > p{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%); 
 }
