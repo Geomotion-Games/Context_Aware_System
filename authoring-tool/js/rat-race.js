@@ -53,7 +53,7 @@ function showStop(stop){
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
 
 	var color = getTeamColorFromTeamId(stop.team);
-	var style = `style="background-color:${color};"`;
+	var style = `style="border-left: 8px solid ${color};"`;
 	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#"
 	if(stop.type == "normal") {
 		$('#stops').append(`

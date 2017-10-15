@@ -83,16 +83,7 @@ function getBaseURL(){
 }
 
 function teamColorToId(color){
-    if(color == "blue_dark") return 0;
-    else if(color == "red") return 1;
-    else if(color == "green_dark") return 2;
-    else if(color == "orange_dark") return 3;
-    else if(color == "purple") return 4;
-    else if(color == "yellow") return 5;
-    else if(color == "blue_light") return 6;
-    else if(color == "orange_light") return 7;
-    else if(color == "green_light") return 8;
-    else if(color == "pink") return 9;
+    return colorNames.indexOf(color);
 }
 
 function generateGameUrl(game){

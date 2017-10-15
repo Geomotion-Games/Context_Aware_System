@@ -237,8 +237,10 @@ function showTeams(){
 							<p>+ Add team</p>
 						</li>`);
 	for(var i = 0; i < teams.length; i++){
+		var color = colorTeamMarker[teamColorToId(teams[i].color)];
+		var style = `style="background-color: ${color};"`;
 		$("#teams").append(`
-			<li style="background-color:${colorTeamMarker[teamColorToId(teams[i].color)]}" team-index="${i}">
+			<li ${style} team-index="${i}">
 				<div class="teamTitle">
 					Team ${i + 1}
 				</div>
