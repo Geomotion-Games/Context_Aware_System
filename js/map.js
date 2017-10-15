@@ -232,8 +232,9 @@ function loadStops(){
 }
 
 function showTeams(){
+	var disableAdd = teams.length >= 10
 	$("#teams").empty();
-	$("#teams").append(`<li class="addTeam">
+	$("#teams").append(`<li class="addTeam ${disableAdd?"disabled":""}">
 							<p>+ Add team</p>
 						</li>`);
 	for(var i = 0; i < teams.length; i++){
@@ -253,11 +254,16 @@ function showTeams(){
 		`);
 	}
 
-	$("#teams").on('click', 'li', function(e) {
+	$("#teams").one('click', 'li', function(e) {
 		var index = parseInt($(this).attr("team-index"));
 	    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
 	    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
 	    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
+
+	    if(isNaN(index)){
+	    	// is AddTeam
+			addTeam();
+	    }
 
 	    if(action){
 	    	switch(action){
@@ -269,10 +275,17 @@ function showTeams(){
 	    		case "remove":
 	    		break;
 	    	}
-	    }else{
-
 	    }
 	});
+}
+
+function addTeam(){
+	if(teams.length >= 10) return;
+	var color = getAvailableTeam();
+	console.log(color);
+	var team = new Team({color: color});
+	teams.push(team);
+	showTeams();
 }
 
 function duplicate(stopNumber){

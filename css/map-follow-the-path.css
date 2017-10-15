@@ -164,7 +164,7 @@ textarea {
 }
 
 .poirow .poiInfo .poiActions i.fa-trash {
-	color: #c25d31;
+	color: #e87f62;
 }
 
 #locate{
@@ -242,4 +242,11 @@ textarea {
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%); 
+}
+
+.addTeam.disabled {
+	opacity: 0.2;
+}
+.addTeam.disabled:hover {
+	cursor: default; 
 }
