@@ -148,6 +148,8 @@ $("#stops").on('click', 'li', function(e) {
     stopOnClick(this, stopNumber, action);
 });
 
+var pointsCopy;
+
 $( function() { 
 	$( "#stops" ).sortable( {
 		update: function(event, ui) {
@@ -160,6 +162,7 @@ $( function() {
 
 	getBeacons(function (b) {
 		beacons = b;
+		pointsCopy = points.slice();
 		loadStops();
 	});
 });
@@ -234,12 +237,9 @@ function loadStops(){
 function showTeams(){
 	var disableAdd = teams.length >= 10
 	$("#teams").empty();
-	$("#teams").append(`<li class="addTeam ${disableAdd?"disabled":""}">
-							<p>+ Add team</p>
-						</li>`);
 	for(var i = 0; i < teams.length; i++){
 		var color = colorTeamMarker[teamColorToId(teams[i].color)];
-		var style = `style="background-color: ${color};"`;
+		var style = `style="border-bottom: 8px solid ${color};"`;
 		$("#teams").append(`
 			<li ${style} team-index="${i}">
 				<div class="teamTitle">
@@ -253,15 +253,17 @@ function showTeams(){
 			</li>
 		`);
 	}
-
-	$("#teams").one('click', 'li', function(e) {
+	$("#teams").append(`<li class="addTeam ${disableAdd?"disabled":""}">
+							<p>+ Add team</p>
+						</li>`);
+	$("#teams").off('click', 'li');
+	$("#teams").on('click', 'li', function(e) {
 		var index = parseInt($(this).attr("team-index"));
 	    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
 	    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
 	    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
 
 	    if(isNaN(index)){
-	    	// is AddTeam
 			addTeam();
 	    }
 
@@ -282,7 +284,6 @@ function showTeams(){
 function addTeam(){
 	if(teams.length >= 10) return;
 	var color = getAvailableTeam();
-	console.log(color);
 	var team = new Team({color: color});
 	teams.push(team);
 	showTeams();
@@ -461,9 +462,14 @@ function updateMarkersOpacity(){
 
 function setCurrentTeam(team){
 	currentTeam = team;
-	updatePath();
+	emptyStops();
+	loadStops();
 	// TODO: Mostrar nombre del poi/marker con el numero correcto
 	// TODO: Mostrar solo los pois del equipo actual
+}
+
+function emptyStops(){
+	$("#stops").empty();
 }
 
 function getAvailableTeam(){

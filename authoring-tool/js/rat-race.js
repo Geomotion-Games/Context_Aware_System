@@ -53,6 +53,8 @@ function init(){
 }
 
 function showStop(stop){
+	if(stop.team != teams[currentTeam].id) return;
+
 	var len = Object.keys(points).length;
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
 
@@ -116,6 +118,8 @@ function showStop(stop){
 }
 
 function sortPoints(save, skipSort){
+	return;
+	console.log("eh?")
 	var len = Object.keys(points).length;
 	if (len >= 1) {
 

@@ -198,10 +198,12 @@ textarea {
 }
 
 .teamTitle{
-	font-size: 1.2em;
+	font-size: 1.0em;
 }
 
 #teams > li {
+	vertical-align:top;
+	
 	color: #eee;
 	margin-right: 5px;
 	margin-bottom: 5px;
@@ -209,28 +211,31 @@ textarea {
 	text-align: center;
 	display: inline-block;
 	list-style: none;
-	background-color: red;
-	height: 60px;
-	width:100px;
+	background-color: #2c353e;
+	height: 55px;
+	width:80px;
 }
 
-
 #teams .teamActions{
-	float: right;
+	//float: right;
 }
 
 #teams a{
 	color: #eee;
 }
 
+#teams i {
+	font-size: 1.2em;
+}
+
 #teams a:hover{
-	color: white !important;
+	color: #fff !important;
 	text-decoration: none;
 	cursor: hand; 
 }
 
 .addTeam{
-	background-color: #2c353e !important;
+	font-size: 0.8em;
 	padding-top: 4px !important;
 }
 
