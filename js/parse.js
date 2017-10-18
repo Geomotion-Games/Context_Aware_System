@@ -45,7 +45,8 @@ function parseTeam(t){
     return new Team({
         id: t.id,
         members: t.members,
-        color: t.color
+        color: t.color,
+        plot: t.plot
     });
 }
 

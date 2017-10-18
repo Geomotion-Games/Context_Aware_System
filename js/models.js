@@ -201,4 +201,16 @@ function Team(params){
     this.id = params.id;
     this.members = params.members;
     this.color = params.color;
+    this.plot = params.plot;
 }
+
+Team.prototype.toJSON = function() {
+    var json = {
+        "id"        : this.id,
+        "members"   : this.members,
+        "color"     : this.color,
+        "plot"      : this.plot
+    };
+
+    return json;
+};

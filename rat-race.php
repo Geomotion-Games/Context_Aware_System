@@ -43,7 +43,7 @@
 
     // GET TEAMS
 
-    $query = $bd->ejecutar("SELECT DISTINCT id, members, color FROM (SELECT t.id, t.members, t.color FROM team t JOIN poi p ON t.id = p.team WHERE p.plot = 341) T");
+    $query = $bd->ejecutar("SELECT * FROM team WHERE plot = ". $id .";");
 	$numRows = $bd->num_rows($query);
 
 	$teams = array();

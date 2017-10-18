@@ -76,6 +76,32 @@ function saveScreen(screen, poi, game){
     })
 }
 
+function saveTeam(team, game, callback){
+    createSavingTimeout();
+
+    var teamJSON = team.toJSON();
+
+    if(game != null) teamJSON.plot = game.id;
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'php/saveTeam.php',
+        data: teamJSON
+    });
+
+    console.log("Saving...");
+    request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        saved = true;
+        console.log("Team saved!" + data);
+        if(callback) callback(data);
+    });
+    request.fail(function(error) {
+        $("#saving").hide();
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
+
 var saved = false;
 var savingTimeout;
 

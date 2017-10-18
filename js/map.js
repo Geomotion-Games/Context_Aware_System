@@ -286,7 +286,10 @@ function addTeam(){
 	var color = getAvailableTeam();
 	var team = new Team({color: color});
 	teams.push(team);
-	showTeams();
+	saveTeam(team, game, function(t){
+		showTeams();
+		setCurrentTeam(teams.length - 1);
+	})
 }
 
 function duplicate(stopNumber){
