@@ -93,7 +93,8 @@ function saveTeam(team, game, callback){
     request.done(function(data) {
         if(!savingTimeout)$("#saving").text("All changes have been saved");
         saved = true;
-        console.log("Team saved!" + data);
+        data = $.trim(data)
+        console.log(data);
         if(callback) callback(data);
     });
     request.fail(function(error) {

@@ -16,11 +16,11 @@ $plot = $_REQUEST['plot'];
 //TODO: only delete if the current user is the owner of the plot
 
 if($id != null){
-	$query = "DELETE FROM poi WHERE id = '$id'";
+	$query = "DELETE FROM poi WHERE team = '$id'";
 	$res = $bd->ejecutar($query);
-	echo "Removed poi " . $id;
-	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
+	$query = "DELETE FROM team WHERE id = '$id'";
 	$res = $bd->ejecutar($query);
+	echo "Removed team " . $id;
 }else{
 	echo "Error: Id is null";
 }

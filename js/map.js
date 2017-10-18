@@ -248,7 +248,7 @@ function showTeams(){
 				<div class="teamActions">
 					<a><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 					<a><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-					<a><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+					<a ${i==0? "class='hidden'":""}><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				</div>
 			</li>
 		`);
@@ -258,7 +258,8 @@ function showTeams(){
 						</li>`);
 	$("#teams").off('click', 'li');
 	$("#teams").on('click', 'li', function(e) {
-		var index = parseInt($(this).attr("team-index"));
+		var element = this;
+		var index = parseInt($(element).attr("team-index"));
 	    var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
 	    action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
 	    action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
@@ -275,6 +276,10 @@ function showTeams(){
 	    		case "duplicate":
 	    		break;
 	    		case "remove":
+	    			removeTeam(teams[index], game, function(data){
+	    				$(element).remove();
+	    				setCurrentTeam(index-1);
+	    			});
 	    		break;
 	    	}
 	    }
@@ -288,6 +293,7 @@ function addTeam(){
 	teams.push(team);
 	saveTeam(team, game, function(t){
 		showTeams();
+		team.id = t;
 		setCurrentTeam(teams.length - 1);
 	})
 }

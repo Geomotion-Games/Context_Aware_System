@@ -40,3 +40,25 @@ function removePOI(poi, game) {
         console.log("Error removing..." + JSON.stringify(error));
     })
 }
+
+function removeTeam(team, game, callback) {
+    createSavingTimeout();
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'php/removeTeam.php',
+        data: {id:team.id, plot: game.id}
+    });
+
+    console.log("Removing...");
+    request.done(function(data) {
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        saved = true;
+        console.log("Team removed!");
+        if(callback) callback(data);
+    });
+    request.fail(function(error) {
+        $("#saving").hide();
+        console.log("Error removing..." + JSON.stringify(error));
+    })
+}
