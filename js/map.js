@@ -277,6 +277,8 @@ function showTeams(){
 	    		break;
 	    		case "remove":
 	    			removeTeam(teams[index], game, function(data){
+	    				map.removeLayer(layers[index]);
+	    				layers[index] = new L.layerGroup();;
 	    				$(element).remove();
 	    				setCurrentTeam(index-1);
 	    			});
