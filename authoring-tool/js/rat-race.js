@@ -63,7 +63,7 @@ function showStop(stop){
 	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#"
 	if(stop.type == "normal") {
 		$('#stops').append(`
-			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
+			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-id="` + stop.id + `">
 				<div class="row">
 					<div ${style} class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
@@ -84,7 +84,7 @@ function showStop(stop){
    		`);
 	}else if(stop.type == "beacon"){
 		$('#stops').append(`
-			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
+			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-id="` + stop.id + `">
 				<div class="row">
 					<div ${style} class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>

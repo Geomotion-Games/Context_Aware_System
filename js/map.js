@@ -139,13 +139,22 @@ $("#finish").on('click', 'li', function(e) {
 
 // STOPS
 $("#stops").on('click', 'li', function(e) {
-    var stopNumber = parseInt($(this).attr("stop-number"));
+    var stopId = parseInt($(this).attr("stop-id"));
     var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
     action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
     action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
     action = $(e.target).hasClass('center') ? "center" : action;
 
-    stopOnClick(this, stopNumber, action);
+    // TODO: stopNumber ??
+    if(!action){
+    	for(var point in points){
+			if (points[point] && points[point].id == stopId && points[point].marker) {
+				var latlng = points[point].marker.getLatLng();
+				map.setView(latlng, 20);
+			}
+		}
+    }
+    stopOnClick(this, stopId, action);
 });
 
 var pointsCopy;
@@ -167,12 +176,10 @@ $( function() {
 	});
 });
 
-function stopOnClick(parent, stopNumber, action){
+function stopOnClick(parent, stopId, action){
     if(action == "remove"){
         $(parent).remove();
-        map.removeLayer("point" + stopNumber);
-        map.removeLayer("pointText" + stopNumber);
-        removeStop(stopNumber);
+        removeStop(stopId);
         return;
     }else if(action == "edit"){
     	
@@ -427,9 +434,6 @@ function addStop(marker, type){
 	var step = new Step({marker: marker, orderNumber: poisCreated, type: type, team: team});
 	if(marker)marker.step = step;
 	points[poisCreated] = step;
-	showStop(step);
-	updatePath();
-	sortPoints();
 
 	savePOI(step, game, function(id){
 		$("#stops").children().each(function() {
@@ -439,19 +443,29 @@ function addStop(marker, type){
 				$(this).find(".editPOI").attr("href", url);
 			}
 		});
+		// Mover fuera si es muy lento
+		showStop(step);
+		updatePath();
+		sortPoints();
 	});
 }
 
-function removeStop(stopNumber) {
+function removeStop(stopId) {
 	for(var point in points){
-		if (points[point] && points[point].orderNumber == stopNumber) {
+		if (points[point] && points[point].id == stopId) {
 			if(points[point].marker)map.removeLayer(points[point].marker);
 			removePOI(points[point], game);
 			delete points[point];
+			
 		}
 	}
 
+	layers[currentTeam].eachLayer(function(marker){
+		if(marker.step.id == stopId) layers[currentTeam].removeLayer(marker);
+	});
+
 	poisCreated--;
+	updatePath();
 	sortPoints(true);
 }
 
@@ -476,7 +490,6 @@ function setCurrentTeam(team){
 	emptyStops();
 	loadStops();
 	// TODO: Mostrar nombre del poi/marker con el numero correcto
-	// TODO: Mostrar solo los pois del equipo actual
 }
 
 function emptyStops(){

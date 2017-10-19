@@ -68,7 +68,7 @@ function showStop(stop){
 	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#"
 	if(stop.type == "normal") {
 		$('#stops').append(`
-			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
+			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-id="` + stop.id + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
@@ -90,7 +90,7 @@ function showStop(stop){
    		`);
 	}else if(stop.type == "beacon"){
 		$('#stops').append(`
-			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
+			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-id="` + stop.id + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
@@ -132,10 +132,9 @@ function sortPoints(save, skipSort){
 
 		if(!skipSort){
 			$("#stops").children().each(function (index) {
-				var number = $(this).attr("stop-number");
+				var id = $(this).attr("stop-id");
 				for (var stop in points) {
-					if (points[stop] && points[stop].orderNumber == number) {
-						$(this).attr("stop-number", index + 1);
+					if (points[stop] && points[stop].id == id) {
 						$(this).attr("id", "point" + (index + 1));
 						points[stop].orderNumber = (index + 1);
 						newPointList.push(points[stop]);
