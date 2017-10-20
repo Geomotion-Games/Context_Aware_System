@@ -150,7 +150,7 @@ $("#stops").on('click', 'li', function(e) {
     	for(var point in points){
 			if (points[point] && points[point].id == stopId && points[point].marker) {
 				var latlng = points[point].marker.getLatLng();
-				map.setView(latlng, 20);
+				map.setView(latlng, map._zoom);
 			}
 		}
     }
@@ -344,7 +344,7 @@ function addBeaconMarker(id, step, focus){
 	step.marker = marker;
 	step.beaconId = id;
 	if(focus){
-		map.setView(coords, 20);
+		map.setView(coords, map._zoom);
 	}
 	sortPoints(null, true);
 	updatePath();
@@ -487,6 +487,11 @@ function updateMarkersOpacity(){
 
 function setCurrentTeam(team){
 	currentTeam = team;
+	var first = true;
+	layers[currentTeam].eachLayer(function(marker){
+		if(first) map.setView(marker._latlng, map._zoom);
+		first = false;
+	});
 	emptyStops();
 	loadStops();
 	// TODO: Mostrar nombre del poi/marker con el numero correcto
