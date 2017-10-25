@@ -22,7 +22,7 @@
 				echo $_FILES["file"]["error"];
 			}
 			else {
-				$base = "uploads/images";
+				$base = "../uploads/images";
 
 				if (!file_exists($base)) {
     				mkdir($base, 0777, true);
