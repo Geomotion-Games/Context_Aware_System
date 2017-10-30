@@ -128,6 +128,25 @@ function gameReady() {
 		nextPOI = getFollowingPOIId(nextPOI);
 	} else {
 		if (fromMinigame) {
+			if (!challengeSuccess) {
+
+				console.log(challengeSuccess);
+
+				var challenge = game[nextPOI]["B"]["challenge"];
+				var minigameURL = challenge["url"];
+				var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
+				var playerId = "playerid=" + encodeURI(tracker.playerId);
+				var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+
+				var url = (window.location.href).indexOf("/pre/") !== -1 ? 
+					"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
+					"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
+
+				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+				window.open(minigameURL, "_self");
+				return;
+			}
+
 			fromMinigame = false;
 			document.getElementById("openC" + nextPOI).click();
 			nextPOI = getFollowingPOIId(nextPOI);

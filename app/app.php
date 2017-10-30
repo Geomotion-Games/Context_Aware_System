@@ -75,9 +75,13 @@
 
 	$currentPOI = 0;
 	$fromMinigame = false;
+	$challengeSuccess = true;
 	if (isset($_REQUEST['step']) && ctype_digit($_REQUEST['step'])) {
 		$currentPOI = $_REQUEST['step'];
 		$fromMinigame = true;
+		if (isset($_REQUEST['success']) && $_REQUEST['success'] == "false") {
+			$challengeSuccess = false;
+		}
 	}
 
 	$teleport = false;
@@ -254,6 +258,7 @@
 	var nextDistance = 1000;
 	var located = false;
 	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
+	var challengeSuccess = <?= $challengeSuccess ? 1 : 0 ?>;
 
 	var stopIcon = L.icon({
 	    iconUrl:    server_url + 'app/images/map-marker-blue.png',
