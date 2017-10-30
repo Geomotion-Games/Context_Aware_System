@@ -205,6 +205,7 @@
 	        showEditorScreen(screen_index, 0);
 	    });
 
+
 	    $("#qrcode").on('click',function(e){
 	    	var url = "php/qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + (isPre() ? "&isPre" : "");
 	    	console.log(url)
@@ -222,6 +223,8 @@
 		var screens = parseScreens(resultScreens);
 		var game = parsePlotJSON(resultPlot);
 		var totalRewardPoints = <?= $sum; ?>;
+
+		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 
 		showScreensOverview();
 		init();

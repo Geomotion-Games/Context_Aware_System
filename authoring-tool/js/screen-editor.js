@@ -388,7 +388,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <p class="preview-button" id="preview-button-A">Finish Game</p>
                     `;
             }else{
-                content += ` <p class="preview-button" id="preview-button-A">Go out and play!</p>`;
+                content += ` <p class="preview-button" id="preview-button-A">Start Game</p>`;
             }
 
             content += `
@@ -486,7 +486,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <p class="preview-button" id="preview-button-A">Finish Game</p>
                     `;
             }else{
-                content += ` <p class="preview-button" id="preview-button-A">Go out and play!</p>`;
+                content += ` <p class="preview-button" id="preview-button-A">Start Game</p>`;
             }
 
             content += `
