@@ -147,7 +147,7 @@ Game.prototype.copy = function(){
         name: "Copy of " + this.name,
         description: this.description,
         time: this.time,
-        last_update: moment().format("YYYY-MM-DD"),
+        last_update: moment().format("YYYY-MM-DD hh:mm"),
         public: this.public,
         stops: this.stops
     });
