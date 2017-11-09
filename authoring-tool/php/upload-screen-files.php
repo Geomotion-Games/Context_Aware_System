@@ -22,7 +22,7 @@
 				echo $_FILES["file"]["error"];
 			}
 			else {
-				$base = "uploads/images";
+				$base = "../../uploads/images";
 
 				if (!file_exists($base)) {
     				mkdir($base, 0777, true);
@@ -39,8 +39,10 @@
 					unlink($targetPath . $value);
 				}
 
+				$p = substr($targetPath, 3);
+
 				move_uploaded_file($sourcePath, $targetPath . $file_extension);
-				echo "ok-" . $targetPath . $file_extension;
+				echo "ok-" . $p . $file_extension;
 			}
 		}
 		else {
