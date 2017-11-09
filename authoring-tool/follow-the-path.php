@@ -22,7 +22,7 @@
  	if ($query) {
 		$plot = $bd->obtener_fila($query, 0);
     }else {
-      echo mysql_error();
+      echo mysqli_error();
     }
 
     $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id . " ORDER BY orderNumber ASC");
@@ -30,11 +30,11 @@
 
 	$pois = array();
  	if ($query) {
-		while(($row =  mysql_fetch_assoc($query))) {
+		while(($row =  mysqli_fetch_assoc($query))) {
 		    $pois[] = $row;
 		}
     }else {
-      echo mysql_error();
+      echo mysqli_error();
     }
 ?>
 <html>

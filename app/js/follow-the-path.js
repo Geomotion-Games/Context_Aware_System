@@ -68,7 +68,7 @@ function gameReady() {
 			}
 		} else { challengeType = "checkin"; }
 
-		if (step == 0) { textButton = "Go out and play!"; }
+		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 
 		if (step == 999) { button = ""; }
@@ -167,7 +167,7 @@ function gameReady() {
 
 				if (challenge.hasOwnProperty("type")) {
 					if (challenge["type"] == "upload_content") {
-						document.getElementById("openB" + currentPOI).click();
+						document.getElementById("openC" + currentPOI).click();
 					} else if (challenge["type"] == "minigame") {
 						var minigameURL = challenge["url"];
 						var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
@@ -405,7 +405,7 @@ function newLocation(position) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-		if (distanceToNextPOI < game[nextPOI].triggerDistance) {
+		if (distanceToNextPOI <= game[nextPOI].triggerDistance) {
 
 			trackProgress();
 			document.getElementById('openA' + nextPOI).click();

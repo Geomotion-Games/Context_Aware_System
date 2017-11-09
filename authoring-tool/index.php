@@ -25,7 +25,7 @@
 			$plots[] = $row;
  		}
     }else {
-      echo mysql_error();
+      echo mysqli_error();
     }
 ?>
 <html>

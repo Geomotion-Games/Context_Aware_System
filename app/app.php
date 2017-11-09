@@ -2,7 +2,7 @@
 
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
+	header("Pragma: no-cache");
 	
 	error_reporting(0);
 
@@ -28,7 +28,7 @@
  		$pois = array();
  		$poiIDs = array();
 
-		while ($row = mysql_fetch_assoc($query)) {
+		while ($row = mysqli_fetch_assoc($query)) {
 		    $pois[$row["id"]] = $row;
 		    $poiIDs[] = $row["id"];
 		}
@@ -37,7 +37,7 @@
 
 		if ($bd->num_rows($query) > 0) {
 
-			while ($row = mysql_fetch_assoc($query)) {
+			while ($row = mysqli_fetch_assoc($query)) {
 				$screen = json_decode($row["data"], true);
 				$pois[$row["poi"]][$screen["type"]] = $screen;
 		   	}
@@ -241,9 +241,15 @@
       }
 	});
 
-	var server_url = (window.location.href).indexOf("/pre/") !== -1 ? 
-					"https://www.geomotiongames.com/pre/beaconing/" : 
-					"https://www.geomotiongames.com/beaconing/";
+	var server_url = ""
+
+	if ((window.location.href).indexOf("/pre/") !== -1) {
+		server_url = "https://www.geomotiongames.com/pre/beaconing/";
+	} else if ((window.location.href).indexOf("/atcc/") !== -1) {
+		server_url = "http://atcc.beaconing.eu";
+	} else {
+		server_url = "https://www.geomotiongames.com/beaconing/";
+	}
 
 	var game_id = <?= $game_id; ?>;
 	var game_info = <?= json_encode($game); ?>;

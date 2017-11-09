@@ -42,47 +42,47 @@ class Db{
 
    /*Realiza la conexión a la base de datos.*/
    private function conectar(){
-      $this->link=mysql_connect($this->servidor, $this->usuario, $this->password);
-      mysql_select_db($this->base_datos,$this->link);
+      $this->link=mysqli_connect($this->servidor, $this->usuario, $this->password, $this->base_datos);
+      mysqli_select_db($this->link, $this->base_datos);
       //@mysql_query("SET NAMES 'utf8'");
    }
 
    /*Método para ejecutar una sentencia sql*/
    public function ejecutar($sql){
-      $this->stmt=@mysql_query($sql,$this->link);
+      $this->stmt=@mysqli_query($this->link, $sql);
       return $this->stmt;
    }
 
   /*Método para Cerrar la DB sql*/
    public function cerrar(){
-      $this->cierra=@mysql_close($this->link);
+      $this->cierra=@mysqli_close($this->link);
       return $this->cierra;
    }
 
        /*Método para Liberar la memoria o a willy la ballena*/
    public function liberarawilly(){
-      $this->liberar=@mysql_free_result($this->stmt);
+      $this->liberar=@mysqli_free_result($this->stmt);
       return $this->liberar;
    }
    /*numero de lineas*/
  public function num_rows($stmt){ 
-  return @mysql_num_rows($stmt);
+  return @mysqli_num_rows($stmt);
   }
 
    /*Método para obtener una fila de resultados de la sentencia sql*/
    public function obtener_fila($stmt,$fila){
       if ($fila==0){
-         $this->array=@mysql_fetch_array($stmt);
+         $this->array=@mysqli_fetch_array($stmt);
       }else{
-         mysql_data_seek($stmt,$fila);
-         $this->array=@mysql_fetch_array($stmt);
+         mysqli_data_seek($stmt,$fila);
+         $this->array=@mysqli_fetch_array($stmt);
       }
       return $this->array;
    }
 
    //Devuelve el último id del insert introducido
    public function lastID(){
-      return mysql_insert_id($this->link);
+      return mysqli_insert_id($this->link);
    }
 	
 	public 	function rarosr($cad){    

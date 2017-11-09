@@ -18,7 +18,7 @@ $data = addSlashes($_REQUEST['data']);
 if($id != null){
 	$query = "UPDATE screen SET poi='$poi',data='$data' WHERE id=$id";
 	$res = $bd->ejecutar($query);
-	echo mysql_error();
+	echo mysqli_error();
 	echo $id;
 	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
 	$res = $bd->ejecutar($query);

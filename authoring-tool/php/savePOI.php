@@ -25,9 +25,9 @@ $item = $_REQUEST['item'];
 if($id == null){
 	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item')";
 	$res = $bd->ejecutar($query);
-	echo mysql_insert_id();
-	echo mysql_error();
-	createDefaultScreens(mysql_insert_id(), $bd);
+	echo mysqli_insert_id();
+	echo mysqli_error();
+	createDefaultScreens(mysqli_insert_id(), $bd);
 	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
 	$res = $bd->ejecutar($query);
 }else{
@@ -47,7 +47,7 @@ function createDefaultScreens($id, $bd){
 		$res = $bd->ejecutar($query);
 	}
 	
-	return mysql_error();
+	return mysqli_error();
 }
 
 ?>

@@ -24,7 +24,7 @@
  	if ($query) {
 		$poi = $bd->obtener_fila($query, 0);
     }else {
-      echo mysql_error();
+      echo mysqli_error();
     }
 
     // PLOT
@@ -35,7 +35,7 @@
  	if ($query) {
 		$plot = $bd->obtener_fila($query, 0);
     }else {
-      echo mysql_error();
+      echo mysqli_error();
     }
 
     // SCREENS
@@ -44,17 +44,17 @@
 
 	$screens = array();
  	if ($query) {
-		while(($row =  mysql_fetch_assoc($query))) {
+		while(($row = mysqli_fetch_assoc($query))) {
 		    $screens[] = $row;
 		}
     }else {
-      echo mysql_error();
+      echo mysqli_error();
     }
 
     // TOTAL REWARD POINTS
 
-    $result = mysql_query("SELECT SUM(rewardPoints) AS total FROM poi WHERE plot = " . $plotId);
-    $row = mysql_fetch_assoc($result); 
+    $result = mysqli_query("SELECT SUM(rewardPoints) AS total FROM poi WHERE plot = " . $plotId);
+    $row = mysqli_fetch_assoc($result); 
 	$sum = $row['total'];
 ?>
 <html>
