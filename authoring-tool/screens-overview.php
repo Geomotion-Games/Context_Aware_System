@@ -53,9 +53,14 @@
 
     // TOTAL REWARD POINTS
 
-    $result = mysqli_query("SELECT SUM(rewardPoints) AS total FROM poi WHERE plot = " . $plotId);
-    $row = mysqli_fetch_assoc($result); 
-	$sum = $row['total'];
+    $query = $bd->ejecutar("SELECT SUM(rewardPoints) AS total FROM poi WHERE plot = " . $plotId);
+    $sum = 0;
+    if($query){
+    	$row = mysqli_fetch_assoc($query);
+		$sum = $row['total'];
+    }else{
+    	echo mysqli_error();
+    }
 ?>
 <html>
 <head>
