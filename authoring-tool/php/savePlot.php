@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+//error_reporting(0);
 
 require '../class/db.class.php';
 require '../class/conf.class.php';
@@ -20,22 +20,22 @@ $public = $_REQUEST['public'];
 if($id == null){
 	$query = "INSERT INTO plot (name, description, time, type, public) VALUES ('$name','$description','$time','$type','$public')";
 	$res = $bd->ejecutar($query);
-	$lastId = mysqli_insert_id();
+	$lastId = mysqli_insert_id($bd->link);
 	echo $lastId;
 	createDefaultPois($lastId, "start", $bd);
 	createDefaultPois($lastId, "finish", $bd);
 } else {
 	$query = "UPDATE plot SET name='$name', description='$description', time='$time', type='$type', public='$public' WHERE id=$id";
 	$res = $bd->ejecutar($query);
-	echo mysqli_error();
+	echo mysqli_error($bd->link);
 	echo $id;
 }
 
 function createDefaultPois($plotId, $type, $bd){
 	$query = "INSERT INTO poi (plot, type, lat, lng, triggerDistance) VALUES ('$plotId','$type',0,0,20)";
 	$res = $bd->ejecutar($query);
-	echo mysqli_error();
-	createDefaultScreens(mysqli_insert_id(), $bd);
+	echo mysqli_error($bd->link);
+	createDefaultScreens(mysqli_insert_id($bd->link), $bd);
 }
 
 function createDefaultScreens($id, $bd){
@@ -45,7 +45,7 @@ function createDefaultScreens($id, $bd){
 		$res = $bd->ejecutar($query);
 	}
 	
-	echo mysqli_error();
+	echo mysqli_error($bd->link);
 }
 
 ?>

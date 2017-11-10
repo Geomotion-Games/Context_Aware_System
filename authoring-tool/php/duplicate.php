@@ -3,7 +3,7 @@
 function duplicatePlot($id, $name, $description, $time, $type, $public, $bd){
 	$query = "INSERT INTO plot (name, description, time, type, public) VALUES ('$name','$description','$time','$type','$public')";
 	$res = $bd->ejecutar($query);
-	$newPlotId = mysqli_insert_id();
+	$newPlotId = mysqli_insert_id($bd->link);
 	duplicatePois($id, $newPlotId, $bd);
 	return $newPlotId;
 }
@@ -38,7 +38,7 @@ function duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $t
 	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item)
 			VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item')";
 	$res = $bd->ejecutar($query);
-	$newPoiId = mysqli_insert_id();
+	$newPoiId = mysqli_insert_id($bd->link);
 	duplicateScreens($id, $newPoiId, $bd);
 	return $newPoiId;
 }
