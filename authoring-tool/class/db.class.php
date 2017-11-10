@@ -6,7 +6,7 @@ class Db{
    private $usuario;
    private $password;
    private $base_datos;
-   private $link;
+   public $link;
    private $stmt;
    private $cierra;
    private $liberar;
