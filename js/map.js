@@ -166,7 +166,7 @@ function updatePath() {
 		var pointList = [];
 
 		layers[i].eachLayer(function(marker){
-			pointList.push(marker._latlng)
+			pointList[marker.step.orderNumber - 1] = marker._latlng;
 		});
 
 		if (paths[i] != null) map.removeLayer(paths[i]);
@@ -359,14 +359,14 @@ function addMarker(latlng, draggable, team, teamColor){
 function updateLabels() {
 	for(var i = 0; i < teams.length || 1; i++){
 		if(!layers[i]) break;
-		//var pointList = [];
 
 		var count = 1;
 		layers[i].eachLayer(function(marker){
 			if(marker.step.title.length == 0 || !marker.step.title) {
-				marker._tooltip.setContent("Stop " + count);
+				marker._tooltip.setContent("Stop " + marker.step.orderNumber);
+			}else{
+				marker._tooltip.setContent(marker.step.title);
 			}
-			//pointList.push(marker._latlng)
 			count++;
 		});
 	}
