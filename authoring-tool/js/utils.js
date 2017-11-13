@@ -72,11 +72,11 @@ function gameTypeToDisplayName(type){
 function getBaseURL(){
     var url = "";
     if(!isPre() && !isLocalHost()){ // isPRO
-        url = "https://www.geomotiongames.com/beaconing/authoring-tool";
+        url = "https://www.geomotiongames.com/beaconing/authoring-tool/";
     }else if(isPre()){ // isPRE
-        url = "https://www.geomotiongames.com/pre/beaconing/authoring-tool";
+        url = "https://www.geomotiongames.com/pre/beaconing/authoring-tool/";
     }else{ // isLOCALHOST
-        url = ""
+        url = "/"
     }
     return url;
 }

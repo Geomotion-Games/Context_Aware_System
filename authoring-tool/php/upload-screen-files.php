@@ -39,7 +39,7 @@
 					unlink($targetPath . $value);
 				}
 
-				$p = substr($targetPath, 2);
+				$p = substr($targetPath, 3);
 
 				move_uploaded_file($sourcePath, $targetPath . $file_extension);
 				echo "ok-" . $p . $file_extension;
