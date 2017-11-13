@@ -284,6 +284,7 @@ function showTeams(){
 	    		break;
 	    		case "remove":
 	    			removeTeam(teams[index], game, function(data){
+	    				teams.splice(index, 1);
 	    				map.removeLayer(layers[index]);
 	    				layers[index] = new L.layerGroup();;
 	    				$(element).remove();
