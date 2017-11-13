@@ -242,13 +242,17 @@
 	});
 
 	var server_url = ""
+	var uploads_url = ""
 
 	if ((window.location.href).indexOf("/pre/") !== -1) {
 		server_url = "https://www.geomotiongames.com/pre/beaconing/";
+		uploads_url = "https://www.geomotiongames.com/pre/beaconing/authoring-tool/";
 	} else if ((window.location.href).indexOf("/atcc/") !== -1) {
 		server_url = "http://atcc.beaconing.eu";
+		uploads_url = "http://atcc.beaconing.eu";
 	} else {
 		server_url = "https://www.geomotiongames.com/beaconing/";
+		uploads_url = "https://www.geomotiongames.com/beaconing/authoring-tool/";
 	}
 
 	var game_id = <?= $game_id; ?>;
