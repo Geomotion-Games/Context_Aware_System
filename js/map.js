@@ -45,7 +45,7 @@ var colorTeamMarker = [
 	"#F9ED3A",
 	"#4CB2D4",
 	"#EB7B2D",
-	"#88C542",
+	"#266363",
 	"#EC4A94"
 ];
 
@@ -58,7 +58,7 @@ var colorTeamPath = [
 	"#dfd106",
 	"#298dae",
 	"#bf5912",
-	"#66962e",
+	"#1c4a4a",
 	"#d2166c"
 ];
 
