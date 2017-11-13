@@ -46,10 +46,10 @@ function init(){
 		if(editTimeout != null) clearTimeout(editTimeout);
 		createEditTimeout();
 	}
-	console.log("hey")
-	$(".addTeam").click(function(){
-		console.log("hey")
-	});
+	// console.log("hey")
+	// $(".addTeam").click(function(){
+	// 	console.log("hey")
+	// });
 }
 
 function showStop(stop){

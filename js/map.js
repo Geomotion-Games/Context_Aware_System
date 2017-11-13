@@ -171,7 +171,6 @@ function updatePath() {
 
 		if (paths[i] != null) map.removeLayer(paths[i]);
 
-
 		var color = teams.length > 0 && teams[i] ? teams[i].color : colorNames[0];
 
 		paths[i] = new L.Polyline(pointList, {
@@ -200,7 +199,6 @@ function loadStops(){
 	});
 	
 	sortPoints();
-	updatePath();
 }
 
 function showTeams(){
@@ -320,7 +318,7 @@ function addMarker(latlng, draggable, team, teamColor){
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
 		icon: icon
-	}).bindTooltip( "Stop " + (poisCreated + 1),
+	}).bindTooltip( "Stop " + (Object.keys(layers[currentTeam]._layers).length + 1),
 		{
 			permanent: true,
 			direction: 'bottom'
@@ -362,7 +360,7 @@ function updateLabels() {
 
 		var count = 1;
 		layers[i].eachLayer(function(marker){
-			if(marker.step.title.length == 0 || !marker.step.title) {
+			if(!marker.step.title || marker.step.title.length == 0) {
 				marker._tooltip.setContent("Stop " + marker.step.orderNumber);
 			}else{
 				marker._tooltip.setContent(marker.step.title);
@@ -394,7 +392,7 @@ function addStop(marker, type){
 	var team = teams[currentTeam] ? teams[currentTeam].id : null;
 
 	poisCreated++;
-	var step = new Step({marker: marker, orderNumber: poisCreated, type: type, team: team});
+	var step = new Step({marker: marker, orderNumber: Object.keys(layers[currentTeam]._layers).length, type: type, team: team});
 	if(marker)marker.step = step;
 	points[poisCreated] = step;
 
