@@ -69,6 +69,18 @@ function gameTypeToDisplayName(type){
     else if(type == "Stratego") return "Stratego";
 }
 
+function getBaseURL(){
+    var url = "";
+    if(!isPre() && !isLocalHost()){ // isPRO
+        url = "https://www.geomotiongames.com/beaconing/authoring-tool/";
+    }else if(isPre()){ // isPRE
+        url = "https://www.geomotiongames.com/pre/beaconing/authoring-tool/";
+    }else{ // isLOCALHOST
+        url = "/"
+    }
+    return url;
+}
+
 function generateGameUrl(game){
     var pre = isPre() ? "pre/" : "";
     var url = "https://www.geomotiongames.com/" + pre + "beaconing/app/app.php?game=" + game.id + "&device=browser";
@@ -76,7 +88,11 @@ function generateGameUrl(game){
 }
 
 function isPre(){
-    return (window.location.href).includes("/pre/") || (window.location.href).includes("localhost");
+    return (window.location.href).includes("/pre/");
+}
+
+function isLocalHost(){
+    return  (window.location.href).includes("localhost");
 }
 
 function addMetersToCoordinates(coords, x, y){

@@ -353,7 +353,7 @@ function appendEditor(parent, screen){
 function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
-    var image = screen.image != null ? screen.image : "images/no-image.jpg";
+    var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
     var type = screen.type;
 
     var item = poi.item;
