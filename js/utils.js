@@ -1,5 +1,46 @@
 var lastLocation = loadLastLocation();
 
+// MARKER STYLE
+
+var colorTeamMarker = [
+    "#30499b",
+    "#EE4035",
+    "#56B949",
+    "#F3A530",
+    "#844D9E",
+    "#F9ED3A",
+    "#4CB2D4",
+    "#EB7B2D",
+    "#266363",
+    "#EC4A94"
+];
+
+var colorTeamPath = [
+    "#233674",
+    "#c91b10",
+    "#3f8b35",
+    "#ce800b",
+    "#633976",
+    "#dfd106",
+    "#298dae",
+    "#bf5912",
+    "#1c4a4a",
+    "#d2166c"
+];
+
+var colorNames = [
+    "blue_dark",
+    "red",
+    "green_dark",
+    "orange_dark",
+    "purple",
+    "yellow",
+    "blue_light",
+    "orange_light",
+    "green_light",
+    "pink"
+];
+
 function locate() {
     console.log("locate")
     if(lastLocation){

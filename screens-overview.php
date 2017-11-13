@@ -234,6 +234,8 @@
 	    	return false;
 	    });
 
+		var teams = [];
+
 	    var resultPOI = <?= json_encode($poi); ?>;
 	    var resultPlot = <?= json_encode($plot); ?>;
 	    var resultScreens = <?= json_encode($screens); ?>;

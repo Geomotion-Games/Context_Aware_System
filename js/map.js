@@ -288,7 +288,7 @@ function showTeams(){
 	    				map.removeLayer(layers[index]);
 	    				layers[index] = new L.layerGroup();;
 	    				$(element).remove();
-	    				setCurrentTeam(index-1);
+	    				setCurrentTeam(index - 1);
 	    			});
 	    		break;
 	    	}
@@ -397,33 +397,34 @@ function addMarker(latlng, draggable, team, teamColor){
 function updateLabels() {
 	for(var i = 0; i < teams.length || 1; i++){
 		if(!layers[i]) break;
-		var pointList = [];
+		//var pointList = [];
 
 		var count = 1;
 		layers[i].eachLayer(function(marker){
-			if(marker.step.title == "" || !marker.step.title) {
+			if(marker.step.title.length == 0 || !marker.step.title) {
 				marker._tooltip.setContent("Stop " + count);
+				console.log(count)
 			}
-			pointList.push(marker._latlng)
+			//pointList.push(marker._latlng)
 			count++;
 		});
 	}
 
+	var count = 1;
 	$("#stops").children().each(function() {
-		var number = $(this).attr("stop-number");
+		var id = $(this).attr("stop-id");
 		for(var point in points){
-			if (points[point] && points[point].orderNumber == number){
+			if (points[point] && points[point].id == id){
 				if (points[point].title && points[point].title.length > 0){
-					//points[point].marker._tooltip.setContent(points[point].title);
 					$(this).find("span.name").text(points[point].title);
 				}else{
-					var name = "Stop " + points[point].orderNumber;
-					//if(points[point].marker) points[point].marker._tooltip.setContent(name);
+					var name = "Stop " + count;
 					$(this).find("span.name").text(name);
 				}
 				break;
 			}
 		}
+		count++;
 	});
 }
 

@@ -118,19 +118,14 @@ function showStop(stop){
 }
 
 function sortPoints(save, skipSort){
-	return;
-	console.log("eh?")
 	var len = Object.keys(points).length;
 	if (len >= 1) {
-
 		var newPointList = [];
-
 		if(!skipSort){
 			$("#stops").children().each(function (index) {
-				var number = $(this).attr("stop-number");
+				var id = $(this).attr("stop-id");
 				for (var stop in points) {
-					if (points[stop] && points[stop].orderNumber == number) {
-						$(this).attr("stop-number", index + 1);
+					if (points[stop] && points[stop].id == id) {
 						$(this).attr("id", "point" + (index + 1));
 						points[stop].orderNumber = (index + 1);
 						newPointList.push(points[stop]);
