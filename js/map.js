@@ -34,46 +34,7 @@ function createTeamLayers(){
 	return layers;
 }
 
-// MARKER STYLE
 
-var colorTeamMarker = [
-	"#30499b",
-	"#EE4035",
-	"#56B949",
-	"#F3A530",
-	"#844D9E",
-	"#F9ED3A",
-	"#4CB2D4",
-	"#EB7B2D",
-	"#266363",
-	"#EC4A94"
-];
-
-var colorTeamPath = [
-	"#233674",
-	"#c91b10",
-	"#3f8b35",
-	"#ce800b",
-	"#633976",
-	"#dfd106",
-	"#298dae",
-	"#bf5912",
-	"#1c4a4a",
-	"#d2166c"
-];
-
-var colorNames = [
-	"blue_dark",
-	"red",
-	"green_dark",
-	"orange_dark",
-	"purple",
-	"yellow",
-	"blue_light",
-	"orange_light",
-	"green_light",
-	"pink"
-]
 
 function generateMarker(teamColor, isBeacon){
 	var team = teamColorToId(teamColor);
@@ -231,6 +192,7 @@ function updatePath() {
 // POI LOADING
 
 function loadStops(){
+	points = pointsCopy.slice();
 	points.forEach(function(p){
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
 		showStop(p);
@@ -403,7 +365,6 @@ function updateLabels() {
 		layers[i].eachLayer(function(marker){
 			if(marker.step.title.length == 0 || !marker.step.title) {
 				marker._tooltip.setContent("Stop " + count);
-				console.log(count)
 			}
 			//pointList.push(marker._latlng)
 			count++;
