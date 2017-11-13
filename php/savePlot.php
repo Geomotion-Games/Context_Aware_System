@@ -24,7 +24,7 @@ if($id == null){
 	echo $lastId;
 	createDefaultPois($lastId, "start", $bd);
 	createDefaultPois($lastId, "finish", $bd);
-	
+
 	if($type == "RatRace" || $type == "Jigsaw") createDefaultTeam($lastId, $bd);
 }else{
 	$query = "UPDATE plot SET name='$name', description='$description', time='$time', type='$type', public='$public' WHERE id=$id";
@@ -36,7 +36,7 @@ if($id == null){
 function createDefaultTeam($plotId, $bd){
 	$query = "INSERT INTO team (color, plot) VALUES ('blue_dark','$plotId')";
 	$res = $bd->ejecutar($query);
-	echo mysql_error();
+	echo mysqli_error($bd->link);
 }
 
 function createDefaultPois($plotId, $type, $bd){

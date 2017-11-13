@@ -7,6 +7,7 @@ $(".plot").on('click', function(e) {
 		type: type
     }), function(id){
     	var url = gameTypeToUrl(type);
-    	window.location = url + ".php?id=" + id;
+        console.log(id);
+    	//window.location = url + ".php?id=" + id;
     });
 });

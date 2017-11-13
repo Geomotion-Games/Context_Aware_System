@@ -22,7 +22,7 @@
  	if ($query) {
 		$plot = $bd->obtener_fila($query, 0);
     }else {
-      echo mysqli_error();
+      echo mysqli_error($bd->link);
     }
 
     $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id . " ORDER BY orderNumber ASC");
@@ -34,7 +34,7 @@
 		    $pois[] = $row;
 		}
     }else {
-      echo mysqli_error();
+      echo mysqli_error($bd->link);
     }
 ?>
 <html>
