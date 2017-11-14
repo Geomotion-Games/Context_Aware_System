@@ -247,8 +247,8 @@ function showTeams(){
 	    				teams.splice(index, 1);
 	    				map.removeLayer(layers[index]);
 	    				layers[index] = new L.layerGroup();;
-	    				$(element).remove();
 	    				setCurrentTeam(index - 1);
+	    				showTeams();
 	    			});
 	    		break;
 	    	}
