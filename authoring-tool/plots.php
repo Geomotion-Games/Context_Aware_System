@@ -39,7 +39,7 @@
 	<div class="container">
 		<div class="official-row">
 			<div class="row">
-				<div class="col-md-3 col-sm-6 gameType">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="FollowThePath" class="plot">
 						<div class="zoomOnHover image">
 							<img src="images/plots/follow-the-path.jpg">
@@ -50,7 +50,7 @@
 					</div>
 					<h2>Follow the Path</h2>
 				</div>
-				<div class="col-md-3 col-sm-6 gameType">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="TreasureHunt" class="plot">
 						<div class="zoomOnHover image">
 							<img src="images/plots/treasure-hunt.jpg">
@@ -61,7 +61,7 @@
 					</div>
 					<h2>Treasure Hunt</h2>
 				</div>
-				<div class="col-md-3 col-sm-6 gameType">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="RatRace" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/plots/rat-race.jpg" style="opacity: 0.6;">
@@ -72,7 +72,11 @@
 					</div>
 					<h2>Rat Race</h2>
 				</div>
-				<div class="col-md-3 col-sm-6 gameType">
+			</div>
+		</div>
+		<div class="official-row">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="Jigsaw" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/plots/jigsaw.jpg" style="opacity: 0.6;">
@@ -83,11 +87,7 @@
 					</div>
 					<h2>Jigsaw</h2>
 				</div>
-			</div>
-		</div>
-		<div class="official-row">
-			<div class="row">
-				<div class="col-md-3 col-sm-6 gameType">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="CaptureTheFlag" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/plots/capture-the-flag.jpg" style="opacity: 0.6;">
@@ -98,7 +98,7 @@
 					</div>
 					<h2>Capture the flag</h2>
 				</div>
-				<div class="col-md-3 col-sm-6 gameType">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="Conquest" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/plots/conquest.jpg" style="opacity: 0.6;">
@@ -109,7 +109,11 @@
 					</div>
 					<h2>Conquest</h2>
 				</div>
-				<div class="col-md-3 col-sm-6 gameType">
+			</div>
+		</div>
+		<div class="official-row">
+			<div class="row">
+				<div class="col-md-4 col-sm-6 gameType">
 					<div id="Stratego" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/plots/stratego.jpg" style="opacity: 0.6;">
