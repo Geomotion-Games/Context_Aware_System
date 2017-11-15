@@ -191,6 +191,7 @@ function updatePath() {
 // POI LOADING
 
 function loadStops(){
+	console.log(pointsCopy);
 	points = pointsCopy.slice();
 	points.forEach(function(p){
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
@@ -215,11 +216,12 @@ function showTeams(){
 				<div class="teamActions">
 					<a><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 					<a><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-					<a ${i==0? "class='hidden'":""}><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+					<a /*${i==0? "class='hidden'":""}*/><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				</div>
 			</li>
 		`);
 	}
+	
 	$("#teams").append(`<li class="addTeam ${disableAdd?"disabled":""}">
 							<p>+ Add team</p>
 						</li>`);
@@ -241,6 +243,36 @@ function showTeams(){
 	    			setCurrentTeam(index);
 	    		break;
 	    		case "duplicate":
+	    			if(teams.length >= 10) return;
+	    			var copy = teams[index].copy();
+	    			copy.color = getAvailableTeam();
+	    			duplicateTeam(copy, function(teamId, poiIds){
+	    				copy.id = teamId;
+	    				teams.push(copy);
+	    				setCurrentTeam(teams.length - 1);
+	    				showTeams();
+
+	    				var i = 0;
+	    				if(poiIds.length > 0){
+		    				layers[index].eachLayer(function(marker){
+		    					console.log(marker);
+		    					var c = marker.step.copy();
+		    					c.id = parseInt(poiIds[i]);
+		    					c.team = teamId;
+		    					pointsCopy.push(c);
+		    					var latlng = {lat:c.lat, lng: c.lng};
+		    					var marker = addMarker(latlng, undefined, currentTeam, copy.color);
+		    					marker.step = c;
+		    					c.marker = marker;
+		    					console.log(marker)
+		    					i++;
+		    				});
+		    				console.log(layers[currentTeam]);
+	    				}
+	    				
+	    				updatePath();
+		    			loadStops();
+	    			});
 	    		break;
 	    		case "remove":
 	    			removeTeam(teams[index], game, function(data){
@@ -301,7 +333,6 @@ function addBeaconMarker(id, step, focus){
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
-	//map.addLayer(marker);
 	step.marker = marker;
 	step.beaconId = id;
 	if(focus){
@@ -348,6 +379,8 @@ function addMarker(latlng, draggable, team, teamColor){
 		
 		updatePath();
 	});
+
+	//console.log(marker);
 
 	layers[team].addLayer(marker);
 

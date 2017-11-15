@@ -34,11 +34,8 @@ Step.prototype.toJSON = function() {
         "triggerDistance": this.triggerDistance,
         "rewardPoints": this.rewardPoints,
         "item": this.item,
-<<<<<<< HEAD
         "itemName": this.itemName
-=======
         "team": this.team
->>>>>>> Markers added to layers with the appropriate team color
     };
 
     return json;
@@ -55,11 +52,10 @@ Step.prototype.copy = function() {
         triggerDistance: this.triggerDistance,
         rewardPoints: this.rewardPoints,
         item: this.item,
-<<<<<<< HEAD
         itemName: this.itemName,
-=======
         team: this.team,
->>>>>>> Markers added to layers with the appropriate team color
+        lat: this.lat,
+        lng: this.lng,
 
         marker: this.marker
     });
@@ -214,3 +210,14 @@ Team.prototype.toJSON = function() {
 
     return json;
 };
+
+Team.prototype.copy = function(){
+    var copy = new Team({
+        id: this.id,
+        members: this.members,
+        color: this.color,
+        plot: this.plot
+    });
+    
+    return copy;
+}

@@ -54,4 +54,42 @@ function duplicateScreens($lastPoiId, $newPoiId, $bd){
 	$res = $bd->ejecutar($query);
 }
 
+function duplicateTeam($id, $members, $color, $plot, $bd){
+	$query = "INSERT INTO team (members, color, plot) VALUES ('$members','$color','$plot')";
+	$res = $bd->ejecutar($query);
+	$newTeamId = mysqli_insert_id($bd->link);
+	echo $newTeamId;
+	duplicatePoisTeam($id, $newTeamId, $bd);
+}
+
+function duplicatePoisTeam($id, $newTeamId, $bd){
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, team)
+			SELECT plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, $newTeamId
+			FROM poi 
+			WHERE team = $id
+			";
+	$res = $bd->ejecutar($query);
+
+	$query = "SELECT id FROM poi WHERE team = $id";
+	$res = $bd->ejecutar($query);
+	$lastPoiIds = array();
+	while(($row = mysqli_fetch_assoc($res))) {
+		$lastPoiIds[] = $row['id'];
+	}
+	
+	$query = "SELECT id FROM poi WHERE team = $newTeamId";
+	$res = $bd->ejecutar($query);
+	$i = 0;
+	$newPoiIds = array();
+	while(($row = mysqli_fetch_assoc($res))) {
+		$idd = $row['id'];
+		$newPoiIds[] = $row['id'];
+		duplicateScreens($lastPoiIds[$i], $idd, $bd);
+		$i++;
+	}
+
+	if(!empty($newPoiIds)) echo "," . implode(',', $newPoiIds);
+	
+}
+
 ?>

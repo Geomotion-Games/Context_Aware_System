@@ -48,3 +48,28 @@ function duplicatePOI(poi, game, callback){
         console.log("Error saving..." + JSON.stringify(error));
     })
 }
+
+function duplicateTeam(team, callback){
+    createSavingTimeout();
+
+    var request = $.ajax({
+        type: 'POST',
+        url: 'php/duplicateTeam.php',
+        data: team.toJSON()
+    });
+
+    console.log("Saving...");
+    request.done(function(data) {
+        data = data.trim();
+        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        saved = true;
+        var values =  data.split(",");
+        var teamId = parseInt(values.splice(0, 1)[0]);
+        console.log("Team saved!" + data);
+        if(callback) callback(teamId, values);
+    });
+    request.fail(function(error) {
+        $("#saving").hide();
+        console.log("Error saving..." + JSON.stringify(error));
+    })
+}
