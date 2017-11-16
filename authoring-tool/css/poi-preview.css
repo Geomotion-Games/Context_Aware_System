@@ -224,3 +224,7 @@ div.edit-screen {
 	width: 100%;
     image-rendering: pixelated;
 }
+
+#screenVideo{
+	font-size: 12px;
+}

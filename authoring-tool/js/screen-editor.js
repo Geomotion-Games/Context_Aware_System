@@ -223,6 +223,50 @@ function showEditorScreen(index){
         onInputScreen();
     });
 
+    var lockedVideoInput = false;
+
+    $("#screenVideo").on('input',function(e){
+        console.log("input");
+        var video = $(this).val();
+        onYoutubeVideoChanged(video);
+    });
+
+    $("#screenVideo").on('paste',function(e){
+        console.log("paste")
+
+        // lockedVideoInput = true;
+
+        var cd = e.originalEvent.clipboardData.getData("text/plain")
+
+        onYoutubeVideoChanged(cd);
+        // lockedVideoInput = false;
+    });
+
+    function onYoutubeVideoChanged(video){
+        var videoID = video.length > 0 ? getYoutubeVideoID(screen.video) : "";
+
+        if(videoID != null && video.length > 0){
+
+            $('.preview-video').each(function(index){
+                $(this).show();
+                $(this).attr('src', `https://www.youtube.com/embed/${videoID}`);
+            });
+            $("body").find("[data-index=0]").each(function(){
+                $(this).find(".preview-img").hide();
+            });
+        }else{
+            $("body").find("[data-index=0]").each(function(){
+                var imageHolder = $(this).find(".preview-img");
+                imageHolder.show();
+                imageHolder.attr("src", "images/no-video.jpg");
+            });
+            $(".preview-video").hide();
+        }
+
+        screens[0].video = video;
+        onInputScreen();
+    }
+
     //DESCRIPTION
     $("#screenText").on('input',function(e){
         var text = $(this).val();
@@ -282,6 +326,7 @@ function showEditorScreen(index){
     $(stopId).modal('show');
 }
 
+
 function showScreensOverview(){
 
     $("#screens").empty();
@@ -289,6 +334,9 @@ function showScreensOverview(){
     screens.forEach(function(screen, index){
         appendPreviewScreen("#screens", screen, index, screen.type != "B");
     });
+
+    if(screens[0].mediaType == "video") updateImageVideoForm("video");
+    else updateImageVideoForm("image");
 
     $(".preview-screen.clickable").on('click',function(e){
         var index = $(this).attr("data-index");
@@ -301,6 +349,7 @@ function appendEditor(parent, screen){
     var title = screen.title;
     var text = screen.text;
     var image = screen.image;
+    var video = screen.video;
     var clue = screen.clue;
     var type = screen.type;
     var gameType = game.type;
@@ -312,11 +361,25 @@ function appendEditor(parent, screen){
                 <input type="title" class="form-control" id="screenTitle" value="${title}">
             </div>
             <div class="form-group">
-                <label for="screenImage">Image (max 300kb): </label>
-                <div class="row">
-                    <div class="col-md-12">
-                        <input class="form-control" id="screenImage" type="file" accept="image/*" >
-                        <i class="fa fa-times fa-2x" id="removeImageA" aria-hidden="true" title="Remove Image"></i>
+                <form id="image-videoForm">
+                  <input id="imageRadio" type="radio" name="image-video" value="image" checked> Image 
+                  <input id="videoRadio" type="radio" name="image-video" value="video"> Youtube Video
+                </form>
+                <div id="imageForm">
+                    <label for="screenImage">Image (max 300kb): </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="form-control" id="screenImage" type="file" accept="image/*" >
+                            <i class="fa fa-times fa-2x" id="removeImageA" aria-hidden="true" title="Remove Image"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="videoForm">
+                    <label for="screenVideo">Youtube Video (Full URL): </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                             <textarea rows="1" type="text" class="form-control" id="screenVideo">${video}</textarea>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -348,12 +411,56 @@ function appendEditor(parent, screen){
             </div>
         `);
     }
+
+    if(screen.mediaType == "video") updateImageVideoForm("video");
+    else updateImageVideoForm("image");
+
+    $('#image-videoForm').change(function() {
+        var value = $('input[name=image-video]:checked', '#image-videoForm').val();
+        screen.mediaType = value;
+        saveScreen(screen, poi, game);
+        updateImageVideoForm(value);
+    });
+}
+
+function updateImageVideoForm(value){
+    if (value == 'image') {
+        $("#imageRadio").prop("checked", true);
+        $("#imageForm").show();
+        $("#videoForm").hide();
+        $(".preview-video").hide();
+        $("body").find("[data-index=0]").each(function(){
+            var imageHolder = $(this).find(".preview-img");
+            var image = screens[0].image != null ?  getBaseURL() + screens[0].image : "images/no-image.jpg";
+            imageHolder.show();
+            imageHolder.attr("src", image);
+        });
+    }else if (value == 'video') {
+        $("#videoRadio").prop("checked", true);
+        $("#imageForm").hide();
+        $("#videoForm").show();
+        if(screens[0].video.length > 0){
+            $(".preview-video").show();
+            $("body").find("[data-index=0]").each(function(){
+                $(this).find(".preview-img").hide();
+            });
+        }else{
+            $(".preview-video").hide();
+            $("body").find("[data-index=0]").each(function(){
+                var imageHolder = $(this).find(".preview-img");
+                imageHolder.show();
+                imageHolder.attr("src", "images/no-video.jpg");
+            });
+        }
+       
+    }
 }
 
 function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
     var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
+    var video = screen.video.length > 0 ? getYoutubeVideoID(screen.video) : "";
     var type = screen.type;
 
     var item = poi.item;
@@ -373,6 +480,9 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
                                     <img class="preview-img" id="preview-img-A" src="${image?image:""}">
+                                    <iframe class="preview-video" width="189" height="160"
+                                        src="https://www.youtube.com/embed/${video}">
+                                    </iframe>
                                     <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
                                     `;
             
@@ -471,6 +581,9 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
+                        <iframe class="preview-video" width="189" height="160"
+                            src="https://www.youtube.com/embed/${video}">
+                        </iframe>
                         <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
                         `;
             
