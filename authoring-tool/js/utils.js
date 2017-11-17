@@ -88,7 +88,6 @@ function generateGameUrl(game){
 }
 
 function getYoutubeVideoID(url){
-    console.log("url: " + url)
     var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
     var match = url.match(regExp);
     if ( match && match[7].length == 11 ){

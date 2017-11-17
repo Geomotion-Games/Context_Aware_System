@@ -243,7 +243,7 @@ function showEditorScreen(index){
     });
 
     function onYoutubeVideoChanged(video){
-        var videoID = video.length > 0 ? getYoutubeVideoID(screen.video) : "";
+        var videoID = video.length > 0 ? getYoutubeVideoID(video) : "";
 
         if(videoID != null && video.length > 0){
 
@@ -254,6 +254,9 @@ function showEditorScreen(index){
             $("body").find("[data-index=0]").each(function(){
                 $(this).find(".preview-img").hide();
             });
+
+            screens[0].youtubeURL = video;
+            onInputScreen();
         }else{
             $("body").find("[data-index=0]").each(function(){
                 var imageHolder = $(this).find(".preview-img");
@@ -262,9 +265,6 @@ function showEditorScreen(index){
             });
             $(".preview-video").hide();
         }
-
-        screens[0].video = video;
-        onInputScreen();
     }
 
     //DESCRIPTION
@@ -349,7 +349,7 @@ function appendEditor(parent, screen){
     var title = screen.title;
     var text = screen.text;
     var image = screen.image;
-    var video = screen.video;
+    var video = screen.youtubeURL;
     var clue = screen.clue;
     var type = screen.type;
     var gameType = game.type;
@@ -439,7 +439,7 @@ function updateImageVideoForm(value){
         $("#videoRadio").prop("checked", true);
         $("#imageForm").hide();
         $("#videoForm").show();
-        if(screens[0].video.length > 0){
+        if(screens[0].youtubeURL.length > 0){
             $(".preview-video").show();
             $("body").find("[data-index=0]").each(function(){
                 $(this).find(".preview-img").hide();
@@ -460,7 +460,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
     var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
-    var video = screen.video.length > 0 ? getYoutubeVideoID(screen.video) : "";
+    var video = screen.youtubeURL.length > 0 ? getYoutubeVideoID(screen.youtubeURL) : "";
     var type = screen.type;
 
     var item = poi.item;

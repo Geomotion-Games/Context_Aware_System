@@ -66,7 +66,7 @@ function Screen(params){
     this.title = params.title || "";
     this.text = params.text || "";
     this.image = params.image;
-    this.video = params.video || "";
+    this.youtubeURL = params.youtubeURL || "";
     this.mediaType = params.mediaType || "image";
     this.clue = params.clue || "";
     if(params.challenge){
@@ -90,7 +90,7 @@ Screen.prototype.toJSON = function() {
             "title" : this.title,
             "text"  : this.text,
             "image" : this.image,
-            "video" : this.video,
+            "youtubeURL" : this.youtubeURL,
             "mediaType" : this.mediaType,
             "clue"  : this.clue,
             "challenge": challenge
@@ -107,7 +107,7 @@ Screen.prototype.copy = function() {
         title: this.title,
         text: this.text,
         image: this.image,
-        video: this.video,
+        youtubeURL: this.youtubeURL,
         mediaType: this.mediaType,
         clue: this.clue
     });
