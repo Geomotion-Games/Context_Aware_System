@@ -270,11 +270,12 @@ function showEditorScreen(index){
     //DESCRIPTION
     $("#screenText").on('input',function(e){
         var text = $(this).val();
+        var linkedText = Autolinker.link(text);
         $("body").find("[data-index=" + index + "]").each(function(){
-            $(this).find(".preview-text").text(text);
+            $(this).find(".preview-text").html(linkedText);
         });
 
-        $(stopId + "  #preview-text").text(text);
+        $(stopId + "  #preview-text").html(linkedText);
         screen.text = text;
         onInputScreen();
     });
@@ -459,6 +460,7 @@ function updateImageVideoForm(value){
 function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
+    var linkedText = Autolinker.link(text);
     var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
     var video = screen.youtubeURL.length > 0 ? getYoutubeVideoID(screen.youtubeURL) : "";
     var type = screen.type;
@@ -483,7 +485,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <iframe class="preview-video" width="189" height="160"
                                         src="https://www.youtube.com/embed/${video}">
                                     </iframe>
-                                    <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${text}</p>
+                                    <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${linkedText}</p>
                                     `;
             
             if(poi.type == "finish"){      
@@ -558,7 +560,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
                                     <img class="preview-img" id="preview-img-C" src="${item != "" ? item : image}">
-                                    <p class="preview-text" id="preview-text-C">${text}</p>
+                                    <p class="preview-text" id="preview-text-C">${linkedText}</p>
                                     <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points": ""}</p>
                                     <p class="preview-button" id="preview-button-C">Go to map!</p>
                                 </div>

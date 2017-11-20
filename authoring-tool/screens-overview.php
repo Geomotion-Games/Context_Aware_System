@@ -70,6 +70,7 @@
 
 	<script src="js/lib/jquery-1.12.4.js"></script>
 	<script src="js/lib/jquery-ui.js"></script>
+	<script src="js/lib/Autolinker.min.js"></script>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="js/lib/bootstrap.min.js"></script>
