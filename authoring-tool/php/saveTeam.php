@@ -18,7 +18,7 @@ $plot = $_REQUEST['plot'];
 if($id == null){
 	$query = "INSERT INTO team (color, plot) VALUES ('$color','$plot')";
 	$res = $bd->ejecutar($query);
-	$lastId = mysql_insert_id();
+	$lastId = mysqli_insert_id($bd->link);
 	echo $lastId;
 }else{
 	$query = "UPDATE team SET color='$color', members='$members', plot='$plot' WHERE id=$id";
