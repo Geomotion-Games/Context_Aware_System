@@ -87,15 +87,22 @@ function generateGameUrl(game){
     return url;
 }
 
-function getYoutubeVideoID(url){
-    var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-    var match = url.match(regExp);
-    if ( match && match[7].length == 11 ){
-        return match[7];
+function parseYoutubeOrVimeoURL(url) {
+    var type = "";
+    url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
+
+    if (RegExp.$3.indexOf('youtu') > -1) {
+        type = 'youtube';
+    } else if (RegExp.$3.indexOf('vimeo') > -1) {
+        type = 'vimeo';
     }else{
         console.log("Could not extract video ID.");
+        return;
     }
+
+    return (type == "youtube" ? "https://www.youtube.com/embed/" : "https://player.vimeo.com/video/") + RegExp.$6;
 }
+
 
 function isPre(){
     return (window.location.href).includes("/pre/");

@@ -243,19 +243,19 @@ function showEditorScreen(index){
     });
 
     function onYoutubeVideoChanged(video){
-        var videoID = video.length > 0 ? getYoutubeVideoID(video) : "";
+        var videoID = video.length > 0 ? parseYoutubeOrVimeoURL(video) : "";
 
-        if(videoID != null && video.length > 0){
+        if(videoID != null){
 
             $('.preview-video').each(function(index){
                 $(this).show();
-                $(this).attr('src', `https://www.youtube.com/embed/${videoID}`);
+                $(this).attr('src', videoID);
             });
             $("body").find("[data-index=0]").each(function(){
                 $(this).find(".preview-img").hide();
             });
 
-            screens[0].youtubeURL = video;
+            screens[0].youtubeOrVimeoURL = video;
             onInputScreen();
         }else{
             $("body").find("[data-index=0]").each(function(){
@@ -350,7 +350,7 @@ function appendEditor(parent, screen){
     var title = screen.title;
     var text = screen.text;
     var image = screen.image;
-    var video = screen.youtubeURL;
+    var video = screen.youtubeOrVimeoURL;
     var clue = screen.clue;
     var type = screen.type;
     var gameType = game.type;
@@ -364,7 +364,7 @@ function appendEditor(parent, screen){
             <div class="form-group">
                 <form id="image-videoForm">
                   <input id="imageRadio" type="radio" name="image-video" value="image" checked> Image 
-                  <input id="videoRadio" type="radio" name="image-video" value="video"> Youtube Video
+                  <input id="videoRadio" type="radio" name="image-video" value="video"> Youtube Or Vimeo Video
                 </form>
                 <div id="imageForm">
                     <label for="screenImage">Image (max 300kb): </label>
@@ -376,7 +376,7 @@ function appendEditor(parent, screen){
                     </div>
                 </div>
                 <div id="videoForm">
-                    <label for="screenVideo">Youtube Video (Full URL): </label>
+                    <label for="screenVideo">Youtube Or Video Video (Full URL): </label>
                     <div class="row">
                         <div class="col-md-12">
                              <textarea rows="1" type="text" class="form-control" id="screenVideo">${video}</textarea>
@@ -440,7 +440,7 @@ function updateImageVideoForm(value){
         $("#videoRadio").prop("checked", true);
         $("#imageForm").hide();
         $("#videoForm").show();
-        if(screens[0].youtubeURL.length > 0){
+        if(screens[0].youtubeOrVimeoURL.length > 0){
             $(".preview-video").show();
             $("body").find("[data-index=0]").each(function(){
                 $(this).find(".preview-img").hide();
@@ -462,7 +462,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var text = screen.text || "";
     var linkedText = Autolinker.link(text);
     var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
-    var video = screen.youtubeURL.length > 0 ? getYoutubeVideoID(screen.youtubeURL) : "";
+    var video = screen.youtubeOrVimeoURL.length > 0 ? parseYoutubeOrVimeoURL(screen.youtubeOrVimeoURL) : "";
     var type = screen.type;
 
     var item = poi.item;
@@ -483,7 +483,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
                                     <img class="preview-img" id="preview-img-A" src="${image?image:""}">
                                     <iframe class="preview-video" width="189" height="160"
-                                        src="https://www.youtube.com/embed/${video}">
+                                        src="${video}">
                                     </iframe>
                                     <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${linkedText}</p>
                                     `;
@@ -584,7 +584,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
                         <iframe class="preview-video" width="189" height="160"
-                            src="https://www.youtube.com/embed/${video}">
+                            src="${video}">
                         </iframe>
                         <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${linkedText}</p>
                         `;
