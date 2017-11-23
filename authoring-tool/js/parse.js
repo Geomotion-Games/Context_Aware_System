@@ -71,6 +71,7 @@ function parseScreen(screen){
         text: json.text,
         image: json.image,
         youtubeOrVimeoURL: json.youtubeOrVimeoURL,
+        uploadedVideo: json.uploadedVideo,
         mediaType: json.mediaType,
         clue: json.clue,
         challenge: json.challenge

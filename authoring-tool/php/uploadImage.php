@@ -4,22 +4,22 @@
 
 	$type = $_REQUEST["type"];
 	$screenId = $_REQUEST["screenId"];
-	$screenType = $_REQUEST["screenId"];
 	$poiId = $_REQUEST["poiId"];
+	$file = $_FILES["file"];
 
-	if(isset($_FILES["file"]["type"])){
+	if(isset($file["type"])){
 		$validextensions = array("jpeg", "jpg", "png");
-		$temp = explode(".", $_FILES["file"]["name"]);
+		$temp = explode(".", $file["name"]);
 		$file_extension = end($temp);
 	
-		if (((  $_FILES["file"]["type"] == "image/png") 
-			|| ($_FILES["file"]["type"] == "image/jpg") 
-			|| ($_FILES["file"]["type"] == "image/jpeg")) 
-			&& ($_FILES["file"]["size"] < 300 * 1024) // 300kb
+		if (((  $file["type"] == "image/png") 
+			|| ($file["type"] == "image/jpg") 
+			|| ($file["type"] == "image/jpeg")) 
+			&& ($file["size"] < 300 * 1024) // 300kb
 			&& in_array($file_extension, $validextensions)) {
 			
-			if ($_FILES["file"]["error"] > 0) {
-				echo $_FILES["file"]["error"];
+			if ($file["error"] > 0) {
+				echo $file["error"];
 			}
 			else {
 				$base = "../uploads/images";
@@ -28,7 +28,7 @@
     				mkdir($base, 0777, true);
 				}
 
-				$sourcePath = $_FILES['file']['tmp_name'];
+				$sourcePath = $file['tmp_name'];
 				$targetPath = $base . "/poi_" . $poiId . "_item.";
 
 				if($type == "screens") $targetPath = $base . "/screen_" . $screenId . "_image.";

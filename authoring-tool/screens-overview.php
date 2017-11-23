@@ -181,7 +181,7 @@
 			<div class="modal-content">
 				<h4><b>Warning!</b></h4>
 				<hr>
-				<p>The image exceeds the 300kb limit</p>
+				<p class="fileSizeWarningMessage">The image exceeds the 300kb limit</p>
 				<a class="warningBtn fileSizeWarning-close">Ok</a>
 			</div>
 		</div>

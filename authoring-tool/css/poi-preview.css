@@ -206,7 +206,7 @@ div.edit-screen {
 	width:266px;
 }
 
-#removeImageA, #removeImageC {
+#removeImageA, #removeImageC, #removeVideoA {
 	margin-right: 10px;
     color: #F26B3F;
     position: absolute;
@@ -216,7 +216,7 @@ div.edit-screen {
     top: 0px;
 }
 
-#removeImageA:hover, #removeImageC:hover {
+#removeImageA:hover, #removeImageC:hover, #removeVideoA:hover {
 	cursor: pointer; 
 }
 
@@ -225,6 +225,6 @@ div.edit-screen {
     image-rendering: pixelated;
 }
 
-#screenVideo{
+#screenYoutubeOrVimeoVideo{
 	font-size: 10px;
 }
