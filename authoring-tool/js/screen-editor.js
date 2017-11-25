@@ -323,7 +323,7 @@ function showEditorScreen(index){
         if(screens[0].uploadedVideo == null || screens[0].uploadedVideo == "") return;
         screens[0].uploadedVideo = "";
         $("body").find("[data-index=" + 0 + "]").each(function(){
-            $("#preview-video").hide();
+            $(".preview-video").hide();
             //var imageHolder = $(this).find(".preview-img").attr("src", "");
         });
         saveScreen(screens[0], poi, game);
@@ -534,7 +534,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var linkedText = Autolinker.link(text);
     var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
     var youtubeOrVimeo = screen.youtubeOrVimeoURL.length > 0 ? parseYoutubeOrVimeoURL(screen.youtubeOrVimeoURL) : "";
-    var uploadedVideo = screen.uploadedVideo || "";
+    var uploadedVideo = screen.uploadedVideo.length > 0 ? getBaseURL() + screen.uploadedVideo : "";
     var type = screen.type;
 
     var item = poi.item;
