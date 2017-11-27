@@ -771,7 +771,7 @@ function uploadVideo(options){
                         console.log("Succes upload: " + url);
                         options.postCallback(url);
                     } else {
-                        showWarning("The video exceeds the 6MB limit");
+                        showWarning("The video exceeds the 100MB limit");
                         console.log("Error upload: " + data);
                     }
                 }
