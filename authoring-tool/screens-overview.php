@@ -187,7 +187,7 @@
 		</div>
 	</div>
 
-	<div class="uploadingVideo modal fade" id="uploadingVideo" tabindex="-1" role="dialog" aria-labelledby="uploadingVideo">
+	<div class="uploadingVideo modal fade" id="uploadingVideo" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="uploadingVideo">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<h4><b>Uploading...</b></h4>
