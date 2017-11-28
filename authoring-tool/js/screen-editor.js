@@ -208,7 +208,7 @@ function showEditorScreen(index){
         if(screens[0].image == null || screens[0].image == "") return;
         screens[0].image = "";
         $("body").find("[data-index=" + 0 + "]").each(function(){
-            var imageHolder = $(this).find(".preview-img").attr("src", "");
+            var imageHolder = $(this).find(".preview-img").attr("src", "images/no-image.jpg");
         });
         saveScreen(screens[0], poi, game);
         $("#removeImageA").hide();
@@ -296,14 +296,7 @@ function showEditorScreen(index){
 
     $("#screenVideo").on('change',function(e){
         console.log("video changed");
-        $("body").find("[data-index=" + index + "]").each(function(){
-            var videoHolder = $(this).find(".preview-video");
-            var src = URL.createObjectURL(e.target.files[0]);
-            videoHolder.html(`<source src="${src}" type="video/mp4"></source>`);
-
-            videoHolder.show();
-            $(this).find(".preview-img").hide();
-        });
+        $("#uploadingVideo").modal('show');
 
         uploadVideo({
             screenId: screen.id,
@@ -311,8 +304,12 @@ function showEditorScreen(index){
             postCallback: function(url){
                 screen.uploadedVideo = url;
                 saveScreen(screen, poi, game);
+                $("#uploadingVideo").modal('hide');
                 $("body").find("[data-index=" + index + "]").each(function(){
-                    //videoHolder.html(`<source src="${url}" type="video/mp4"></source>`);
+                    var videoHolder = $(this).find(".preview-video");
+                    videoHolder.html(`<source src="${url}" type="video/mp4"></source>`);
+                    videoHolder.show();
+                    $(this).find(".preview-img").hide();
                 });
                 $("#removeVideoA").show();
             }
@@ -324,7 +321,9 @@ function showEditorScreen(index){
         screens[0].uploadedVideo = "";
         $("body").find("[data-index=" + 0 + "]").each(function(){
             $(".preview-video").hide();
-            //var imageHolder = $(this).find(".preview-img").attr("src", "");
+            var imageHolder = $(this).find(".preview-img");
+            imageHolder.attr("src", "images/no-video.jpg");
+            imageHolder.show();
         });
         saveScreen(screens[0], poi, game);
         $("#removeVideoA").hide();
@@ -416,7 +415,7 @@ function appendEditor(parent, screen){
                     </div>
                 </div>
                 <div id="videoForm">
-                    <label for="screenVideo">Upload Video (max 6 MB): </label>
+                    <label for="screenVideo">Upload Video (max 20 MB): </label>
                     <div class="row">
                         <div class="col-md-12">
                             <input class="form-control" id="screenVideo" type="file" accept="video/mp4" >
@@ -477,7 +476,7 @@ function updateImageVideoForm(value){
 
         $("body").find("[data-index=0]").each(function(){
             var imageHolder = $(this).find(".preview-img");
-            var image = screens[0].image != null ?  getBaseURL() + screens[0].image : "images/no-image.jpg";
+            var image = screens[0].image != null &&  screens[0].image != "" ?  getBaseURL() + screens[0].image : "images/no-image.jpg";
             imageHolder.show();
             imageHolder.attr("src", image);
         });
@@ -532,7 +531,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
     var linkedText = Autolinker.link(text);
-    var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
+    var image = screen.image != null &&  screen.image != "" ?  getBaseURL() + screen.image : "images/no-image.jpg";
     var youtubeOrVimeo = screen.youtubeOrVimeoURL.length > 0 ? parseYoutubeOrVimeoURL(screen.youtubeOrVimeoURL) : "";
     var uploadedVideo = screen.uploadedVideo.length > 0 ? getBaseURL() + screen.uploadedVideo : "";
     var type = screen.type;
@@ -749,9 +748,10 @@ function uploadVideo(options){
         if(!file) return;
 
         var filetype = file.type;
+
         var match = ["video/mp4"];
 
-        if(filetype != match[0]){
+        if(match.indexOf(filetype) == -1){
             return false;
         }else{
             var formData = new FormData();
@@ -771,7 +771,8 @@ function uploadVideo(options){
                         console.log("Succes upload: " + url);
                         options.postCallback(url);
                     } else {
-                        showWarning("The video exceeds the 100MB limit");
+                        $("#uploadingVideo").modal('hide');
+                        showWarning("The video exceeds the 20MB limit");
                         console.log("Error upload: " + data);
                     }
                 }

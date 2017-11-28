@@ -187,11 +187,11 @@ div.edit-screen {
 	margin-top:50px;
 }
 
-#fileSizeWarning .modal-dialog {
+#fileSizeWarning .modal-dialog, #uploadingVideo .modal-dialog{
 	width: 330px;
 	margin-top:50px;
 }
-#fileSizeWarning .modal-content{
+#fileSizeWarning .modal-content, #uploadingVideo .modal-content{
 	padding: 10px;
 	height: 180px;
 }
@@ -200,6 +200,15 @@ div.edit-screen {
 	margin-top:20px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+#uploadingVideo img{
+	width: 25px; 
+	height: 25px;
+	margin-top: 30px; 
+	margin-left: auto; 
+	margin-right: auto; 
+	display: block;
 }
 
 #challenge-form input{

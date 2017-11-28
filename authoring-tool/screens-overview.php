@@ -187,6 +187,17 @@
 		</div>
 	</div>
 
+	<div class="uploadingVideo modal fade" id="uploadingVideo" tabindex="-1" role="dialog" aria-labelledby="uploadingVideo">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<h4><b>Uploading...</b></h4>
+				<hr>
+				<p class="uploadingVideoMessage">Please wait until your video is fully uploaded.</p>
+				<img src="images/uploading.gif">
+			</div>
+		</div>
+	</div>
+
 	<footer class="navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="col-md-12">
@@ -220,7 +231,6 @@
 	    	$("#qr-viewer").modal('show');
 	    	return false;
 	    });
-
 
 	    var resultPOI = <?= json_encode($poi); ?>;
 	    var resultPlot = <?= json_encode($plot); ?>;

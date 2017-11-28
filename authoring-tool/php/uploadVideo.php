@@ -11,7 +11,7 @@
 		$temp = explode(".", $file["name"]);
 		$file_extension = end($temp);
 
-		if (($file["size"] < 100 * 1024 * 1024) // 100MB
+		if (($file["size"] < 20 * 1024 * 1024) // 20MB
 			&& in_array($file_extension, $validextensions)) {
 			
 			if ($file["error"] > 0) {
