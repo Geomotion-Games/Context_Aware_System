@@ -187,11 +187,11 @@ div.edit-screen {
 	margin-top:50px;
 }
 
-#fileSizeWarning .modal-dialog {
+#fileSizeWarning .modal-dialog, #uploadingVideo .modal-dialog{
 	width: 330px;
 	margin-top:50px;
 }
-#fileSizeWarning .modal-content{
+#fileSizeWarning .modal-content, #uploadingVideo .modal-content{
 	padding: 10px;
 	height: 180px;
 }
@@ -202,11 +202,20 @@ div.edit-screen {
 	margin-right: auto;
 }
 
+#uploadingVideo img{
+	width: 25px; 
+	height: 25px;
+	margin-top: 30px; 
+	margin-left: auto; 
+	margin-right: auto; 
+	display: block;
+}
+
 #challenge-form input{
 	width:266px;
 }
 
-#removeImageA, #removeImageC {
+#removeImageA, #removeImageC, #removeVideoA {
 	margin-right: 10px;
     color: #F26B3F;
     position: absolute;
@@ -216,7 +225,7 @@ div.edit-screen {
     top: 0px;
 }
 
-#removeImageA:hover, #removeImageC:hover {
+#removeImageA:hover, #removeImageC:hover, #removeVideoA:hover {
 	cursor: pointer; 
 }
 
@@ -225,6 +234,6 @@ div.edit-screen {
     image-rendering: pixelated;
 }
 
-#screenVideo{
+#screenYoutubeOrVimeoVideo{
 	font-size: 10px;
 }

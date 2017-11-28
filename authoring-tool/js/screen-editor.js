@@ -202,12 +202,13 @@ function showEditorScreen(index){
     appendEditor("#stop-editor-form", screen);
 
     if(screens[0].image == null || screens[0].image == "") $("#removeImageA").hide();
+    if(screens[0].uploadedVideo == null || screens[0].uploadedVideo == "") $("#removeVideoA").hide();
 
     $("#removeImageA").click(function(){
         if(screens[0].image == null || screens[0].image == "") return;
         screens[0].image = "";
         $("body").find("[data-index=" + 0 + "]").each(function(){
-            var imageHolder = $(this).find(".preview-img").attr("src", "");
+            var imageHolder = $(this).find(".preview-img").attr("src", "images/no-image.jpg");
         });
         saveScreen(screens[0], poi, game);
         $("#removeImageA").hide();
@@ -225,21 +226,14 @@ function showEditorScreen(index){
 
     var lockedVideoInput = false;
 
-    $("#screenVideo").on('input',function(e){
-        console.log("input");
+    $("#screenYoutubeOrVimeoVideo").on('input',function(e){
         var video = $(this).val();
         onYoutubeVideoChanged(video);
     });
 
-    $("#screenVideo").on('paste',function(e){
-        console.log("paste")
-
-        // lockedVideoInput = true;
-
+    $("#screenYoutubeOrVimeoVideo").on('paste',function(e){
         var cd = e.originalEvent.clipboardData.getData("text/plain")
-
         onYoutubeVideoChanged(cd);
-        // lockedVideoInput = false;
     });
 
     function onYoutubeVideoChanged(video){
@@ -247,7 +241,7 @@ function showEditorScreen(index){
 
         if(videoID != null){
 
-            $('.preview-video').each(function(index){
+            $('.preview-youtubeOrVimeoVideo').each(function(index){
                 $(this).show();
                 $(this).attr('src', videoID);
             });
@@ -263,7 +257,7 @@ function showEditorScreen(index){
                 imageHolder.show();
                 imageHolder.attr("src", "images/no-video.jpg");
             });
-            $(".preview-video").hide();
+            $(".preview-youtubeOrVimeoVideo").hide();
         }
     }
 
@@ -300,6 +294,41 @@ function showEditorScreen(index){
         }); 
     });
 
+    $("#screenVideo").on('change',function(e){
+        console.log("video changed");
+        $("#uploadingVideo").modal('show');
+
+        uploadVideo({
+            screenId: screen.id,
+            file: e.target.files[0], 
+            postCallback: function(url){
+                screen.uploadedVideo = url;
+                saveScreen(screen, poi, game);
+                $("#uploadingVideo").modal('hide');
+                $("body").find("[data-index=" + index + "]").each(function(){
+                    var videoHolder = $(this).find(".preview-video");
+                    videoHolder.html(`<source src="${url}" type="video/mp4"></source>`);
+                    videoHolder.show();
+                    $(this).find(".preview-img").hide();
+                });
+                $("#removeVideoA").show();
+            }
+        }); 
+    });
+
+    $("#removeVideoA").click(function(){
+        if(screens[0].uploadedVideo == null || screens[0].uploadedVideo == "") return;
+        screens[0].uploadedVideo = "";
+        $("body").find("[data-index=" + 0 + "]").each(function(){
+            $(".preview-video").hide();
+            var imageHolder = $(this).find(".preview-img");
+            imageHolder.attr("src", "images/no-video.jpg");
+            imageHolder.show();
+        });
+        saveScreen(screens[0], poi, game);
+        $("#removeVideoA").hide();
+    });
+
     $("#screenClue").on('input',function(e){
         var clue = $(this).val();
         screen.clue = clue;
@@ -327,7 +356,6 @@ function showEditorScreen(index){
     $(stopId).modal('show');
 }
 
-
 function showScreensOverview(){
 
     $("#screens").empty();
@@ -336,8 +364,9 @@ function showScreensOverview(){
         appendPreviewScreen("#screens", screen, index, screen.type != "B");
     });
 
-    if(screens[0].mediaType == "video") updateImageVideoForm("video");
-    else updateImageVideoForm("image");
+    //console.log(screens[0].mediaType)
+
+    updateImageVideoForm(screens[0].mediaType);
 
     $(".preview-screen.clickable").on('click',function(e){
         var index = $(this).attr("data-index");
@@ -351,6 +380,7 @@ function appendEditor(parent, screen){
     var text = screen.text;
     var image = screen.image;
     var video = screen.youtubeOrVimeoURL;
+    var mediaType = screen.mediaType || "";
     var clue = screen.clue;
     var type = screen.type;
     var gameType = game.type;
@@ -363,8 +393,9 @@ function appendEditor(parent, screen){
             </div>
             <div class="form-group">
                 <form id="image-videoForm">
-                  <input id="imageRadio" type="radio" name="image-video" value="image" checked> Image 
-                  <input id="videoRadio" type="radio" name="image-video" value="video"> Youtube Or Vimeo Video
+                  <input id="imageRadio" type="radio" name="image-video" value="image" checked> Image
+                  <input id="youtubeOrVimeoRadio" type="radio" name="image-video" value="youtubeOrVimeo"> Youtube Or Vimeo Video<br>
+                  <input id="videoRadio" type="radio" name="image-video" value="video"> Upload Video
                 </form>
                 <div id="imageForm">
                     <label for="screenImage">Image (max 300kb): </label>
@@ -375,11 +406,20 @@ function appendEditor(parent, screen){
                         </div>
                     </div>
                 </div>
-                <div id="videoForm">
-                    <label for="screenVideo">Youtube Or Video Video (Full URL): </label>
+                <div id="youtubeOrVimeoForm">
+                    <label for="screenYoutubeOrVimeoVideo">Youtube Or Video Video (Full URL): </label>
                     <div class="row">
                         <div class="col-md-12">
-                             <textarea rows="1" type="text" class="form-control" id="screenVideo">${video}</textarea>
+                             <textarea rows="1" type="text" class="form-control" id="screenYoutubeOrVimeoVideo">${video}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div id="videoForm">
+                    <label for="screenVideo">Upload Video (max 20 MB): </label>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="form-control" id="screenVideo" type="file" accept="video/mp4" >
+                            <i class="fa fa-times fa-2x" id="removeVideoA" aria-hidden="true" title="Remove Video"></i>
                         </div>
                     </div>
                 </div>
@@ -413,8 +453,7 @@ function appendEditor(parent, screen){
         `);
     }
 
-    if(screen.mediaType == "video") updateImageVideoForm("video");
-    else updateImageVideoForm("image");
+    updateImageVideoForm(mediaType);
 
     $('#image-videoForm').change(function() {
         var value = $('input[name=image-video]:checked', '#image-videoForm').val();
@@ -427,20 +466,52 @@ function appendEditor(parent, screen){
 function updateImageVideoForm(value){
     if (value == 'image') {
         $("#imageRadio").prop("checked", true);
+
         $("#imageForm").show();
         $("#videoForm").hide();
+        $("#youtubeOrVimeoForm").hide();
+
         $(".preview-video").hide();
+        $(".preview-youtubeOrVimeoVideo").hide();
+
         $("body").find("[data-index=0]").each(function(){
             var imageHolder = $(this).find(".preview-img");
-            var image = screens[0].image != null ?  getBaseURL() + screens[0].image : "images/no-image.jpg";
+            var image = screens[0].image != null &&  screens[0].image != "" ?  getBaseURL() + screens[0].image : "images/no-image.jpg";
             imageHolder.show();
             imageHolder.attr("src", image);
         });
+    }else if (value == 'youtubeOrVimeo') {
+        $("#youtubeOrVimeoRadio").prop("checked", true);
+
+        $("#youtubeOrVimeoForm").show();
+        $("#imageForm").hide();
+        $("#videoForm").hide();
+
+        $(".preview-video").hide();
+
+        if(screens[0].youtubeOrVimeoURL.length > 0){
+            $(".preview-youtubeOrVimeoVideo").show();
+            $("body").find("[data-index=0]").each(function(){
+                $(this).find(".preview-img").hide();
+            });
+        }else{
+            $(".preview-youtubeOrVimeoVideo").hide();
+            $("body").find("[data-index=0]").each(function(){
+                var imageHolder = $(this).find(".preview-img");
+                imageHolder.show();
+                imageHolder.attr("src", "images/no-video.jpg");
+            });
+        }
     }else if (value == 'video') {
         $("#videoRadio").prop("checked", true);
-        $("#imageForm").hide();
+
         $("#videoForm").show();
-        if(screens[0].youtubeOrVimeoURL.length > 0){
+        $("#imageForm").hide();
+        $("#youtubeOrVimeoForm").hide();
+
+        $(".preview-youtubeOrVimeoVideo").hide();
+
+        if(screens[0].uploadedVideo != ""){
             $(".preview-video").show();
             $("body").find("[data-index=0]").each(function(){
                 $(this).find(".preview-img").hide();
@@ -453,7 +524,6 @@ function updateImageVideoForm(value){
                 imageHolder.attr("src", "images/no-video.jpg");
             });
         }
-       
     }
 }
 
@@ -461,8 +531,9 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var title = screen.title || "";
     var text = screen.text || "";
     var linkedText = Autolinker.link(text);
-    var image = screen.image != null ?  getBaseURL() + screen.image : "images/no-image.jpg";
-    var video = screen.youtubeOrVimeoURL.length > 0 ? parseYoutubeOrVimeoURL(screen.youtubeOrVimeoURL) : "";
+    var image = screen.image != null &&  screen.image != "" ?  getBaseURL() + screen.image : "images/no-image.jpg";
+    var youtubeOrVimeo = screen.youtubeOrVimeoURL.length > 0 ? parseYoutubeOrVimeoURL(screen.youtubeOrVimeoURL) : "";
+    var uploadedVideo = screen.uploadedVideo.length > 0 ? getBaseURL() + screen.uploadedVideo : "";
     var type = screen.type;
 
     var item = poi.item;
@@ -482,9 +553,12 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
                                     <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                                    <iframe class="preview-video" width="189" height="160"
-                                        src="${video}">
+                                    <iframe class="preview-youtubeOrVimeoVideo" width="189" height="160"
+                                        src="${youtubeOrVimeo}">
                                     </iframe>
+                                    <video class="preview-video" width="189" height="160" controls>
+                                        <source src="${uploadedVideo}" type="video/mp4"></source>
+                                    </video>
                                     <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${linkedText}</p>
                                     `;
             
@@ -583,9 +657,12 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <div class="content">
                         <h4 class="preview-title" id="preview-title-A">${title}</h4>
                         <img class="preview-img" id="preview-img-A" src="${image?image:""}">
-                        <iframe class="preview-video" width="189" height="160"
-                            src="${video}">
+                        <iframe class="preview-youtubeOrVimeoVideo" width="189" height="160"
+                            src="${youtubeOrVimeo}">
                         </iframe>
+                        <video class="preview-video" width="189" height="160" controls>
+                            <source src="${uploadedVideo}" type="video/mp4"></source>
+                        </video>
                         <p class="preview-text" id="preview-text-A" style="max-height:100px !important;">${linkedText}</p>
                         `;
             
@@ -646,7 +723,7 @@ function uploadImage(options){
             if(options.screenId) formData.append("screenId", options.screenId);
 
             $.ajax({
-                url: "php/upload-screen-files.php",
+                url: "php/uploadImage.php",
                 type: "POST",
                 data: formData,
                 contentType: false,
@@ -655,18 +732,57 @@ function uploadImage(options){
                 success: function(data){
                     if (data.startsWith("ok")) {
                         var url = data.split("-")[1];
-                        console.log("succes upload " + url);
+                        console.log("Succes upload: " + url);
                         options.postCallback(url);
                     } else {
-                        showFileSizeWarning();
-                        console.log("error upload " + data)
+                        showWarning("The image exceeds the 300kb limit");
+                        console.log("Error upload: " + data);
                     }
                 }
             });
         }
 }
 
-function showFileSizeWarning(message){
+function uploadVideo(options){
+        var file = options.file;
+        if(!file) return;
+
+        var filetype = file.type;
+
+        var match = ["video/mp4"];
+
+        if(match.indexOf(filetype) == -1){
+            return false;
+        }else{
+            var formData = new FormData();
+            formData.append("file", file);
+            formData.append("screenId", options.screenId);
+
+            $.ajax({
+                url: "php/uploadVideo.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+                    if (data.startsWith("ok")) {
+                        var url = data.split("-")[1];
+                        console.log("Succes upload: " + url);
+                        options.postCallback(url);
+                    } else {
+                        $("#uploadingVideo").modal('hide');
+                        showWarning("The video exceeds the 20MB limit");
+                        console.log("Error upload: " + data);
+                    }
+                }
+            });
+        }
+}
+
+
+function showWarning(message){
+    $(".fileSizeWarningMessage").text(message);
     $(".fileSizeWarning").modal('show');
     $(".fileSizeWarning-close").click(function(){
         $(".fileSizeWarning").modal('hide');

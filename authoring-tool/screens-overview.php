@@ -181,8 +181,19 @@
 			<div class="modal-content">
 				<h4><b>Warning!</b></h4>
 				<hr>
-				<p>The image exceeds the 300kb limit</p>
+				<p class="fileSizeWarningMessage">The image exceeds the 300kb limit</p>
 				<a class="warningBtn fileSizeWarning-close">Ok</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="uploadingVideo modal fade" id="uploadingVideo" tabindex="-1" role="dialog" aria-labelledby="uploadingVideo">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<h4><b>Uploading...</b></h4>
+				<hr>
+				<p class="uploadingVideoMessage">Please wait until your video is fully uploaded.</p>
+				<img src="images/uploading.gif">
 			</div>
 		</div>
 	</div>
@@ -220,7 +231,6 @@
 	    	$("#qr-viewer").modal('show');
 	    	return false;
 	    });
-
 
 	    var resultPOI = <?= json_encode($poi); ?>;
 	    var resultPlot = <?= json_encode($plot); ?>;
