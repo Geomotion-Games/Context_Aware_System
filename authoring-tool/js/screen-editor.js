@@ -369,9 +369,19 @@ function showScreensOverview(){
     updateImageVideoForm(screens[0].mediaType);
 
     $(".preview-screen.clickable").on('click',function(e){
+        console.log("edition-hover")
         var index = $(this).attr("data-index");
         showEditorScreen(index);
+        e.preventDefault();
+        return false;
     });
+
+    // $(".edition-hover").on('click',function(e){
+    //     console.log("hover")
+    //     e.preventDefault();
+    //     e.stopPropagation();
+    //     return false;
+    // });
 }
 
 function appendEditor(parent, screen){
@@ -549,6 +559,9 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <h4>Screen before challenge</h4>
                     <div href="" class="edit-screen">
                         <div class="preview-screen clickable" id="preview-screen-A" data-index="${index}">
+                            <div class="edition-hover">
+                                <i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
+                            </div>
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-A">${title}</h4>
@@ -583,9 +596,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <div class="background-front"></div>
                                 <img class="background" src="css/map-background.png">
                             </div>
-                            <div class="edition-hover">
-                                <i class="fa fa-pencil fa-4x" aria-hidden="true"></i>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -630,6 +641,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     <h4>Screen after challenge</h4>
                     <div href="" class="edit-screen">
                         <div class="preview-screen clickable" id="preview-screen-C" data-index="${index}">
+                            
                             <div class="hover">
                                 <div class="content">
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
