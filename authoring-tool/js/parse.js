@@ -31,7 +31,8 @@ function parsePOI(p){
         beaconId: p.beaconId,
         triggerDistance: p.triggerDistance,
         rewardPoints: p.rewardPoints,
-        item: p.item
+        item: p.item,
+        itemName: p.itemName
     });
 }
 

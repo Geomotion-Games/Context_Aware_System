@@ -26,6 +26,7 @@ function createEditScreenTimeout(){
 function updateValues(){
     poi.title = $("#poiName").val();
     poi.triggerDistance = $("#poiTriggerDistance").val();
+    poi.itemName = $("#itemName").val();
     if(points <= 1000000) poi.rewardPoints = $("#poiReward").val();
 }
 
@@ -37,6 +38,7 @@ function init(){
     $("#poiName").attr("placeholder", "Stop " + poi.orderNumber);
     $("#poiTriggerDistance").val(poi.triggerDistance);
     $("#poiReward").val(poi.rewardPoints);
+    $("#itemName").val(poi.itemName);
     
     //TODO: imagen item
 
@@ -45,6 +47,9 @@ function init(){
 
     $("#poiTriggerDistance").on("input", onInputPOI);
     $("#poiTriggerDistance").blur(onBlurPOI);
+
+    $("#itemName").on("input", onInputPOI);
+    $("#itemName").blur(onBlurPOI);
     
     $("#poiReward").blur(onBlurPOI);
     $("#poiReward").on("input", function(){

@@ -126,7 +126,11 @@
 				<p class="attrTitle">Trigger distance (meters)</p>
 				<input id="poiTriggerDistance" class="attrValue" type="number">
 			</div>
-			<div id="imageContainer" class="col-md-6 attribute">
+			<div id="itemNameContainer" class="col-md-2 attribute">
+				<p class="attrTitle">Collectable item name</p>
+				<input id="itemName" class="attrValue" type="text">
+			</div>
+			<div id="imageContainer" class="col-md-4 attribute">
 				<p class="attrTitle">Collectable item (max 300kb)</p>
 				<div class="row">
                     <div class="col-md-12">
@@ -135,6 +139,7 @@
                     </div>
                 </div>
 			</div>
+			
 		</div>
 
 		<div class="row" id="screens">
