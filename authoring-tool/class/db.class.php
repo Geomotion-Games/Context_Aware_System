@@ -1,6 +1,6 @@
 <?php
 /* Clase encargada de gestionar las conexiones a la base de datos */
-class Db{
+class Db {
 
    private $servidor;
    private $usuario;
@@ -15,7 +15,7 @@ class Db{
    static $_instance;
 
    /*La función construct es privada para evitar que el objeto pueda ser creado mediante new*/
-   private function __construct(){
+   private function __construct() {
       $this->setConexion();
       $this->conectar();
    }
@@ -42,7 +42,20 @@ class Db{
 
    /*Realiza la conexión a la base de datos.*/
    private function conectar(){
-      $this->link=mysqli_connect($this->servidor, $this->usuario, $this->password, $this->base_datos);
+      //$this->link=mysqli_connect($this->servidor, $this->usuario, $this->password, $this->base_datos);
+      
+
+      if (!$this->link=mysqli_connect("localhost", "geomotion", "", "ddb99887")) {
+         echo "";
+      }
+
+      if (!$this->link) {
+         echo "Error: No se pudo conectar a MySQL." . PHP_EOL;
+         echo "errno de depuración: " . mysqli_connect_errno() . PHP_EOL;
+         echo "error de depuración: " . mysqli_connect_error() . PHP_EOL;
+         exit;
+      }
+
       mysqli_select_db($this->link, $this->base_datos);
       //@mysql_query("SET NAMES 'utf8'");
    }
@@ -85,13 +98,11 @@ class Db{
       return mysqli_insert_id($this->link);
    }
 	
-	public 	function rarosr($cad){    
-$cad=str_replace('&gt;','>',str_replace(chr(34),"'",str_replace('&lt;','<', str_replace('&quot;','"',str_replace('&amp;','&',$cad)))));
+	public function rarosr($cad){    
+      $cad=str_replace('&gt;','>',str_replace(chr(34),"'",str_replace('&lt;','<', str_replace('&quot;','"',str_replace('&amp;','&',$cad)))));
 
- 
-return $cad;
-
-}
+      return $cad;
+   }
 }
 
 

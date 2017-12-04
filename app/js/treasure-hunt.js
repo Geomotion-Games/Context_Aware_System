@@ -29,7 +29,7 @@ function gameReady() {
 		/****** A ******/
 
 		if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
-			image = "<img src=" + uploads_url + game[step]["A"].image + ">";
+			image = "<img src=" + server_url + game[step]["A"].image + ">";
 			classP = "p30vh";
 		}
 
@@ -60,7 +60,7 @@ function gameReady() {
 						challengeType = "minigame";
 					}
 				} else { challengeType = "checkin"; }
-			} else { challengeType = "checkin"; }
+			}
 		} else { challengeType = "checkin"; }
 
 		if (step == 0) { textButton = "Start game"; }
@@ -89,7 +89,7 @@ function gameReady() {
 		if (game[step].hasOwnProperty("C") && step > 0 ) {
 
 			if (game[step].hasOwnProperty("item") && game[step].item != "") {
-				image = "<img src=" + uploads_url + game[step].item + ">";
+				image = "<img src=" + server_url + game[step].item + ">";
 				classP = "p25vh";
 			} else {
 				image = "";
@@ -562,7 +562,7 @@ function addCollectablesToInventory() {
 					rowHTML = `<div class="row">
 										<div class="collectable">
 											<div class="collectable-image" style="
-												background-image:url('`+ uploads_url + game[step].item +`');
+												background-image:url('`+ server_url + game[step].item +`');
 												background-size:cover;
 											"></div>
 											<div class="collectable-name">
@@ -584,7 +584,7 @@ function addCollectablesToInventory() {
 					rowHTML += `
 							<div class="collectable">
 								<div class="collectable-image" style="
-									background-image:url('`+ uploads_url + game[step].item +`');
+									background-image:url('`+ server_url + game[step].item +`');
 									background-size:cover;
 								"></div>
 								<div class="collectable-name">

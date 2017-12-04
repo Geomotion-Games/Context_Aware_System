@@ -73,19 +73,16 @@ function gameTypeToDisplayName(type){
 
 function getBaseURL(){
     var url = "";
-    if(!isPre() && !isLocalHost()){ // isPRO
-        url = "https://www.geomotiongames.com/beaconing/authoring-tool/";
-    }else if(isPre()){ // isPRE
-        url = "https://www.geomotiongames.com/pre/beaconing/authoring-tool/";
-    }else{ // isLOCALHOST
+    if(!isLocalHost()){ // isPRO
+        url = getATDomain();
+    } else { // isLOCALHOST
         url = "/"
     }
     return url;
 }
 
 function generateGameUrl(game){
-    var pre = isPre() ? "pre/" : "";
-    var url = "https://www.geomotiongames.com/" + pre + "beaconing/app/app.php?game=" + game.id + "&device=browser";
+    var url = getAppDomain() + "app.php?game=" + game.id + "&device=browser";
     return url;
 }
 
@@ -105,9 +102,20 @@ function parseYoutubeOrVimeoURL(url) {
     return (type == "youtube" ? "https://www.youtube.com/embed/" : "https://player.vimeo.com/video/") + RegExp.$6;
 }
 
+function getATDomain() {
+    if ((window.location.href).indexOf("atcc") !== -1) {
+        return "http://atcc.beaconing.eu/";
+    } else {
+        return "https://www.geomotiongames.com/beaconing/authoring-tool/";
+    }
+}
 
-function isPre(){
-    return (window.location.href).includes("/pre/");
+function getAppDomain() {
+    if ((window.location.href).indexOf("atcc") !== -1) {
+        return "http://atcc.beaconing.eu/";
+    } else {
+        return "https://www.geomotiongames.com/beaconing/app/";
+    }
 }
 
 function isLocalHost(){

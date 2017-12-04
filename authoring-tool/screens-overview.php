@@ -229,7 +229,7 @@
 
 
 	    $("#qrcode").on('click',function(e){
-	    	var url = "php/qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id + (isPre() ? "&isPre" : "");
+	    	var url = "php/qrGenerator.php?poiID=" + poi.id + "&appID=" + game.id;
 	    	console.log(url)
 	    	var img = $("#qr-viewer img");
 	    	img.attr("src", url);
