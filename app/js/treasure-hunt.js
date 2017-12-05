@@ -74,7 +74,7 @@ function gameReady() {
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>` +
 					image +
-					`<p class="`+ classP +`">` + game[step]["A"].text + `</p>` + 
+					`<p class="`+ classP +`">` + Autolinker.link(game[step]["A"].text) + `</p>` + 
 					'<div class="totalPointsEarned"></div>' +
 					'<div class="totalTimeSpent"></div>' +
 					button + 
@@ -106,7 +106,7 @@ function gameReady() {
 					<div>
 						<h2>` + game[step]["C"].title + `</h2>` 
 						+ image + 
-						`<p class="`+ classP +`">` + game[step]["C"].text + `</p>`
+						`<p class="`+ classP +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
 						+ points +
 						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>

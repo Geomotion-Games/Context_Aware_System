@@ -129,8 +129,7 @@
 	<script src="app/js/leaflet.js"></script>
 	<script type="text/javascript" src="app/js/analytics/dist/js-tracker.bundle.min.js"></script>
 	<script type="text/javascript" src="app/js/analytics/plugins/geolocation.js"></script>
-	<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a1305c61cf9d30012986a67&product=inline-share-buttons' async='async'></script>
-
+	<script type="text/javascript" src="app/js/Autolinker.min.js"></script>
 
 </head>
 <body>
