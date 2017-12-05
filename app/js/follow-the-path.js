@@ -138,11 +138,11 @@ function gameReady() {
 				var playerId = "playerid=" + encodeURI(tracker.playerId);
 				var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
-				var url = (window.location.href).indexOf("/pre/") !== -1 ? 
-					"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
-					"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
+				var url = (window.location.href).indexOf("geomotiongames") !== -1 ?  
+					"https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/" : 
+					"https%3A%2F%2Fatcc.beaconing.eu/";
 
-				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
 				window.open(minigameURL, "_self");
 				return;
 			}
@@ -175,11 +175,11 @@ function gameReady() {
 						var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
 						if (minigameURL.length > 0) {
-							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
-								"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
-								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
+							var url = (window.location.href).indexOf("geomotiongames") !== -1 ?  
+								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/" : 
+								"https%3A%2F%2Fatcc.beaconing.eu/";
 
-							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
 							window.open(minigameURL, "_self");
 						}
 					} else {
