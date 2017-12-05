@@ -42,10 +42,8 @@ class Db {
 
    /*Realiza la conexión a la base de datos.*/
    private function conectar(){
-      //$this->link=mysqli_connect($this->servidor, $this->usuario, $this->password, $this->base_datos);
-      
 
-      if (!$this->link=mysqli_connect("localhost", "geomotion", "", "ddb99887")) {
+      if (!$this->link=mysqli_connect($this->servidor, $this->usuario, $this->password, $this->base_datos))
          echo "";
       }
 

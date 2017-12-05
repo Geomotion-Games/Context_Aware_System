@@ -6,10 +6,17 @@ class Conf{
    private $_hostdb; 
    private $_db; 
  
-   static $_instance; 
- 
+   static $_instance;
+
    private function __construct(){ 
-      require 'config.php'; 
+
+      if ($_SERVER["SERVER_NAME"] == "atcc.beaconing.eu") {
+         require 'config.pro.php';
+      } else if ($_SERVER["SERVER_NAME"] == "www.geomotiongames.com") {
+         require 'config.php';
+      } else {
+         require 'config.local.php';
+      }
       $this->_domain=$domain; 
       $this->_userdb=$user; 
       $this->_passdb=$password; 
