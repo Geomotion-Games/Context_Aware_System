@@ -410,7 +410,7 @@ function appendEditor(parent, screen){
                 <form id="image-videoForm">
                   <input id="imageRadio" type="radio" name="image-video" value="image" checked> Image
                   <input id="youtubeOrVimeoRadio" type="radio" name="image-video" value="youtubeOrVimeo"> Video URL (Youtube or Vimeo)<br>
-                  <input id="videoRadio" type="radio" name="image-video" value="video"> Upload Video
+                <!-- <input id="videoRadio" type="radio" name="image-video" value="video"> Upload Video -->
                 </form>
                 <div id="imageForm">
                     <label for="screenImage">Image (max 300kb): </label>

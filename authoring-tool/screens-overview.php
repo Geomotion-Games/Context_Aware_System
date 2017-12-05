@@ -128,7 +128,7 @@
 			</div>
 			<div id="itemNameContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Collectable item name</p>
-				<input id="itemName" class="attrValue" type="text">
+				<input id="itemName" class="attrValue" type="text" placeholder="Item Name">
 			</div>
 			<div id="imageContainer" class="col-md-4 attribute">
 				<p class="attrTitle">Collectable item (max 300kb)</p>
