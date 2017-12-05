@@ -70,6 +70,7 @@ function duplicate(stopNumber){
 			var lastMarker = copy.marker;
 			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
 			copy.marker = addMarker(newPosition, copy.type != "beacon");
+			copy.marker.step = copy;
 			map.addLayer(copy.marker);
 			map.panTo(copy.marker._latlng);
     		duplicatePOI(copy, game, function(id){

@@ -208,8 +208,10 @@ function addMarker(latlng, draggable){
 		var target = event.target;
 		var position = target.getLatLng();
 
-		marker.step.lat = position.lat;
-		marker.step.lng = position.lng;
+		if(marker && marker.step){
+			marker.step.lat = position.lat;
+			marker.step.lng = position.lng;
+		}
 
 		updatePath();
 		savePOI(marker.step, game);
@@ -219,9 +221,11 @@ function addMarker(latlng, draggable){
 		var target = event.target;
 		var position = target.getLatLng();
 		
-		marker.step.lat = position.lat;
-		marker.step.lng = position.lng;
-
+		if(marker && marker.step){
+			marker.step.lat = position.lat;
+			marker.step.lng = position.lng;
+		}
+		
 		updatePath();
 	});
 
