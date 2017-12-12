@@ -130,7 +130,7 @@ textarea {
 	margin: 15px 8px 0 0;
 }
 
-.poirow .poiInfo .poiActions i {
+.poirow .poiInfo .poiActions i{
 	float: right;
 	color: #e87f62;
 	padding: 25px 10px 0 10px;
@@ -148,6 +148,13 @@ textarea {
 	padding: 15px 10px 0 10px;
 }
 
+.center{
+	margin: 14px 5px;
+    float: right;
+    width: 30px;
+    height: 30px;
+}
+
 .poirow .poiInfo .poiActions i.fa-trash {
 	color: #c25d31;
 }
@@ -155,8 +162,8 @@ textarea {
 #locate{
 	width: 20px;
     height: 20px;
-    margin-top: 4.2px;
-    margin-left: -1.3px;
+    margin-top: 4.4px;
+    margin-left: -1.5px;
 }
 
 .leaflet-right {

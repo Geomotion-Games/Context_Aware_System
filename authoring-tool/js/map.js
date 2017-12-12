@@ -114,15 +114,8 @@ $("#stops").on('click', 'li', function(e) {
     var action = $(e.target).hasClass('fa-trash') ? "remove" : "";
     action = $(e.target).hasClass('fa-pencil') ? "edit" : action;
     action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
+    action = $(e.target).hasClass('center') ? "center" : action;
 
-    if(!action){
-    	for(var point in points){
-			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
-				var latlng = points[point].marker.getLatLng();
-				map.setView(latlng, 20);
-			}
-		}
-    }
     stopOnClick(this, stopNumber, action);
 });
 
@@ -151,6 +144,13 @@ function stopOnClick(parent, stopNumber, action){
     	
     }else if(action == "duplicate"){
        duplicate(stopNumber);
+    }else if(action == "center"){
+       for(var point in points){
+			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
+				var latlng = points[point].marker.getLatLng();
+				map.setView(latlng, 20);
+			}
+		}
     }
 }
 

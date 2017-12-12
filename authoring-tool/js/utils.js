@@ -1,6 +1,7 @@
 var lastLocation = loadLastLocation();
 
 function locate() {
+    console.log("locate")
     if(lastLocation){
         map.setView(lastLocation, 15);
     }
@@ -10,6 +11,7 @@ function locate() {
             function(position) {
                 if(!lastLocation || (lastLocation.lat != position.coords.latitude || lastLocation.lng != position.coords.longitude)){
                     lastLocation = {lat: position.coords.latitude, lng: position.coords.longitude};
+                    map.stop();
                     map.setView(lastLocation, 15);
                     saveLastLocation(lastLocation);
                 }
