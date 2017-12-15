@@ -1,10 +1,10 @@
 <?php
 
 //Datos de configuración de la conexión a la base de datos
-$domain = "127.0.0.1";
+$domain = "atcc.beaconing.eu";
 
 //Servidor
-$host='atcc.beaconing.eu';
+$host='127.0.0.1';
 
 //Usuario
 $user='geomotion';
@@ -15,4 +15,4 @@ $password='';
 //Base de datos
 $db='ddb99887';
 
-?> 
+?>
