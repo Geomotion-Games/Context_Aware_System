@@ -116,7 +116,7 @@
 		<div id="attributes" class="row">
 			<div id="nameContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Name of the POI</p>
-				<input id="poiName" class="attrValue" type="text">
+				<input id="poiName" class="attrValue" type="text" maxlength="25">
 			</div>
 			<div id="rewardContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Reward Points (max 1000000)</p>
@@ -128,7 +128,7 @@
 			</div>
 			<div id="itemNameContainer" class="col-md-2 attribute">
 				<p class="attrTitle">Collectable item name</p>
-				<input id="itemName" class="attrValue" type="text" placeholder="Item Name">
+				<input id="itemName" class="attrValue" type="text" placeholder="Item Name" maxlength="25">
 			</div>
 			<div id="imageContainer" class="col-md-4 attribute">
 				<p class="attrTitle">Collectable item (max 300kb)</p>

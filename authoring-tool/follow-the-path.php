@@ -100,11 +100,11 @@
 		<div id="attributes" class="row">
 			<div class="col-md-3 attribute">
 				<p class="attrTitle">Name of the Game</p>
-				<input id="gameName" class="attrValue" type="text">
+				<input id="gameName" class="attrValue" type="text" maxlength="40">
 			</div>
 			<div class="col-md-4 attribute">
 				<p class="attrTitle">Description of the game (max. 100 characters)</p>
-				<input id="gameDescription" class="attrValue" type="text">
+				<input id="gameDescription" class="attrValue" type="text" maxlength="100">
 			</div>
 			<div class="col-md-2 attribute">
 				<p class="attrTitle">Time limit</p>
@@ -112,7 +112,7 @@
 			</div>
 			<div class="col-md-3 attribute" id="timeLimit" style="visibility: hidden;">
 				<p class="attrTitle">Time to complete the game (in minutes)</p>
-				<input id="gameTimeValue" class="attrValue" type="text">
+				<input id="gameTimeValue" class="attrValue" type="number">
 			</div>
 		</div>
 		<div class="row">
