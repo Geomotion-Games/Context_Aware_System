@@ -727,12 +727,13 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
 function uploadImage(options){
         var file = options.file;
         if(!file) return;
+
         var imagefile = file.type;
-        var match= ["image/jpeg","image/png","image/jpg"];
-        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+        var match = ["image/jpeg","image/png","image/jpg", "image/gif"];
+        
+        if(match.indexOf(imagefile) == -1){
             return false;
-        }
-        else{
+        }else{
             var formData = new FormData();
             formData.append("poiId", poi.id);
             formData.append("file", file);

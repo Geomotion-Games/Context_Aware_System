@@ -8,12 +8,13 @@
 	$file = $_FILES["file"];
 
 	if(isset($file["type"])){
-		$validextensions = array("jpeg", "jpg", "png");
+		$validextensions = array("jpeg", "jpg", "png", "gif");
 		$temp = explode(".", $file["name"]);
 		$file_extension = end($temp);
 	
 		if (((  $file["type"] == "image/png") 
 			|| ($file["type"] == "image/jpg") 
+			|| ($file["type"] == "image/gif") 
 			|| ($file["type"] == "image/jpeg")) 
 			&& ($file["size"] < 300 * 1024) // 300kb
 			&& in_array($file_extension, $validextensions)) {
