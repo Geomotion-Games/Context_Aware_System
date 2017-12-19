@@ -413,7 +413,7 @@ function appendEditor(parent, screen){
                 <!-- <input id="videoRadio" type="radio" name="image-video" value="video"> Upload Video -->
                 </form>
                 <div id="imageForm">
-                    <label for="screenImage">Image (max 300kb): </label>
+                    <label for="screenImage">Image (Formats: JPG JPEG PNG GIF; Max 300kb): </label>
                     <div class="row">
                         <div class="col-md-12">
                             <input class="form-control" id="screenImage" type="file" accept="image/*" >

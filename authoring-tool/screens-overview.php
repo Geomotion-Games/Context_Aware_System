@@ -131,7 +131,7 @@
 				<input id="itemName" class="attrValue" type="text" placeholder="Item Name" maxlength="25">
 			</div>
 			<div id="imageContainer" class="col-md-4 attribute">
-				<p class="attrTitle">Collectable item (max 300kb)</p>
+				<p class="attrTitle">Collectable item (Formats: JPG JPEG PNG GIF; Max 300kb)</p>
 				<div class="row">
                     <div class="col-md-12">
                         <input id="poiImage" class="attrValue" type="file" accept="image/*">
