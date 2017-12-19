@@ -422,7 +422,7 @@ function appendEditor(parent, screen){
                     </div>
                 </div>
                 <div id="youtubeOrVimeoForm">
-                    <label for="screenYoutubeOrVimeoVideo">Youtube Or Video Video (Full URL): </label>
+                    <label for="screenYoutubeOrVimeoVideo">Youtube Or Vimeo Video (Full URL): </label>
                     <div class="row">
                         <div class="col-md-12">
                              <textarea rows="1" type="text" class="form-control" id="screenYoutubeOrVimeoVideo">${video}</textarea>
