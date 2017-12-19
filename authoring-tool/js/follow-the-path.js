@@ -13,7 +13,7 @@ function createEditTimeout(){
 function updateGameValues(){
 	game.name = $("#gameName").val();
 	game.description = $("#gameDescription").val()
-	game.time = $("#timeToggle").prop('checked') ? parseInt($("#gameTimeValue").val()) : 0;
+	game.time = $("#timeToggle").prop('checked') ? parseInt($("#gameTimeValue").val()) || 0 : 0;
 }
 
 function init(){

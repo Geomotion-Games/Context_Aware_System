@@ -112,7 +112,7 @@
 			</div>
 			<div class="col-md-3 attribute" id="timeLimit" style="visibility: hidden;">
 				<p class="attrTitle">Time to complete the game (in minutes)</p>
-				<input id="gameTimeValue" class="attrValue" type="number">
+				<input id="gameTimeValue" class="attrValue" type="number" placeholder="0">
 			</div>
 		</div>
 		<div class="row">
