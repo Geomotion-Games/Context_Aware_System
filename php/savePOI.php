@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ALL);
+error_reporting(0);
 
 require '../class/db.class.php';
 require '../class/conf.class.php';
@@ -25,15 +25,16 @@ $itemName = $_REQUEST['itemName'];
 $team = $_REQUEST['team'];
 
 if($id == null){
-
 	$query = "";
 	if($team != ""){
-		$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, team, itemName) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item','$team', $itemName')";
+		$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, team, itemName) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item','$team', '$itemName')";
 	}else{
-		$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, itemName) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item', $itemName')";
+		$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, itemName) VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item', '$itemName')";
 	}
+	
 	$res = $bd->ejecutar($query);
 	echo mysqli_insert_id($bd->link);
+
 	echo mysqli_error($bd->link);
 	createDefaultScreens(mysqli_insert_id($bd->link), $bd);
 	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
