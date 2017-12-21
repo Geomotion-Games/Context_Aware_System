@@ -106,15 +106,6 @@ $("#stops").on('click', 'li', function(e) {
     action = $(e.target).hasClass('fa-copy') ? "duplicate" : action;
     action = $(e.target).hasClass('center') ? "center" : action;
 
-    // TODO: stopNumber ??
-    if(!action){
-    	for(var point in points){
-			if (points[point] && points[point].id == stopId && points[point].marker) {
-				var latlng = points[point].marker.getLatLng();
-				map.setView(latlng, map._zoom);
-			}
-		}
-    }
     stopOnClick(this, stopId, action);
 });
 
@@ -148,7 +139,7 @@ function stopOnClick(parent, stopId, action){
        duplicate(stopNumber);
     }else if(action == "center"){
        for(var point in points){
-			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
+			if (points[point] && points[point].id == stopId && points[point].marker) {
 				var latlng = points[point].marker.getLatLng();
 				map.setView(latlng, 20);
 			}

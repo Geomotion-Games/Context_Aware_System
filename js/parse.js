@@ -36,7 +36,7 @@ function parsePOI(p){
         triggerDistance: p.triggerDistance,
         rewardPoints: p.rewardPoints,
         item: p.item,
-        itemName: p.itemName
+        itemName: p.itemName,
         team: p.team
     });
 }

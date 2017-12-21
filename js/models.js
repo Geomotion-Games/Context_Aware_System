@@ -34,7 +34,7 @@ Step.prototype.toJSON = function() {
         "triggerDistance": this.triggerDistance,
         "rewardPoints": this.rewardPoints,
         "item": this.item,
-        "itemName": this.itemName
+        "itemName": this.itemName,
         "team": this.team
     };
 

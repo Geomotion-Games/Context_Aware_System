@@ -77,6 +77,7 @@ function showStop(stop){
 							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a class="editPOI" href="${ url }"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a><img src="images/locationPoi.png" title="Center" class="center">&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -102,6 +103,7 @@ function showStop(stop){
 							<a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
 							<a class ="editPOI" href="${ url }"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a><img src="images/locationPoi.png" title="Center" class="center">&nbsp;</a>
 						</div>
 					</div>
 				</div>
