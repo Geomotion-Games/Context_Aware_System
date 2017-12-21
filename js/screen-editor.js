@@ -40,9 +40,12 @@ function init(){
     $("#poiTriggerDistance").val(poi.triggerDistance);
     $("#poiReward").val(poi.rewardPoints);
     $("#itemName").val(poi.itemName);
-    
-    //TODO: imagen item
 
+    if(game.type == "RatRace" || game.type == "Jigsaw"){
+        $("#editPOIspan").text("Edit POI (Team " + teamNumber + ")");
+        $("#attributes").css("background-color", colorNameToColor(team.color));
+    }
+    
     $("#poiName").blur(onBlurPOI);
     $("#poiName").on("input", onInputPOI);
 

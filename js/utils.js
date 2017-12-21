@@ -127,6 +127,10 @@ function teamColorToId(color){
     return colorNames.indexOf(color);
 }
 
+function colorNameToColor(color){
+    return colorTeamMarker[colorNames.indexOf(color)];
+}
+
 function generateGameUrl(game){
     var url = getAppDomain() + "app.php?game=" + game.id + "&device=browser";
     return url;
