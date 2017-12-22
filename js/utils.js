@@ -42,7 +42,6 @@ var colorNames = [
 ];
 
 function locate() {
-    console.log("locate")
     if(lastLocation){
         map.setView(lastLocation, 15);
     }

@@ -164,7 +164,7 @@ function sortPoints(save, skipSort){
 		e.attr("href", e.attr("href") + "&noClue");
 		
 		points.forEach(function (p) {
-			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(0): generateMarker(0, true));
+			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(colorNames[0]): generateMarker(colorNames[0], true));
 		});
 
 		var p = points[points.length - 1];

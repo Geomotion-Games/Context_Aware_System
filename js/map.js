@@ -182,7 +182,6 @@ function updatePath() {
 // POI LOADING
 
 function loadStops(){
-	console.log(pointsCopy);
 	points = pointsCopy.slice();
 	points.forEach(function(p){
 		if(p.type == "beacon") addBeaconMarker(p.beaconId, p);
@@ -246,7 +245,6 @@ function showTeams(){
 	    				var i = 0;
 	    				if(poiIds.length > 0){
 		    				layers[index].eachLayer(function(marker){
-		    					console.log(marker);
 		    					var c = marker.step.copy();
 		    					c.id = parseInt(poiIds[i]);
 		    					c.team = teamId;
@@ -255,10 +253,8 @@ function showTeams(){
 		    					var marker = addMarker(latlng, undefined, currentTeam, copy.color);
 		    					marker.step = c;
 		    					c.marker = marker;
-		    					console.log(marker)
 		    					i++;
 		    				});
-		    				console.log(layers[currentTeam]);
 	    				}
 	    				
 	    				updatePath();
@@ -370,8 +366,6 @@ function addMarker(latlng, draggable, team, teamColor){
 		
 		updatePath();
 	});
-
-	//console.log(marker);
 
 	layers[team].addLayer(marker);
 

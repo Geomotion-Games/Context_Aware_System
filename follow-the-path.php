@@ -198,8 +198,6 @@
 		var game = parsePlotJSON(plot);
 		var points = parsePOIS(pois);
 
-		console.log(points)
-
 		init();
 
 		$(document).ready(function(){
