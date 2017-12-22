@@ -63,38 +63,41 @@
 
     // GET TEAM
 
-    $query = $bd->ejecutar("SELECT * FROM team WHERE id = ". $poi["team"] .";");
+    if(isset($poi["team"])){
 
- 	if ($query) {
-		$team = $bd->obtener_fila($query, 0);
-    }else {
-      	echo mysqli_error($bd->link);
-    }
+	    $query = $bd->ejecutar("SELECT * FROM team WHERE id = ". $poi["team"] .";");
 
-    // GET TEAM NUMBER
+	 	if ($query) {
+			$team = $bd->obtener_fila($query, 0);
+	    }else {
+	      	echo mysqli_error($bd->link);
+	    }
 
-    $query = $bd->ejecutar("SELECT * FROM team WHERE plot = ". $plot["id"] .";");
-	$numRows = $bd->num_rows($query);
+	    // GET TEAM NUMBER
 
-	$teams = array();
- 	if ($query) {
-		while(($row =  mysqli_fetch_assoc($query))) {
-		    $teams[] = $row;
-		}
-    }else {
-      echo mysqli_error($bd->link);
-    }
+	    $query = $bd->ejecutar("SELECT * FROM team WHERE plot = ". $plot["id"] .";");
+		$numRows = $bd->num_rows($query);
 
-    $index = 0;
-    $found = false;
+		$teams = array();
+	 	if ($query) {
+			while(($row =  mysqli_fetch_assoc($query))) {
+			    $teams[] = $row;
+			}
+	    }else {
+	      echo mysqli_error($bd->link);
+	    }
 
-    while($index < $numRows && !$found){
-    	if($teams[$index]["id"] == $poi["team"]){
-    		$found = true;
-    	}else $index++;
-    }
+	    $index = 0;
+	    $found = false;
 
-    $teamNumber = $index + 1;
+	    while($index < $numRows && !$found){
+	    	if($teams[$index]["id"] == $poi["team"]){
+	    		$found = true;
+	    	}else $index++;
+	    }
+
+	    $teamNumber = $index + 1;
+	}
 
 ?>
 <html>
@@ -274,8 +277,6 @@
 	    var resultPOI = <?= json_encode($poi); ?>;
 	    var resultPlot = <?= json_encode($plot); ?>;
 	    var resultScreens = <?= json_encode($screens); ?>;
-	    var resultTeam = <?= json_encode($team); ?>;
-		var teamNumber = <?= $teamNumber ?>;
 
 		var poi = parsePOI(resultPOI);
 		var screens = parseScreens(resultScreens);
@@ -283,7 +284,12 @@
 		var totalRewardPoints = <?= $sum; ?>;
 
 		var minigames = [];
+		
+		<?php if($team){ ?>
+		var resultTeam = <?= json_encode($team); ?>;
+		var teamNumber = <?= $teamNumber ?>;
 		var team = parseTeam(resultTeam);
+		<?php } ?>
 
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 
