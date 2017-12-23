@@ -142,4 +142,38 @@ function sortPoints(save, skipSort){
 			updatePath();
 		}
 	}
+
+	if(game.type == "RatRace"){
+		pointsCopy.forEach(function (p) {
+			var team = getTeamOfPOI(p);
+			var teamLength = getTeamLength(team);
+			console.log(team.color + "- " + teamLength)
+			if(p.marker){
+				if(p.orderNumber == 1) p.marker.setIcon(generateStartMarker(team.color));
+				else if(p.orderNumber == teamLength) p.marker.setIcon(finishRaceMarkerIcon);
+				else p.marker.setIcon(p.type == "normal" ? generateMarker(team.color): generateMarker(team.color, true));
+			}
+		});
+	}
+}
+
+function getTeamOfPOI(p){
+	var t;
+	for(var t in teams){
+		if(teams[t].id == p.team){
+			t = teams[t];
+			break;
+		}
+	}
+	return t;
+}
+
+function getTeamLength(team){
+	var count = 0;
+	for(var p in pointsCopy){
+		if(pointsCopy[p].team == team.id){
+			count++;
+		}
+	}
+	return count;
 }

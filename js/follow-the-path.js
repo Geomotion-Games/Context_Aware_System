@@ -167,7 +167,7 @@ function sortPoints(save, skipSort){
 			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(colorNames[0]): generateMarker(colorNames[0], true));
 		});
 
-		var p = points[points.length - 1];
-		if(p && p.marker) p.marker.setIcon(finishTreasureMarkerIcon);
+		var last = points[points.length - 1];
+		if(last && last.marker) last.marker.setIcon(finishTreasureMarkerIcon);
 	}
 }

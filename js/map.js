@@ -34,8 +34,6 @@ function createTeamLayers(){
 	return layers;
 }
 
-
-
 function generateMarker(teamColor, isBeacon){
 	var team = teamColorToId(teamColor);
 	return new L.Icon({
@@ -53,8 +51,8 @@ function generateStartMarker(teamColor){
 	return normalMarkerIcon = new L.Icon({
 		iconUrl: "images/markers/start_" + (team + 1) + ".png",
 		shadowUrl: "images/markers/shadow.png",
-		iconSize: [25, 41],
-		iconAnchor: [12, 41],
+		iconSize: [26, 39],
+		iconAnchor: [5, 38],
 		popupAnchor: [1, -34],
 		shadowSize: [41, 41]
 	});
@@ -66,6 +64,16 @@ var finishTreasureMarkerIcon = L.icon({
     iconSize:     [50, 43], // size of the icon
     shadowSize:   [50, 64], // size of the shadow
     iconAnchor:   [25, 43], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+var finishRaceMarkerIcon = L.icon({
+    iconUrl: 'images/markers/finish_race.png',
+
+    iconSize:     [41, 53], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [2, 52], // point of the icon which will correspond to marker's location
     shadowAnchor: [4, 62],  // the same for the shadow
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
@@ -136,7 +144,7 @@ function stopOnClick(parent, stopId, action){
     }else if(action == "edit"){
     	
     }else if(action == "duplicate"){
-       duplicate(stopNumber);
+       duplicate(stopId);
     }else if(action == "center"){
        for(var point in points){
 			if (points[point] && points[point].id == stopId && points[point].marker) {
@@ -157,7 +165,9 @@ function updatePath() {
 		var pointList = [];
 
 		layers[i].eachLayer(function(marker){
-			pointList[marker.step.orderNumber - 1] = marker._latlng;
+			if(marker._latlng){
+				pointList.push(marker._latlng);
+			}
 		});
 
 		if (paths[i] != null) map.removeLayer(paths[i]);
@@ -170,7 +180,7 @@ function updatePath() {
 	    	opacity: i == currentTeam ? 0.6 : 0.2, 
 	    	smoothFactor: 1
 		});
-
+		
 		paths[i].addTo(map);
 
 	}
@@ -287,9 +297,9 @@ function addTeam(){
 	})
 }
 
-function duplicate(stopNumber){
+function duplicate(stopId){
  	for(var point in points){
-		if (points[point] && points[point].orderNumber == stopNumber) {
+		if (points[point] && points[point].id == stopId) {
 			poisCreated++;
 			var copy = points[point].copy();
 			copy.orderNumber = poisCreated;
@@ -331,6 +341,8 @@ function addBeaconMarker(id, step, focus){
 
 function addMarker(latlng, draggable, team, teamColor){
 	teamColor = teamColor || colorNames[0];
+
+	var icon;
 
 	var icon = draggable === undefined || draggable == true ? generateMarker(teamColor): generateMarker(teamColor, true);
 	var marker = new L.marker(latlng, {
@@ -413,6 +425,7 @@ function addStop(marker, type){
 	var step = new Step({marker: marker, orderNumber: Object.keys(layers[currentTeam]._layers).length, type: type, team: team});
 	if(marker)marker.step = step;
 	points[poisCreated] = step;
+	pointsCopy.push(step);
 
 	savePOI(step, game, function(id){
 		$("#stops").children().each(function() {
@@ -431,11 +444,12 @@ function addStop(marker, type){
 
 function removeStop(stopId) {
 	for(var point in points){
-		if (points[point] && points[point].id == stopId) {
-			if(points[point].marker)map.removeLayer(points[point].marker);
-			removePOI(points[point], game);
-			delete points[point];
-			
+		var p = points[point];
+		if (p && p.id == stopId) {
+			if(p.marker)map.removeLayer(p.marker);
+			removePOI(p, game);
+			delete pointsCopy[pointsCopy.indexOf(p)];
+			delete p;
 		}
 	}
 
