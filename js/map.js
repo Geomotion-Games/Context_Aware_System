@@ -206,7 +206,7 @@ function showTeams(){
 				<div class="teamActions">
 					<a><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 					<a><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-					<a /*${i==0? "class='hidden'":""}*/><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+					<a ${i==0 && teams.length == 1 ? "class='hidden'":""}><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				</div>
 			</li>
 		`);
