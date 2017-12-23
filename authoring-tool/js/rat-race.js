@@ -143,11 +143,10 @@ function sortPoints(save, skipSort){
 		}
 	}
 
-	if(game.type == "RatRace"){
+	if(game.type == "RatRace" || game.type == "Jigsaw"){
 		pointsCopy.forEach(function (p) {
 			var team = getTeamOfPOI(p);
 			var teamLength = getTeamLength(team);
-			console.log(team.color + "- " + teamLength)
 			if(p.marker){
 				if(p.orderNumber == 1) p.marker.setIcon(generateStartMarker(team.color));
 				else if(p.orderNumber == teamLength) p.marker.setIcon(finishRaceMarkerIcon);

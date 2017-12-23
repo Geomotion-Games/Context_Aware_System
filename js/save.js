@@ -28,8 +28,6 @@ function savePOI(poi, game, callback){
 
     var poiJSON = poi.toJSON();
 
-    console.log(poiJSON)
-
     if(game != null) poiJSON.plot = game.id;
 
     var request = $.ajax({

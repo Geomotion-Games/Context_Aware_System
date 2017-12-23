@@ -180,7 +180,7 @@ function updatePath() {
 	    	opacity: i == currentTeam ? 0.6 : 0.2, 
 	    	smoothFactor: 1
 		});
-		
+
 		paths[i].addTo(map);
 
 	}
@@ -422,24 +422,61 @@ function addStop(marker, type){
 	var team = teams[currentTeam] ? teams[currentTeam].id : null;
 
 	poisCreated++;
-	var step = new Step({marker: marker, orderNumber: Object.keys(layers[currentTeam]._layers).length, type: type, team: team});
+
+	var step;
+	var skipSave = false;
+	var count = Object.keys(layers[currentTeam]._layers).length;
+
+	if((game.type == "RatRace" || game.type == "Jigsaw") && count >= 2){
+		step = new Step({marker: marker, orderNumber: count - 1, type: type, team: team});
+		var last = points[points.length - 1];
+
+		if(last){
+			points[points.length - 2] = step;
+			last.orderNumber = poisCreated;
+			points[poisCreated] = last;
+			skipSave = true;
+			savePOI(last, game, function(id){
+				savePOI(step, game, function(id){
+					$("#stops").children().each(function() {
+						var number = $(this).attr("stop-number");
+						if(number == poisCreated){
+							var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+							$(this).find(".editPOI").attr("href", url);
+						}
+					});
+					emptyStops();
+					loadStops();
+					//showStop(step);
+					//updatePath();
+					//sortPoints();
+				});
+			});
+		}
+	}else{
+		step = new Step({marker: marker, orderNumber: count, type: type, team: team});
+		points[poisCreated] = step;
+	}
+
+	console.log(step)
 	if(marker)marker.step = step;
-	points[poisCreated] = step;
 	pointsCopy.push(step);
 
-	savePOI(step, game, function(id){
-		$("#stops").children().each(function() {
-			var number = $(this).attr("stop-number");
-			if(number == poisCreated){
-				var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
-				$(this).find(".editPOI").attr("href", url);
-			}
+	if(!skipSave){
+		savePOI(step, game, function(id){
+			console.log("EEE")
+			$("#stops").children().each(function() {
+				var number = $(this).attr("stop-number");
+				if(number == poisCreated){
+					var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+					$(this).find(".editPOI").attr("href", url);
+				}
+			});
+			showStop(step);
+			updatePath();
+			sortPoints();
 		});
-		// Mover fuera si es muy lento
-		showStop(step);
-		updatePath();
-		sortPoints();
-	});
+	}
 }
 
 function removeStop(stopId) {
