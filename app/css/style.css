@@ -108,6 +108,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 	-moz-transition: opacity 400ms ease-in;
 	transition: opacity 400ms ease-in;
 	pointer-events: none;
+	overflow: scroll;
 }
 
 .modalDialog.screen img {
@@ -225,7 +226,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 }
 
 #inventory #inventory-header #inventory-progress {
-	position: fixed;
+	position: absolute;
     top: 62px;
     font-size: 0.9em;
     color: white;
@@ -266,6 +267,10 @@ html, body, #map { height: 100vh; width: 100vw; }
 #inventory #inventory-grid .collectable .collectable-image {
 	height: 190px;
 	margin: 10px 10px 0 10px;
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: white;
 }
 
 #inventory #inventory-grid .collectable .collectable-name {
@@ -277,6 +282,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 #inventory #inventory-grid .collectable .collectable-name p {
 	padding: 6px;
 	font-size: 0.9em;
+	margin-bottom: 0;
 }
 
 #inventory #inventory-grid .collectable .no-collectable-question-mark {
@@ -308,6 +314,22 @@ html, body, #map { height: 100vh; width: 100vw; }
 }
 .p67vh {
 	max-height: 67vh;
+}
+
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+	margin-bottom: 20px;
+}
+
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 
 

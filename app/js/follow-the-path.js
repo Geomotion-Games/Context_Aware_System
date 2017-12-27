@@ -26,16 +26,39 @@ function gameReady() {
 
 	for (step in game) {
 
-		var image = "";
+		var media = "";
 		var classP = "p67vh";
+		var textClass = "textOnly";
 		var clue = "";
 		var extras = document.getElementById("extras");
 
 		/****** A ******/
-
-		if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
-			image = "<img src=" + uploads_url + game[step]["A"].image + ">";
-			classP = "p30vh";
+	
+		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
+			switch(game[step]["A"].mediaType) {
+			    case "image":
+			        media = "<img src=" + uploads_url + game[step]["A"].image + ">";
+					classP = "p30vh";
+					textClass = "textWithImage";
+			        break;
+			    case "youtubeOrVimeo":
+			    	console.log("youtube!");
+			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
+			    		console.log("parsing");
+			    		var url = parseYoutubeOrVimeoURL(game[step]["A"].youtubeOrVimeoURL);
+			    		console.log("textwithvideo!");
+			    		textClass = "textWithVideo";
+			        	media = '<div class="videoWrapper"><iframe width="100%" height="auto" src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
+					}
+			        break;
+			    default:
+			        break;
+			}
+		} else {
+			if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
+				media = "<img src=" + uploads_url + game[step]["A"].image + ">";
+				classP = "p30vh";
+			}
 		}
 
 		var textButton = "Go to challenge";
@@ -79,8 +102,8 @@ function gameReady() {
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>` +
-					image +
-					`<p class="`+ classP +`">` + game[step]["A"].text + `</p>` +
+					media +
+					`<p class="`+ classP +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
 					`<div class="totalPointsEarned"></div>` +
 					`<div class="totalTimeSpent"></div>` +
 					button + 
@@ -94,11 +117,13 @@ function gameReady() {
 
 		if (game[step].hasOwnProperty("C") && step > 0 ) {
 
-			if (game[step].hasOwnProperty("item") && game[step].item != "") {
-				image = "<img src=" + uploads_url + game[step].item + ">";
+			if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item) {
+				media = "<img src=" + uploads_url + game[step].item + ">";
+				textClass = "textWithImage";
 				classP = "p25vh";
 			} else {
-				image = "";
+				media = "";
+				textClass = "textOnly";
 				classP = "p50vh";
 			}
 
@@ -111,8 +136,8 @@ function gameReady() {
 				<div id="clue` + step + `" class="modalDialog screen">
 					<div>
 						<h2>` + game[step]["C"].title + `</h2>`
-						+ image +
-						`<p class="`+ classP +`">` + game[step]["C"].text + `</p>`
+						+ media +
+						`<p class="`+ classP +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
 						+ points +
 						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
@@ -138,11 +163,11 @@ function gameReady() {
 				var playerId = "playerid=" + encodeURI(tracker.playerId);
 				var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
-				var url = (window.location.href).indexOf("/pre/") !== -1 ? 
-					"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
-					"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
+				var url = (window.location.href).indexOf("geomotiongames") !== -1 ?  
+					"https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/" : 
+					"https%3A%2F%2Fatcc.beaconing.eu/";
 
-				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
 				window.open(minigameURL, "_self");
 				return;
 			}
@@ -159,7 +184,6 @@ function gameReady() {
 
 	for (i=1; i<Object.keys(game).length-1; i++) {
 
-		console.log(i);
 		document.getElementById("toChallenge"+i).onclick = function() {
 
 			setTimeout(function() {
@@ -176,11 +200,11 @@ function gameReady() {
 						var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
 						if (minigameURL.length > 0) {
-							var url = (window.location.href).indexOf("/pre/") !== -1 ? 
-								"https%3A%2F%2Fwww.geomotiongames.com/pre/beaconing/" : 
-								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/";
+							var url = (window.location.href).indexOf("geomotiongames") !== -1 ?  
+								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/" : 
+								"https%3A%2F%2Fatcc.beaconing.eu/";
 
-							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app/app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
 							window.open(minigameURL, "_self");
 						}
 					} else {
@@ -243,10 +267,19 @@ function attachUploadContentEvents() {
 				if (challenge.hasOwnProperty("type")) {
 					if (challenge["type"] == "upload_content") {
 
-						document.getElementById("file" + step).onchange = function () {
-			    			document.getElementById("toChallenge" + this.id.substr(-1)).click();
+						document.getElementById("file" + step).onchange = function (e) {
+			    			var id = (this.id).substr(-1);
+					        uploadImage({
+					            gameId: game_id,
+					            poiNum: id,
+					            file: e.target.files[0],
+					            postCallback: function(success){
+					            	console.log("---");
+					            	console.log(id);
+					                document.getElementById("toChallenge" + id).click();
+					            }
+					        });
 						};
-
 					}
 				}
 			}
@@ -534,18 +567,23 @@ function addCollectablesToInventory() {
 
 	for (step in game) {
 
-		if (game[step].hasOwnProperty("item") && game[step].item !="") {
+		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item) {
 			if (i % 2 == 0) {
 
 				if (currentPOI > i) {
+
+					var itemName = "ITEM" + (i+1);
+					if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {
+						itemName = game[step].itemName;
+					}
+
 					rowHTML = `<div class="row">
 										<div class="collectable">
 											<div class="collectable-image" style="
 												background-image:url('`+ uploads_url + game[step].item +`');
-												background-size:cover;
 											"></div>
 											<div class="collectable-name">
-												<p>ITEM `+ (i+1) +`</p>
+												<p>`+ itemName +`</p>
 											</div>
 										</div>`;
 				} else {
@@ -563,7 +601,6 @@ function addCollectablesToInventory() {
 							<div class="collectable">
 								<div class="collectable-image" style="
 									background-image:url('`+ uploads_url + game[step].item +`');
-									background-size:cover;
 								"></div>
 								<div class="collectable-name">
 									<p>ITEM `+ (i+1) +`</p>
@@ -617,7 +654,7 @@ function getInventoryProgressAsString() {
 
 	for (step in game) {
 
-		if (game[step].hasOwnProperty("item") && game[step].item !="") {
+		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item) {
 
 			if (step <= currentPOI) {
 				currentProgress += 1;
@@ -648,4 +685,113 @@ function isUploadSupported() {
 };
 
 */
+
+function parseYoutubeOrVimeoURL(url) {
+	var type = "";
+	url.match(/(http:|https:|)\/\/(player.|www.)?(vimeo.com|youtu(be.com|.be|be.googleapis.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/);
+
+	if (RegExp.$3.indexOf('youtu') > -1) {
+	    type = 'youtube';
+	} else if (RegExp.$3.indexOf('vimeo') > -1) {
+	    type = 'vimeo';
+	} else {
+	    console.log("Could not extract video ID.");
+	    return;
+	}
+
+	return (type == "youtube" ? "https://www.youtube.com/embed/" : "https://player.vimeo.com/video/") + RegExp.$6;
+}
+
+function uploadImage(options){
+        var file = options.file;
+        if(!file) return;
+        var imagefile = file.type;
+        var match= ["image/jpeg","image/png","image/jpg"];
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            return false;
+        } else {
+            var formData = new FormData();
+            formData.append("gameId", options.gameId);
+            formData.append("file", file);
+            formData.append("poiNum", options.poiNum);
+            formData.append("currentDate", getTodaysDate())
+
+            $.ajax({
+                url: "app/uploadImages.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+                    if (data.startsWith("ok")) {
+                        console.log("Succes upload");
+                        options.postCallback(true);
+                    } else {
+                        alert("The image exceeds the 300kb limit");
+                        console.log("Error upload: " + data);
+                    }
+                }
+            });
+        }
+}
+
+function uploadVideo(options){
+        var file = options.file;
+        if(!file) return;
+
+        var filetype = file.type;
+
+        var match = ["video/mp4"];
+
+        if(match.indexOf(filetype) == -1){
+            return false;
+        } else {
+            var formData = new FormData();
+            formData.append("file", file);
+            formData.append("screenId", options.screenId);
+
+            $.ajax({
+                url: "php/uploadVideo.php",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(data){
+                    if (data.startsWith("ok")) {
+                        var url = data.split("-")[1];
+                        console.log("Succes upload: " + url);
+                        options.postCallback(true);
+                    } else {
+                        $("#uploadingVideo").modal('hide');
+                        showWarning("The video exceeds the 20MB limit");
+                        console.log("Error upload: " + data);
+                    }
+                }
+            });
+        }
+}
+
+function getTodaysDate() {
+	var today = new Date();
+	var milis = today.getMilliseconds();
+	var s = today.getSeconds();
+	var m = today.getMinutes();
+	var h = today.getHours();
+	/*var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0!
+	var yyyy = today.getFullYear();*/
+
+	/*if(dd<10) {
+	    dd = '0'+dd
+	} 
+
+	if(mm<10) {
+	    mm = '0'+mm
+	} */
+
+	return h + "-" + m + "-" + s + "-" + milis;
+	
+}
 

@@ -7,12 +7,16 @@ $domain = "bbdd.geomotiongames.com";
 $host='bbdd.geomotiongames.com'; 
  
 //Usuario 
-$user='ddb99059'; 
+$user='ddb99887'; 
  
 //Password 
 $password='Boidousatu2010'; 
- 
+
+// pre ddb99059
+// pro ddb99887
+
 //Base de datos 
-$db='ddb99059';
+$db='ddb99887';
 
 ?> 
+

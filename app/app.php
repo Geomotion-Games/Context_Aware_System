@@ -6,8 +6,8 @@
 	
 	error_reporting(0);
 
-	require 'class/db.class.php';
-	require 'class/conf.class.php';
+	require '../class/db.class.php';
+	require '../class/conf.class.php';
 
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
@@ -129,6 +129,8 @@
 	<script src="js/leaflet.js"></script>
 	<script type="text/javascript" src="js/analytics/dist/js-tracker.bundle.min.js"></script>
 	<script type="text/javascript" src="js/analytics/plugins/geolocation.js"></script>
+	<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a1305c61cf9d30012986a67&product=inline-share-buttons' async='async'></script>
+
 
 </head>
 <body>
@@ -245,12 +247,15 @@
 	var uploads_url = ""
 
 	if ((window.location.href).indexOf("/pre/") !== -1) {
+		console.log("pre environment");
 		server_url = "https://www.geomotiongames.com/pre/beaconing/";
 		uploads_url = "https://www.geomotiongames.com/pre/beaconing/authoring-tool/";
-	} else if ((window.location.href).indexOf("/atcc/") !== -1) {
-		server_url = "http://atcc.beaconing.eu";
-		uploads_url = "http://atcc.beaconing.eu";
+	} else if ((window.location.href).indexOf("atcc") !== -1) {
+		console.log("beaconing environment");
+		server_url = "https://atcc.beaconing.eu/";
+		uploads_url = "https://atcc.beaconing.eu/";
 	} else {
+		console.log("pro environment");
 		server_url = "https://www.geomotiongames.com/beaconing/";
 		uploads_url = "https://www.geomotiongames.com/beaconing/authoring-tool/";
 	}
