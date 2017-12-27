@@ -57,7 +57,7 @@ html, body, #map { height: 100vh; width: 100vw; }
     left: 0px;
     right: 0px;
     color: white;
-    font-size: 0.7em;
+    font-size: 0.9em;
     z-index: -1;
     background-color: rgb(43, 37, 72);
 
@@ -111,7 +111,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 	overflow: scroll;
 }
 
-.modalDialog.screen img {
+/*.modalDialog.screen img {
     width: 60%;
 	margin: 5px auto;
 }
@@ -141,6 +141,80 @@ html, body, #map { height: 100vh; width: 100vw; }
 .modalDialog p {
 	text-align: left;
 	margin-top: 0;
+}
+
+.modalDialog input[type="file"] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.modalDialog input[type="file"] + label {
+    cursor: pointer;
+}*/
+
+div.landscape {
+	overflow: hidden;
+}
+
+.modalDialog.screen .landscape img {
+    width: auto;
+    margin: 10px;
+    max-width: 90%;
+    float: left;
+    max-height: 50vh;
+}
+
+.modalDialog.screen .landscape .textOnly {
+    width: auto;
+	margin: 10px;
+}
+
+.modalDialog.screen .landscape .textWithImage, 
+.modalDialog.screen .landscape .textWithVideo {
+	margin: 10px;
+	float: left;
+	height: 51vh;
+}
+
+.modalDialog.screen .pointsWon {
+	text-align: center;
+}
+
+.modalDialog.screen .pointsWon span {
+	font-size: 1.2em;
+}
+
+.modalDialog:target {
+	opacity:1;
+	pointer-events: auto;
+}
+
+.modalDialog.screen > div {
+	width: 90%;
+	position: relative;
+	margin: 3% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+	background: #fff;
+}
+
+.modalDialog.screen.after img {
+	max-height: 37vh;
+}
+
+.modalDialog .landscape p {
+	text-align: left;
+	margin-top: 0;
+	float: left;
+    max-width: 60%;
+}
+
+.modalDialog p.textOnly {
+    max-width: 100%;
 }
 
 .modalDialog input[type="file"] {
@@ -202,13 +276,14 @@ html, body, #map { height: 100vh; width: 100vw; }
     background: linear-gradient(left, rgb(43, 37, 72), rgb(149, 185, 173)); /* Standard syntax (must be last) */
     width: 100%;
     height: 86px;
+    position: fixed;
 }
 
 #inventory #inventory-header #inventory-title {
 	text-align: center;
 	font-size: 1.3em;
 	color: white;
-	padding-top: 28px;
+	padding-top: 12px;
 	display: inline-block;
 }
 
@@ -218,11 +293,10 @@ html, body, #map { height: 100vh; width: 100vw; }
 	text-decoration: none;
 	padding: 4px 20px;
 	border-radius: 7px;
-	margin-left: 35px;
-	margin-top: 20px;
+	margin-top: 23px;
 	color: white;
 	position: absolute;
-	left: 13px;
+	left: 11px;
 }
 
 #inventory #inventory-header #inventory-progress {
@@ -231,6 +305,7 @@ html, body, #map { height: 100vh; width: 100vw; }
     font-size: 0.9em;
     color: white;
     right: 23px;
+    margin-top: 0px;
 }
 
 #topBar #gameInfo #main-progress.time {
@@ -255,22 +330,30 @@ html, body, #map { height: 100vh; width: 100vw; }
 	right: 0;
 }
 
+#inventory #inventory-grid {
+	padding-top: 90px;
+}
+
 #inventory #inventory-grid .row {
 	min-height: 244px;
+    text-align: center;
+    margin: 0 auto;
+    width: fit-content;
 }
 
 #inventory #inventory-grid .collectable {
-	width: 50%;
+	width: 283px;
 	float: left;
 }
 
 #inventory #inventory-grid .collectable .collectable-image {
 	height: 190px;
 	margin: 10px 10px 0 10px;
-	background-size:contain;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-color: white;
+	background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: white;
+    border: 2px solid #c25d31;
 }
 
 #inventory #inventory-grid .collectable .collectable-name {
@@ -282,6 +365,8 @@ html, body, #map { height: 100vh; width: 100vw; }
 #inventory #inventory-grid .collectable .collectable-name p {
 	padding: 6px;
 	font-size: 0.9em;
+	margin-top: 0;
+	text-align: left;
 	margin-bottom: 0;
 }
 
@@ -293,10 +378,11 @@ html, body, #map { height: 100vh; width: 100vw; }
 }
 
 #inventory #inventory-grid .collectable .no-collectable-question-mark p {
-	font-size: 9em;
-	text-align: center; 
-	padding-top: 25px;
+	font-size: 7em;
+	text-align: center;
+	padding-top: 45px;
 	margin-bottom: 0;
+	margin-top: 0;
 }
 
 .p25vh, .p30vh, .p50vh, .p67vh {
@@ -307,7 +393,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 	max-height: 25vh;
 }
 .p30vh {
-	max-height: 30vh;
+	/*max-height: 30vh;*/
 }
 .p50vh {
 	max-height: 50vh;
