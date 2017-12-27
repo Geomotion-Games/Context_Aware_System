@@ -23,20 +23,35 @@ function gameReady() {
 
 		var media = "";
 		var classP = "p67vh";
+		var textClass = "textOnly";
 		var clue = "";
 		var extras = document.getElementById("extras");
 
 		/****** A ******/
+
 		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
 			        media = "<img src=" + uploads_url + game[step]["A"].image + ">";
 					classP = "p30vh";
+					textClass = "textWithImage";
 			        break;
 			    case "youtubeOrVimeo":
+			    	console.log("youtube!");
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
+			    		console.log("parsing");
 			    		var url = parseYoutubeOrVimeoURL(game[step]["A"].youtubeOrVimeoURL);
+			    		console.log("textwithvideo!");
+			    		textClass = "textWithVideo";
 			        	media = '<div class="videoWrapper"><iframe width="100%" height="auto" src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
+					}
+			        break;
+			    case "video":
+			    	console.log("uploaded video!");
+			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
+			    		console.log("textwithvideo!");
+			    		textClass = "textWithVideo";
+			        	media = '<!--div class="videoWrapper"--><video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video><!--/div-->';
 					}
 			        break;
 			    default:

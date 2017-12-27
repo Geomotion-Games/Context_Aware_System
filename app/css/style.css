@@ -332,6 +332,10 @@ html, body, #map { height: 100vh; width: 100vw; }
 	height: 100%;
 }
 
+.modalDialog.screen video {
+	padding-bottom: 15px;
+}
+
 
 
 
