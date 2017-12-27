@@ -226,7 +226,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 }
 
 #inventory #inventory-header #inventory-progress {
-	position: fixed;
+	position: absolute;
     top: 62px;
     font-size: 0.9em;
     color: white;
@@ -267,6 +267,10 @@ html, body, #map { height: 100vh; width: 100vw; }
 #inventory #inventory-grid .collectable .collectable-image {
 	height: 190px;
 	margin: 10px 10px 0 10px;
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-color: white;
 }
 
 #inventory #inventory-grid .collectable .collectable-name {
@@ -278,6 +282,7 @@ html, body, #map { height: 100vh; width: 100vw; }
 #inventory #inventory-grid .collectable .collectable-name p {
 	padding: 6px;
 	font-size: 0.9em;
+	margin-bottom: 0;
 }
 
 #inventory #inventory-grid .collectable .no-collectable-question-mark {

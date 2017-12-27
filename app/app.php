@@ -6,8 +6,8 @@
 	
 	error_reporting(0);
 
-	require 'class/db.class.php';
-	require 'class/conf.class.php';
+	require '../class/db.class.php';
+	require '../class/conf.class.php';
 
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
@@ -109,27 +109,28 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="app/css/leaflet.css" />
+	<link rel="stylesheet" href="css/leaflet.css" />
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-	<link rel="stylesheet" href="app/css/style.css" />
+	<link rel="stylesheet" href="css/style.css" />
 
 	<?php switch($game["POIS"][0]["game_type"]): 
 		
 		case "TreasureHunt": ?>
-			<script src="app/js/treasure-hunt.js"></script>
+			<script src="js/treasure-hunt.js"></script>
 		<?php break; ?>
 
 		<?php case "FollowThePath": ?>
-		    <script src="app/js/follow-the-path.js"></script>
+		    <script src="js/follow-the-path.js"></script>
 		<?php break; ?>
 
 	<?php endswitch; ?>
 
-	<script src="app/js/tracking.js"></script>
-	<script src="app/js/leaflet.js"></script>
-	<script type="text/javascript" src="app/js/analytics/dist/js-tracker.bundle.min.js"></script>
-	<script type="text/javascript" src="app/js/analytics/plugins/geolocation.js"></script>
-	<script type="text/javascript" src="app/js/Autolinker.min.js"></script>
+	<script src="js/tracking.js"></script>
+	<script src="js/leaflet.js"></script>
+	<script type="text/javascript" src="js/analytics/dist/js-tracker.bundle.min.js"></script>
+	<script type="text/javascript" src="js/analytics/plugins/geolocation.js"></script>
+	<script type='text/javascript' src='//platform-api.sharethis.com/js/sharethis.js#property=5a1305c61cf9d30012986a67&product=inline-share-buttons' async='async'></script>
+
 
 </head>
 <body>
@@ -137,19 +138,19 @@
 <div id="topBar">
 	<p id="distance"></p>
 	<div id="gameInfo">
-		<img id="topImageNoTime" class="hidden" src="app/images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButtonNoTime">
+		<img id="topImageNoTime" class="hidden" src="images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButtonNoTime">
 		<map name="inventoryButtonNoTime" id="inventoryButtonNoTime">
     		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
 		</map>
 
-		<img id="topImageTime" class="hidden" src="app/images/ui-app-d-follow-treasure.png" usemap="#inventoryButton">
+		<img id="topImageTime" class="hidden" src="images/ui-app-d-follow-treasure.png" usemap="#inventoryButton">
 		<map name="inventoryButton" id="inventoryButton">
     		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,89,107,138" />
 		</map>
 		<p id="remaining-time"></p>
 		<p id="main-progress"></p>
 	</div>
-	<div id="left-icon-div" class="hidden"><img src="app/images/ui-app-i-treasure.png" id="left-icon"></div>
+	<div id="left-icon-div" class="hidden"><img src="images/ui-app-i-treasure.png" id="left-icon"></div>
 	<div id="clueLayer" class="hidden"><p class="clue"></p></div>
 
 	<!-- extra -->
@@ -163,7 +164,7 @@
 		<div id="inventory-header">
 			<a id="return" href="#"><</a>
 			<p id="inventory-title">Inventory</p>
-			<img src="app/images/inventory-header.png" id="inventory-header-image">
+			<img src="images/inventory-header.png" id="inventory-header-image">
 			<p id="inventory-progress"></p>
 		</div>
 		<div id="inventory-grid">
@@ -175,7 +176,7 @@
 <div id="time-limit" class="modalDialog screen">
 	<div>
 		<H2>Time is over</H2>
-		<img src="app/images/timelimit.jpg" id="time-limit-image">
+		<img src="images/timelimit.jpg" id="time-limit-image">
 		<p>Oh! The time limit to complete the game is over.</p>
 		<a id="time-limit-button" href="#" class="goButton">Go out</a>
 	</div>
