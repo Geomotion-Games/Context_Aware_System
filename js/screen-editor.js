@@ -33,6 +33,7 @@ function updateValues(){
 var currentScreen = -1;
 
 function init(){
+
     // POI EDITION
     $("#poiName").val(poi.title);
     $("#poiName").attr("placeholder", "Stop " + poi.orderNumber);
@@ -138,23 +139,23 @@ function init(){
                 $("#upload-type-selector").val(screens[1].challengeUploadType);
             }
         }
-        if(screens[1].challengeURL != ""){
-            $("#challenge-form input").val(screens[1].challengeURL);
+        if(screens[1].challengeID != ""){
+            $('.selectpicker').selectpicker('val', screens[1].challengeID);
         }
         updateChallengeSelector();
     }
-
-    $("#challenge-form input").on("input", function(){
-        console.log($(this).val());
-        screens[1].challengeType = "minigame";
-        screens[1].challengeURL = $(this).val();
-        saveScreen(screens[1], poi, game);
-    });
 
     $("#upload-type-selector").change(function(){
         console.log($(this).val());
         screens[1].challengeType = "upload_content";
         screens[1].challengeUploadType = $(this).val();
+        saveScreen(screens[1], poi, game);
+    });
+
+    $(".minigame").change(function(){
+        if ($(this).val().length === 0) return;
+        screens[1].challengeType = "minigame";
+        screens[1].challengeID = $(this).val();
         saveScreen(screens[1], poi, game);
     });
 
@@ -202,8 +203,11 @@ function showEditorScreen(index){
     var screen = screens[index];
 
     $("#stop-editor-preview").empty();
+    
     appendPreviewScreen("#stop-editor-preview", screen, index, false, true);
+   
     currentScreen = index;
+
     appendEditor("#stop-editor-form", screen);
 
     if(screens[0].image == null || screens[0].image == "") $("#removeImageA").hide();
@@ -368,6 +372,7 @@ function showScreensOverview(){
     screens.forEach(function(screen, index){
         appendPreviewScreen("#screens", screen, index, screen.type != "B");
     });
+    
 
     //console.log(screens[0].mediaType)
 
@@ -550,6 +555,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
     var youtubeOrVimeo = screen.youtubeOrVimeoURL.length > 0 ? parseYoutubeOrVimeoURL(screen.youtubeOrVimeoURL) : "";
     var uploadedVideo = screen.uploadedVideo.length > 0 ? getBaseURL() + screen.uploadedVideo : "";
     var type = screen.type;
+    var challengeID = screen.challengeID;
 
     var item = poi.item;
     var reward = poi.rewardPoints;
@@ -609,6 +615,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
             `;
             $(parent).append(content);
         } else if (type == "B") {
+            console.log("ChallengeID: " + challengeID);
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
                     <h4>Screen for challenge</h4>
@@ -624,8 +631,11 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                 <select>
                             </div>
                             <div class="form-group hidden" id="minigame-select-div"">
-                                <label for="minigame-selector">Minigame URL:</label>
-                                <input type="text" name="minigame-selector"><br>
+                                <label for="minigame-selector">Minigame:</label>
+                                <select class="selectpicker minigame" data-live-search="true">
+                                    ${minigames.map(m => `<option value="${m.id}">${m.id} - ${m.name}</option>`).join('\n')}
+                                </select>
+
                             </div>
                              <div class="form-group hidden" id="upload-select-div"">
                                 <label for="upload-type-selector">Content type:</label>
@@ -640,6 +650,9 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                     </div>
                 </div>
             `);
+            $('.selectpicker').selectpicker('render');
+            $('.selectpicker').selectpicker('val', challengeID);
+
         } else if (type == "C") {
              $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
@@ -798,6 +811,17 @@ function uploadVideo(options){
         }
 }
 
+function getMinigames(callback){
+    var url = "./minigames.json";
+    $.getJSON(url, function( data ) {
+        var minigames = [];
+        $.each(data, function( key, val ) {
+            var m = new Minigame(val);
+            minigames.push(m);
+        });
+        callback(minigames);
+    });
+}
 
 function showWarning(message){
     $(".fileSizeWarningMessage").text(message);

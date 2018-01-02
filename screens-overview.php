@@ -70,6 +70,10 @@
 
 	<script src="js/lib/jquery-1.12.4.js"></script>
 	<script src="js/lib/jquery-ui.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	
 	<script src="js/lib/Autolinker.min.js"></script>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -238,10 +242,15 @@
 		var game = parsePlotJSON(resultPlot);
 		var totalRewardPoints = <?= $sum; ?>;
 
+		var minigames = [];
+
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 
-		showScreensOverview();
-		init();
+	 	getMinigames(function(m){
+	        minigames = m;
+			showScreensOverview();
+			init();
+	    });
 	</script>
 
 </body>
