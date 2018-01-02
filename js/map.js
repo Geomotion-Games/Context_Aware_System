@@ -276,8 +276,10 @@ function showTeams(){
 	    			removeTeam(teams[index], game, function(data){
 	    				teams.splice(index, 1);
 	    				map.removeLayer(layers[index]);
-	    				layers[index] = new L.layerGroup();;
-	    				setCurrentTeam(index - 1);
+	    				layers[index] = new L.layerGroup();
+	    				map.addLayer(layers[index]);
+	    				var newIndex = index == 0 ? 0 : index - 1;
+	    				setCurrentTeam(newIndex);
 	    				showTeams();
 	    			});
 	    		break;
@@ -523,8 +525,8 @@ function setCurrentTeam(team){
 		if(first) map.setView(marker._latlng, map._zoom);
 		first = false;
 	});
+	$("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
 
-    $("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
     showTeams();
 	emptyStops();
 	loadStops();
