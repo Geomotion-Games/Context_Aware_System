@@ -241,6 +241,7 @@ function showTeams(){
 	    if(action){
 	    	switch(action){
 	    		case "edit":
+	    			console.log("selected: " + index);
 	    			setCurrentTeam(index);
 	    		break;
 	    		case "duplicate":
@@ -276,11 +277,13 @@ function showTeams(){
 	    			removeTeam(teams[index], game, function(data){
 	    				teams.splice(index, 1);
 	    				map.removeLayer(layers[index]);
-	    				layers[index] = new L.layerGroup();
-	    				map.addLayer(layers[index]);
+	    				layers.splice(index, 1); 
+	    				layers.push(new L.layerGroup());
+	    				map.addLayer(layers[layers.length - 1]);
+
 	    				var newIndex = index == 0 ? 0 : index - 1;
 	    				setCurrentTeam(newIndex);
-	    				showTeams();
+	    				//showTeams();
 	    			});
 	    		break;
 	    	}
@@ -450,9 +453,6 @@ function addStop(marker, type){
 					});
 					emptyStops();
 					loadStops();
-					//showStop(step);
-					//updatePath();
-					//sortPoints();
 				});
 			});
 		}
@@ -525,6 +525,7 @@ function setCurrentTeam(team){
 		if(first) map.setView(marker._latlng, map._zoom);
 		first = false;
 	});
+
 	$("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
 
     showTeams();
