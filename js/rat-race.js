@@ -19,6 +19,8 @@ function init(){
 	$("#gameName").val(game.name);
 	$("#gameDescription").val(game.description);
 
+    $("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
+
 	if(game.time != 0){
 		$("#timeToggle").prop('checked', true);
 		$('#timeLimit').css("visibility", 'visible');

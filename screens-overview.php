@@ -289,7 +289,9 @@
 		var resultTeam = <?= json_encode($team); ?>;
 		var teamNumber = <?= $teamNumber ?>;
 		var team = parseTeam(resultTeam);
+
 		<?php } ?>
+
 
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 

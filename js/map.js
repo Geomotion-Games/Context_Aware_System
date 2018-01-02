@@ -206,8 +206,9 @@ function showTeams(){
 	var disableAdd = teams.length >= 10
 	$("#teams").empty();
 	for(var i = 0; i < teams.length; i++){
+		var background_color = currentTeam == i ? "#3b4f61" : "#2c353e";
 		var color = colorTeamMarker[teamColorToId(teams[i].color)];
-		var style = `style="border-bottom: 8px solid ${color};"`;
+		var style = `style="border-bottom: 8px solid ${color}; background-color: ${background_color}"`;
 		$("#teams").append(`
 			<li ${style} team-index="${i}">
 				<div class="teamTitle">
@@ -522,6 +523,9 @@ function setCurrentTeam(team){
 		if(first) map.setView(marker._latlng, map._zoom);
 		first = false;
 	});
+
+    $("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
+    showTeams();
 	emptyStops();
 	loadStops();
 	// TODO: Mostrar nombre del poi/marker con el numero correcto
