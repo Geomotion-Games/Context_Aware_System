@@ -54,7 +54,7 @@ function appendGame(parent, games, index){
                             <p class="gameType">${games[index].description}</p>
                         </div>
                         <div class="options">
-                            <p class="gameDate">Last modified: ${games[index].last_update}</p>
+                            <p class="gameDate">Last modified: ${games[index].last_update} GMT</p>
 
                             <div class="pubpriv">
                                 <input data-index="${index}" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private" ${games[index].public?"checked":""}>
