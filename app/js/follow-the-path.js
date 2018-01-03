@@ -137,6 +137,19 @@ function gameReady() {
 				classP = "p50vh";
 			}
 
+			var hashtag = "BeaconingEU";
+			var via = "BeaconingEU";
+
+			// Bobo
+			if (game_id == 487) {
+				hashtag = "bobopulpin";
+				via = "bobopulpin";
+			// Bella
+			} else if (game_id == 488) {
+				hashtag = "BellavistaBcn";
+				via = "BellavistaBcn";
+			}
+
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
 			var points = game[step]["rewardPoints"] == 0 
 						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
@@ -149,10 +162,13 @@ function gameReady() {
 						+ media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
 						+ points +
-						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						`<div class="shareButtons">
+							<a id="fbshare" href="#"><button type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 					</div>
+						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 				</div>
-			`;
+				</div>`;
 
 			extras.innerHTML += POIAfter;
 		}
@@ -265,7 +281,50 @@ function gameReady() {
 
 	attachUploadContentEvents();
 	teleportIfNeeded();
+
+	$('.popup').click(function(event) {
+	    var width  = 575,
+	        height = 400,
+	        left   = ($(window).width()  - width)  / 2,
+	        top    = ($(window).height() - height) / 2,
+	        url    = this.href,
+	        opts   = 'status=1' +
+	                 ',width='  + width  +
+	                 ',height=' + height +
+	                 ',top='    + top    +
+	                 ',left='   + left;
+
+	    window.open(url, 'twitter', opts);
+
+	    return false;
+	});
+
+	$('#fbshare').on('click touchstart', function(e) {
+		e.preventDefault();
+
+		var hashtag = "#BeaconingEU";
+		var via = "@BeaconingEU";
+
+		// Bobo
+		if (game_id == 487) {
+			hashtag = "#bobopulpin";
+			via = "@bobopulpin";
+		// Bella
+		} else if (game_id == 488) {
+			hashtag = "#BellavistaBcn";
+			via = "@BellavistaBcn";
+		}
+
+		FB.ui({
+			method: 'share',
+			href: 'https://atcc.beaconing.eu/',
+			hashtag: hashtag,	
+			quote: via
+		}, function(response){});
+		return false;
+	});
 }
+
 
 function attachUploadContentEvents() {
 	for (step in game) {
@@ -803,4 +862,16 @@ function getTodaysDate() {
 	return h + "-" + m + "-" + s + "-" + milis;
 	
 }
+/*
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+*/
 
+$("#topBar").on('swipeleft swiperight', function(e){
+    e.preventDefault();
+});
