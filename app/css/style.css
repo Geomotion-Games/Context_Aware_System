@@ -85,6 +85,10 @@ html, body, #map { height: 100vh; width: 100vw; }
     border-radius: 11px;
 }
 
+.totalTimeSpent h3, .totalPointsEarned h3 {
+	margin: 5px;
+}
+
 .totalTimeSpent span, .totalPointsEarned span {
 	font-size:1.2em;
 }
@@ -188,7 +192,7 @@ div.landscape {
 	font-size: 1.2em;
 }
 
-.modalDialog:target {
+.modalDialog {
 	opacity:1;
 	pointer-events: auto;
 }

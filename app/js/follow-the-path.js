@@ -113,13 +113,12 @@ function gameReady() {
 					<div class="landscape">` +
 						media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
+					`</div>` +
 						`<div class="totalPointsEarned"></div>` +
-						`<div class="totalTimeSpent"></div>
-					</div>` +
+						`<div class="totalTimeSpent"></div>` +
 					button + 
 				`</div>
-			</div>
-		`;
+			</div>`;
 
 		extras.innerHTML += POIBefore;
 
@@ -165,9 +164,9 @@ function gameReady() {
 						`<div class="shareButtons">
 							<a id="fbshare" href="#"><button type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
-					</div>
+						</div>
 						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
-				</div>
+					</div>
 				</div>`;
 
 			extras.innerHTML += POIAfter;
@@ -255,7 +254,12 @@ function gameReady() {
 
 			// POINTS
 			var pointsEarned = 0
-			for (step in game) pointsEarned += parseInt(game[step]["rewardPoints"]);
+
+			for (step in game) { //TODO posarho a th
+				if (step != 0 && step != 999) {
+					pointsEarned += parseInt(game[step]["rewardPoints"]);
+				}
+			}
 
 			if (pointsEarned > 0) {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
