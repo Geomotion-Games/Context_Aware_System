@@ -312,6 +312,7 @@ function duplicate(stopId){
 			var lastMarker = copy.marker;
 			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
 			copy.marker = addMarker(newPosition, copy.type != "beacon");
+			copy.marker.step = copy;
 			map.addLayer(copy.marker);
 			map.panTo(copy.marker._latlng);
     		duplicatePOI(copy, game, function(id){
@@ -347,6 +348,7 @@ function addBeaconMarker(id, step, focus){
 
 function addMarker(latlng, draggable, team, teamColor){
 	teamColor = teamColor || colorNames[0];
+	team = team || 0;
 
 	var icon;
 
@@ -396,8 +398,9 @@ function updateLabels() {
 
 		var count = 1;
 		layers[i].eachLayer(function(marker){
-			if(!marker.step.title || marker.step.title.length == 0) {
-				marker._tooltip.setContent("Stop " + marker.step.orderNumber);
+			//TODO quitar comprobacion null
+			if(!marker.step || !marker.step.title || marker.step.title.length == 0) {
+				marker._tooltip.setContent("Stop " + count);
 			}else{
 				marker._tooltip.setContent(marker.step.title);
 			}
@@ -462,12 +465,12 @@ function addStop(marker, type){
 	}
 
 	console.log(step)
+	console.log(marker)
 	if(marker)marker.step = step;
 	pointsCopy.push(step);
 
 	if(!skipSave){
 		savePOI(step, game, function(id){
-			console.log("EEE")
 			$("#stops").children().each(function() {
 				var number = $(this).attr("stop-number");
 				if(number == poisCreated){
