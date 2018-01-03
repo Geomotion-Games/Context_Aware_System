@@ -149,7 +149,7 @@ Game.prototype.toJSON = function() {
         "name"          : this.name,
         "type"          : this.type,
         "description"   : this.description,
-        "time"          : this.time,
+        "time"          : this.time || 0,
         "public"        : this.public ? 1 : 0,
         "last_update"   : this.last_update
     };
