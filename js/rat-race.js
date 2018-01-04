@@ -19,7 +19,7 @@ function init(){
 	$("#gameName").val(game.name);
 	$("#gameDescription").val(game.description);
 
-    $("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
+	if(teams.length > 0) $("#attributes").css("background-color", colorNameToColor(teams[currentTeam].color));
 
 	if(game.time != 0){
 		$("#timeToggle").prop('checked', true);
@@ -48,14 +48,10 @@ function init(){
 		if(editTimeout != null) clearTimeout(editTimeout);
 		createEditTimeout();
 	}
-	// console.log("hey")
-	// $(".addTeam").click(function(){
-	// 	console.log("hey")
-	// });
 }
 
 function showStop(stop){
-	if(stop.team != teams[currentTeam].id) return;
+	if(teams.length == 0 || stop.team != teams[currentTeam].id) return;
 
 	var len = Object.keys(points).length;
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);

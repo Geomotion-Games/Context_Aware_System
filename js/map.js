@@ -241,7 +241,6 @@ function showTeams(){
 	    if(action){
 	    	switch(action){
 	    		case "edit":
-	    			//console.log("selected: " + index);
 	    			setCurrentTeam(index);
 	    		break;
 	    		case "duplicate":
@@ -398,7 +397,6 @@ function updateLabels() {
 
 		var count = 1;
 		layers[i].eachLayer(function(marker){
-			//TODO quitar comprobacion null
 			if(!marker.step || !marker.step.title || marker.step.title.length == 0) {
 				marker._tooltip.setContent("Stop " + count);
 			}else{
@@ -436,7 +434,7 @@ function addStop(marker, type){
 	var skipSave = false;
 	var count = Object.keys(layers[currentTeam]._layers).length;
 
-	if((game.type == "RatRace" || game.type == "Jigsaw") && count >= 2){
+	if((game.type == "RatRace" || game.type == "Jigsaw") && count > 2){
 		step = new Step({marker: marker, orderNumber: count - 1, type: type, team: team});
 		var last = points[points.length - 1];
 
@@ -534,7 +532,6 @@ function setCurrentTeam(team){
     showTeams();
 	emptyStops();
 	loadStops();
-	// TODO: Mostrar nombre del poi/marker con el numero correcto
 }
 
 function emptyStops(){
