@@ -35,7 +35,7 @@ Step.prototype.toJSON = function() {
         "rewardPoints": this.rewardPoints,
         "item": this.item,
         "itemName": this.itemName,
-        "team": parseInt(this.team)
+        "team": this.team
     };
 
     return json;

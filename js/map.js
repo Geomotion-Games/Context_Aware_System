@@ -123,6 +123,8 @@ $( function() {
 	$( "#stops" ).sortable( {
 		update: function(event, ui) {
 			sortPoints(true);
+			//emptyStops();
+			//loadStops();
 		}
 	});  
 	poisCreated = points.length;
@@ -335,7 +337,7 @@ function duplicate(stopId){
 							$("#stops").children().each(function() {
 								var number = $(this).attr("stop-number");
 								if(number == poisCreated){
-									var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+									var url = game.type == "TreasureHunt" || game.type == "Jigsaw" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
 									$(this).find(".editPOI").attr("href", url);
 								}
 							});
@@ -484,7 +486,7 @@ function addStop(marker, type){
 					$("#stops").children().each(function() {
 						var number = $(this).attr("stop-number");
 						if(number == poisCreated){
-							var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+							var url = game.type == "TreasureHunt" || game.type == "Jigsaw" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
 							$(this).find(".editPOI").attr("href", url);
 						}
 					});

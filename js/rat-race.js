@@ -54,7 +54,8 @@ function showStop(stop){
 	if(teams.length == 0 || stop.team != teams[currentTeam].id) return;
 
 	var len = Object.keys(points).length;
-	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
+	var last = game.type == "TreasureHunt" || game.type == "Jigsaw" && (stop.orderNumber == len);
+	var first = game.type == "TreasureHunt" || game.type == "Jigsaw" && (stop.orderNumber == 1);
 
 	var color = getTeamColorFromTeamId(stop.team);
 	var style = `style="border-left: 8px solid ${color};"`;
@@ -65,8 +66,8 @@ function showStop(stop){
 				<div class="row">
 					<div ${style} class="col-md-12 poiInfo">
 					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
-						<div class="poiChest ${last?"":"hidden"}">
-				    		<img src="images/chest.png">
+						<div class="poiChest ${last || first ?"":"hidden"}">
+				    		<img src="images/${last?"finish":"start"}.png">
 				    	</div>
 						<div class="poiTexts">
 							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>

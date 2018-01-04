@@ -9,7 +9,7 @@ function duplicatePlot($id, $name, $description, $time, $type, $public, $bd){
 }
 
 function duplicatePois($lastPlotId, $newPlotId, $bd){
-	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, itemName, tean)
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, itemName, team)
 			SELECT $newPlotId, po.type, po.lat, po.lng, po.orderNumber, po.beaconId, po.title, po.rewardPoints, po.triggerDistance, po.item, po.itemName, po.team
 			FROM plot pl 
 			JOIN poi po ON po.plot = pl.id 

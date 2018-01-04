@@ -467,7 +467,7 @@ function appendEditor(parent, screen){
         `);
     }
 
-    if(gameType == "TreasureHunt" && !noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
+    if(!noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
         $(parent).append(`
             <div class="form-group">
                 <label for="screenClue">Clue for the next POI:</label>

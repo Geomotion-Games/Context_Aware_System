@@ -67,9 +67,9 @@
 		<div class="official-row">
 			<div class="row">
 				<div class="col-md-4 col-sm-6 gameType">
-					<div id="Jigsaw" class="plot plotDisabled">
+					<div id="Jigsaw" class="plot">
 						<div class="zoomOnHover image">
-							<img src="images/plots/jigsaw.jpg" style="opacity: 0.6;">
+							<img src="images/plots/jigsaw.jpg">
 						</div>
 						<div class="POIdescription">
 							<p style="font-size: 0.9em;">Linear geolocation game where the goal is to be the first team to arrive to a specific location overcoming challenges in different POI (Point Of Interest). Different teams start the race at different POI and every time a team solves the challenge of a POI a clue to the next one is shown.</p>
