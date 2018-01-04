@@ -54,8 +54,8 @@ Step.prototype.copy = function() {
         item: this.item,
         itemName: this.itemName,
         team: this.team,
-        lat: this.lat,
-        lng: this.lng,
+        lat: this.marker ? this.marker.getLatLng().lat : this.lat,
+        lng: this.marker ? this.marker.getLatLng().lng : this.lng,
 
         marker: this.marker
     });

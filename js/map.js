@@ -241,7 +241,7 @@ function showTeams(){
 	    if(action){
 	    	switch(action){
 	    		case "edit":
-	    			console.log("selected: " + index);
+	    			//console.log("selected: " + index);
 	    			setCurrentTeam(index);
 	    		break;
 	    		case "duplicate":
