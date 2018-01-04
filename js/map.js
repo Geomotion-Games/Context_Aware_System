@@ -35,7 +35,7 @@ function createTeamLayers(){
 }
 
 function generateMarker(teamColor, isBeacon){
-	var team = teamColorToId(teamColor);
+	var team = teamColorToId(teamColor) ;
 	return new L.Icon({
 		iconUrl: "images/markers/" + (isBeacon? "beacon" : "poi") + "_" + (team + 1) + ".png",
 		shadowUrl: "images/markers/shadow.png",
@@ -306,20 +306,56 @@ function duplicate(stopId){
  	for(var point in points){
 		if (points[point] && points[point].id == stopId) {
 			poisCreated++;
+			console.log("Team: " + points[point].team);
 			var copy = points[point].copy();
-			copy.orderNumber = poisCreated;
+			
 			var lastMarker = copy.marker;
 			var newPosition = addMetersToCoordinates(lastMarker._latlng, 200, 0);
 			copy.marker = addMarker(newPosition, copy.type != "beacon");
 			copy.marker.step = copy;
 			map.addLayer(copy.marker);
 			map.panTo(copy.marker._latlng);
-    		duplicatePOI(copy, game, function(id){
-    			showStop(copy);
+
+			var count = Object.keys(layers[currentTeam]._layers).length;
+
+			if((game.type == "RatRace" || game.type == "Jigsaw") && count > 2){
+				copy.orderNumber = count - 1;
+				pointsCopy.push(copy);
+
+				//copy.team = currentTeam;
+				var last = points[points.length - 1];
+
+				if(last){
+    				points[points.length - 2] = copy;
+					//points[points.length - 2] = step;
+					last.orderNumber = poisCreated;
+					points[poisCreated] = last;
+					savePOI(last, game, function(id){
+						duplicatePOI(copy, game, function(id){
+							$("#stops").children().each(function() {
+								var number = $(this).attr("stop-number");
+								if(number == poisCreated){
+									var url = game.type == "TreasureHunt" ? "screens-overview.php?id=" + id + "&noClue" : "screens-overview.php?id=" + id;
+									$(this).find(".editPOI").attr("href", url);
+								}
+							});
+							emptyStops();
+							loadStops();
+						});
+					});
+				}
+			}else{
+				copy.orderNumber = poisCreated;
     			points[poisCreated] = copy;
-    			updatePath();
-    			sortPoints();
-    		});
+				pointsCopy.push(copy);
+
+				duplicatePOI(copy, game, function(id){
+	    			showStop(copy);
+	    			//points[poisCreated] = copy;
+	    			updatePath();
+	    			sortPoints();
+	    		});
+			}
 		}
 	}
 }
@@ -462,8 +498,6 @@ function addStop(marker, type){
 		points[poisCreated] = step;
 	}
 
-	console.log(step)
-	console.log(marker)
 	if(marker)marker.step = step;
 	pointsCopy.push(step);
 

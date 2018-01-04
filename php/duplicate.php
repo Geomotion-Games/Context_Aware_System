@@ -9,8 +9,8 @@ function duplicatePlot($id, $name, $description, $time, $type, $public, $bd){
 }
 
 function duplicatePois($lastPlotId, $newPlotId, $bd){
-	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, itemName)
-			SELECT $newPlotId, po.type, po.lat, po.lng, po.orderNumber, po.beaconId, po.title, po.rewardPoints, po.triggerDistance, po.item, po.itemName
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, itemName, tean)
+			SELECT $newPlotId, po.type, po.lat, po.lng, po.orderNumber, po.beaconId, po.title, po.rewardPoints, po.triggerDistance, po.item, po.itemName, po.team
 			FROM plot pl 
 			JOIN poi po ON po.plot = pl.id 
 			WHERE pl.id = $lastPlotId
@@ -34,11 +34,12 @@ function duplicatePois($lastPlotId, $newPlotId, $bd){
 	}
 }
 
-function duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $itemName, $bd){
-	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, itemName)
-			VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item','$itemName')";
+function duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $itemName, $team, $bd){
+	$query = "INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, rewardPoints, triggerDistance, item, itemName, team)
+			VALUES ('$plot','$type','$lat','$lng','$orderNumber','$beaconId','$title','$triggerDistance','$rewardPoints','$item','$itemName','$team')";
 	$res = $bd->ejecutar($query);
 	$newPoiId = mysqli_insert_id($bd->link);
+	echo mysqli_error($bd->link);
 	duplicateScreens($id, $newPoiId, $bd);
 	return $newPoiId;
 }

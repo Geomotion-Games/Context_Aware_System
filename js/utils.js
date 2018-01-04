@@ -123,7 +123,8 @@ function getBaseURL(){
 }
 
 function teamColorToId(color){
-    return colorNames.indexOf(color);
+    var i = colorNames.indexOf(color);
+    return i == -1 ? 0 : colorNames.indexOf(color);
 }
 
 function colorNameToColor(color){

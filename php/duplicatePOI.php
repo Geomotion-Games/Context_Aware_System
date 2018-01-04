@@ -23,9 +23,10 @@ $title = $_REQUEST['title'];
 $triggerDistance = $_REQUEST['triggerDistance'];
 $rewardPoints = $_REQUEST['rewardPoints'];
 $item = $_REQUEST['item'];
+$team = $_REQUEST['team'];
 $itemName = $_REQUEST['itemName'];
 
 if($id != null){
-	echo duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $itemName, $bd);
+	echo duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $itemName, $team, $bd);
 }
 ?>
