@@ -240,8 +240,8 @@ $("#addBeacon").on('click', function(e) {
 });
 
 function getBeacons(callback){
-	//var url = "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123"; //pro
-	var url = "./beacons-xml.xml"; // local - pre
+	var url = "https://location.beaconing.eu/geoapi/beacon?apikey=2eb3e652-21fb-4a97-a9cd-03dfe51c3d41"; //pro
+	//var url = "./beacons-xml.xml"; // local - pre
 	$.getJSON( url, function( data ) {
 		var beacons = [];
 		$.each( data, function( key, val ) {
