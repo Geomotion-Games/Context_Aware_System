@@ -153,6 +153,31 @@ function sortPoints(save, skipSort){
 			}
 		});
 	}
+
+	if(game.type == "Jigsaw"){
+		$(".poiChest").addClass("hidden");
+		var childrens = $("#stops").children();
+		var len = childrens.length;
+		$(childrens[0]).find(".poiChest").removeClass("hidden");
+		$(childrens[0]).find(".poiChest").find("img").attr("src", "images/start.png");
+		$(childrens[len - 1]).find(".poiChest").removeClass("hidden");
+		$(childrens[len - 1]).find(".poiChest").find("img").attr("src", "images/finish.png");
+
+		// childrens.each(function(index){
+		// 	var e = $(childrens[index]).find(".editPOI");
+		// 	e.attr("href", e.attr("href").replace("&noClue", ""));
+		// });
+
+		// var e = $(childrens[len - 1]).find(".editPOI");
+		// e.attr("href", e.attr("href") + "&noClue");
+		
+		// points.forEach(function (p) {
+		// 	if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(colorNames[0]): generateMarker(colorNames[0], true));
+		// });
+
+		// var last = points[points.length - 1];
+		// if(last && last.marker) last.marker.setIcon(finishTreasureMarkerIcon);
+	}
 }
 
 function getTeamOfPOI(p){
