@@ -163,20 +163,13 @@ function sortPoints(save, skipSort){
 		$(childrens[len - 1]).find(".poiChest").removeClass("hidden");
 		$(childrens[len - 1]).find(".poiChest").find("img").attr("src", "images/finish.png");
 
-		// childrens.each(function(index){
-		// 	var e = $(childrens[index]).find(".editPOI");
-		// 	e.attr("href", e.attr("href").replace("&noClue", ""));
-		// });
+		childrens.each(function(index){
+			var e = $(childrens[index]).find(".editPOI");
+			e.attr("href", e.attr("href").replace("&noClue", ""));
+		});
 
-		// var e = $(childrens[len - 1]).find(".editPOI");
-		// e.attr("href", e.attr("href") + "&noClue");
-		
-		// points.forEach(function (p) {
-		// 	if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(colorNames[0]): generateMarker(colorNames[0], true));
-		// });
-
-		// var last = points[points.length - 1];
-		// if(last && last.marker) last.marker.setIcon(finishTreasureMarkerIcon);
+		var e = $(childrens[len - 1]).find(".editPOI");
+		e.attr("href", e.attr("href") + "&noClue");
 	}
 }
 

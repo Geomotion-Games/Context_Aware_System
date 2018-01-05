@@ -123,6 +123,7 @@ $( function() {
 	$( "#stops" ).sortable( {
 		update: function(event, ui) {
 			sortPoints(true);
+			updatePath();
 			//emptyStops();
 			//loadStops();
 		}

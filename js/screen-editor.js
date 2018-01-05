@@ -466,8 +466,9 @@ function appendEditor(parent, screen){
             </div>
         `);
     }
+    var showClue = (game.type != "FollowThePath" && game.type != "RatRace") && !noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"));
 
-    if(!noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
+    if(showClue){
         $(parent).append(`
             <div class="form-group">
                 <label for="screenClue">Clue for the next POI:</label>
