@@ -114,7 +114,6 @@ textarea {
 
 #stops .poirow .poiInfo .poiTexts > p {
 	float: left;
-    margin-right: 20px;
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
@@ -133,6 +132,10 @@ textarea {
 
 #stops .poirow i.move {
 	margin: 15px 8px 0 0;
+}
+
+.poirow .poiInfo .poiActions a{
+	float: right;
 }
 
 .poirow .poiInfo .poiActions i{
@@ -187,3 +190,4 @@ textarea {
 .leaflet-control-attribution{
 	visibility: hidden;
 }
+
