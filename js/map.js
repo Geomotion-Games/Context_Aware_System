@@ -167,11 +167,17 @@ function updatePath() {
 		if(!layers[i]) break;
 		var pointList = [];
 
-		layers[i].eachLayer(function(marker){
-			if(marker._latlng){
-				pointList.push(marker._latlng);
+		if(i == currentTeam){
+			for (var stop in points) {
+				pointList.push(points[stop].marker._latlng);
 			}
-		});
+		}else{
+			layers[i].eachLayer(function(marker){
+				if(marker._latlng){
+					pointList.push(marker._latlng);
+				}
+			});
+		}
 
 		if (paths[i] != null) map.removeLayer(paths[i]);
 
@@ -434,15 +440,26 @@ function updateLabels() {
 	for(var i = 0; i < teams.length || 1; i++){
 		if(!layers[i]) break;
 
-		var count = 1;
-		layers[i].eachLayer(function(marker){
-			if(!marker.step || !marker.step.title || marker.step.title.length == 0) {
-				marker._tooltip.setContent("Stop " + count);
-			}else{
-				marker._tooltip.setContent(marker.step.title);
+		if(i == currentTeam){
+			for (var stop in points) {
+				var marker = points[stop].marker;
+				if(!marker.step || !marker.step.title || marker.step.title.length == 0) {
+					marker._tooltip.setContent("Stop " + points[stop].orderNumber);
+				}else{
+					marker._tooltip.setContent(marker.step.title);
+				}
 			}
-			count++;
-		});
+		}else{
+			var count = 1;
+			layers[i].eachLayer(function(marker){
+				if(!marker.step || !marker.step.title || marker.step.title.length == 0) {
+					marker._tooltip.setContent("Stop " + count);
+				}else{
+					marker._tooltip.setContent(marker.step.title);
+				}
+				count++;
+			});
+		}
 	}
 
 	var count = 1;

@@ -137,7 +137,19 @@ function sortPoints(save, skipSort){
 				}
 
 			});
+			
+			newPointList.sort(function(a, b) {
+				return a.orderNumber - b.orderNumber;
+			});
+
 			points = newPointList;
+
+			layers[currentTeam].clearLayers();
+
+			for (var stop in points) {
+				layers[currentTeam].addLayer(points[stop].marker);
+			}
+
 			updatePath();
 		}
 	}
