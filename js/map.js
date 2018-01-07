@@ -169,7 +169,7 @@ function updatePath() {
 
 		if(i == currentTeam){
 			for (var stop in points) {
-				pointList.push(points[stop].marker._latlng);
+				if(points[stop].marker) pointList.push(points[stop].marker._latlng);
 			}
 		}else{
 			layers[i].eachLayer(function(marker){
@@ -443,6 +443,7 @@ function updateLabels() {
 		if(i == currentTeam){
 			for (var stop in points) {
 				var marker = points[stop].marker;
+				if(!marker) continue;
 				if(!marker.step || !marker.step.title || marker.step.title.length == 0) {
 					marker._tooltip.setContent("Stop " + points[stop].orderNumber);
 				}else{

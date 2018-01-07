@@ -147,7 +147,7 @@ function sortPoints(save, skipSort){
 			layers[currentTeam].clearLayers();
 
 			for (var stop in points) {
-				layers[currentTeam].addLayer(points[stop].marker);
+				if(points[stop].marker)layers[currentTeam].addLayer(points[stop].marker);
 			}
 
 			updatePath();
