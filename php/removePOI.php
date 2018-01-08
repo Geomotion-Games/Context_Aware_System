@@ -16,10 +16,16 @@ $plot = $_REQUEST['plot'];
 //TODO: only delete if the current user is the owner of the plot
 
 if($id != null){
-	$query = "DELETE FROM poi WHERE id = '$id'";
+
+	$query = sprintf("DELETE FROM poi WHERE id = '$id'", 
+		intval($public));
+
 	$res = $bd->ejecutar($query);
 	echo "Removed plot " . $id;
-	$query = "UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id ='$plot'";
+
+	$query = sprintf("UPDATE plot SET last_update = CURRENT_TIMESTAMP WHERE id=%d", 
+		intval($plot));
+
 	$res = $bd->ejecutar($query);
 }else{
 	echo "Error: Id is null";

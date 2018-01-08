@@ -16,7 +16,11 @@ $plot = $_REQUEST['plot'];
 $data = addSlashes($_REQUEST['data']);
 
 if($id != null){
-	$query = "UPDATE screen SET poi='$poi',data='$data' WHERE id=$id";
+	$query = sprintf("UPDATE screen SET poi=%d, data='%s' WHERE id=%d",
+		intval($poi),
+		$bd->mysqli_real_escape_string($data),
+		intval($poi));
+
 	$res = $bd->ejecutar($query);
 	echo mysqli_error($bd->link);
 	echo $id;
