@@ -107,9 +107,7 @@ function init(){
         $("#attributes").addClass("hidden");
     }else if(poi.type == "finish"){
         $("footer .endEditing").text("Finish edition");
-        $("#nameContainer").addClass("hidden");
-        $("#rewardContainer").addClass("hidden");
-        $("#imageContainer").addClass("hidden");
+        $("#attributes").addClass("hidden");
     }
 
     $(".endEditing").attr("href", "./" + gameTypeToUrl(game.type) +".php?id=" + poi.plot);
