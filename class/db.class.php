@@ -43,8 +43,8 @@ class Db {
    /*Realiza la conexión a la base de datos.*/
    private function conectar(){
 
-      if (!$this->link=mysqli_connect($this->servidor, $this->usuario, $this->password, $this->base_datos)){
-         echo "";
+      if (!$this->link = new mysqli($this->servidor, $this->usuario, $this->password, $this->base_datos)){
+         echo "connection error";
       }
 
       if (!$this->link) {
@@ -56,6 +56,11 @@ class Db {
 
       mysqli_select_db($this->link, $this->base_datos);
       //@mysql_query("SET NAMES 'utf8'");
+   }
+
+   public function mysqli_real_escape_string($string) {
+      $link = $this->link;
+      return $link->real_escape_string($string);
    }
 
    /*Método para ejecutar una sentencia sql*/
@@ -76,9 +81,9 @@ class Db {
       return $this->liberar;
    }
    /*numero de lineas*/
- public function num_rows($stmt){ 
-  return @mysqli_num_rows($stmt);
-  }
+   public function num_rows($stmt){ 
+      return @mysqli_num_rows($stmt);
+   }
 
    /*Método para obtener una fila de resultados de la sentencia sql*/
    public function obtener_fila($stmt,$fila){
@@ -96,7 +101,7 @@ class Db {
       return mysqli_insert_id($this->link);
    }
 	
-	public function rarosr($cad){    
+	public function rarosr($cad){
       $cad=str_replace('&gt;','>',str_replace(chr(34),"'",str_replace('&lt;','<', str_replace('&quot;','"',str_replace('&amp;','&',$cad)))));
 
       return $cad;
