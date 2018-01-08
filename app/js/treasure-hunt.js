@@ -658,7 +658,7 @@ function addCollectablesToInventory() {
 
 		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item) {
 
-			var itemName = "ITEM" + (i+1);
+			var itemName = "ITEM " + (i+1);
 			if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {
 				itemName = game[step].itemName;
 			}
@@ -684,7 +684,7 @@ function addCollectablesToInventory() {
 									</div>
 								</div>`;
 				}
-				
+
 			} else {
 				if (currentPOI > i) {
 					rowHTML += `
@@ -693,7 +693,7 @@ function addCollectablesToInventory() {
 									background-image:url('`+ uploads_url + game[step].item +`');
 								"></div>
 								<div class="collectable-name">
-									<p>ITEM `+ itemName +`</p>
+									<p>`+ itemName +`</p>
 								</div>
 							</div>
 						</div>`;
