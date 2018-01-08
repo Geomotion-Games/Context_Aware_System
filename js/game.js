@@ -54,7 +54,7 @@ function appendGame(parent, games, index){
                             <p class="gameType">${games[index].description}</p>
                         </div>
                         <div class="options">
-                            <p class="gameDate" style="font-size:10px;">${type}</p>
+                            <p class="gameDate">${type}</p>
                             <p class="gameDate" style="margin-bottom:5px;">Last modified: ${games[index].last_update} GMT</p>
 
                             <div class="pubpriv">

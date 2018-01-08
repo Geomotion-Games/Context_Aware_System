@@ -121,7 +121,8 @@ textarea {
 }
 
 #stops .poirow .poiInfo .poiTexts > select {
-	color: black	;
+	color: black;
+	width: 70%;
 }
 
 .poirow i.move {
