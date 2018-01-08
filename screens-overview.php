@@ -57,7 +57,7 @@
     $sum = 0;
     if($query){
     	$row = mysqli_fetch_assoc($query);
-		$sum = $row['total'];
+		$sum = is_null($row['total']) ? 0 : $row['total'];
     }else{
     	echo mysqli_error();
     }
@@ -172,7 +172,7 @@
 			<div class="modal-content">
 				 <image src="">
 			</div>
-		</div>
+		</div>	
 	</div>
 
 	<div class="fileSizeWarning modal fade" id="fileSizeWarning" tabindex="-1" role="dialog" aria-labelledby="fileSizeWarning">
@@ -224,9 +224,8 @@
 
 	    $("#qrcode").on('click',function(e){
  	    	var url = getAppDomain() + "app.php?game=" + game.id +"&device=browser&teleport=" + poi.id;
- 	    	console.log(url);
+
 	    	var apiUrl =  "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(url) + "&choe=UTF-8";
-	    	console.log(apiUrl)
 
 	    	var img = $("#qr-viewer img");
 	    	img.attr("src", apiUrl);
