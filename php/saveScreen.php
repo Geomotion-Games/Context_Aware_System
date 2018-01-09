@@ -18,8 +18,8 @@ $data = addSlashes($_REQUEST['data']);
 if($id != null){
 	$query = sprintf("UPDATE screen SET poi=%d, data='%s' WHERE id=%d",
 		intval($poi),
-		$bd->mysqli_real_escape_string($data),
-		intval($poi));
+		$data,
+		intval($id));
 
 	$res = $bd->ejecutar($query);
 	echo mysqli_error($bd->link);

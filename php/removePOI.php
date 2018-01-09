@@ -17,8 +17,8 @@ $plot = $_REQUEST['plot'];
 
 if($id != null){
 
-	$query = sprintf("DELETE FROM poi WHERE id = '$id'", 
-		intval($public));
+	$query = sprintf("DELETE FROM poi WHERE id = '%d'", 
+		intval($id));
 
 	$res = $bd->ejecutar($query);
 	echo "Removed plot " . $id;
