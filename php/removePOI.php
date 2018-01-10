@@ -17,7 +17,7 @@ $plot = $_REQUEST['plot'];
 
 if($id != null){
 
-	$query = sprintf("DELETE FROM poi WHERE id = '%d'", 
+	$query = sprintf("DELETE FROM poi WHERE id = %d", 
 		intval($id));
 
 	$res = $bd->ejecutar($query);

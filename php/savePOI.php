@@ -77,7 +77,7 @@ function createDefaultScreens($id, $bd){
 	foreach ($screensData as $data) {
 		$query = sprintf("INSERT INTO screen (poi, data) VALUES (%d,'%s')",	
 			intval($id),
-			intval($data));
+			$data);
 		$res = $bd->ejecutar($query);
 	}
 

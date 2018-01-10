@@ -207,24 +207,28 @@ function gameReady() {
 
 			setTimeout(function() {
 
-				var challenge = game[currentPOI]["B"]["challenge"];
+				if (game[currentPOI]["B"].hasOwnProperty("challenge")) {
+					var challenge = game[currentPOI]["B"]["challenge"];
 
-				if (challenge.hasOwnProperty("type")) {
-					if (challenge["type"] == "upload_content") {
-						document.getElementById("openC" + currentPOI).click();
-					} else if (challenge["type"] == "minigame") {
-						var minigameURL = challenge["url"];
-						var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
-						var playerId = "playerid=" + encodeURI(tracker.playerId);
-						var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+					if (challenge.hasOwnProperty("type")) {
+						if (challenge["type"] == "upload_content") {
+							document.getElementById("openC" + currentPOI).click();
+						} else if (challenge["type"] == "minigame") {
+							var minigameURL = challenge["url"];
+							var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
+							var playerId = "playerid=" + encodeURI(tracker.playerId);
+							var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
-						if (minigameURL.length > 0) {
-							var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
-								"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
-								"https%3A%2F%2Fatcc.beaconing.eu/";
+							if (minigameURL.length > 0) {
+								var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
+									"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
+									"https%3A%2F%2Fatcc.beaconing.eu/";
 
-							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
-							window.open(minigameURL, "_self");
+								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+								window.open(minigameURL, "_self");
+							}
+						} else {
+							document.getElementById("openC" + currentPOI).click();
 						}
 					} else {
 						document.getElementById("openC" + currentPOI).click();
@@ -250,7 +254,11 @@ function gameReady() {
 
 			// POINTS
 			var pointsEarned = 0
-			for (step in game) pointsEarned += parseInt(game[step]["rewardPoints"]);
+			for (step in game) { //TODO posarho a th
+				if (step != 0 && step != 999) {
+					pointsEarned += parseInt(game[step]["rewardPoints"]);
+				}
+			}
 
 			if (pointsEarned > 0) {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');

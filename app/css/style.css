@@ -192,7 +192,7 @@ div.landscape {
 	font-size: 1.2em;
 }
 
-.modalDialog {
+.modalDialog:target {
 	opacity:1;
 	pointer-events: auto;
 }

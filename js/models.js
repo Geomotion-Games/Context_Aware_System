@@ -75,7 +75,8 @@ function Screen(params){
     this.clue = params.clue || "";
     if(params.challenge){
         this.challengeType = params.challenge.type || "";
-        this.challengeID = params.challenge.id || "";
+        this.challengeURL = params.challenge.url || "";
+        //this.challengeID = params.challenge.id || "";
         this.challengeUploadType = params.challenge.uploadType || "";
     }
 }
@@ -84,7 +85,8 @@ Screen.prototype.toJSON = function() {
     var challenge = {};
     if(this.challengeType != ""){
         challenge.type = this.challengeType;
-        if(this.challengeID != "")challenge.id = this.challengeID;
+        if(this.challengeURL != "")challenge.url = this.challengeURL;
+        //if(this.challengeID != "")challenge.id = this.challengeID;
         if(this.challengeUploadType != "")challenge.uploadType = this.challengeUploadType;
     }
     var json = {

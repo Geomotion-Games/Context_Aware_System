@@ -9,7 +9,6 @@
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
-
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
 
@@ -241,15 +240,15 @@
 		var game = parsePlotJSON(resultPlot);
 		var totalRewardPoints = <?= $sum; ?>;
 
-		var minigames = [];
+		//var minigames = [];
 
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 
-	 	getMinigames(function(m){
-	        minigames = m;
+	 	/*getMinigames(function(m){
+	        minigames = m;*/
 			showScreensOverview();
 			init();
-	    });
+	    //});
 	</script>
 
 </body>
