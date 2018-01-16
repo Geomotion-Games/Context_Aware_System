@@ -110,8 +110,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="stylesheet" href="app/css/leaflet.css" />
+	<link rel="stylesheet" href="app/css/font-awesome.min.css" />
 	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 	<link rel="stylesheet" href="app/css/style.css" />
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<?php switch($game["POIS"][0]["game_type"]): 
 		
@@ -131,9 +134,30 @@
 	<script type="text/javascript" src="app/js/analytics/dist/js-tracker.bundle.min.js"></script>
 	<script type="text/javascript" src="app/js/analytics/plugins/geolocation.js"></script>
 	<script type="text/javascript" src="app/js/jquery-3.2.1.min.js"></script>
+	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 </head>
 <body>
+<div id="fb-root"></div>
+
+<script>
+  window.fbAsyncInit = function() {
+    	FB.init({
+      		appId      : '1577222535665079',
+      		xfbml      : true,
+      		version    : 'v2.11'
+    	});
+    	FB.AppEvents.logPageView();
+  	};
+
+  	(function(d, s, id) {
+	  var js, fjs = d.getElementsByTagName(s)[0];
+	  if (d.getElementById(id)) return;
+	  js = d.createElement(s); js.id = id;
+	  js.src = 'https://connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.11&appId=1577222535665079';
+	  fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+</script>
 
 <div id="topBar">
 	<p id="distance"></p>

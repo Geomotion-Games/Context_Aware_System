@@ -142,7 +142,7 @@ function showStop(stop){
 				    		<img src="images/chest.png">
 				    	</div>
 						<div class="poiTexts">
-							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
+							<p style="width: 30% !important;"><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
 							<select name="beacon-id" class="beacon-select-${stop.orderNumber}">
 								<option hidden value="">Select Beacon</option>
 								${beacons.map(b => `<option ${stop.beaconId==b.id?"selected":""} value="${b.id}">${b.id} - ${b.name}</option>`).join('\n')}

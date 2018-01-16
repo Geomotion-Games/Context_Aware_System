@@ -68,16 +68,6 @@
 <body>
 
 	<header class="header">
-		<nav class="navbar navbar-default">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-				<a class="navbar-brand" href="./">
-					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
-				</a>
-		    </div>
-		  </div>
-		</nav>
-
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">

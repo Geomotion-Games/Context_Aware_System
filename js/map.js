@@ -3,7 +3,7 @@
 
 var map = L.map('map');
 
-var OpenStreetMap_Mapnik = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+var OpenStreetMap_Mapnik = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
 	maxZoom: 19,
 	attribution: ""
 }).addTo(map);
@@ -240,8 +240,8 @@ $("#addBeacon").on('click', function(e) {
 });
 
 function getBeacons(callback){
-	//var url = "http://lbc.dev.pisanello.net.pl/geoapi/beacon?apikey=123"; //pro
-	var url = "./beacons-xml.xml"; // local - pre
+	var url = "https://location.beaconing.eu/geoapi/beacon?apikey=2eb3e652-21fb-4a97-a9cd-03dfe51c3d41"; //pro
+	//var url = "./beacons-xml.xml"; // local - pre
 	$.getJSON( url, function( data ) {
 		var beacons = [];
 		$.each( data, function( key, val ) {

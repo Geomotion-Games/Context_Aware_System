@@ -91,6 +91,7 @@ textarea {
 .poirow .poiInfo .poiTexts {
 	float: left;
 	padding: 15px 0 0 5px;
+	width: 45%;
 }
 
 .poiChest {
@@ -113,11 +114,15 @@ textarea {
 
 #stops .poirow .poiInfo .poiTexts > p {
 	float: left;
-    margin-right: 20px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #stops .poirow .poiInfo .poiTexts > select {
-	color: black	;
+	color: black;
+	width: 70%;
 }
 
 .poirow i.move {
@@ -128,6 +133,10 @@ textarea {
 
 #stops .poirow i.move {
 	margin: 15px 8px 0 0;
+}
+
+.poirow .poiInfo .poiActions a{
+	float: right;
 }
 
 .poirow .poiInfo .poiActions i{
@@ -182,3 +191,4 @@ textarea {
 .leaflet-control-attribution{
 	visibility: hidden;
 }
+

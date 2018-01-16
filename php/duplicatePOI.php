@@ -5,7 +5,7 @@ error_reporting(0);
 require '../class/db.class.php';
 require '../class/conf.class.php';
 
-require 'duplicate.php';
+require 'duplication.php';
 
 setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 date_default_timezone_set('Europe/Madrid');
@@ -23,8 +23,9 @@ $title = $_REQUEST['title'];
 $triggerDistance = $_REQUEST['triggerDistance'];
 $rewardPoints = $_REQUEST['rewardPoints'];
 $item = $_REQUEST['item'];
+$itemName = $_REQUEST['itemName'];
 
 if($id != null){
-	echo duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $bd);
+	echo duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $itemName, $bd);
 }
 ?>

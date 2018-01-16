@@ -6,8 +6,8 @@
 	
 	error_reporting(0);
 
-	require 'class/db.class.php';
-	require 'class/conf.class.php';
+	require '../class/db.class.php';
+	require '../class/conf.class.php';
 
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');

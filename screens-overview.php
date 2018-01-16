@@ -9,7 +9,6 @@
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
-
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
 
@@ -57,7 +56,7 @@
     $sum = 0;
     if($query){
     	$row = mysqli_fetch_assoc($query);
-		$sum = $row['total'];
+		$sum = is_null($row['total']) ? 0 : $row['total'];
     }else{
     	echo mysqli_error();
     }
@@ -70,6 +69,10 @@
 
 	<script src="js/lib/jquery-1.12.4.js"></script>
 	<script src="js/lib/jquery-ui.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+	
 	<script src="js/lib/Autolinker.min.js"></script>
 
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -82,16 +85,6 @@
 <body>
 
 	<header class="header">
-		<nav class="navbar navbar-default">
-		  <div class="container-fluid">
-		    <div class="navbar-header">
-				<a class="navbar-brand" href="./">
-					<img alt="Brand" style="padding: 8px;" src="images/beaconing_logo.png">
-				</a>
-		    </div>
-		  </div>
-		</nav>
-
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
@@ -178,7 +171,7 @@
 			<div class="modal-content">
 				 <image src="">
 			</div>
-		</div>
+		</div>	
 	</div>
 
 	<div class="fileSizeWarning modal fade" id="fileSizeWarning" tabindex="-1" role="dialog" aria-labelledby="fileSizeWarning">
@@ -230,9 +223,8 @@
 
 	    $("#qrcode").on('click',function(e){
  	    	var url = getAppDomain() + "app.php?game=" + game.id +"&device=browser&teleport=" + poi.id;
- 	    	console.log(url);
-	    	var apiUrl =  "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(url) + "%2F&choe=UTF-8";
-	    	console.log(apiUrl)
+
+	    	var apiUrl =  "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(url) + "&choe=UTF-8";
 
 	    	var img = $("#qr-viewer img");
 	    	img.attr("src", apiUrl);
@@ -248,10 +240,15 @@
 		var game = parsePlotJSON(resultPlot);
 		var totalRewardPoints = <?= $sum; ?>;
 
+		//var minigames = [];
+
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 
-		showScreensOverview();
-		init();
+	 	/*getMinigames(function(m){
+	        minigames = m;*/
+			showScreensOverview();
+			init();
+	    //});
 	</script>
 
 </body>

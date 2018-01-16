@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^duplicate/([^/d]+)/?$ /php/duplicate.php?id=$1 [NC,L]

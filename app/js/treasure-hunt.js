@@ -23,20 +23,35 @@ function gameReady() {
 
 		var media = "";
 		var classP = "p67vh";
+		var textClass = "textOnly";
 		var clue = "";
 		var extras = document.getElementById("extras");
 
 		/****** A ******/
-		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
+
+		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "" && game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
 			        media = "<img src=" + uploads_url + game[step]["A"].image + ">";
 					classP = "p30vh";
+					textClass = "textWithImage";
 			        break;
 			    case "youtubeOrVimeo":
+			    	console.log("youtube!");
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
+			    		console.log("parsing");
 			    		var url = parseYoutubeOrVimeoURL(game[step]["A"].youtubeOrVimeoURL);
+			    		console.log("textwithvideo!");
+			    		textClass = "textWithVideo";
 			        	media = '<div class="videoWrapper"><iframe width="100%" height="auto" src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
+					}
+			        break;
+			    case "video":
+			    	console.log("uploaded video!");
+			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
+			    		console.log("textwithvideo!");
+			    		textClass = "textWithVideo";
+			        	media = '<!--div class="videoWrapper"--><video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video><!--/div-->';
 					}
 			        break;
 			    default:
@@ -81,6 +96,7 @@ function gameReady() {
 
 		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
+		
 		if (step == 999) { button = ""; }
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
@@ -88,15 +104,16 @@ function gameReady() {
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
-					<h2>` + game[step]["A"].title + `</h2>` +
-					media +
-					`<p class="`+ classP +`">` + Autolinker.link(game[step]["A"].text) + `</p>` + 
-					'<div class="totalPointsEarned"></div>' +
-					'<div class="totalTimeSpent"></div>' +
+					<h2>` + game[step]["A"].title + `</h2>
+					<div class="landscape">` +
+						media +
+						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
+					`</div>` +
+						`<div class="totalPointsEarned"></div>` +
+						`<div class="totalTimeSpent"></div>` +
 					button + 
 				`</div>
-			</div>
-		`;
+			</div>`;
 
 		extras.innerHTML += POIBefore;
 
@@ -104,12 +121,27 @@ function gameReady() {
 
 		if (game[step].hasOwnProperty("C") && step > 0 ) {
 
-			if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item) {
+			if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item != "-" && game[step].item) {
 				media = "<img src=" + uploads_url + game[step].item + ">";
+				textClass = "textWithImage";
 				classP = "p25vh";
 			} else {
 				media = "";
+				textClass = "textOnly";
 				classP = "p50vh";
+			}
+
+			var hashtag = "BeaconingEU";
+			var via = "BeaconingEU";
+
+			// Bobo
+			if (game_id == 487) {
+				hashtag = "bobopulpin";
+				via = "bobopulpin";
+			// Bella
+			} else if (game_id == 488) {
+				hashtag = "BellavistaBcn";
+				via = "BellavistaBcn";
 			}
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
@@ -118,16 +150,19 @@ function gameReady() {
 
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
-				<div id="clue` + step + `" class="modalDialog screen">
+				<div id="clue` + step + `" class="modalDialog screen after">
 					<div>
 						<h2>` + game[step]["C"].title + `</h2>` 
 						+ media + 
-						`<p class="`+ classP +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
+						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
 						+ points +
-						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						`<div class="shareButtons">
+							<a id="fbshare" href="#"><button type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+						</div>
+						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
-				</div>
-			`;
+				</div>`;
 
 			extras.innerHTML += POIAfter;
 		}
@@ -138,7 +173,6 @@ function gameReady() {
 		nextPOI = getFollowingPOIId(nextPOI);
 	} else {
 		if (fromMinigame) {
-
 			if (!challengeSuccess) {
 
 				var challenge = game[nextPOI]["B"]["challenge"];
@@ -147,8 +181,8 @@ function gameReady() {
 				var playerId = "playerid=" + encodeURI(tracker.playerId);
 				var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
-				var url = (window.location.href).indexOf("geomotiongames") !== -1 ?  
-					"https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/" : 
+				var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
+					"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
 					"https%3A%2F%2Fatcc.beaconing.eu/";
 
 				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
@@ -173,24 +207,28 @@ function gameReady() {
 
 			setTimeout(function() {
 
-				var challenge = game[currentPOI]["B"]["challenge"];
+				if (game[currentPOI]["B"].hasOwnProperty("challenge")) {
+					var challenge = game[currentPOI]["B"]["challenge"];
 
-				if (challenge.hasOwnProperty("type")) {
-					if (challenge["type"] == "upload_content") {
-						document.getElementById("openC" + currentPOI).click();
-					} else if (challenge["type"] == "minigame") {
-						var minigameURL = challenge["url"];
-						var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
-						var playerId = "playerid=" + encodeURI(tracker.playerId);
-						var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+					if (challenge.hasOwnProperty("type")) {
+						if (challenge["type"] == "upload_content") {
+							document.getElementById("openC" + currentPOI).click();
+						} else if (challenge["type"] == "minigame") {
+							var minigameURL = challenge["url"];
+							var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
+							var playerId = "playerid=" + encodeURI(tracker.playerId);
+							var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
 
-						if (minigameURL.length > 0) {
-							var url = (window.location.href).indexOf("geomotiongames") !== -1 ?  
-								"https%3A%2F%2Fwww.geomotiongames.com/beaconing/app/" : 
-								"https%3A%2F%2Fatcc.beaconing.eu/";
+							if (minigameURL.length > 0) {
+								var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
+									"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
+									"https%3A%2F%2Fatcc.beaconing.eu/";
 
-							minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
-							window.open(minigameURL, "_self");
+								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+								window.open(minigameURL, "_self");
+							}
+						} else {
+							document.getElementById("openC" + currentPOI).click();
 						}
 					} else {
 						document.getElementById("openC" + currentPOI).click();
@@ -216,7 +254,11 @@ function gameReady() {
 
 			// POINTS
 			var pointsEarned = 0
-			for (step in game) pointsEarned += parseInt(game[step]["rewardPoints"]);
+			for (step in game) { //TODO posarho a th
+				if (step != 0 && step != 999) {
+					pointsEarned += parseInt(game[step]["rewardPoints"]);
+				}
+			}
 
 			if (pointsEarned > 0) {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
@@ -237,7 +279,49 @@ function gameReady() {
 	}
 
 	attachUploadContentEvents();
-	teleportIfNeeded()
+	teleportIfNeeded();
+
+	$('.popup').click(function(event) {
+	    var width  = 575,
+	        height = 400,
+	        left   = ($(window).width()  - width)  / 2,
+	        top    = ($(window).height() - height) / 2,
+	        url    = this.href,
+	        opts   = 'status=1' +
+	                 ',width='  + width  +
+	                 ',height=' + height +
+	                 ',top='    + top    +
+	                 ',left='   + left;
+
+	    window.open(url, 'twitter', opts);
+
+	    return false;
+	});
+
+	$('#fbshare').on('click touchstart', function(e) {
+		e.preventDefault();
+
+		var hashtag = "#BeaconingEU";
+		var via = "@BeaconingEU";
+
+		// Bobo
+		if (game_id == 487) {
+			hashtag = "#bobopulpin";
+			via = "@bobopulpin";
+		// Bella
+		} else if (game_id == 488) {
+			hashtag = "#BellavistaBcn";
+			via = "@BellavistaBcn";
+		}
+
+		FB.ui({
+			method: 'share',
+			href: 'https://atcc.beaconing.eu/',
+			hashtag: hashtag,	
+			quote: via
+		}, function(response){});
+		return false;
+	});
 }
 
 function attachUploadContentEvents() {
@@ -261,7 +345,6 @@ function attachUploadContentEvents() {
 					            }
 					        });
 						}; 
-
 					}
 				}
 			}
@@ -273,8 +356,8 @@ function teleportIfNeeded() {
 	if ( teleport ) {
 		var position = { coords : {longitude: game[currentPOI+1].lng, latitude: game[currentPOI+1].lat}};
 		lastPosition = position;
-		teleport = false;
 		newLocation(position);
+		mapLoaded = true;
 	}
 }
 
@@ -581,14 +664,16 @@ function addCollectablesToInventory() {
 
 	for (step in game) {
 
-		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item) {
-			if (i % 2 == 0) {
-				if (currentPOI > i) {
+		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item!="-" && game[step].item) {
 
-					var itemName = "ITEM" + (i+1);
-					if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {
-						itemName = game[step].itemName;
-					}
+			var itemName = "ITEM " + (i+1);
+			if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {
+				itemName = game[step].itemName;
+			}
+
+			if (i % 2 == 0) {
+
+				if (currentPOI > i) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -607,7 +692,7 @@ function addCollectablesToInventory() {
 									</div>
 								</div>`;
 				}
-				
+
 			} else {
 				if (currentPOI > i) {
 					rowHTML += `
@@ -616,7 +701,7 @@ function addCollectablesToInventory() {
 									background-image:url('`+ uploads_url + game[step].item +`');
 								"></div>
 								<div class="collectable-name">
-									<p>ITEM `+ (i+1) +`</p>
+									<p>`+ itemName +`</p>
 								</div>
 							</div>
 						</div>`;
@@ -641,7 +726,7 @@ function addCollectablesToInventory() {
 		inventory.innerHTML += rowHTML + "</div>";
 	}
 
-	progress.innerHTML = currentPOI + "/" + i;
+	progress.innerHTML = getInventoryProgressAsString();
 
 	`<div class="row">
 		<div class="collectable">
@@ -730,7 +815,7 @@ function uploadImage(options){
             formData.append("currentDate", getTodaysDate())
 
             $.ajax({
-                url: "uploadImages.php",
+                url: "app/uploadImages.php",
                 type: "POST",
                 data: formData,
                 contentType: false,

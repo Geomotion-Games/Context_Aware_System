@@ -76,6 +76,7 @@ function Screen(params){
     if(params.challenge){
         this.challengeType = params.challenge.type || "";
         this.challengeURL = params.challenge.url || "";
+        //this.challengeID = params.challenge.id || "";
         this.challengeUploadType = params.challenge.uploadType || "";
     }
 }
@@ -85,6 +86,7 @@ Screen.prototype.toJSON = function() {
     if(this.challengeType != ""){
         challenge.type = this.challengeType;
         if(this.challengeURL != "")challenge.url = this.challengeURL;
+        //if(this.challengeID != "")challenge.id = this.challengeID;
         if(this.challengeUploadType != "")challenge.uploadType = this.challengeUploadType;
     }
     var json = {
@@ -176,6 +178,11 @@ function Beacon(params){
     this.qr = params.qr;
     this.lat = params.lat;
     this.lng = params.lng;
+}
+
+function Minigame(params){
+    this.id = params.id;
+    this.name = params.name;
 }
 
 function Student(params){

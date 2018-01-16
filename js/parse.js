@@ -65,6 +65,7 @@ function parseScreens(screens){
 
 function parseScreen(screen){
     var json = JSON.parse(screen.data);
+    console.log(json)
     return new Screen({
         id: screen.id,
         type: json.type,
