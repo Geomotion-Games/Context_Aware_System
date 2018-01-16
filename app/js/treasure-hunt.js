@@ -29,7 +29,7 @@ function gameReady() {
 
 		/****** A ******/
 
-		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
+		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "" && game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
 			        media = "<img src=" + uploads_url + game[step]["A"].image + ">";
@@ -121,7 +121,7 @@ function gameReady() {
 
 		if (game[step].hasOwnProperty("C") && step > 0 ) {
 
-			if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item) {
+			if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item != "-" && game[step].item) {
 				media = "<img src=" + uploads_url + game[step].item + ">";
 				textClass = "textWithImage";
 				classP = "p25vh";
@@ -356,8 +356,8 @@ function teleportIfNeeded() {
 	if ( teleport ) {
 		var position = { coords : {longitude: game[currentPOI+1].lng, latitude: game[currentPOI+1].lat}};
 		lastPosition = position;
-		teleport = false;
 		newLocation(position);
+		mapLoaded = true;
 	}
 }
 
@@ -664,7 +664,7 @@ function addCollectablesToInventory() {
 
 	for (step in game) {
 
-		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item) {
+		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item!="-" && game[step].item) {
 
 			var itemName = "ITEM " + (i+1);
 			if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {

@@ -92,9 +92,9 @@ function init(){
 
     $("#removeImageC").click(function(){
         if(poi.item == "-" || poi.item == "") return;
-        poi.item = "-";
+        poi.item = "";
         $("body").find("[data-index=" + 2 + "]").each(function(){
-            var imageHolder = $(this).find(".preview-img").attr("src", "");
+            var imageHolder = $(this).find("#preview-img-C").attr("src", "images/no-image.jpg");
         });
         savePOI(poi, game);
         $("#removeImageC").hide();
