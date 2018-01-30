@@ -156,7 +156,7 @@ function gameReady() {
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
 						+ points +
 						`<div class="shareButtons">
-							<a id="fbshare" href="#"><button type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 						</div>
 						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
@@ -308,7 +308,7 @@ function gameReady() {
 	    return false;
 	});
 
-	$('#fbshare').on('click touchstart', function(e) {
+	$('#fbshare button').on('click touchstart', function(e) {
 		e.preventDefault();
 
 		var hashtag = "#BeaconingEU";
@@ -332,6 +332,29 @@ function gameReady() {
 		}, function(response){});
 		return false;
 	});
+}
+
+function fbshare() {
+
+	var hashtag = "#BeaconingEU";
+	var via = "@BeaconingEU";
+
+	// Bobo
+	if (game_id == 487) {
+		hashtag = "#bobopulpin";
+		via = "@bobopulpin";
+	// Bella
+	} else if (game_id == 488) {
+		hashtag = "#BellavistaBcn";
+		via = "@BellavistaBcn";
+	}
+
+	FB.ui({
+		method: 'share',
+		href: 'https://atcc.beaconing.eu/',
+		hashtag: hashtag,	
+		quote: via
+	}, function(response){});
 }
 
 
