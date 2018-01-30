@@ -3,7 +3,7 @@
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
-	
+
 	error_reporting(0);
 
 	require 'class/db.class.php';
@@ -161,21 +161,23 @@
 	}(document, 'script', 'facebook-jssdk'));
 </script>
 
+
+<div id="gameInfo">
+	<img id="topImageNoTime" class="hidden" src="app/images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButtonNoTime">
+	<map name="inventoryButtonNoTime" id="inventoryButtonNoTime">
+		<area alt="" title="" href="JavaScript: showInventory(1); void(0);" shape="rect" coords="61,54,107,103" />
+	</map>
+
+	<img id="topImageTime" class="hidden" src="app/images/ui-app-d-follow-treasure.png" usemap="#inventoryButton">
+	<map name="inventoryButton" id="inventoryButton">
+		<area alt="" title="" href="JavaScript: showInventory(2); void(0);" shape="rect" coords="61,89,107,138" />
+	</map>
+	<p id="remaining-time"></p>
+	<p id="main-progress"></p>
+</div>
+
 <div id="topBar">
 	<p id="distance"></p>
-	<div id="gameInfo">
-		<img id="topImageNoTime" class="hidden" src="app/images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButtonNoTime">
-		<map name="inventoryButtonNoTime" id="inventoryButtonNoTime">
-    		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,54,107,103" />
-		</map>
-
-		<img id="topImageTime" class="hidden" src="app/images/ui-app-d-follow-treasure.png" usemap="#inventoryButton">
-		<map name="inventoryButton" id="inventoryButton">
-    		<area alt="" title="" href="JavaScript: showInventory(6); void(0);" shape="rect" coords="61,89,107,138" />
-		</map>
-		<p id="remaining-time"></p>
-		<p id="main-progress"></p>
-	</div>
 	<div id="left-icon-div" class="hidden"><img src="app/images/ui-app-i-treasure.png" id="left-icon"></div>
 	<div id="clueLayer" class="hidden"><p class="clue"></p></div>
 
@@ -188,7 +190,7 @@
 <div id="inventory" class="modalDialog">
 	<div>
 		<div id="inventory-header">
-			<a id="return" href="#"><</a>
+			<a id="inventory-return" href="JavaScript: hideInventory(2); void(0);"><</a>
 			<p id="inventory-title">Inventory</p>
 			<img src="app/images/inventory-header.png" id="inventory-header-image">
 			<p id="inventory-progress"></p>
@@ -288,20 +290,20 @@
 	tracker.addPlugin(new TrackerPlugins.Geolocation());
 
 	var connected = false;
-	  tracker.Start(function(result, error){
-      if(!error){
-      	console.log("tracker started");
-      	connected = true;
-    	if (cookieNeeded) { 
-    		console.log("Saving UserToken.. " + tracker.userToken)	;
-    		setCookie("userToken", tracker.userToken, 365); 
-    	} else {
-    		console.log("Using saved UserToken: " + tracker.userToken);
-    	}
-    	tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
-      }else{
+	tracker.Start(function(result, error){
+	    if(!error) {
+	      	console.log("tracker started");
+	      	connected = true;
+	    	if (cookieNeeded) {
+	    		console.log("Saving UserToken.. " + tracker.userToken);
+	    		setCookie("userToken", tracker.userToken, 365);
+	    	} else {
+	    		console.log("Using saved UserToken: " + tracker.userToken);
+	    	}
+	    	tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
+	    } else {
         console.log("start error")
-      }
+	    }
 	});
 
 	var nextPOI = currentPOI;
@@ -330,8 +332,8 @@
 	var map = L.map('map', { zoomControl:false }).fitWorld();
 
 	map.removeControl( map.attributionControl );
-
-	L.tileLayer('https://api.mapbox.com/styles/v1/citynostra/ciw6pvt9g00012qppdm7txtet/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW5vc3RyYSIsImEiOiJTa2FCY0RzIn0.DoxoeVwC6gVhVtsEr0mA6Q', {
+	
+	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjchskpku77dt2sp6g6b53zfw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
 		maxZoom: 18,
 		id: 'mapbox.streets'
 	}).addTo(map);

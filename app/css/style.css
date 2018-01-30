@@ -23,11 +23,13 @@ html, body, #map { height: 100vh; width: 100vw; }
     width: 100px;
 }
 
-#topBar #gameInfo {
-	float: right;
+#gameInfo {
+	position: absolute;
+	z-index:9999;
+	right: 0;
 }
 
-#topBar #remaining-time {
+#gameInfo #remaining-time {
 	position: absolute;
     right: 22px;
     color: white;
@@ -291,7 +293,7 @@ div.landscape {
 	display: inline-block;
 }
 
-#inventory #inventory-header #return {
+#inventory #inventory-header #inventory-return {
 	font-size: 1.8em;
 	background-color: #c25d31;
 	text-decoration: none;
@@ -312,7 +314,7 @@ div.landscape {
     margin-top: 0px;
 }
 
-#topBar #gameInfo #main-progress.time {
+#gameInfo #main-progress.time {
 	position: fixed;
     top: 125px;
     font-size: 0.9em;
@@ -320,7 +322,7 @@ div.landscape {
     right: 25px;
 }
 
-#topBar #gameInfo #main-progress.notime {
+#gameInfo #main-progress.notime {
 	position: fixed;
     top: 90px;
     font-size: 0.9em;
@@ -431,7 +433,7 @@ div.landscape {
 	float: left;
 }
 
-.btn-facebook {
+.btn-facebook, #fbshare {
 	border: 0px;
 	border-radius: 5px;
 	color: #fff;

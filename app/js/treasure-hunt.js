@@ -642,13 +642,14 @@ function showInventory(id) {
 	// TODO omplir al principi amb totes les imatges i posarles hidden o shown
 	document.getElementById('inventory').style.zIndex = "9999";
 	document.getElementById('inventory').style.opacity = "1";
+}
 
-	document.getElementById('return').onclick = function() {
+
+function hideInventory(id) {
 		document.getElementById('inventory').style.zIndex = "-1";
 		document.getElementById('inventory').style.opacity = "0";
-		return true;
-	};
 }
+
 
 function addCollectablesToInventory() {
 

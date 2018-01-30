@@ -50,7 +50,7 @@ function gameReady() {
 			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
 			    		console.log("textwithvideo!");
 			    		textClass = "textWithVideo";
-			        	media = '<!--div class="videoWrapper"--><video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video><!--/div-->';
+			        	media = '<video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video>';
 					}
 			        break;
 			    default:
