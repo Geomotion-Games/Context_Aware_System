@@ -184,6 +184,10 @@ function init(){
             screens[1].challengeType = "minigame";
             $("#upload-select-div").addClass('hidden');
             $("#minigame-select-div").removeClass('hidden');
+            $("#minigameSelectedWarning").modal('show');
+            $("#minigameSelectedWarning .fileSizeWarning-close").click(function(){
+                $("#minigameSelectedWarning").modal('hide');
+            });
         }
     }
 

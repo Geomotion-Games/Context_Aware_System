@@ -364,7 +364,7 @@ function teleportIfNeeded() {
 function updateTimeLabel() {
 	var now = new Date().getTime();
 	var time_spent = now - parseInt(startingTime);
-	var remaining_time = Math.round(time_limit - time_spent/1000)
+	var remaining_time = Math.round(time_limit - time_spent/1000);
 	var r_sec = remaining_time%60;
 
 	if (remaining_time > 0) {

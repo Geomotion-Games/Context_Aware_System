@@ -124,7 +124,7 @@
 				<input id="itemName" class="attrValue" type="text" placeholder="Item Name" maxlength="25">
 			</div>
 			<div id="imageContainer" class="col-md-4 attribute">
-				<p class="attrTitle">Collectable item (Formats: JPG JPEG PNG GIF; Max 300kb)</p>
+				<p class="attrTitle">Collectable item (Formats: JPG JPEG PNG GIF; Max 10MB)</p>
 				<div class="row">
                     <div class="col-md-12">
                         <input id="poiImage" class="attrValue" type="file" accept="image/*">
@@ -180,6 +180,17 @@
 				<h4><b>Warning!</b></h4>
 				<hr>
 				<p class="fileSizeWarningMessage">The image exceeds the 10MB limit</p>
+				<a class="warningBtn fileSizeWarning-close">Ok</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="fileSizeWarning modal fade" id="minigameSelectedWarning" tabindex="-1" role="dialog" aria-labelledby="minigameSelectedWarning">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<h4><b>Warning!</b></h4>
+				<hr>
+				<p class="fileSizeWarningMessage">Challenges for this Point Of Interest (POI) must be created and assigned from the General Authoring tool</p>
 				<a class="warningBtn fileSizeWarning-close">Ok</a>
 			</div>
 		</div>

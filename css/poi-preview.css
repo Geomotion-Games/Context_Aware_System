@@ -191,14 +191,15 @@ div.edit-screen {
 	margin-top:50px;
 }
 
-#fileSizeWarning .modal-dialog, #uploadingVideo .modal-dialog{
+.fileSizeWarning .modal-dialog, #uploadingVideo .modal-dialog{
 	width: 330px;
 	margin-top:50px;
 }
-#fileSizeWarning .modal-content, #uploadingVideo .modal-content{
+
+.fileSizeWarning .modal-content, #uploadingVideo .modal-content{
 	padding: 10px;
-	height: 180px;
 }
+
 .fileSizeWarning-close{
 	float: none;
 	margin-top:20px;

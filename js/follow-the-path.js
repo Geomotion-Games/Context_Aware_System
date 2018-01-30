@@ -109,7 +109,7 @@ function showStop(stop){
 	var len = Object.keys(points).length;
 	var last = game.type == "TreasureHunt" && (stop.orderNumber == len);
 
-	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#"
+	var url = stop.id ? "screens-overview.php?id=" + stop.id + (last ? "&noClue" : ""): "#";
 	if(stop.type == "normal") {
 		$('#stops').append(`
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">

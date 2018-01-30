@@ -342,7 +342,6 @@ function attachUploadContentEvents() {
 					            poiNum: id,
 					            file: e.target.files[0],
 					            postCallback: function(success){
-					            	console.log("---");
 					            	console.log(id);
 					                document.getElementById("toChallenge" + id).click();
 					            }
@@ -364,10 +363,12 @@ function teleportIfNeeded() {
 	}
 }
 
+
+//TODO time between sessions
 function updateTimeLabel() {
 	var now = new Date().getTime();
 	var time_spent = now - parseInt(startingTime);
-	var remaining_time = Math.round(time_limit - time_spent/1000)
+	var remaining_time = Math.round(time_limit - time_spent/1000);
 	var r_sec = remaining_time%60;
 
 	if (remaining_time > 0) {
