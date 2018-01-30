@@ -91,9 +91,9 @@
 		$teleport = true;
 	}
 
-	$startingTime = 0;
-	if (isset($_REQUEST['startingtime']) && ctype_digit($_REQUEST['startingtime'])) {
-		$startingTime = $_REQUEST['startingtime'];
+	$tracking_code_param = "";
+	if ( isset($_REQUEST['trackingcode']) ) {
+		$tracking_code_param = $_REQUEST['trackingcode'];
 	}
 
 	$game = array();
@@ -115,6 +115,8 @@
 	<link rel="stylesheet" href="app/css/style.css" />
 
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+	<script src="app/js/gp-common.js"></script>
 
 	<?php switch($game["POIS"][0]["game_type"]): 
 		
@@ -222,13 +224,42 @@
 		return current;
 	}
 
-	var tracker = new TrackerAsset();
-
-	// 
+	var game_id = <?= $game_id; ?>;
+	var game_info = <?= json_encode($game); ?>;
+	var game_type = game_info["POIS"][0]["game_type"];
+	var st = getCookie("starting_time_" + game_id);
+	var time_limit = game_info["POIS"][0]["time_limit"] * 60; 
+	var startingTime = 0;
+	if (st.length > 0) {
+		startingTime = st;
+	} else {
+		var n = new Date().getTime();
+		setCookie("starting_time_" + game_id, n, 365);
+		startingTime = n;
+	}
+	var device = "<?= $device; ?>";
 	var teleport = <?= $teleport ? 1 : 0 ?>;
-	var cookieNeeded = false;
 
-	if (teleport) { // From QR
+	var currentPOI = teleportTo(<?= $currentPOI ?>);
+
+	var tracker = new TrackerAsset();
+	var cookieNeeded = false;
+	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
+
+	var server_url = "";
+	var uploads_url = "";
+
+	if ((window.location.href).indexOf("atcc-qa") !== -1) {
+		console.log("pre environment");
+		server_url = "https://atcc-qa.beaconing.eu/";
+		uploads_url = "https://atcc-qa.beaconing.eu/";
+	} else if ((window.location.href).indexOf("atcc") !== -1) {
+		console.log("pro environment");
+		server_url = "https://atcc.beaconing.eu/";
+		uploads_url = "https://atcc.beaconing.eu/";
+	}
+
+	if (teleport || fromMinigame) { // From QR
 		var userToken = getCookie("userToken");
 		console.log("cookie found: " + userToken);
 	    if (userToken != "") {
@@ -242,10 +273,16 @@
 	} else {
 		// set new playerId
 		cookieNeeded = true;
+
+		// recover progress
+		var progress = getCookie("progress_game_" + game_id);
+		if (progress != "" && !fromMinigame) {
+			currentPOI = teleportTo(progress);
+		}
 	}
 
 	tracker.settings.host = "https://analytics.beaconing.eu/";
-	tracker.settings.trackingCode = "59b69f88aba6bc006e35313dpgkbz8pt4ax4unmi";
+	tracker.settings.trackingCode = "<?= $tracking_code_param ? $tracking_code_param : "5a5f75c31aa66f0081138640tvfardjm1dp" ?>";
 
 	//Add the plugin
 	tracker.addPlugin(new TrackerPlugins.Geolocation());
@@ -267,32 +304,9 @@
       }
 	});
 
-	var server_url = ""
-	var uploads_url = ""
-
-	if ((window.location.href).indexOf("atcc-qa") !== -1) {
-		console.log("pre environment");
-		server_url = "https://atcc-qa.beaconing.eu/";
-		uploads_url = "https://atcc-qa.beaconing.eu/";
-	} else if ((window.location.href).indexOf("atcc") !== -1) {
-		console.log("pro environment");
-		server_url = "https://atcc.beaconing.eu/";
-		uploads_url = "https://atcc.beaconing.eu/";
-	}
-
-	var game_id = <?= $game_id; ?>;
-	var game_info = <?= json_encode($game); ?>;
-	var game_type = game_info["POIS"][0]["game_type"];
-	var time_limit = game_info["POIS"][0]["time_limit"] * 60;
-	var startingTime = <?= $startingTime; ?>;
-	var device = "<?= $device; ?>";
-
-	var currentPOI = teleportTo(<?= $currentPOI ?>);
-
 	var nextPOI = currentPOI;
 	var nextDistance = 1000;
 	var located = false;
-	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
 	var challengeSuccess = <?= $challengeSuccess ? 1 : 0 ?>;
 
 	var stopIcon = L.icon({

@@ -184,7 +184,7 @@ function gameReady() {
 					"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
 					"https%3A%2F%2Fatcc.beaconing.eu/";
 
-				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + inapp;
 				window.open(minigameURL, "_self");
 				return;
 			}
@@ -222,7 +222,7 @@ function gameReady() {
 									"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
 									"https%3A%2F%2Fatcc.beaconing.eu/";
 
-								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + inapp;
 								window.open(minigameURL, "_self");
 							}
 						} else {
@@ -239,9 +239,18 @@ function gameReady() {
 	}
 
 	var lastPOIId = Object.keys(game)[Object.keys(game).length-2];
+
+	for (var i=1; i<Object.keys(game).length-2; i++) {
+		document.getElementById("closeClue" + i).onclick = function() {
+			saveProgress();
+		}
+	}
+
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
+
+			saveProgress();
 
 			// TIME
 			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
@@ -266,8 +275,6 @@ function gameReady() {
 		}, 1000);
 	}
 
-	updatePath();
-
 	if (time_limit != 0) { 
 		document.getElementById("main-progress").className = "time";
 		document.getElementById("distance").className = "time";
@@ -278,10 +285,11 @@ function gameReady() {
 		document.getElementById("topImageNoTime").className = "notime";
 	}
 
-	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
+	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
 
 	attachUploadContentEvents();
 	teleportIfNeeded();
+	updatePath();
 
 	$('.popup').click(function(event) {
 	    var width  = 575,
@@ -509,12 +517,11 @@ function newLocation(position) {
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
 		if (distanceToNextPOI <= game[nextPOI].triggerDistance) {
-
 			trackProgress();
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
 			nextPOI = getFollowingPOIId(nextPOI);
-			document.getElementById('main-progress').text = getInventoryProgressAsString; //TODO després del challenge si l'ha superat?
+			document.getElementById('main-progress').text = getInventoryProgressAsString(game);
 		}
 
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
@@ -523,6 +530,10 @@ function newLocation(position) {
 	this.refreshUserMarker(coors);
 }
 
+function saveProgress() {
+	console.log("saving progress..." + currentPOI);
+	setCookie("progress_game_" + game_id, currentPOI, 365);
+}
 
 function trackProgress() {
 	
@@ -685,7 +696,7 @@ function addCollectablesToInventory() {
 		inventory.innerHTML += rowHTML + "</div>";
 	}
 
-	progress.innerHTML = getInventoryProgressAsString(); //TODO current POI no, contar quants en porta
+	progress.innerHTML = getInventoryProgressAsString(game); //TODO current POI no, contar quants en porta
 
 	`<div class="row">
 		<div class="collectable">

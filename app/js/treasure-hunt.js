@@ -185,7 +185,7 @@ function gameReady() {
 					"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
 					"https%3A%2F%2Fatcc.beaconing.eu/";
 
-				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + inapp;
 				window.open(minigameURL, "_self");
 				return;
 			}
@@ -195,7 +195,7 @@ function gameReady() {
 			nextPOI = getFollowingPOIId(nextPOI);
 
 			updatePath();
-			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
+			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
 		} else {
 			nextPOI = getFollowingPOIId(nextPOI);
 		}
@@ -224,7 +224,7 @@ function gameReady() {
 									"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
 									"https%3A%2F%2Fatcc.beaconing.eu/";
 
-								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + "%26startingtime%3D" + startingTime + inapp;
+								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + inapp;
 								window.open(minigameURL, "_self");
 							}
 						} else {
@@ -241,9 +241,18 @@ function gameReady() {
 	}
 
 	var lastPOIId = Object.keys(game)[Object.keys(game).length-2];
+
+	for (var i=1; i<Object.keys(game).length-2; i++) {
+		document.getElementById("closeClue" + i).onclick = function() {
+			saveProgress();
+		}
+	}
+
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			document.getElementById("openA999").click();
+
+			saveProgress();
 
 			// TIME
 			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
@@ -410,7 +419,7 @@ function updateTopInfo( distanceToNextPOI ) {
 		document.getElementById('left-icon-div').className = "hidden";
 	}
 
-	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString();
+	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
 }
 
 
@@ -523,7 +532,7 @@ function newLocation(position) {
 		located = true;
 
 		tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
-		lastPOITime  = new Date().getTime();
+		lastPOITime  = new Date().getTime() / 1000;
 		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
 		if (time_limit != 0) {
 			setInterval(function() { updateTimeLabel(); }, 1000);
@@ -550,6 +559,11 @@ function newLocation(position) {
 	}
 
 	this.refreshUserMarker(coors);
+}
+
+function saveProgress() {
+	console.log("saving progress..." + currentPOI);
+	setCookie("progress_game_" + game_id, nextPOI, 365);
 }
 
 function trackProgress() {
@@ -710,7 +724,7 @@ function addCollectablesToInventory() {
 		inventory.innerHTML += rowHTML + "</div>";
 	}
 
-	progress.innerHTML = getInventoryProgressAsString();
+	progress.innerHTML = getInventoryProgressAsString(game);
 
 	`<div class="row">
 		<div class="collectable">
