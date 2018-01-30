@@ -427,7 +427,7 @@ function appendEditor(parent, screen){
                   <input id="videoRadio" type="radio" name="image-video" value="video"> Upload Video
                 </form>
                 <div id="imageForm">
-                    <label for="screenImage">Image (Formats: JPG JPEG PNG GIF; Max 300kb): </label>
+                    <label for="screenImage">Image (Formats: JPG JPEG PNG GIF; Max 10MB): </label>
                     <div class="row">
                         <div class="col-md-12">
                             <input class="form-control" id="screenImage" type="file" accept="image/*" >
@@ -771,7 +771,7 @@ function uploadImage(options){
                         console.log("Succes upload: " + url);
                         options.postCallback(url);
                     } else {
-                        showWarning("The image exceeds the 300kb limit");
+                        showWarning("The image exceeds the 10MB limit");
                         console.log("Error upload: " + data);
                     }
                 }

@@ -16,7 +16,7 @@
 			|| ($file["type"] == "image/jpg") 
 			|| ($file["type"] == "image/gif") 
 			|| ($file["type"] == "image/jpeg")) 
-			&& ($file["size"] < 300 * 1024) // 300kb
+			&& ($file["size"] < 10 * 1024 * 1024) // 10MB
 			&& in_array($file_extension, $validextensions)) {
 			
 			if ($file["error"] > 0) {

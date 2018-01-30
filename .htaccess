@@ -1,2 +1,4 @@
+php_value upload_max_filesize 10M
+
 RewriteEngine On
 RewriteRule ^duplicate/([^/d]+)/?$ /php/duplicate.php?id=$1 [NC,L]

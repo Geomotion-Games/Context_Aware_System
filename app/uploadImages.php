@@ -1,5 +1,5 @@
 <?php
-	
+
 	error_reporting(0);
 
 	$type = $_REQUEST["type"];
@@ -13,10 +13,10 @@
 		$temp = explode(".", $file["name"]);
 		$file_extension = end($temp);
 	
-		if (((  $file["type"] == "image/png") 
-			|| ($file["type"] == "image/jpg") 
-			|| ($file["type"] == "image/jpeg")) 
-			&& ($file["size"] < 300 * 1024) // 300kb
+		if (((  $file["type"] == "image/png")
+			|| ($file["type"] == "image/jpg")
+			|| ($file["type"] == "image/jpeg"))
+			&& ($file["size"] < 10 * 1024 * 1024) // 10MB
 			&& in_array($file_extension, $validextensions)) {
 			
 			if ($file["error"] > 0) {
