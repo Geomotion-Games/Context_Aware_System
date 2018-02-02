@@ -13,6 +13,7 @@ var lastPOIDistance = 0;
 var totalDistance = 0;
 var lastPosition;
 var challengeType = "";
+var startOpen = false;
 
 function gameReady() {
 
@@ -39,9 +40,7 @@ function gameReady() {
 			    case "youtubeOrVimeo":
 			    	console.log("youtube!");
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
-			    		console.log("parsing");
 			    		var url = parseYoutubeOrVimeoURL(game[step]["A"].youtubeOrVimeoURL);
-			    		console.log("textwithvideo!");
 			    		textClass = "textWithVideo";
 			        	media = '<div class="videoWrapper"><iframe width="100%" height="auto" src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
 					}
@@ -49,7 +48,6 @@ function gameReady() {
 			    case "video":
 			    	console.log("uploaded video!");
 			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
-			    		console.log("textwithvideo!");
 			    		textClass = "textWithVideo";
 			        	media = '<!--div class="videoWrapper"--><video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video><!--/div-->';
 					}
@@ -169,6 +167,7 @@ function gameReady() {
 	}
 
 	if (nextPOI == 0) {
+		startOpen = true;
 		document.getElementById('openA0').click();
 		nextPOI = getFollowingPOIId(nextPOI);
 	} else {
@@ -246,6 +245,10 @@ function gameReady() {
 		document.getElementById("closeClue" + i).onclick = function() {
 			saveProgress();
 		}
+	}
+
+	document.getElementById("toChallenge0").onclick = function() {
+		startOpen = false;
 	}
 
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
@@ -348,8 +351,6 @@ function attachUploadContentEvents() {
 					            poiNum: id,
 					            file: e.target.files[0],
 					            postCallback: function(success){
-					            	console.log("---");
-					            	console.log(id);
 					                document.getElementById("toChallenge" + id).click();
 					            }
 					        });
@@ -386,9 +387,9 @@ function updateTimeLabel() {
 
 function updateTopInfo( distanceToNextPOI ) {
 
-	if (currentPOI == 0) {
-		
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+
+	if (currentPOI == 0) {
 
 		var clue = "";
 		if (game[currentPOI]["A"].hasOwnProperty("clue")) {
@@ -401,8 +402,6 @@ function updateTopInfo( distanceToNextPOI ) {
 		document.getElementById('left-icon-div').className = "shown";
 		
 	} else if (game[currentPOI]["C"].hasOwnProperty("clue")) {
-
-		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
 
 		document.getElementById('clueLayer').getElementsByTagName("p")[0].innerHTML = game[currentPOI]["C"].clue;
 		document.getElementById('clueLayer').className = "shown";
@@ -539,7 +538,7 @@ function newLocation(position) {
 		}
 	}
 
-	if (nextPOI > 0 && nextPOI < 999) {
+	if (nextPOI > 0 && nextPOI < 999 && !startOpen) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
