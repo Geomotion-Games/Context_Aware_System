@@ -210,6 +210,7 @@
 	</div>
 </div>
 
+<a id="locate-user" href="#"><img src="app/images/locate-user.png" id="locate-button"/></a>
 <script>
 
 	function teleportTo( current ) {
@@ -344,6 +345,12 @@
 		locate_browser();
 	}
 
+	document.getElementById("locate-button").onclick = function() {
+		if (lastPosition != null) {
+			console.log(new L.LatLng(lastPosition.latitude, lastPosition.longitude));
+			map.panTo( new L.LatLng(lastPosition.latitude, lastPosition.longitude) );
+		}
+	}
 	gameReady();
 
 </script>
