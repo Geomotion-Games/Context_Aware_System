@@ -14,7 +14,9 @@
 
 	$bd = Db::getInstance();
 
-	$id = $_REQUEST['id'];
+	$id = $_REQUEST['id']; //TODO controlar això....
+
+	$callback = (isset($_REQUEST['callback']) && $_REQUEST['callback'] != "") ? $_REQUEST['callback'] : "atcc";
 
     $query = $bd->ejecutar("SELECT * FROM plot WHERE id = " . $id);
 	$numRows = $bd->num_rows($query);
@@ -173,6 +175,7 @@
 	<script src="js/duplicate.js"></script>
 	<script src="js/map.js"></script>
 	<script src="js/follow-the-path.js"></script>
+	<script src="app/js/tracking.js"></script>
 
 	<script>
 		$(function() {
@@ -200,6 +203,25 @@
 
 		$(document).ready(function(){
 		    $('[data-toggle="tooltip"]').tooltip();   
+		});
+
+		var callback = "<?= $callback; ?>";
+		if ( callback != "atcc") {
+			setCookie("callback-at", "<?= $callback; ?>", 365); 
+		}
+
+		var buttonurl = getCookie("callback-at");
+		if ( buttonurl != "" ) {
+			console.log(buttonurl);
+			if (buttonurl.startsWith("http")) {
+				$("#finishEdition").attr("href", buttonurl);
+			} else {
+				$("#finishEdition").attr("href", "https://" + buttonurl);
+			}
+		}
+
+		$("#finishEdition").click(function() {
+			setCookie("callback-at", "", 365);
 		});
 		
 	</script>
