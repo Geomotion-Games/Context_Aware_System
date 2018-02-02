@@ -210,7 +210,10 @@
 	</div>
 </div>
 
+<?php echo $device == "app" ? '<a id="qr-code" href="#"><img src="app/images/qr-icon.png" id="qr-button"/></a>' : ""; ?>
 <a id="locate-user" href="#"><img src="app/images/locate-user.png" id="locate-button"/></a>
+
+
 <script>
 
 	function teleportTo( current ) {
@@ -351,6 +354,18 @@
 			map.panTo( new L.LatLng(lastPosition.latitude, lastPosition.longitude) );
 		}
 	}
+
+	if (document.getElementById("qr-button") != null ) { 
+		$('#qr-button').on('click touchstart', function(e) {
+			window.location.href = "?scanqrcode";
+		});
+	}
+
+	function setQRCodeScan(data) {
+		//alert(data);
+		window.location.replace(data.substring(1, data.length-1) + "&device=app");
+	}
+
 	gameReady();
 
 </script>
