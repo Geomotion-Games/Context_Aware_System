@@ -547,7 +547,7 @@ function newLocation(position) {
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
 			nextPOI = getFollowingPOIId(nextPOI);
-			document.getElementById('main-progress').text = getInventoryProgressAsString(game);
+			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
 		}
 
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
@@ -669,7 +669,7 @@ function addCollectablesToInventory() {
 
 			if (i % 2 == 0) {
 
-				if (currentPOI > i) {
+				if (currentPOI >= step) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -690,7 +690,8 @@ function addCollectablesToInventory() {
 				}
 				
 			} else {
-				if (currentPOI > i) {
+				if (currentPOI >= step) {
+
 					rowHTML += `
 							<div class="collectable">
 								<div class="collectable-image" style="

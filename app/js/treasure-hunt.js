@@ -671,7 +671,7 @@ function addCollectablesToInventory() {
 
 			if (i % 2 == 0) {
 
-				if (currentPOI > i) {
+				if (currentPOI >= step) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -724,7 +724,7 @@ function addCollectablesToInventory() {
 		inventory.innerHTML += rowHTML + "</div>";
 	}
 
-	progress.innerHTML = getInventoryProgressAsString(game);
+	progress.innerHTML = getInventoryProgressAsString(game); //TODO current POI no, contar quants en porta
 
 	`<div class="row">
 		<div class="collectable">
