@@ -10,7 +10,7 @@ var game = {};
 var lastPOITime;
 var lastPOIDistance = 0;
 var totalDistance = 0;
-var lastPosition;
+var lastPosition = null;
 var challengeType = "";
 var startOpen = false;
 
@@ -94,7 +94,7 @@ function gameReady() {
 		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 
-		if (step == 999) { button = ""; }
+		if (step == 999) { button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>'; }
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
 		var POIBefore = `
@@ -247,6 +247,12 @@ function gameReady() {
 
 	document.getElementById("toChallenge0").onclick = function() {
 		startOpen = false;
+	}
+
+	document.getElementById("show-inventory-finish").onclick = function(e) {
+		e.preventDefault();
+		showInventory();
+		return false;
 	}
 
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
