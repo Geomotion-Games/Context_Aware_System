@@ -37,7 +37,7 @@ html, body, #map { height: 100vh; width: 100vw; }
     top: 18px;
 }
 
-#topBar #distance.notime {
+#gameInfo #distance.notime {
 	position: absolute;
     right: 5px;
     color: white;
@@ -45,7 +45,7 @@ html, body, #map { height: 100vh; width: 100vw; }
     top: 25px;
 }
 
-#topBar #distance.time {
+#gameInfo #distance.time {
 	position: absolute;
     right: 5px;
     color: white;

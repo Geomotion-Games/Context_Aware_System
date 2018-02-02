@@ -435,13 +435,12 @@ function updatePath() {
 			} else {
 				marker = L.marker(latlng, { icon: poiIcon });
 			}
-
-			if (currentPOI >= step) {
+			if (parseInt(currentPOI) >= parseInt(step)) {
 				marker.setOpacity(0.5);
 				pointList_pre.push(latlng);
 			}
 
-			if (currentPOI <= step) {
+			if (parseInt(currentPOI) <= parseInt(step)) {
 				pointList_post.push(latlng);
 			}
 

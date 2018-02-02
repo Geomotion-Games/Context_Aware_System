@@ -161,6 +161,13 @@
 	}(document, 'script', 'facebook-jssdk'));
 </script>
 
+<div id="topBar">
+	<div id="left-icon-div" class="hidden"><img src="app/images/ui-app-i-treasure.png" id="left-icon"></div>
+	<div id="clueLayer" class="hidden"><p class="clue"></p></div>
+
+	<!-- extra -->
+	<p id="message" style="display: none;"></p>
+</div>
 
 <div id="gameInfo">
 	<img id="topImageNoTime" class="hidden" src="app/images/ui-app-d-follow-treasure-notime.png" usemap="#inventoryButtonNoTime">
@@ -172,18 +179,11 @@
 	<map name="inventoryButton" id="inventoryButton">
 		<area alt="" title="" href="JavaScript: showInventory(2); void(0);" shape="rect" coords="61,89,107,138" />
 	</map>
+	<p id="distance"></p>
 	<p id="remaining-time"></p>
 	<p id="main-progress"></p>
 </div>
 
-<div id="topBar">
-	<p id="distance"></p>
-	<div id="left-icon-div" class="hidden"><img src="app/images/ui-app-i-treasure.png" id="left-icon"></div>
-	<div id="clueLayer" class="hidden"><p class="clue"></p></div>
-
-	<!-- extra -->
-	<p id="message" style="display: none;"></p>
-</div>
 <div id="map"></div>
 <div id="extras"></div>
 
@@ -206,7 +206,7 @@
 		<H2>Time is over</H2>
 		<img src="app/images/timelimit.jpg" id="time-limit-image">
 		<p>Oh! The time limit to complete the game is over.</p>
-		<a id="time-limit-button" href="#" class="goButton">Go out</a>
+		<!--a id="time-limit-button" href="#" class="goButton">Go out</a-->
 	</div>
 </div>
 
@@ -336,7 +336,7 @@
 	var map = L.map('map', { zoomControl:false }).fitWorld();
 
 	map.removeControl( map.attributionControl );
-	
+
 	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjchskpku77dt2sp6g6b53zfw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
 		maxZoom: 18,
 		id: 'mapbox.streets'

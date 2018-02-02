@@ -65,7 +65,7 @@
 		$('#myForm').submit(function(ev) {
 		    ev.preventDefault(); // to stop the form from submitting
 		    var gameId = document.forms["myForm"]["gameid"].value;
-			var url = "https://www.geomotiongames.com/pre/beaconing/app/app.php?game=" + gameId + "&device=" + device;
+			var url = "https://atcc-qa.beaconing.eu/inapp.php?game=" + gameId + "&device=" + device;
 			window.location.href = url;
 		});
 

@@ -652,7 +652,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <option value="any">Any</option>
                                     <option value="image">Image</option>
                                     <option value="video">Video</option>
-                                    <option value="audio">Audio</option>
+                                    <!--option value="audio">Audio</option-->
                                 <select>
                             </div>
                         </form>

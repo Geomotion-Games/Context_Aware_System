@@ -290,8 +290,10 @@ function gameReady() {
 		document.getElementById("topImageNoTime").className = "notime";
 	}
 
+
 	attachUploadContentEvents();
 	teleportIfNeeded();
+	updatePath();
 
 	$('.popup').click(function(event) {
 	    var width  = 575,
@@ -410,7 +412,7 @@ function updateTopInfo( distanceToNextPOI ) {
 		var keys = Object.keys(game);
 		var lastPOIId = keys[keys.length-2];
 		if (nextPOI == lastPOIId) {
-			document.getElementById("left-icon").src="images/ui-app-i-treasure-finish.png";
+			document.getElementById("left-icon").src="app/images/ui-app-i-treasure-finish.png";
 		}
 
 	} else {
@@ -430,7 +432,9 @@ function updatePath() {
 
 		var marker;
 
-		if (step < nextPOI && step != 0 && step != 999) {
+		if (parseInt(step) < parseInt(nextPOI) && 
+			parseInt(step) != 0 && 
+			parseInt(step) != 999) {
 
 			var latlng = { "lat": game[step].lat, "lng": game[step].lng };
 			var poiIcon = step == 1 ? flagIcon : stopIcon;
@@ -440,9 +444,13 @@ function updatePath() {
 							{
 								permanent: true,
 								direction: 'bottom'
-							}).addTo(map);
+							});
+				marker.setOpacity(0.5);
+				marker.addTo(map);
 			} else {
-				marker = L.marker(latlng, { icon: poiIcon }).addTo(map);
+				marker = L.marker(latlng, { icon: poiIcon });
+				marker.setOpacity(0.5);
+				marker.addTo(map);
 			}
 
 			pointList.push(latlng);

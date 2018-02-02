@@ -233,7 +233,7 @@
 
 
 	    $("#qrcode").on('click',function(e){
- 	    	var url = getAppDomain() + "app.php?game=" + game.id +"&device=browser&teleport=" + poi.id;
+ 	    	var url = getAppDomain() + "app.php?game=" + game.id +"&teleport=" + poi.id;
 
 	    	var apiUrl =  "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(url) + "&choe=UTF-8";
 
