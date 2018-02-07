@@ -16,7 +16,7 @@
 
 	$game_id = isset($_REQUEST['game']) && ctype_digit($_REQUEST['game']) ? $_REQUEST['game'] : "0";
 
-    $query = $bd->ejecutar(sprintf("SELECT poi.*, plot.id as plotId, plot.time as time_limit, plot.type as game_type
+    $query = $bd->ejecutar(sprintf("SELECT poi.*, plot.id as plotId, plot.time as time_limit, plot.type as game_type, plot.tracking_code as tracking_code
     								FROM poi
     				  				INNER JOIN plot 
     				  				ON poi.plot = plot.id 
@@ -288,7 +288,9 @@
 	}
 
 	tracker.settings.host = "https://analytics.beaconing.eu/";
-	tracker.settings.trackingCode = "<?= $tracking_code_param ? $tracking_code_param : "5a5f75c31aa66f0081138640tvfardjm1dp" ?>";
+	var pretc = "<?= $tracking_code_param ? $tracking_code_param : "5a5f75c31aa66f0081138640tvfardjm1dp" ?>";
+	console.log("tracking_code used: " + game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc);
+	tracker.settings.trackingCode = game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc;
 
 	//Add the plugin
 	tracker.addPlugin(new TrackerPlugins.Geolocation());

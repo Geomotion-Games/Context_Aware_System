@@ -173,17 +173,24 @@ function gameReady() {
 		if (fromMinigame) {
 			if (!challengeSuccess) {
 
+				// forced flush before redirect
+				tracker.Flush(function(result, error){
+					console.log("flushed");
+				});
+
 				var challenge = game[nextPOI]["B"]["challenge"];
 				var minigameURL = challenge["url"];
 				var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 				var playerId = "playerid=" + encodeURI(tracker.playerId);
 				var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+				var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
+				var cpoi = "%26step%3D" + currentPOI;
 
 				var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
-					"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
-					"https%3A%2F%2Fatcc.beaconing.eu/";
+					"https%3A%2F%2Fatcc-qa.beaconing.eu/app.php%3Fgame%3D" : 
+					"https%3A%2F%2Fatcc.beaconing.eu/app.php%3Fgame%3D";
 
-				minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + inapp;
+				minigameURL += "&" + playerId + "&" + trackingCode + "&callbackurl=" + url + game_id + cpoi + inapp + tc;
 				window.open(minigameURL, "_self");
 				return;
 			}
@@ -211,17 +218,25 @@ function gameReady() {
 						if (challenge["type"] == "upload_content") {
 							document.getElementById("openC" + currentPOI).click();
 						} else if (challenge["type"] == "minigame") {
+
+							// forced flush before redirect
+							tracker.Flush(function(result, error){
+								console.log("flushed");
+							});
+
 							var minigameURL = challenge["url"];
 							var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 							var playerId = "playerid=" + encodeURI(tracker.playerId);
 							var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+							var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
+							var cpoi = "%26step%3D" + currentPOI;
 
 							if (minigameURL.length > 0) {
 								var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
-									"https%3A%2F%2Fatcc-qa.beaconing.eu/" : 
-									"https%3A%2F%2Fatcc.beaconing.eu/";
+									"https%3A%2F%2Fatcc-qa.beaconing.eu/app.php%3Fgame%3D" : 
+									"https%3A%2F%2Fatcc.beaconing.eu/app.php%3Fgame%3D";
 
-								minigameURL += "&"+playerId + "&"+trackingCode + "&callbackurl=" + url + "app.php%3Fgame%3D"+ game_id + "%26step%3D" + currentPOI + inapp;
+								minigameURL += "&" + playerId + "&" + trackingCode + "&callbackurl=" + url + game_id + cpoi + inapp + tc;
 								window.open(minigameURL, "_self");
 							}
 						} else {
@@ -535,7 +550,7 @@ function newLocation(position) {
 		map.panTo(coors);
 		located = true;
 
-		tracker.Completable.Initialized("demo", tracker.Completable.CompletableType.Game);
+		tracker.Completable.Initialized("LB_GAME_" + game_id, tracker.Completable.CompletableType.Game);
 		lastPOITime  = new Date().getTime() / 1000;
 		startingTime = startingTime != 0 ? startingTime : new Date().getTime();
 		if (time_limit != 0) {
@@ -585,7 +600,7 @@ function trackProgress() {
 	tracker.setVar("averageSpeed", lastPOIDistance / timeSpent);
 	tracker.setVar("distance", lastPOIDistance);
 
-	tracker.Completable.Progressed("demo", tracker.Completable.CompletableType.Game, progress);
+	tracker.Completable.Progressed("LB_GAME_" + game_id, tracker.Completable.CompletableType.Game, progress);
 }
 
 function refreshUserMarker(coors) {
