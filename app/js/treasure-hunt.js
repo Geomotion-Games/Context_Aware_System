@@ -297,6 +297,11 @@ function gameReady() {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
 				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
 			}
+
+			//FINAL ANALYTICS
+			var now = new Date().getTime();
+			var time_spent = now - parseInt(startingTime);
+			tracker.setVar("time", time_spent/1000);
 			tracker.Completable.Completed("LB_GAME_" + game_id, tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}

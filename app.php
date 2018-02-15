@@ -288,6 +288,7 @@
 	var pretc = "<?= $tracking_code_param ? $tracking_code_param : "5a5f75c31aa66f0081138640tvfardjm1dp" ?>";
 	console.log("tracking_code used: " + game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc);
 	tracker.settings.trackingCode = game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc;
+	tracker.settings.backupStorage = false;
 
 	//Add the plugin
 	tracker.addPlugin(new TrackerPlugins.Geolocation());

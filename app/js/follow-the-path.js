@@ -295,7 +295,12 @@ function gameReady() {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
 				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
 			}
-			tracker.Completable.Completed("demo",tracker.Completable.CompletableType.Game, true, 1);
+			//FINAL ANALYTICS
+			var now = new Date().getTime();
+			var time_spent = now - parseInt(startingTime);
+			tracker.setVar("time", time_spent/1000);
+			//Tracker.setVar("distance", totalDistance);
+			tracker.Completable.Completed("LB_GAME_" + game_id, tracker.Completable.CompletableType.Game, true, 1);
 		}, 1000);
 	}
 
@@ -594,7 +599,7 @@ function trackProgress() {
 	var distance = 100; //TODO
 	var speed = 12; //TODO distance / lastPOITime
 
-	//tracker.setVar("time", timeSpent);
+	//tracker.setVar("time", timeSpent); //TODO
 	tracker.setVar("time", Math.floor(Math.random() * 20) + 20);
 	tracker.setVar("poiId", poiId);
 	tracker.setVar("averageSpeed", lastPOIDistance / timeSpent);
