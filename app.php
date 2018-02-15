@@ -253,16 +253,13 @@
 	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
 
 	var server_url = "";
-	var uploads_url = "";
 
 	if ((window.location.href).indexOf("atcc-qa") !== -1) {
 		console.log("pre environment");
 		server_url = "https://atcc-qa.beaconing.eu/";
-		uploads_url = "https://atcc-qa.beaconing.eu/";
 	} else if ((window.location.href).indexOf("atcc") !== -1) {
 		console.log("pro environment");
 		server_url = "https://atcc.beaconing.eu/";
-		uploads_url = "https://atcc.beaconing.eu/";
 	}
 
 	if (teleport || fromMinigame) { // From QR

@@ -32,7 +32,7 @@ function gameReady() {
 		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "" && game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
-			        media = "<img src=" + uploads_url + game[step]["A"].image + ">";
+			        media = "<img src=" + server_url + game[step]["A"].image + ">";
 					classP = "p30vh";
 					textClass = "textWithImage";
 			        break;
@@ -56,7 +56,7 @@ function gameReady() {
 			}
 		} else {
 			if (game[step]["A"].hasOwnProperty("image") && game[step]["A"].image != "") {
-				media = "<img src=" + uploads_url + game[step]["A"].image + ">";
+				media = "<img src=" + server_url + game[step]["A"].image + ">";
 				classP = "p30vh";
 			}
 		}
@@ -119,7 +119,7 @@ function gameReady() {
 		if (game[step].hasOwnProperty("C") && step > 0 ) {
 
 			if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item != "-" && game[step].item) {
-				media = "<img src=" + uploads_url + game[step].item + ">";
+				media = "<img src=" + server_url + game[step].item + ">";
 				textClass = "textWithImage";
 				classP = "p25vh";
 			} else {
@@ -694,7 +694,7 @@ function addCollectablesToInventory() {
 					rowHTML = `<div class="row">
 										<div class="collectable">
 											<div class="collectable-image" style="
-												background-image:url('`+ uploads_url + game[step].item +`');
+												background-image:url('`+ server_url + game[step].item +`');
 											"></div>
 											<div class="collectable-name">
 												<p>`+ itemName +`</p>
@@ -715,7 +715,7 @@ function addCollectablesToInventory() {
 					rowHTML += `
 							<div class="collectable">
 								<div class="collectable-image" style="
-									background-image:url('`+ uploads_url + game[step].item +`');
+									background-image:url('`+ server_url + game[step].item +`');
 								"></div>
 								<div class="collectable-name">
 									<p>`+ itemName +`</p>
