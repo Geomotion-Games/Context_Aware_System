@@ -154,6 +154,38 @@ Game.prototype.toJSON = function() {
     return json;
 };
 
+Game.prototype.toGLPJSON() = function() {
+    var json = [];
+
+    for( stop in this.stops ) {
+
+        /*"value":"https://beaconing.seriousgames.it/games/solveit/?session_id=7938148887",
+         "name":"4600",
+         "descr":"",
+         "type":"minigameURL",
+         "locked":"false",
+         "whereInGLP":"(Mission0)/(Quest0)",
+         "outputs":[  
+            "4601"
+         ]*/
+
+        var poiJSON = {
+            "value"       : this.id,
+            "name"        : this.stops[stop].id,
+            "descr"       : "",
+            "type"        : , // minigameURL / uploadContent /  
+            "locked"      : "false",
+            "whereInGLP"  : "", // "(Mission0)/(Quest0)",
+            "outputs" : [""] //id of the next poi
+        };
+
+        json.append(poiJSON);
+
+    }
+
+    return json;
+};
+
 Game.prototype.copy = function(){
     var copy = new Game({
         id: this.id,

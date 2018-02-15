@@ -10,3 +10,7 @@ $(".plot").on('click', function(e) {
     	window.location = url + ".php?id=" + id;
     });
 });
+
+function updateGameGLPAT(game) {
+    
+}
