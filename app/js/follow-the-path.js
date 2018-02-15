@@ -13,6 +13,7 @@ var totalDistance = 0;
 var lastPosition = null;
 var challengeType = "";
 var startOpen = false;
+var finished = false;
 
 function gameReady() {
 
@@ -82,7 +83,7 @@ function gameReady() {
 						}
 						uploadContentButton = `<input id="file` + step + `" type="file" accept="`+ acceptableType +`"><label class="goButton" for="file` + step + `"><span>Upload `+ contentType +`</span></label>` +
 											  `<a style="display:none;" id="toChallenge` + step + `" href="#" >` + textButton + `</a>`;
-						
+
 						//TODO textbutton depending on the file type
 					} else if (challenge["type"] == "minigame") {
 						challengeType = "minigame";
@@ -93,8 +94,14 @@ function gameReady() {
 
 		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
-
-		if (step == 999) { button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>'; }
+		var share = "";
+		if (step == 999) { 
+			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>';
+			share = `<div class="shareButtons" id="shareButtonsFinish">
+						<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+					  	<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+					 </div>`;
+		}
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
 		var POIBefore = `
@@ -106,8 +113,9 @@ function gameReady() {
 						media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
 					`</div>` +
-						`<div class="totalPointsEarned"></div>` +
-						`<div class="totalTimeSpent"></div>` +
+					`<div class="totalPointsEarned"></div>` +
+					`<div class="totalTimeSpent"></div>` +
+					share +
 					button + 
 				`</div>
 			</div>`;
@@ -166,9 +174,13 @@ function gameReady() {
 	}
 
 	if (nextPOI == 0) {
-		startOpen = true;
-		document.getElementById('openA0').click();
-		nextPOI = getFollowingPOIId(nextPOI);
+		if (!teleport && !finished) {
+			startOpen = true;
+			document.getElementById('openA0').click();
+			nextPOI = getFollowingPOIId(nextPOI);
+		} else {
+			nextPOI = getFollowingPOIId(nextPOI);
+		}
 	} else {
 		if (fromMinigame) {
 			if (!challengeSuccess) {
@@ -270,11 +282,19 @@ function gameReady() {
 		return false;
 	}
 
+	document.getElementById("show-inventory-time-over").onclick = function(e) {
+		e.preventDefault();
+		showInventory();
+		return false;
+	}
+
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
+			blockGame();
 			document.getElementById("openA999").click();
 
 			saveProgress();
+			saveFinishedData();
 
 			// TIME
 			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
@@ -284,17 +304,26 @@ function gameReady() {
 			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
 
 			// POINTS
-			var pointsEarned = 0
-			for (step in game) { //TODO posarho a th
-				if (step != 0 && step != 999) {
-					pointsEarned += parseInt(game[step]["rewardPoints"]);
-				}
-			}
+			var pointsEarned = getEarnedPoints();
 
 			if (pointsEarned > 0) {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
 				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
 			}
+
+			var hashtag = "BeaconingEU";
+			var via = "BeaconingEU";
+
+			// Bobo
+			if (game_id == 487) {
+				hashtag = "bobopulpin";
+				via = "bobopulpin";
+			// Bella
+			} else if (game_id == 488) {
+				hashtag = "BellavistaBcn";
+				via = "BellavistaBcn";
+			}
+
 			//FINAL ANALYTICS
 			var now = new Date().getTime();
 			var time_spent = now - parseInt(startingTime);
@@ -426,17 +455,25 @@ function teleportIfNeeded() {
 
 //TODO time between sessions
 function updateTimeLabel() {
-	var now = new Date().getTime();
-	var time_spent = now - parseInt(startingTime);
-	var remaining_time = Math.round(time_limit - time_spent/1000);
-	var r_sec = remaining_time%60;
+	if (!finished) {
+		var remaining_time = remainingTime();
 
-	if (remaining_time > 0) {
-		document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
-	} else {
-		document.getElementById('time-limit').style.zIndex = "9999";
-		document.getElementById('time-limit').style.opacity = "1";
+		if (remaining_time > 0) {
+			var r_sec = remaining_time % 60;
+			document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
+		} else {
+			document.getElementById('time-limit').style.zIndex = "9998";
+			document.getElementById('time-limit').style.display = "block";
+			document.getElementById("points-time-over").innerHTML = "<h3>You earned <span>"+ getEarnedPoints() +"</span> points</h3>";
+			blockGame();
+		}
 	}
+}
+
+function blockGame() {
+	console.log("GAME FINISHED");
+	finished = true;
+	//TODO
 }
 
 function updatePath() {
@@ -527,20 +564,29 @@ function locate_app() {
 
 function setGPSData(data) {			
 
-	var d = JSON.parse(data);
+	var latpos = data.indexOf("lat");
+	var lat = data.substr(latpos + 6,10);
+	
+	var lonpos = data.indexOf("lon");
+	var lon = data.substr(lonpos + 6,10);
 
+	//TODO fer-ho més safety tenint en compta longitud de decimals variable
+	
 	var position = {};
-	position = { coords: {longitude: parseFloat(d.lon), latitude: parseFloat(d.lat) } };
+	position = { coords: {longitude: parseFloat(lon), latitude: parseFloat(lat) } };
 
 	if (totalDistance == 0) {
 		lastPosition = position.coords
 	}
+
 	newLocation(position);
 	mapLoaded = true;
 }
 
 
 function newLocation(position) {
+
+	if (finished) { return; }
 
 	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
 
@@ -567,7 +613,7 @@ function newLocation(position) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-		if (distanceToNextPOI <= game[nextPOI].triggerDistance) {
+		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
 			trackProgress();
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
@@ -586,8 +632,14 @@ function saveProgress() {
 	setCookie("progress_game_" + game_id, currentPOI, 365);
 }
 
+function saveFinishedData() {
+	setCookie("finished_" + game_id, true, 365);
+	setCookie("finished_time_" + game_id, true, 365);
+	setCookie("finished_points_" + game_id, true, 365);
+}
+
 function trackProgress() {
-	
+
 	var progress = nextPOI > 0 ? nextPOI / (Object.keys(game).length - 2) : 0;
 	console.log("new progress: " + progress);
 
@@ -668,8 +720,8 @@ function showInventory(id) {
 
 
 function hideInventory(id) {
-		document.getElementById('inventory').style.zIndex = "-1";
-		document.getElementById('inventory').style.opacity = "0";
+	document.getElementById('inventory').style.zIndex = "-1";
+	document.getElementById('inventory').style.opacity = "0";
 }
 
 

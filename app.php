@@ -205,7 +205,9 @@
 	<div>
 		<H2>Time is over</H2>
 		<img src="app/images/timelimit.jpg" id="time-limit-image">
-		<p>Oh! The time limit to complete the game is over.</p>
+		<p style="margin:0;">Oh! The time limit to complete the game is over.</p>
+		<div class="totalPointsEarned" id="points-time-over"></div>
+		<a style="margin-top: 15px;" id="show-inventory-time-over" href="#" class="goButton">Show inventory</a>
 		<!--a id="time-limit-button" href="#" class="goButton">Go out</a-->
 	</div>
 </div>
@@ -260,6 +262,10 @@
 	} else if ((window.location.href).indexOf("atcc") !== -1) {
 		console.log("pro environment");
 		server_url = "https://atcc.beaconing.eu/";
+	}
+
+	if (time_limit != 0) {
+		updateTimeLabel();
 	}
 
 	if (teleport || fromMinigame) { // From QR

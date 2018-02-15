@@ -25,6 +25,16 @@ $("#topBar").on('swipeleft swiperight', function(e){
     e.preventDefault();
 });
 
+function getEarnedPoints() {
+    var pointsEarned = 0;
+    for (step in game) { //TODO posarho a th
+        if (step != 0 && step != 999 && currentPOI >= step) {
+            pointsEarned += parseInt(game[step]["rewardPoints"]);
+        }
+    }
+    return pointsEarned;
+}
+
 function uploadVideo(options){
         var file = options.file;
         if(!file) return;
@@ -149,5 +159,12 @@ function getDistanceFromLatLon(lat1,lon1,lat2,lon2) {
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI/180)
+    return deg * (Math.PI/180)
 }
+
+function remainingTime() {
+    var now = new Date().getTime();
+    var time_spent = now - parseInt(startingTime);
+    return Math.round(time_limit - time_spent/1000);
+}
+

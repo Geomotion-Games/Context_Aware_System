@@ -14,6 +14,7 @@ var totalDistance = 0;
 var lastPosition = null;
 var challengeType = "";
 var startOpen = false;
+var finished = false;
 
 function gameReady() {
 
@@ -94,8 +95,14 @@ function gameReady() {
 
 		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
-		
-		if (step == 999) { button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>'; }
+		var share = "";
+		if (step == 999) { 
+			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>';
+			share = `<div class="shareButtons" id="shareButtonsFinish">
+						<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+					  	<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+					 </div>`;
+		}
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
 		var POIBefore = `
@@ -107,8 +114,9 @@ function gameReady() {
 						media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
 					`</div>` +
-						`<div class="totalPointsEarned"></div>` +
-						`<div class="totalTimeSpent"></div>` +
+					`<div class="totalPointsEarned"></div>` +
+					`<div class="totalTimeSpent"></div>` +
+					share +
 					button + 
 				`</div>
 			</div>`;
@@ -167,9 +175,13 @@ function gameReady() {
 	}
 
 	if (nextPOI == 0) {
-		startOpen = true;
-		document.getElementById('openA0').click();
-		nextPOI = getFollowingPOIId(nextPOI);
+		if (!teleport) {
+			startOpen = true;
+			document.getElementById('openA0').click();
+			nextPOI = getFollowingPOIId(nextPOI);
+		} else {
+			nextPOI = getFollowingPOIId(nextPOI);
+		}
 	} else {
 		if (fromMinigame) {
 			if (!challengeSuccess) {
@@ -195,7 +207,7 @@ function gameReady() {
 				window.open(minigameURL, "_self");
 				return;
 			}
-			
+
 			fromMinigame = false;
 			document.getElementById("openC" + nextPOI).click();
 			nextPOI = getFollowingPOIId(nextPOI);
@@ -272,8 +284,15 @@ function gameReady() {
 		return false;
 	}
 
+	document.getElementById("show-inventory-time-over").onclick = function(e) {
+		e.preventDefault();
+		showInventory();
+		return false;
+	}
+
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
+			blockGame();
 			document.getElementById("openA999").click();
 
 			saveProgress();
@@ -286,12 +305,7 @@ function gameReady() {
 			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
 
 			// POINTS
-			var pointsEarned = 0
-			for (step in game) { //TODO posarho a th
-				if (step != 0 && step != 999) {
-					pointsEarned += parseInt(game[step]["rewardPoints"]);
-				}
-			}
+			var pointsEarned = getEarnedPoints();
 
 			if (pointsEarned > 0) {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
@@ -400,22 +414,29 @@ function teleportIfNeeded() {
 }
 
 function updateTimeLabel() {
-	var now = new Date().getTime();
-	var time_spent = now - parseInt(startingTime);
-	var remaining_time = Math.round(time_limit - time_spent/1000);
-	var r_sec = remaining_time%60;
+	if (!finished) {
+		var remaining_time = remainingTime();
 
-	if (remaining_time > 0) {
-		document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
-	} else {
-		document.getElementById('time-limit').style.zIndex = "9999";
-		document.getElementById('time-limit').style.opacity = "1";
+		if (remaining_time > 0) {
+			var r_sec = remaining_time%60;
+			document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
+		} else {
+			document.getElementById('time-limit').style.zIndex = "9999";
+			document.getElementById('time-limit').style.display = "visible";
+			document.getElementById("points-time-over").innerHTML = "<h3>You earned <span>"+ getEarnedPoints() +"</span> points</h3>";
+			blockGame();
+		}
 	}
+}
+
+function blockGame() {
+	finished = true;
+	//TODO
 }
 
 function updateTopInfo( distanceToNextPOI ) {
 
-		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+	document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
 
 	if (currentPOI == 0) {
 
@@ -534,22 +555,31 @@ function locate_app() {
 }
 
 
-function setGPSData(data) {			
+function setGPSData(data) {
 
-	var d = JSON.parse(data);
+	var latpos = data.indexOf("lat");
+	var lat = data.substr(latpos + 6,10);
+	
+	var lonpos = data.indexOf("lon");
+	var lon = data.substr(lonpos + 6,10);
 
+	//TODO fer-ho més safety tenint en compta longitud de decimals variable
+	
 	var position = {};
-	position = { coords: {longitude: parseFloat(d.lon), latitude: parseFloat(d.lat) } };
+	position = { coords: {longitude: parseFloat(lon), latitude: parseFloat(lat) } };
 
 	if (totalDistance == 0) {
 		lastPosition = position.coords;
 	}
+
 	newLocation(position);
 	mapLoaded = true;
 }
 
 
 function newLocation(position) {
+
+	if (finished) { return; }
 
 	var coors = { lng: position.coords.longitude, lat: position.coords.latitude };
 
@@ -576,7 +606,7 @@ function newLocation(position) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-		if (distanceToNextPOI <= game[nextPOI].triggerDistance) {
+		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
 			trackProgress();
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
@@ -596,7 +626,10 @@ function newLocation(position) {
 
 function saveProgress() {
 	console.log("saving progress..." + currentPOI);
-	setCookie("progress_game_" + game_id, nextPOI, 365);
+	if (nextPOI == 999) {
+		setCookie("finished_" + game_id, true, 365);
+	}
+	setCookie("progress_game_" + game_id, currentPOI, 365);
 }
 
 function trackProgress() {
@@ -679,8 +712,8 @@ function showInventory(id) {
 
 
 function hideInventory(id) {
-		document.getElementById('inventory').style.zIndex = "-1";
-		document.getElementById('inventory').style.opacity = "0";
+	document.getElementById('inventory').style.zIndex = "-1";
+	document.getElementById('inventory').style.opacity = "0";
 }
 
 
@@ -724,9 +757,10 @@ function addCollectablesToInventory() {
 									</div>
 								</div>`;
 				}
-
+				
 			} else {
-				if (currentPOI > i) {
+				if (currentPOI >= step) {
+
 					rowHTML += `
 							<div class="collectable">
 								<div class="collectable-image" style="

@@ -2,3 +2,9 @@ php_value upload_max_filesize 10M
 
 RewriteEngine On
 RewriteRule ^duplicate/([^/d]+)/?$ /php/duplicate.php?id=$1 [NC,L]
+RewriteRule ^createGame/ftp/$ /php/createGame.php?type=ftp [NC,L]
+RewriteRule ^createGame/th/$ /php/createGame.php?type=th [NC,L]
+
+RewriteCond %{REQUEST_URI}  ^/app\.php$
+RewriteCond %{QUERY_STRING} game=1
+RewriteRule ^(.*)$ https://atcc-qa.beaconing.eu/inapp.php [R=302,L]
