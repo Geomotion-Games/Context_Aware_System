@@ -26,17 +26,17 @@ function gameReady() {
 		var classP = "p67vh";
 		var textClass = "textOnly";
 		var clue = "";
-		var extras = document.getElementById("extras");
+		var extras = document.getElementById("extras");/****** A ******/
 
-		/****** A ******/
-	
-		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "" && game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
+		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
+			    	if (game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
 			        media = "<img src=" + server_url + game[step]["A"].image + ">";
 					classP = "p30vh";
 					textClass = "textWithImage";
 			        break;
+			        }
 			    case "youtubeOrVimeo":
 			    	console.log("youtube!");
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
@@ -112,9 +112,9 @@ function gameReady() {
 					<div class="landscape">` +
 						media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
-					`</div>` +
-					`<div class="totalPointsEarned"></div>` +
-					`<div class="totalTimeSpent"></div>` +
+					`</div>
+					<div class="totalPointsEarned"></div>
+					<div class="totalTimeSpent"></div>` +
 					share +
 					button + 
 				`</div>
@@ -177,10 +177,8 @@ function gameReady() {
 		if (!teleport && !finished) {
 			startOpen = true;
 			document.getElementById('openA0').click();
-			nextPOI = getFollowingPOIId(nextPOI);
-		} else {
-			nextPOI = getFollowingPOIId(nextPOI);
 		}
+		nextPOI = getFollowingPOIId(nextPOI);
 	} else {
 		if (fromMinigame) {
 			if (!challengeSuccess) {
@@ -621,6 +619,7 @@ function newLocation(position) {
 			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
 		}
 
+		updatePath();
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
 	}
 
@@ -709,8 +708,6 @@ function errorHandler(err) {
 
 function showInventory(id) {
 
-	//window.location.href = "?scanqrcode"; return;
-
 	addCollectablesToInventory();
 
 	// TODO omplir al principi amb totes les imatges i posarles hidden o shown
@@ -746,7 +743,7 @@ function addCollectablesToInventory() {
 
 			if (i % 2 == 0) {
 
-				if (currentPOI >= step) {
+				if (parseInt(currentPOI) >= parseInt(step)) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -767,7 +764,7 @@ function addCollectablesToInventory() {
 				}
 				
 			} else {
-				if (currentPOI >= step) {
+				if (parseInt(currentPOI) >= parseInt(step)) {
 
 					rowHTML += `
 							<div class="collectable">
@@ -802,7 +799,7 @@ function addCollectablesToInventory() {
 
 	progress.innerHTML = getInventoryProgressAsString(game); //TODO current POI no, contar quants en porta
 
-	`<div class="row">
+	/*`<div class="row">
 		<div class="collectable">
 			<div class="collectable-image"></div>
 			<div class="collectable-name">
@@ -814,7 +811,7 @@ function addCollectablesToInventory() {
 				<p>?</p>
 			</div>
 		</div>
-	</div>`
+	</div>`;*/
 }
 
 /*

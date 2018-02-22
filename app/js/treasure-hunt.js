@@ -31,13 +31,15 @@ function gameReady() {
 
 		/****** A ******/
 
-		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "" && game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
+		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
+			    	if (game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
 			        media = "<img src=" + server_url + game[step]["A"].image + ">";
 					classP = "p30vh";
 					textClass = "textWithImage";
 			        break;
+				    }
 			    case "youtubeOrVimeo":
 			    	console.log("youtube!");
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
@@ -178,10 +180,8 @@ function gameReady() {
 		if (!teleport) {
 			startOpen = true;
 			document.getElementById('openA0').click();
-			nextPOI = getFollowingPOIId(nextPOI);
-		} else {
-			nextPOI = getFollowingPOIId(nextPOI);
 		}
+		nextPOI = getFollowingPOIId(nextPOI);
 	} else {
 		if (fromMinigame) {
 			if (!challengeSuccess) {
@@ -422,7 +422,7 @@ function updateTimeLabel() {
 			document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
 		} else {
 			document.getElementById('time-limit').style.zIndex = "9999";
-			document.getElementById('time-limit').style.display = "visible";
+			document.getElementById('time-limit').style.display = "block";
 			document.getElementById("points-time-over").innerHTML = "<h3>You earned <span>"+ getEarnedPoints() +"</span> points</h3>";
 			blockGame();
 		}
@@ -738,7 +738,7 @@ function addCollectablesToInventory() {
 
 			if (i % 2 == 0) {
 
-				if (currentPOI >= step) {
+				if (parseInt(currentPOI) >= parseInt(step)) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -759,7 +759,7 @@ function addCollectablesToInventory() {
 				}
 				
 			} else {
-				if (currentPOI >= step) {
+				if (parseInt(currentPOI) >= parseInt(step)) {
 
 					rowHTML += `
 							<div class="collectable">
@@ -794,7 +794,7 @@ function addCollectablesToInventory() {
 
 	progress.innerHTML = getInventoryProgressAsString(game); //TODO current POI no, contar quants en porta
 
-	`<div class="row">
+	/*`<div class="row">
 		<div class="collectable">
 			<div class="collectable-image"></div>
 			<div class="collectable-name">
@@ -806,7 +806,7 @@ function addCollectablesToInventory() {
 				<p>?</p>
 			</div>
 		</div>
-	</div>`
+	</div>`*/
 }
 
 

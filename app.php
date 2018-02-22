@@ -223,7 +223,6 @@
 			var game = game_info["POIS"];
 			for (step in game) {
 				if (game[step]["id"] == "<?= $teleportId ?>") {
-					console.log(step);
 					return step - 1;
 				}
 			}
@@ -343,7 +342,7 @@
 
 	map.removeControl( map.attributionControl );
 
-	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjchskpku77dt2sp6g6b53zfw/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
+	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjdu0kj484rdn2snzugf0ihdl/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
 		maxZoom: 18,
 		id: 'mapbox.streets'
 	}).addTo(map);
@@ -356,7 +355,6 @@
 
 	document.getElementById("locate-button").onclick = function() {
 		if (lastPosition != null) {
-			console.log(new L.LatLng(lastPosition.latitude, lastPosition.longitude));
 			map.panTo( new L.LatLng(lastPosition.latitude, lastPosition.longitude) );
 		}
 	}
@@ -368,7 +366,6 @@
 	}
 
 	function setQRCodeScan(data) {
-		//alert(data);
 		window.location.replace(data.substring(1, data.length-1) + "&device=app");
 	}
 
@@ -378,6 +375,4 @@
 
 </body>
 </html>
-
-
 

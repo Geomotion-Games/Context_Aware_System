@@ -200,6 +200,7 @@ div.landscape {
 .modalDialog.screen .landscape .textOnly {
     width: auto;
 	margin: 10px;
+	white-space: pre-wrap;
 }
 
 .modalDialog.screen .landscape .textWithImage, 
@@ -207,6 +208,7 @@ div.landscape {
 	margin: 10px;
 	float: left;
 	height: 51vh;
+	white-space: pre-wrap;
 }
 
 .modalDialog.screen .pointsWon {

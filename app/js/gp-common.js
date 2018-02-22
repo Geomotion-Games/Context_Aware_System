@@ -133,7 +133,7 @@ function getInventoryProgressAsString(game) {
 
 		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item) {
 
-			if (step <= currentPOI) {
+			if (parseInt(step) <= parseInt(currentPOI)) {
 				currentProgress += 1;
 			}
 
