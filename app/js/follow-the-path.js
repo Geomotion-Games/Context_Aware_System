@@ -32,10 +32,10 @@ function gameReady() {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
 			    	if (game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
-			        media = "<img src=" + server_url + game[step]["A"].image + ">";
-					classP = "p30vh";
-					textClass = "textWithImage";
-			        break;
+			        	media = "<img src=" + server_url + game[step]["A"].image + ">";
+						classP = "p30vh";
+						textClass = "textWithImage";
+			        	break;
 			        }
 			    case "youtubeOrVimeo":
 			    	console.log("youtube!");
@@ -95,12 +95,17 @@ function gameReady() {
 		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 		var share = "";
+		var gooutbutton = "";
 		if (step == 999) { 
 			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>';
-			share = `<div class="shareButtons" id="shareButtonsFinish">
-						<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
-					  	<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
-					 </div>`;
+			if (device != "app") {
+				share = `<div class="shareButtons" id="shareButtonsFinish">
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+						</div>`;
+			} else {
+				gooutbutton = '<a id="go-out-finish" href="#" class="goButton">Go out</a>';
+			}
 		}
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
@@ -117,6 +122,7 @@ function gameReady() {
 					<div class="totalTimeSpent"></div>` +
 					share +
 					button + 
+					gooutbutton +
 				`</div>
 			</div>`;
 
@@ -153,19 +159,24 @@ function gameReady() {
 			var points = game[step]["rewardPoints"] == 0 
 						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
 
+			var share = "";
+			if (device != "app") {
+				share = `<div class="shareButtons">
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+						</div>`;
+			}
+
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen after">
-					<div>
+					<div>	
 						<h2>` + game[step]["C"].title + `</h2>`
 						+ media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
-						+ points +
-						`<div class="shareButtons">
-							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
-							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
-						</div>
-						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						+ points
+						+ share
+						+`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
 				</div>`;
 
@@ -285,6 +296,18 @@ function gameReady() {
 		showInventory();
 		return false;
 	}
+	
+	if (device == "app") {
+		document.getElementById("go-out-finish").onclick = function(e) {
+			window.location.href = "?closeview&param=true";
+			return false;
+		}
+
+		document.getElementById("go-out-time-over").onclick = function(e) {
+			window.location.href = "?closeview&param=false";
+			return false;
+		}
+	}
 
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
@@ -347,47 +370,51 @@ function gameReady() {
 	teleportIfNeeded();
 	updatePath();
 
-	$('.popup').click(function(event) {
-	    var width  = 575,
-	        height = 400,
-	        left   = ($(window).width()  - width)  / 2,
-	        top    = ($(window).height() - height) / 2,
-	        url    = this.href,
-	        opts   = 'status=1' +
-	                 ',width='  + width  +
-	                 ',height=' + height +
-	                 ',top='    + top    +
-	                 ',left='   + left;
+	if (device != "app") {
 
-	    window.open(url, 'twitter', opts);
+		$('.popup').click(function(event) {
+		    var width  = 575,
+		        height = 400,
+		        left   = ($(window).width()  - width)  / 2,
+		        top    = ($(window).height() - height) / 2,
+		        url    = this.href,
+		        opts   = 'status=1' +
+		                 ',width='  + width  +
+		                 ',height=' + height +
+		                 ',top='    + top    +
+		                 ',left='   + left;
 
-	    return false;
-	});
+		    window.open(url, 'twitter', opts);
 
-	$('#fbshare button').on('click touchstart', function(e) {
-		e.preventDefault();
+		    return false;
+		});
+	
+		$('#fbshare button').on('click touchstart', function(e) {
+			e.preventDefault();
 
-		var hashtag = "#BeaconingEU";
-		var via = "@BeaconingEU";
+			var hashtag = "#BeaconingEU";
+			var via = "@BeaconingEU";
 
-		// Bobo
-		if (game_id == 487) {
-			hashtag = "#bobopulpin";
-			via = "@bobopulpin";
-		// Bella
-		} else if (game_id == 488) {
-			hashtag = "#BellavistaBcn";
-			via = "@BellavistaBcn";
-		}
+			// Bobo
+			if (game_id == 487) {
+				hashtag = "#bobopulpin";
+				via = "@bobopulpin";
+			// Bella
+			} else if (game_id == 488) {
+				hashtag = "#BellavistaBcn";
+				via = "@BellavistaBcn";
+			}
 
-		FB.ui({
-			method: 'share',
-			href: 'https://atcc.beaconing.eu/',
-			hashtag: hashtag,	
-			quote: via
-		}, function(response){});
-		return false;
-	});
+			FB.ui({
+				method: 'share',
+				href: 'https://atcc.beaconing.eu/',
+				hashtag: hashtag,	
+				quote: via
+			}, function(response){});
+			return false;
+		});
+	}
+
 }
 
 function fbshare() {
@@ -438,7 +465,7 @@ function attachUploadContentEvents() {
 				}
 			}
 		}		
-	}
+}
 }
 
 function teleportIfNeeded() {
@@ -460,7 +487,7 @@ function updateTimeLabel() {
 			var r_sec = remaining_time % 60;
 			document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
 		} else {
-			document.getElementById('time-limit').style.zIndex = "9998";
+			document.getElementById('time-limit').style.zIndex = "9999";
 			document.getElementById('time-limit').style.display = "block";
 			document.getElementById("points-time-over").innerHTML = "<h3>You earned <span>"+ getEarnedPoints() +"</span> points</h3>";
 			blockGame();
@@ -522,6 +549,12 @@ function updatePath() {
     	opacity: 1,
     	smoothFactor: 1
 	}).addTo(map);
+}
+
+function lookForBeacons() {
+	setInterval(function() {
+		window.location.href = "?scanbeaconnames";
+	}, 6000);
 }
 
 
@@ -586,7 +619,7 @@ function newLocation(position) {
 
 	if (finished) { return; }
 
-	var coors = {lng: position.coords.longitude, lat: position.coords.latitude};
+	var coors = { lng: position.coords.longitude, lat: position.coords.latitude };
 
 	tracker.Places.Moved("POI" + nextPOI, position.coords.latitude, position.coords.longitude, tracker.Places.PlaceType.POI);
 
@@ -758,7 +791,7 @@ function addCollectablesToInventory() {
 					rowHTML = `<div class="row">
 								<div class="collectable">
 									<div class="no-collectable-question-mark">
-										<p>?</p>
+								<p>?</p>
 									</div>
 								</div>`;
 				}

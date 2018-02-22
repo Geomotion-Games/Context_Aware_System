@@ -35,10 +35,10 @@ function gameReady() {
 			switch(game[step]["A"].mediaType) {
 			    case "image":
 			    	if (game[step]["A"].hasOwnProperty("image") && game[step]["A"]["image"] != "") {
-			        media = "<img src=" + server_url + game[step]["A"].image + ">";
-					classP = "p30vh";
-					textClass = "textWithImage";
-			        break;
+			        	media = "<img src=" + server_url + game[step]["A"].image + ">";
+						classP = "p30vh";
+						textClass = "textWithImage";
+				        break;
 				    }
 			    case "youtubeOrVimeo":
 			    	console.log("youtube!");
@@ -98,12 +98,17 @@ function gameReady() {
 		if (step == 0) { textButton = "Start game"; }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 		var share = "";
+		var gooutbutton = "";
 		if (step == 999) { 
 			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>';
-			share = `<div class="shareButtons" id="shareButtonsFinish">
-						<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
-					  	<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
-					 </div>`;
+			if (device != "app") {
+				share = `<div class="shareButtons" id="shareButtonsFinish">
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+						</div>`;
+			}
+
+			gooutbutton = device == "app" ? '<a id="go-out-finish" href="#" class="goButton">Go out</a>' : "";
 		}
 		else if (challengeType == "upload_content") button = uploadContentButton;
 
@@ -115,11 +120,12 @@ function gameReady() {
 					<div class="landscape">` +
 						media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
-					`</div>` +
-					`<div class="totalPointsEarned"></div>` +
-					`<div class="totalTimeSpent"></div>` +
+					`</div>
+					<div class="totalPointsEarned"></div>
+					<div class="totalTimeSpent"></div>` +
 					share +
-					button + 
+					button +
+					gooutbutton +
 				`</div>
 			</div>`;
 
@@ -156,6 +162,14 @@ function gameReady() {
 			var points = game[step]["rewardPoints"] == 0 
 						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
 
+			var share = "";
+			if (device != "app") {
+				share = `<div class="shareButtons">
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
+						</div>`;
+			}
+
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen after">
@@ -163,12 +177,9 @@ function gameReady() {
 						<h2>` + game[step]["C"].title + `</h2>` 
 						+ media + 
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
-						+ points +
-						`<div class="shareButtons">
-							<a id="fbshare" href="#"><button type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
-							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
-						</div>
-						<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						+ points
+						+ share
+						+ `<a id="closeClue` + step + `" href="#" class="goButton" >Go out</a>
 					</div>
 				</div>`;
 
@@ -290,6 +301,20 @@ function gameReady() {
 		return false;
 	}
 
+	if (device == "app") {
+		document.getElementById("go-out-finish").onclick = function(e) {
+			window.location.href = "?closeview&param=true";
+			return false;
+		}
+	}
+
+	if (device == "app") {
+		document.getElementById("go-out-time-over").onclick = function(e) {
+			window.location.href = "?closeview&param=false";
+			return false;
+		}
+	}
+
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
 		setTimeout(function() {
 			blockGame();
@@ -335,47 +360,49 @@ function gameReady() {
 	teleportIfNeeded();
 	updatePath();
 
-	$('.popup').click(function(event) {
-	    var width  = 575,
-	        height = 400,
-	        left   = ($(window).width()  - width)  / 2,
-	        top    = ($(window).height() - height) / 2,
-	        url    = this.href,
-	        opts   = 'status=1' +
-	                 ',width='  + width  +
-	                 ',height=' + height +
-	                 ',top='    + top    +
-	                 ',left='   + left;
+	if (device != "app") {
+		$('.popup').click(function(event) {
+		    var width  = 575,
+		        height = 400,
+		        left   = ($(window).width()  - width)  / 2,
+		        top    = ($(window).height() - height) / 2,
+		        url    = this.href,
+		        opts   = 'status=1' +
+		                 ',width='  + width  +
+		                 ',height=' + height +
+		                 ',top='    + top    +
+		                 ',left='   + left;
 
-	    window.open(url, 'twitter', opts);
+		    window.open(url, 'twitter', opts);
 
-	    return false;
-	});
+		    return false;
+		});
 
-	$('#fbshare').on('click touchstart', function(e) {
-		e.preventDefault();
+		$('#fbshare').on('click touchstart', function(e) {
+			e.preventDefault();
 
-		var hashtag = "#BeaconingEU";
-		var via = "@BeaconingEU";
+			var hashtag = "#BeaconingEU";
+			var via = "@BeaconingEU";
 
-		// Bobo
-		if (game_id == 487) {
-			hashtag = "#bobopulpin";
-			via = "@bobopulpin";
-		// Bella
-		} else if (game_id == 488) {
-			hashtag = "#BellavistaBcn";
-			via = "@BellavistaBcn";
-		}
+			// Bobo
+			if (game_id == 487) {
+				hashtag = "#bobopulpin";
+				via = "@bobopulpin";
+			// Bella
+			} else if (game_id == 488) {
+				hashtag = "#BellavistaBcn";
+				via = "@BellavistaBcn";
+			}
 
-		FB.ui({
-			method: 'share',
-			href: 'https://atcc.beaconing.eu/',
-			hashtag: hashtag,	
-			quote: via
-		}, function(response){});
-		return false;
-	});
+			FB.ui({
+				method: 'share',
+				href: 'https://atcc.beaconing.eu/',
+				hashtag: hashtag,	
+				quote: via
+			}, function(response){});
+			return false;
+		});
+	}
 }
 
 function attachUploadContentEvents() {
@@ -516,6 +543,13 @@ function updatePath() {
 	});
 
 	path.addTo(map);
+}
+
+
+function lookForBeacons() {
+	setInterval(function() {
+		window.location.href = "?scanbeaconnames";
+	}, 6000);
 }
 
 

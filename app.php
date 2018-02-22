@@ -207,8 +207,8 @@
 		<img src="app/images/timelimit.jpg" id="time-limit-image">
 		<p style="margin:0;">Oh! The time limit to complete the game is over.</p>
 		<div class="totalPointsEarned" id="points-time-over"></div>
-		<a style="margin-top: 15px;" id="show-inventory-time-over" href="#" class="goButton">Show inventory</a>
-		<!--a id="time-limit-button" href="#" class="goButton">Go out</a-->
+		<a style="margin: 15px 0;" id="show-inventory-time-over" href="#" class="goButton">Show inventory</a>
+		<?php echo $device == "app" ? '<a id="time-limit-button" href="#" class="goButton">Go out</a>' : ""; ?>
 	</div>
 </div>
 
@@ -349,6 +349,7 @@
 
 	if (device == "app") {
 		locate_app();
+		lookForBeacons();
 	} else {
 		locate_browser();
 	}
@@ -367,6 +368,10 @@
 
 	function setQRCodeScan(data) {
 		window.location.replace(data.substring(1, data.length-1) + "&device=app");
+	}
+
+	function setBeaconNames(data) {
+		alert(data);
 	}
 
 	gameReady();
