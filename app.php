@@ -378,6 +378,7 @@
 
 </script>
 
+<script type="text/javascript" src="app/js/screen-formatter.js"></script>
 </body>
 </html>
 

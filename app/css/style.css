@@ -82,7 +82,7 @@ html, body, #map { height: 100vh; width: 100vw; }
     right: 10px;
     left: 10px;
     background-color: white;
-    z-index: 9999;
+    z-index: 9991;
     padding: 0 15px;
     border-radius: 11px;
 }
@@ -125,7 +125,7 @@ a#qr-code img {
 	bottom: 0;
 	left: 0;
 	background: rgba(0,0,0,0.8);
-	z-index: 9999;
+	z-index: 9992;
 	opacity:0;
 	-webkit-transition: opacity 400ms ease-in;
 	-moz-transition: opacity 400ms ease-in;
@@ -185,29 +185,67 @@ a#qr-code img {
     cursor: pointer;
 }*/
 
-div.landscape {
+div.modalContent {
 	overflow: hidden;
 }
 
-.modalDialog.screen .landscape img {
+
+@media screen and (orientation: portrait) {
+
+	.modalDialog.screen .modalContent.portrait img {
+	    width: auto;
+	    margin: 10px auto;
+	    max-width: 90%;
+	    max-height: 50vh;
+	}
+
+	.modalDialog.screen .modalContent.portrait .textWithImage {
+		margin: 10px;
+		white-space: pre-wrap;
+		max-width: 100%;
+	}
+}
+
+@media screen and (orientation: landscape) {
+	.modalDialog.screen .modalContent.portrait img {
+	    width: auto;
+	    margin: 10px;
+	    max-width: 90%;
+	    float: left;
+	    max-height: 50vh;
+	}
+
+	.modalDialog.screen .modalContent.portrait .textWithImage {
+		margin: 10px;
+		float: left;
+		white-space: pre-wrap;
+	}
+}
+
+
+
+.modalDialog.screen .modalContent.fullWidth img {
     width: auto;
-    margin: 10px;
+    margin: 10px auto;
     max-width: 90%;
-    float: left;
     max-height: 50vh;
 }
 
-.modalDialog.screen .landscape .textOnly {
+.modalDialog.screen .modalContent .textOnly {
     width: auto;
 	margin: 10px;
 	white-space: pre-wrap;
 }
 
-.modalDialog.screen .landscape .textWithImage, 
-.modalDialog.screen .landscape .textWithVideo {
+.modalDialog.screen .modalContent.fullWidth .textWithImage {
+	margin: 10px;
+	white-space: pre-wrap;
+	max-width: 100%;
+}
+
+.modalDialog.screen .modalContent .textWithVideo {
 	margin: 10px;
 	float: left;
-	height: 51vh;
 	white-space: pre-wrap;
 }
 
@@ -237,7 +275,7 @@ div.landscape {
 	max-height: 37vh;
 }
 
-.modalDialog .landscape p {
+.modalDialog .modalContent p {
 	text-align: left;
 	margin-top: 0;
 	float: left;

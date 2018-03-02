@@ -26,7 +26,9 @@ function gameReady() {
 		var classP = "p67vh";
 		var textClass = "textOnly";
 		var clue = "";
-		var extras = document.getElementById("extras");/****** A ******/
+		var extras = document.getElementById("extras");
+
+		/****** A ******/
 
 		if (game[step]["A"].hasOwnProperty("mediaType") && game[step]["A"].mediaType != "") {
 			switch(game[step]["A"].mediaType) {
@@ -35,8 +37,8 @@ function gameReady() {
 			        	media = "<img src=" + server_url + game[step]["A"].image + ">";
 						classP = "p30vh";
 						textClass = "textWithImage";
-			        	break;
 			        }
+			        break;
 			    case "youtubeOrVimeo":
 			    	console.log("youtube!");
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
@@ -114,10 +116,10 @@ function gameReady() {
 			<div id="modal` + step + `" class="modalDialog screen">
 				<div>
 					<h2>` + game[step]["A"].title + `</h2>
-					<div class="landscape">` +
+					<div class="modalContent">` +
 						media +
-						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>` +
-					`</div>
+						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>
+					</div>
 					<div class="totalPointsEarned"></div>
 					<div class="totalTimeSpent"></div>` +
 					share +
@@ -171,12 +173,14 @@ function gameReady() {
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen after">
 					<div>	
-						<h2>` + game[step]["C"].title + `</h2>`
-						+ media +
-						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>`
-						+ points
-						+ share
-						+`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
+						<h2>` + game[step]["C"].title + `</h2>
+						<div class="modalContent">` +
+							media +
+							`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["C"].text) + `</p>
+						</div>` +
+						points +
+						share +
+						`<a id="closeClue` + step + `" href="#" class="goButton" >Continue</a>
 					</div>
 				</div>`;
 
@@ -487,7 +491,7 @@ function updateTimeLabel() {
 			var r_sec = remaining_time % 60;
 			document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
 		} else {
-			document.getElementById('time-limit').style.zIndex = "9999";
+			document.getElementById('time-limit').style.zIndex = "9998";
 			document.getElementById('time-limit').style.display = "block";
 			document.getElementById("points-time-over").innerHTML = "<h3>You earned <span>"+ getEarnedPoints() +"</span> points</h3>";
 			blockGame();
