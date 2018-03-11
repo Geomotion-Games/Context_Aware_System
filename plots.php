@@ -29,7 +29,7 @@
 	<div class="container">
 		<div class="official-row">
 			<div class="row">
-				<div class="col-md-4 col-sm-6 gameType">
+				<div class="col-md-6 col-sm-6 gameType">
 					<div id="FollowThePath" class="plot">
 						<div class="zoomOnHover image">
 							<img src="images/plots/follow-the-path.jpg">
@@ -40,7 +40,7 @@
 					</div>
 					<h2>Follow the Path</h2>
 				</div>
-				<div class="col-md-4 col-sm-6 gameType">
+				<div class="col-md-6 col-sm-6 gameType">
 					<div id="TreasureHunt" class="plot">
 						<div class="zoomOnHover image">
 							<img src="images/plots/treasure-hunt.jpg">
@@ -51,7 +51,7 @@
 					</div>
 					<h2>Treasure Hunt</h2>
 				</div>
-				<div class="col-md-4 col-sm-6 gameType">
+				<!--div class="col-md-6 col-sm-6 gameType">
 					<div id="RatRace" class="plot plotDisabled">
 						<div class="zoomOnHover image">
 							<img src="images/plots/rat-race.jpg" style="opacity: 0.6;">
@@ -61,10 +61,10 @@
 						</div>
 					</div>
 					<h2>Rat Race</h2>
+				</div-->
 				</div>
 			</div>
-		</div>
-		<div class="official-row">
+		<!--div class="official-row">
 			<div class="row">
 				<div class="col-md-4 col-sm-6 gameType">
 					<div id="Jigsaw" class="plot plotDisabled">
@@ -115,8 +115,8 @@
 					<h2>Stratego</h2>
 				</div>
 			</div>
+		</div-->
 		</div>
-	</div>
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>
 	<script src="js/parse.js"></script>
