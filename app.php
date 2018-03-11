@@ -342,7 +342,7 @@
 
 	map.removeControl( map.attributionControl );
 
-	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjdu0kj484rdn2snzugf0ihdl/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
+	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjbxqxhivegeg2smmaat3hkkx/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
 		maxZoom: 18,
 		id: 'mapbox.streets'
 	}).addTo(map);

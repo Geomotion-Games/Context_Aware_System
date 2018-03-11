@@ -22,7 +22,7 @@ body {
 	padding: 10px;
 	background: #fff;
 	height:90%;
-	overflow: scroll;
+	overflow: hidden;
 }
 
 .block-right {
@@ -192,3 +192,12 @@ textarea {
 	visibility: hidden;
 }
 
+#styleToogle {
+	position: absolute;
+    bottom: 88px;
+    left: 32px;
+    z-index: 999;
+    border: 2px solid darkgrey;
+    width: 80px;
+    cursor: pointer;
+}

@@ -113,6 +113,7 @@
 				<div class="section">
 					<div class="block-left">
 						<div id='map' class="element"></div>
+						<img id="styleToogle" src="/images/photoStyle.png">
 					</div>
 				</div>
 			</div>
@@ -199,6 +200,7 @@
 
 		var game = parsePlotJSON(plot);
 		var points = parsePOIS(pois);
+		var streetsStyle = true;
 
 		init();
 
@@ -220,6 +222,16 @@
 				$("#finishEdition").attr("href", "https://" + buttonurl);
 			}
 		}
+
+		$("#styleToogle").click(function() {
+			streetsStyle = !streetsStyle;
+			if (streetsStyle) {
+				$("#styleToogle").attr("src","/images/photoStyle.png");
+			} else {
+				$("#styleToogle").attr("src","/images/streetStyle.png");
+			}
+			changeMapStyle(streetsStyle);
+		});
 
 		$("#finishEdition").click(function() {
 			setCookie("callback-at", "", 365);
