@@ -42,6 +42,7 @@
 <html>
 <head>
 
+	<script src="app/js/cooking-machine.js"></script>
 	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
 
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">

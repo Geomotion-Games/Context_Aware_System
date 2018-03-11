@@ -130,11 +130,11 @@
 
 	<?php endswitch; ?>
 
-	<script type="text/javascript" src="app/js/tracking.js"></script>
+	<script type="text/javascript" src="app/js/cooking-machine.js"></script>
 	<script type="text/javascript" src="app/js/leaflet.js"></script>
 	<script type="text/javascript" src="js/lib/Autolinker.min.js"></script>
-	<script type="text/javascript" src="app/js/analytics/dist/js-tracker.bundle.min.js"></script>
-	<script type="text/javascript" src="app/js/analytics/plugins/geolocation.js"></script>
+	<script type="text/javascript" src="app/js/ucm-track/dist/js-tracker.bundle.min.js"></script>
+	<script type="text/javascript" src="app/js/ucm-track/plugins/geolocation.js"></script>
 	<script type="text/javascript" src="app/js/jquery-3.2.1.min.js"></script>
 	<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
