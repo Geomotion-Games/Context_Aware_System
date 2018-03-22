@@ -269,6 +269,7 @@ div.modalContent {
 	padding: 5px 20px 13px 20px;
 	border-radius: 10px;
 	background: #fff;
+	margin-bottom: 50px;
 }
 
 .modalDialog.screen.after img {
@@ -319,6 +320,17 @@ div.modalContent {
 }
 
 .close:hover { background: #00d9ff; }
+
+.bottomButton {
+	position: fixed;
+	bottom: 0;
+	left: 17px;
+	right: 17px;
+	padding: 10px;
+	background: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
 
 .goButton {
 	padding: 10px;
@@ -459,7 +471,7 @@ div.modalContent {
 }
 
 .p25vh {
-	max-height: 25vh;
+	/*max-height: 25vh;*/
 }
 .p30vh {
 	/*max-height: 30vh;*/

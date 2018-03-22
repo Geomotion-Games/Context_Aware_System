@@ -200,3 +200,17 @@ footer a:hover{
 	padding: 20px;
 	height: 200px;
 }
+
+#qr-viewer .modal-dialog {
+	width: 330px;
+	margin-top:50px;
+}
+
+#qr-viewer img{
+	width: 100%;
+    image-rendering: pixelated;
+}
+
+#community .pubpriv, #community .delete-game, #community .edit-game {
+	display: none;
+}

@@ -186,11 +186,6 @@ div.edit-screen {
 	padding: 15px 10px;
 }
 
-#qr-viewer .modal-dialog {
-	width: 330px;
-	margin-top:50px;
-}
-
 .fileSizeWarning .modal-dialog, #uploadingVideo .modal-dialog{
 	width: 330px;
 	margin-top:50px;
@@ -232,11 +227,6 @@ div.edit-screen {
 
 #removeImageA:hover, #removeImageC:hover, #removeVideoA:hover {
 	cursor: pointer; 
-}
-
-#qr-viewer img{
-	width: 100%;
-    image-rendering: pixelated;
 }
 
 #screenYoutubeOrVimeoVideo{
