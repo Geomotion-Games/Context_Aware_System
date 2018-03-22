@@ -212,12 +212,14 @@
 
 <div id="time-limit" class="modalDialog screen">
 	<div>
-		<H2>Time is over</H2>
+		<H2><?= l("time_over"); ?></H2>
 		<img src="app/images/timelimit.jpg" id="time-limit-image">
-		<p style="margin:0;">Oh! The time limit to complete the game is over.</p>
+		<p style="margin:0;"><?= l("game_over"); ?></p>
 		<div class="totalPointsEarned" id="points-time-over"></div>
-		<a style="margin: 15px 0;" id="show-inventory-time-over" href="#" class="goButton">Show inventory</a>
-		<?php echo $device == "app" ? '<a id="time-limit-button" href="#" class="goButton">Go out</a>' : ""; ?>
+		<a style="margin: 15px 0;" id="show-inventory-time-over" href="#" class="goButton"><?= l("show_inventory"); ?></a>
+		<?php if ($device == "app") { 
+			echo '<a id="go-out-time-over" href="#" class="goButton">'; l("go_out"); echo '</a>';
+		} ?>
 	</div>
 </div>
 

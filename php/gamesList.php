@@ -14,29 +14,23 @@
 	date_default_timezone_set('Europe/Madrid');
 
 	if (!isset($_REQUEST['type'])) { die; }
+	$userFilter = isset($_REQUEST['user']) ? "AND (user_id = " . $_REQUEST["user"] . " OR user_id IS NULL)" : "";
 
 	$bd = Db::getInstance();
 
-	$numRows = 0;
-	if ($_REQUEST['type'] == "ftp") {
-    	$query = $bd->ejecutar("SELECT id, name FROM plot WHERE type='FollowThePath' ORDER BY id DESC");
-    	$numRows = $bd->num_rows($query);
-	}
-	else if ($_REQUEST['type'] == "th") {
-    	$query = $bd->ejecutar("SELECT id, name FROM plot WHERE type='TreasureHunt' ORDER BY id DESC");
-    	$numRows = $bd->num_rows($query);
-	}
+	$gameType = $_REQUEST['type'] == "th" ? "TreasureHunt" : "FollowThePath";
 
- 	if ($numRows > 0) {
+	$query = $bd->ejecutar(sprintf("SELECT id, name FROM plot WHERE type='%s' AND archived = 0 %s ORDER BY name ASC", $gameType, $userFilter));
+
+ 	if ($bd->num_rows($query) > 0) {
  		$pois = array();
 
  		while ($row = mysqli_fetch_assoc($query)) {
 		    $pois[$row["id"]] = $row["name"];
 		}
 
-		$json = json_encode($pois);
-		echo str_replace(' ', '', $json);
-    }else {
+		echo json_encode($pois);
+    } else {
       	echo mysqli_error();
     }
 ?>

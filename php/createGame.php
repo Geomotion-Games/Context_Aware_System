@@ -15,7 +15,8 @@ if (!isset($_REQUEST['type'])) { die; }
 $name = "Game name";
 $description = "Game description";
 $time = 0;
-$type = $_REQUEST['type'] == "th" ? "TreaseureHunt" : $_REQUEST['type'] == "ftp" ? "FollowThePath" : die;
+$type = $_REQUEST['type'] == "th" ? "TreasureHunt" : $_REQUEST['type'] == "ftp" ? "FollowThePath" : die;
+$url_php = $_REQUEST['type'] == "th" ? "treasure-hunt" : "follow-the-path";
 $public = 0;
 
 $query = sprintf("INSERT INTO plot (name, description, time, type, public) VALUES ('%s','%s',%d,'%s',%d)",
@@ -33,8 +34,8 @@ $response["success"] = true;
 $response["newGameID"] = $lastId;
 createDefaultPois($lastId, "start", $bd);
 createDefaultPois($lastId, "finish", $bd);
-$json = json_encode($response);
-echo str_replace(' ', '', $json);
+//$json = json_encode($response);
+header("Location: https://" . $_SERVER["SERVER_NAME"] . "/" . $url_php . ".php?id=" . $lastId);
 
 
 function createDefaultPois($plotId, $type, $bd){
