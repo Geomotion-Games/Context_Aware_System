@@ -158,11 +158,11 @@ Game.prototype.toJSON = function() {
     return json;
 };
 
-Game.prototype.toGLPJSON() = function() {
+/*Game.prototype.toGLPJSON() = function() {
     var json = [];
 
     for( stop in this.stops ) {
-
+*/
         /*"value":"https://beaconing.seriousgames.it/games/solveit/?session_id=7938148887",
          "name":"4600",
          "descr":"",
@@ -173,7 +173,7 @@ Game.prototype.toGLPJSON() = function() {
             "4601"
          ]*/
 
-        var poiJSON = {
+/*        var poiJSON = {
             "value"       : this.id,
             "name"        : this.stops[stop].id,
             "descr"       : "",
@@ -188,7 +188,7 @@ Game.prototype.toGLPJSON() = function() {
     }
 
     return json;
-};
+};*/
 
 Game.prototype.copy = function(){
     var copy = new Game({
