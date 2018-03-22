@@ -13,7 +13,7 @@
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
-	
+
 	error_reporting(0);
 
 	require 'class/db.class.php';
@@ -34,7 +34,7 @@
  	if ($query) {
 		$plot = $bd->obtener_fila($query, 0);
     }else {
-      echo mysqli_error();
+      	echo mysqli_error();
     }
 
     $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id . " ORDER BY orderNumber ASC");
@@ -179,6 +179,18 @@
 		</div>
 	</div>
 
+	<div class="qr-viewer modal fade" id="qr-viewer" tabindex="-1" role="dialog" aria-labelledby="qr-viewer">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				 <image src="">
+			</div>
+		</div>	
+	</div>
+
+	<script>
+		var strings = <?= json_encode($GLOBALS["strings"]); ?>;
+	</script>
+
 	<script src="js/lib/Control.Geocoder.js"></script>
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>
@@ -246,7 +258,20 @@
 		$("#finishEdition").click(function() {
 			setCookie("callback-at", "", 365);
 		});
-		
+
+		$("#qrcode").on('click',function(e){
+			var url = getAppDomain() + "app.php?game=" + game.id;
+
+			var apiUrl = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=" + encodeURIComponent(url) + "&choe=UTF-8";
+
+			var img = $("#qr-viewer img");
+			img.attr("src", apiUrl);
+			$("#qr-viewer").modal('show');
+			return false;
+		});
+
+		console.log(game.toGLPJSON());
+
 	</script>
 </body>
 </html>
