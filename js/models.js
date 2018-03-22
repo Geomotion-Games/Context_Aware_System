@@ -11,7 +11,7 @@ function Step(params) {
     this.lat = params.lat || 0;
     this.lng = params.lng || 0;
     this.orderNumber = params.orderNumber || 0;
-    this.beaconId = params.beaconId || 0,
+    this.beaconId = params.beaconId || "";
     this.title = params.title;
     this.triggerDistance = params.triggerDistance || 20;
     this.rewardPoints = params.rewardPoints || 10;

@@ -562,6 +562,17 @@ function lookForBeacons() {
 }
 
 
+
+function reachBeaconPOI() {
+	trackProgress();
+	document.getElementById('openA' + nextPOI).click();
+	currentPOI = nextPOI;
+	nextPOI = getFollowingPOIId(nextPOI);
+	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
+	updatePath();
+	document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+}
+
 function locate_browser() {
 
 	if (navigator.geolocation) {
