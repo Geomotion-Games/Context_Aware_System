@@ -1,3 +1,15 @@
+<?php
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
+	ini_set('display_errors', 0);
+
+	include("php/handleAccessToken.php");
+
+	$auth = new HandleAccessToken();
+	$user = $auth->currentUser();
+?>
+
+
 <html>
 <head>
 	<script src="js/lib/jquery-1.12.4.js"></script>
@@ -117,6 +129,10 @@
 			</div>
 		</div-->
 		</div>
+	<script>
+		var userId = <?= $user["id"]; ?>;
+		var userName = "<?= $user["username"]; ?>";
+	</script>
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>
 	<script src="js/parse.js"></script>

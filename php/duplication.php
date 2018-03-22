@@ -1,13 +1,15 @@
 <?php
 
-function duplicatePlot($id, $name, $description, $time, $type, $public, $bd){
-	$query = sprintf("INSERT INTO plot (name, description, time, type, public) 
-					  VALUES ('%s','%s','%s','%s',%d)", 
+function duplicatePlot($id, $name, $description, $time, $type, $public, $userId, $userName, $bd){
+	$query = sprintf("INSERT INTO plot (name, description, time, type, public, user_id, user_name) 
+					  VALUES ('%s','%s','%s','%s',%d, %d, '%s')", 
 		"Copy of " . $bd->mysqli_real_escape_string($name), 
 		$bd->mysqli_real_escape_string($description), 
 		$bd->mysqli_real_escape_string($time), 
-		$bd->mysqli_real_escape_string($type), 
-		intval($public));
+		$bd->mysqli_real_escape_string($type),
+		intval($public),
+		intval($userId),
+		$bd->mysqli_real_escape_string($userName));
 
 	$res = $bd->ejecutar($query);
 	$newPlotId = mysqli_insert_id($bd->link);

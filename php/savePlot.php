@@ -16,15 +16,19 @@ $description = $_REQUEST['description'];
 $time = $_REQUEST['time'];
 $type = $_REQUEST['type'];
 $public = $_REQUEST['public'];
+$user_name = $_REQUEST['user_name'];
+$user_id = $_REQUEST['user_id'];
 
 if($id == null){
 
-	$query = sprintf("INSERT INTO plot (name, description, time, type, public) VALUES ('%s','%s',%d,'%s',%d)",
+	$query = sprintf("INSERT INTO plot (name, description, time, type, public, user_name, user_id) VALUES ('%s','%s',%d,'%s',%d,'%s',%d)",
 		$bd->mysqli_real_escape_string($name),
 		$bd->mysqli_real_escape_string($description),
 		intval($time),
 		$bd->mysqli_real_escape_string($type),
-		intval($public));
+		intval($public),
+		$bd->mysqli_real_escape_string($user_name),
+		intval($user_id));
 
 	$res = $bd->ejecutar($query);
 	$lastId = mysqli_insert_id($bd->link);
@@ -33,12 +37,14 @@ if($id == null){
 	createDefaultPois($lastId, "finish", $bd);
 }else{
 	
-	$query = sprintf("UPDATE plot SET name='%s', description='%s', time=%d, type='%s', public=%d WHERE id=%d",
+	$query = sprintf("UPDATE plot SET name='%s', description='%s', time=%d, type='%s', public=%d, user_name='%s', user_id=%d WHERE id=%d",
 		$bd->mysqli_real_escape_string($name),
 		$bd->mysqli_real_escape_string($description),
 		intval($time),
 		$bd->mysqli_real_escape_string($type),
 		intval($public),
+		$bd->mysqli_real_escape_string($user_name),
+		intval($user_id),
 		intval($id));
 
 	$res = $bd->ejecutar($query);

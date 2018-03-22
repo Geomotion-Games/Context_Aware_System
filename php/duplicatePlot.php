@@ -18,8 +18,10 @@ $description = $_REQUEST['description'];
 $time = $_REQUEST['time'];
 $type = $_REQUEST['type'];
 $public = $_REQUEST['public'];
+$userId = $_REQUEST['user_id'];
+$userName = $_REQUEST['user_name'];
 
 if($id != null){
-	echo duplicatePlot($id, $name, $description, $time, $type, $public, $bd);
+	echo duplicatePlot($id, $name, $description, $time, $type, $public, $userId, $userName, $bd);
 }
 ?>

@@ -1,6 +1,13 @@
 <?php
+
+	//error_reporting(E_ALL);
+	//ini_set('display_errors', 1);
 	error_reporting(0);
 
+	include("php/handleAccessToken.php");
+
+	$auth = new HandleAccessToken();
+	$user = $auth->currentUser();
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
@@ -11,9 +18,18 @@
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
 
+	$master = isset($_REQUEST['master']) ? true : false;
+
 	$bd = Db::getInstance();
 
-    $query = $bd->ejecutar("SELECT * FROM plot WHERE archived != 1 ORDER BY id DESC");
+	$q = "SELECT * FROM plot WHERE archived != 1 AND (public = 1 OR user_id = " . $user["id"] . " OR user_id IS NULL) ORDER BY id DESC";
+
+	if ($master) {
+		$q = "SELECT * FROM plot WHERE archived != 1 ORDER BY id DESC";
+	}
+
+    $query = $bd->ejecutar($q);
+
 	$numRows = $bd->num_rows($query);
 
 	$plots = array();
@@ -107,6 +123,11 @@
 			</div>
 		</div>
 	</footer>
+
+	<script>
+		var userId = <?= $user["id"]; ?>;
+		var userName = "<?= $user["username"]; ?>";
+	</script>
 
 	<script src="js/models.js"></script>
 	<script src="js/utils.js"></script>

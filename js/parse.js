@@ -6,7 +6,9 @@ function parsePlotJSON(data){
         description: data.description, 
         time: parseInt(data.time), 
         last_update: data.last_update,
-        public: data.public == 1 ? true : false
+        public: data.public == 1 ? true : false,
+        user_id: data.user_id,
+        user_name: data.user_name
     });
 }
 

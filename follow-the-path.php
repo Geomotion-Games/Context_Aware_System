@@ -1,5 +1,11 @@
 <?php
 
+	error_reporting(0);
+
+	include("php/handleAccessToken.php");
+
+	$auth = new HandleAccessToken();
+	$user = $auth->currentUser();
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
@@ -177,7 +183,6 @@
 	<script src="js/duplicate.js"></script>
 	<script src="js/map.js"></script>
 	<script src="js/follow-the-path.js"></script>
-	<script src="app/js/tracking.js"></script>
 
 	<script>
 		$(function() {
