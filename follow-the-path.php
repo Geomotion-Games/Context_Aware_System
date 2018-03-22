@@ -33,16 +33,24 @@
 
  	if ($query) {
 		$plot = $bd->obtener_fila($query, 0);
+		/*if (!is_null($plot["user_id"]) && $plot["user_id"] != $user["id"] ) {
+			header("Location: https://" . $_SERVER["SERVER_NAME"]);
+		}*/
     }else {
       	echo mysqli_error();
     }
 
-    $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id . " ORDER BY orderNumber ASC");
+//    $query = $bd->ejecutar("SELECT * FROM poi WHERE plot = " . $id . " ORDER BY orderNumber ASC");
+
+    $inset = '\'%"type":"B"%\'';
+    $query = $bd->ejecutar("SELECT p.*, s.data FROM poi as p LEFT JOIN screen as s ON (p.id = s.poi AND s.data LIKE ". $inset .") WHERE plot = " . $id . " ORDER BY orderNumber ASC");
+
 	$numRows = $bd->num_rows($query);
 
 	$pois = array();
  	if ($query) {
 		while(($row =  mysqli_fetch_assoc($query))) {
+			$row["data"] = json_decode($row["data"], true);
 		    $pois[] = $row;
 		}
     }else {

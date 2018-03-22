@@ -11,14 +11,14 @@ function Step(params) {
     this.lat = params.lat || 0;
     this.lng = params.lng || 0;
     this.orderNumber = params.orderNumber || 0;
-    this.beaconId = params.beaconId || 0,
+    this.beaconId = params.beaconId || "";
     this.title = params.title;
-    this.triggerDistance = params.triggerDistance || 20;
+    this.triggerDistance = params.triggerDistance || 30;
     this.rewardPoints = params.rewardPoints || 10;
     this.item = params.item;
     this.itemName = params.itemName || "";
-
     this.marker = params.marker;
+    this.data = params.data || "";
 }
 
 Step.prototype.toJSON = function() {
@@ -158,11 +158,29 @@ Game.prototype.toJSON = function() {
     return json;
 };
 
-/*Game.prototype.toGLPJSON() = function() {
+Game.prototype.copy = function(){
+
+    var copy = new Game({
+        id          : this.id,
+        type        : this.type,
+        name        : "Copy of " + this.name,
+        description : this.description,
+        time        : this.time,
+        last_update : moment().format("YYYY-MM-DD H:mm"),
+        public      : this.public,
+        stops       : this.stops,
+        user_id     : userId,
+        user_name   : userName
+    });
+
+    return copy;
+};
+
+Game.prototype.toGLPJSON = function() {
     var json = [];
 
-    for( stop in this.stops ) {
-*/
+    for( point in points ) {
+
         /*"value":"https://beaconing.seriousgames.it/games/solveit/?session_id=7938148887",
          "name":"4600",
          "descr":"",
@@ -173,13 +191,13 @@ Game.prototype.toJSON = function() {
             "4601"
          ]*/
 
-/*        var poiJSON = {
-            "value"       : this.id,
-            "name"        : this.stops[stop].id,
+        var poiJSON = {
+            "value"       : points[point].id,
+            "name"        : points[point].id,
             "descr"       : "",
-            "type"        : , // minigameURL / uploadContent /  
-            "locked"      : "false",
-            "whereInGLP"  : "", // "(Mission0)/(Quest0)",
+            "type"        : "", // minigameURL / uploadContent /  
+            "locked"      : false,
+            "whereInGLP"  : "", // '(Mission0)/(Quest0)',
             "outputs" : [""] //id of the next poi
         };
 
@@ -188,24 +206,9 @@ Game.prototype.toJSON = function() {
     }
 
     return json;
-};*/
-
-Game.prototype.copy = function(){
-    var copy = new Game({
-        id: this.id,
-        type: this.type,
-        name: "Copy of " + this.name,
-        description: this.description,
-        time: this.time,
-        last_update: moment().format("YYYY-MM-DD H:mm"),
-        public: this.public,
-        stops: this.stops
-    });
-
-    return copy;
 };
 
-//--- BACON
+//--- BEACON
 
 function Beacon(params){
     this.name = params.name;

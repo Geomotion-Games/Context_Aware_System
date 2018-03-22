@@ -21,7 +21,8 @@ function parsePOIS(pois){
 }
 
 function parsePOI(p){
-    return new Step({
+
+    var s = new Step({
         id: p.id,
         plot: parseInt(p.plot),
         title: p.title,
@@ -34,8 +35,11 @@ function parsePOI(p){
         triggerDistance: p.triggerDistance,
         rewardPoints: p.rewardPoints,
         item: p.item,
-        itemName: p.itemName
+        itemName: p.itemName,
+        data: p.data
     });
+
+    return s;
 }
 
 function parseStopsJSON(stopsJson){
