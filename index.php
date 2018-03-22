@@ -8,10 +8,14 @@
 
 	$auth = new HandleAccessToken();
 	$user = $auth->currentUser();
+
+	include("php/multilanguage.php");
+	loadlang($user["language"]);
+
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
-	
+
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
@@ -41,7 +45,7 @@
 			$plots[] = $row;
  		}
     }else {
-      echo mysqli_error();
+    	echo mysqli_error();
     }
 ?>
 <html>
@@ -70,7 +74,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li class="active"><span>Desktop</span></li>
+					<li class="active"><span><?= l("desktop"); ?></span></li>
 				</ol>
 			</div>
 		</div>
@@ -79,15 +83,15 @@
 	<div>
 	  	<!-- Nav tabs -->
 	  	<ul class="nav nav-tabs" role="tablist">
-	    	<li role="presentation" class="active notlast"><a href="#mygames" aria-controls="mygames" role="tab" data-toggle="tab">My games</a></li>
-	    	<li role="presentation"><a id="communitytab" href="#community" aria-controls="community" role="tab" data-toggle="tab">Community games</a></li>
+	    	<li role="presentation" class="active notlast"><a href="#mygames" aria-controls="mygames" role="tab" data-toggle="tab"><?= l("my_games"); ?></a></li>
+	    	<li role="presentation"><a id="communitytab" href="#community" aria-controls="community" role="tab" data-toggle="tab"><?= l("community_games"); ?></a></li>
 	  	</ul>
 
 	</div>
 
 	<div class="container">
 		<div class="col-md-12 description">
-			<p class="descriptionText"><strong>Description: </strong>With location-based challenges students discover and interact with real-world places in a playful learning experience. Create your own games or reuse the ones created by the community. Let's go!</p>
+			<p class="descriptionText"><strong><?= l("description"); ?>: </strong><?= l("index_description"); ?></p>
 		</div>
 	</div>
 
@@ -104,12 +108,12 @@
 	<div class="remove-warning modal fade" id="remove-warning" tabindex="-1" role="dialog" aria-labelledby="remove-warning">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<h4><b>Warning!</b></h4>
+				<h4><b><?= l("warning"); ?></b></h4>
 				<hr>
-				<p>Are you sure you want to remove this game?</p>
+				<p><?= l("shure_remove"); ?></p>
 				<div id="remove-buttons">
-					<a class="warningBtn warning-action-remove">Yes</a>
-					<a class="warningBtn warning-action-cancel">No</a>
+					<a class="warningBtn warning-action-remove"><?= l("yes"); ?></a>
+					<a class="warningBtn warning-action-cancel"><?= l("no"); ?></a>
 				</div>
 			</div>
 		</div>
@@ -118,13 +122,14 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="col-md-12">
-				<a id="newGame" class="orangeBtn" href="plots.php">+ New Game</a>
-				<div id="saving">Saving...</div>
+				<a id="newGame" class="orangeBtn" href="plots.php">+ <?= l("new_game"); ?></a>
+				<div id="saving"><?= l("saving"); ?></div>
 			</div>
 		</div>
 	</footer>
 
 	<script>
+		var strings = <?= json_encode($GLOBALS["strings"]); ?>;
 		var userId = <?= $user["id"]; ?>;
 		var userName = "<?= $user["username"]; ?>";
 	</script>
@@ -139,7 +144,7 @@
 		var games = [];
 		var plots = <?= json_encode($plots); ?>;
 
-		for(var index in plots){
+		for (var index in plots){
 			games.push(parsePlotJSON(plots[index]));
 		}
 

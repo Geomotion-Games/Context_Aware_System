@@ -115,18 +115,18 @@ function showStop(stop){
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
-					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+					 	<i title="` + l("move")+`" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiChest ${last?"":"hidden"}">
 				    		<img src="images/chest.png">
 				    	</div>
 						<div class="poiTexts">
-							<p><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
+							<p><span class="name poiTitle" style="margin: 0;">` + l("stop")+` `+(stop.orderNumber) + `</span></p>
 						</div>
 						<div class="poiActions">
-							<a><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a class="editPOI" href="${ url }"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a><img src="images/locationPoi.png" title="Center" class="center">&nbsp;</a>
+							<a><i title="` + l("delete")+`" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a><i title="` + l("duplicate")+`" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a class="editPOI" href="${ url }"><i title="` + l("edit")+`" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a><img src="images/locationPoi.png" title="` + l("to_center")+`" class="center">&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -137,22 +137,22 @@ function showStop(stop){
 			<li class="stop-row poirow" id="point` + stop.orderNumber + `" stop-number="` + stop.orderNumber + `">
 				<div class="row">
 					<div class="col-md-12 poiInfo">
-					 	<i title="Move" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
+					 	<i title="` + l("move")+`" class="move fa fa-arrows-v fa-2x" aria-hidden="true"></i>
 						<div class="poiChest ${last?"":"hidden"}">
 				    		<img src="images/chest.png">
 				    	</div>
 						<div class="poiTexts">
-							<p style="width: 30% !important;"><span class="name poiTitle" style="margin: 0;">Stop ` + (stop.orderNumber) + `</span></p>
+							<p style="width: 30% !important;"><span class="name poiTitle" style="margin: 0;">` + l("stop")+` `+(stop.orderNumber) + `</span></p>
 							<select name="beacon-id" class="beacon-select-${stop.orderNumber}">
-								<option hidden value="">Select Beacon</option>
-								${beacons.map(b => `<option ${stop.beaconId==b.id?"selected":""} value="${b.id}">${b.id} - ${b.name}</option>`).join('\n')}
+								<option hidden value="">` + l("select_beacon") + `</option>
+								${beacons.map(b => `<option ${stop.beaconId==b.name?"selected":""} value="${b.name}">${b.id} - ${b.name}</option>`).join('\n')}
 							</select>
 						</div>
 						<div class="poiActions">
-							<a><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a class ="editPOI" href="${ url }"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-							<a><img src="images/locationPoi.png" title="Center" class="center">&nbsp;</a>
+							<a><i title="` + l("delete")+`" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a><i title="` + l("duplicate")+`" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a class ="editPOI" href="${ url }"><i title="` + l("edit")+`" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+							<a><img src="images/locationPoi.png" title="` + l("to_center")+`" class="center">&nbsp;</a>
 						</div>
 					</div>
 				</div>
@@ -212,7 +212,7 @@ function updateLabels() {
 					points[point].marker._tooltip.setContent(points[point].title);
 					$(this).find("span.name").text(points[point].title);
 				}else{
-					var name = "Stop " + points[point].orderNumber;
+					var name = l("stop")+" "+points[point].orderNumber;
 					if(points[point].marker) points[point].marker._tooltip.setContent(name);
 					$(this).find("span.name").text(name);
 				}

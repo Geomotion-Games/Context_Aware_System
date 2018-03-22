@@ -30,7 +30,7 @@
 }
 
 .plot {
-	height: 220px;
+	height: 250px;
 }
 
 .zoomOnHover:hover {
@@ -43,7 +43,7 @@
 	z-index: 2;
 	width: 90%;
 	margin: 0 auto;
-	max-width: 280px;
+	max-width: 350px;
 }
 
 .POIdescription {
@@ -55,7 +55,7 @@
 	font-size: 1.1em;
 	width: 90%;
 	margin: 0 auto;
-	max-width: 270px;
+	max-width: 300px;
 }
 .POIdescription, .zoomOnHover {
 	position: absolute;

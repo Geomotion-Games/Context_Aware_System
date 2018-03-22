@@ -36,7 +36,7 @@ function init(){
 
     // POI EDITION
     $("#poiName").val(poi.title);
-    $("#poiName").attr("placeholder", "Stop " + poi.orderNumber);
+    $("#poiName").attr("placeholder", `${ l("stop") }`+" "+poi.orderNumber);
     $("#poiTriggerDistance").val(poi.triggerDistance);
     $("#poiReward").val(poi.rewardPoints);
     $("#itemName").val(poi.itemName);
@@ -62,7 +62,7 @@ function init(){
 
         onInputPOI();
          $("body").find("[data-index=2]").each(function(){
-            if(points > 0) $(this).find(".preview-reward").html("You won <span>" + points + "</span> points");
+            if(points > 0) $(this).find(".preview-reward").html(`${ l("you_won_points", "<span>" + points + "</span>") }`);
             else $(this).find(".preview-reward").html("");
          });
     });
@@ -103,10 +103,10 @@ function init(){
     if(poi.type == "beacon"){
         $("#triggerContainer").addClass("hidden");
     }else if(poi.type == "start"){
-        $("footer .endEditing").text("Finish edition");
+        $("footer .endEditing").text(`${ l("finish_edition") }`);
         $("#attributes").addClass("hidden");
     }else if(poi.type == "finish"){
-        $("footer .endEditing").text("Finish edition");
+        $("footer .endEditing").text(`${ l("finish_edition") }`);
         $("#attributes").addClass("hidden");
     }
 
@@ -421,26 +421,26 @@ function appendEditor(parent, screen){
     if(type == "A"){
         $(parent).append(`
     	    <div class="form-group">
-                <label for="screenTitle">Title:</label>
+                <label for="screenTitle">${l("title")}:</label>
                 <input type="title" class="form-control" id="screenTitle" value="${title}">
             </div>
             <div class="form-group">
                 <form id="image-videoForm">
-                  <input id="imageRadio" type="radio" name="image-video" value="image" checked> Image
-                  <input id="youtubeOrVimeoRadio" type="radio" name="image-video" value="youtubeOrVimeo"> Video URL (Youtube or Vimeo)<br>
-                  <input id="videoRadio" type="radio" name="image-video" value="video"> Upload Video
+                  <input id="imageRadio" type="radio" name="image-video" value="image" checked>` + l("image") + `
+                  <input id="youtubeOrVimeoRadio" type="radio" name="image-video" value="youtubeOrVimeo">` + l("video_url") + `<br>
+                  <input id="videoRadio" type="radio" name="image-video" value="video">` + l("upload_video") + `
                 </form>
                 <div id="imageForm">
-                    <label for="screenImage">Image (Formats: JPG JPEG PNG GIF; Max 10MB): </label>
+                    <label for="screenImage">` + l("image_formats") + `:</label>
                     <div class="row">
                         <div class="col-md-12">
                             <input class="form-control" id="screenImage" type="file" accept="image/*" >
-                            <i class="fa fa-times fa-2x" id="removeImageA" aria-hidden="true" title="Remove Image"></i>
+                            <i class="fa fa-times fa-2x" id="removeImageA" aria-hidden="true" title="` + l("remove_image")+`"></i>
                         </div>
                     </div>
                 </div>
                 <div id="youtubeOrVimeoForm">
-                    <label for="screenYoutubeOrVimeoVideo">Youtube Or Vimeo Video (Full URL): </label>
+                    <label for="screenYoutubeOrVimeoVideo">` + l("video_full") + `: </label>
                     <div class="row">
                         <div class="col-md-12">
                              <textarea rows="1" type="text" class="form-control" id="screenYoutubeOrVimeoVideo">${video}</textarea>
@@ -448,17 +448,17 @@ function appendEditor(parent, screen){
                     </div>
                 </div>
                 <div id="videoForm">
-                    <label for="screenVideo">Upload Video (max 20 MB): </label>
+                    <label for="screenVideo">` + l("video_max") + `: </label>
                     <div class="row">
                         <div class="col-md-12">
                             <input class="form-control" id="screenVideo" type="file" accept="video/mp4" >
-                            <i class="fa fa-times fa-2x" id="removeVideoA" aria-hidden="true" title="Remove Video"></i>
+                            <i class="fa fa-times fa-2x" id="removeVideoA" aria-hidden="true" title="`+l("remove_video")+`"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="screenText">Text:</label>
+                <label for="screenText">` + l("text") + `:</label>
                 <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
             </div>
             
@@ -467,11 +467,11 @@ function appendEditor(parent, screen){
     }else{
         $(parent).append(`
             <div class="form-group">
-                <label for="screenTitle">Title:</label>
+                <label for="screenTitle">${l("title")}:</label>
                 <input type="title" class="form-control" id="screenTitle" value="${title}">
             </div>
             <div class="form-group">
-                <label for="screenText">Text:</label>
+                <label for="screenText">${l("text")}:</label>
                 <textarea rows="6" type="text" class="form-control" id="screenText">${text}</textarea>
             </div>
         `);
@@ -480,8 +480,8 @@ function appendEditor(parent, screen){
     if(gameType == "TreasureHunt" && !noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
         $(parent).append(`
             <div class="form-group">
-                <label for="screenClue">Clue for the next POI:</label>
-                <textarea rows="6" type="text" placeholder="Write here the clue for the next POI" class="form-control" id="screenClue">${clue}</textarea>
+                <label for="screenClue">` + l("clue_next") + `:</label>
+                <textarea rows="6" type="text" placeholder="` + l("write_clue") + `" class="form-control" id="screenClue">${clue}</textarea>
             </div>
         `);
     }
@@ -580,7 +580,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
         if (type == "A") {
             var content = `
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
-                    <h4>Screen before challenge</h4>
+                    <h4>${l("screen_before")}</h4>
                     <div href="" class="edit-screen">
                         <div class="preview-screen clickable" id="preview-screen-A" data-index="${index}">
                             <div class="edition-hover">
@@ -603,15 +603,15 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                 var totalTime = "0:00"; 
                 if(totalRewardPoints != 0){
                      content += `
-                                    <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
+                                    <p class="preview-reward" id="preview-total-reward-C">${l("you_won_points", totalRewardPoints)}</p>
                     `;
                 }           
                 content += `
-                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span></p>
-                                    <p class="preview-button" id="preview-button-A">Finish Game</p>
+                                    <p class="preview-reward" id="preview-total-time-C">${l("total_time_played")}: <span>${totalTime}</span></p>
+                                    <p class="preview-button" id="preview-button-A">${l("finish_game")}</p>
                     `;
             }else{
-                content += ` <p class="preview-button" id="preview-button-A">Start Game</p>`;
+                content += ` <p class="preview-button" id="preview-button-A">${l("start_game")}</p>`;
             }
 
             content += `
@@ -630,28 +630,28 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
         } else if (type == "B") {
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
-                    <h4>Screen for challenge</h4>
+                    <h4>${l("screen_for")}</h4>
                     <div class="preview-screen" id="preview-screen-B" data-screen-index="2">
                         <form id="challenge-form">
                             <div class="form-group">
-                                <label for="challenge-type-selector">Challenge:</label>
+                                <label for="challenge-type-selector">${l("challenge")}:</label>
                                 <select class="form-control" id="challenge-type-selector">
-                                    <option value="">Select the Challenge</option>
-                                    <option value="checkin">Check In</option>
-                                    <option value="upload_content">Upload Content</option>
-                                    <option value="minigame">Minigame</option>
+                                    <option value="">${l("select_the_challenge")}</option>
+                                    <option value="checkin">${l("check_in")}</option>
+                                    <option value="upload_content">${l("upload_content")}</option>
+                                    <option value="minigame">${l("minigame")}</option>
                                 <select>
                             </div>
                             <div class="form-group hidden" id="minigame-select-div"">
-                                <label for="minigame-selector">Minigame URL:</label>
+                                <label for="minigame-selector">${l("minigame_url")}:</label>
                                 <input type="text" name="minigame-selector"><br>
                             </div>
                              <div class="form-group hidden" id="upload-select-div"">
-                                <label for="upload-type-selector">Content type:</label>
+                                <label for="upload-type-selector">${l("content_type")}:</label>
                                  <select class="form-control" id="upload-type-selector">
-                                    <option value="any">Any</option>
-                                    <option value="image">Image</option>
-                                    <option value="video">Video</option>
+                                    <option value="any">${l("any")}</option>
+                                    <option value="image">${l("image")}</option>
+                                    <option value="video">${l("video")}</option>
                                     <!--option value="audio">Audio</option-->
                                 <select>
                             </div>
@@ -665,7 +665,7 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
         } else if (type == "C") {
              $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
-                    <h4>Screen after challenge</h4>
+                    <h4>${l("screen_after")}</h4>
                     <div href="" class="edit-screen">
                         <div class="preview-screen clickable" id="preview-screen-C" data-index="${index}">
                             
@@ -674,8 +674,8 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                                     <h4 class="preview-title" id="preview-title-C">${title}</h4>
                                     <img class="preview-img" id="preview-img-C" src="${item != "" ? item : image}">
                                     <p class="preview-text" id="preview-text-C">${linkedText}</p>
-                                    <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points": ""}</p>
-                                    <p class="preview-button" id="preview-button-C">Go to map!</p>
+                                    <p class="preview-reward" id="preview-reward-C">${reward > 0 ? l("you_won_points", "<span>" + reward + "</span>") : ""}</p>
+                                    <p class="preview-button" id="preview-button-C">${l("go_to_map")}</p>
                                 </div>
                                 <div class="background-front"></div>
                                 <img class="background" src="css/map-background.png">
@@ -709,15 +709,15 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                  var totalTime = "0:00"; 
                 if(totalRewardPoints != 0){
                      content += `
-                                    <p class="preview-reward" id="preview-total-reward-C">You earned <span>${totalRewardPoints}</span> points</p>
+                                    <p class="preview-reward" id="preview-total-reward-C">${l("you_won_points", "<span>" + totalRewardPoints + "</span>")}</p>
                     `;
                 }           
                 content += `
-                                    <p class="preview-reward" id="preview-total-time-C">Total time played: <span>${totalTime}</span></p>
-                                    <p class="preview-button" id="preview-button-A">Finish Game</p>
+                                    <p class="preview-reward" id="preview-total-time-C">${l("total_time_played")}: <span>${totalTime}</span></p>
+                                    <p class="preview-button" id="preview-button-A">${l("finish_game")}</p>
                     `;
             }else{
-                content += ` <p class="preview-button" id="preview-button-A">Start Game</p>`;
+                content += ` <p class="preview-button" id="preview-button-A">${l("start_game")}</p>`;
             }
 
             content += `
@@ -735,8 +735,8 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                         <h4 class="preview-title" id="preview-title-C">${title}</h4>
                         <img class="preview-img" id="preview-img-C" src="${item != "" ? item : image}">
                         <p class="preview-text" id="preview-text-C">${linkedText}</p>
-                        <p class="preview-reward" id="preview-reward-C">${reward > 0 ? "You won <span>" + reward + "</span> points" : ""}</p>
-                        <p class="preview-button" id="preview-button-C">Go to map!</p>
+                        <p class="preview-reward" id="preview-reward-C">${reward > 0 ? l("you_won_points", "<span>" + reward + "</span>") : ""}</p>
+                        <p class="preview-button" id="preview-button-C">${l("go_to_map")}</p>
                     </div>
                     <div class="background-front"></div>
                     <img class="background" src="css/map-background.png">
@@ -775,7 +775,7 @@ function uploadImage(options){
                         console.log("Succes upload: " + url);
                         options.postCallback(url);
                     } else {
-                        showWarning("The image exceeds the 10MB limit");
+                        showWarning(l("image_exceeds"));
                         console.log("Error upload: " + data);
                     }
                 }
@@ -812,7 +812,7 @@ function uploadVideo(options){
                         options.postCallback(url);
                     } else {
                         $("#uploadingVideo").modal('hide');
-                        showWarning("The video exceeds the 20MB limit");
+                        showWarning(l("video_exceeds"));
                         console.log("Error upload: " + data);
                     }
                 }

@@ -10,7 +10,7 @@ function duplicatePlot(plot, callback){
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(l("chages_saved"));
         saved = true;
         plot.id = data.trim();
         console.log("Plot saved!" + data);
@@ -37,7 +37,7 @@ function duplicatePOI(poi, game, callback){
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(l("changes_saved"));
         saved = true;
         poi.id = data.trim();
         console.log("Plot saved!" + data);

@@ -64,12 +64,24 @@ function uploadVideo(options){
                         options.postCallback(true);
                     } else {
                         $("#uploadingVideo").modal('hide');
-                        showWarning("The video exceeds the 20MB limit");
+                        showWarning(l("video_exceeds"));
                         console.log("Error upload: " + data);
                     }
                 }
             });
         }
+}
+
+function l(string, extra) {
+    if (!extra) {
+        if (strings.hasOwnProperty(string)) {
+            return strings[string];
+        } else {
+            return string;
+        }
+    } else {
+        return strings[string].replace(/%s/g, extra);
+    }
 }
 
 
@@ -99,7 +111,7 @@ function uploadImage(options){
                         console.log("Succes upload");
                         options.postCallback(true);
                     } else {
-                        alert("The image exceeds the 10MB limit");
+                        alert(l("image_exceeds"));
                         console.log("Error upload: " + data);
                     }
                 }

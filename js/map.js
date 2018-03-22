@@ -224,7 +224,7 @@ function addMarker(latlng, draggable){
 	var marker = new L.marker(latlng, {
 		draggable: draggable === undefined ? 'true' : draggable,
 		icon: icon
-	}).bindTooltip( "Stop " + (poisCreated + 1),
+	}).bindTooltip( `${l("stop")} ` + (poisCreated + 1),
 		{
 			permanent: true,
 			direction: 'bottom'

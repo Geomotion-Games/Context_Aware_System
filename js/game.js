@@ -14,8 +14,8 @@ function showMyGames(){
 
     for(var game in games){
         if(games[game].user_id == userId || !(games[game].user_id) ){
-        text_to_append += appendGame("#mygames", games, game);
-    }
+            text_to_append += appendGame("#mygames", games, game);
+        }
     }
 
     text_to_append += "</div></div>";
@@ -57,16 +57,16 @@ function appendGame(parent, games, index){
                         </div>
                         <div class="options">
                             <p class="gameDate">${type}</p>
-                            <p class="gameDate" style="margin-bottom:5px;">Last modified: ${games[index].last_update} GMT</p>
+                            <p class="gameDate" style="margin-bottom:5px;">${ l("last_modified") }: ${games[index].last_update} GMT</p>
 
                             <div class="pubpriv">
-                                <input data-index="${index}" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="Public" data-off="Private" ${games[index].public?"checked":""}>
+                                <input data-index="${index}" class="pubpriv-toggle" type="checkbox" data-toggle="toggle" data-on="${ l("public") }" data-off="${ l("private") }" ${games[index].public?"checked":""}>
                             </div>
                             <div class=gameactions>
-                                <a href="#"><i title="Delete" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                                <a href="#"><i title="Duplicate" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                                <a href="${url}"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
-                                <a href="#"><i title="Test Game" class="fa fa-external-link fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a class="delete-game" href="#"><i title="${ l("delete") }" class="fa fa-trash fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a href="#"><i title="${ l("duplicate") }" class="fa fa-copy fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a class="edit-game" href="${url}"><i title="${ l("edit") }" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+                                <a href="#"><i title="${ l("test_game") }" class="fa fa-external-link fa-2x" aria-hidden="true"></i>&nbsp;</a>
                             </div>
                         </div>
                     </div>

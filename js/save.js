@@ -11,7 +11,7 @@ function savePlot(plot, callback) {
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(`${ l("changes_saved") }`);
         saved = true;
         plot.id = data.trim();
         console.log("Plot saved!" + data);
@@ -23,7 +23,7 @@ function savePlot(plot, callback) {
     })
 }
 
-function savePOI(poi, game, callback){
+function savePOI(poi, game, callback) {
     createSavingTimeout();
 
     var poiJSON = poi.toJSON();
@@ -38,7 +38,7 @@ function savePOI(poi, game, callback){
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(`${ l("changes_saved") }`);
         saved = true;
         console.log("POI saved!" + data);
         poi.id = data.trim();
@@ -66,7 +66,7 @@ function saveScreen(screen, poi, game){
 
     console.log("Saving...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(`${ l("changes_saved") }`);
         saved = true;
         console.log("Screen saved!" + data);
     });
@@ -81,12 +81,12 @@ var savingTimeout;
 
 function createSavingTimeout(){
     saved = false;
-    $("#saving").text("Saving...");
+    $("#saving").text(`${ l("saving") }` + "...");
     $("#saving").show();
     if(savingTimeout != null) clearTimeout(savingTimeout);
     savingTimeout = setTimeout(function(){
         if(saved){
-            $("#saving").text("All changes have been saved");
+            $("#saving").text(`${ l("changes_saved") }`);
         }
         clearTimeout(savingTimeout);
         savingTimeout = null;

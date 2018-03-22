@@ -6,6 +6,10 @@
 
 	$auth = new HandleAccessToken();
 	$user = $auth->currentUser();
+
+	include("php/multilanguage.php");
+	loadlang($user["language"]);
+
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
@@ -80,10 +84,10 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="./"><span>Desktop</span></a></li>
-					<li><span>Select plot</span></li>
+					<li><a href="./"><span><?= l("desktop"); ?></span></a></li>
+					<li><span><?= l("select_plot"); ?></span></li>
 					<!--TODO href depenent del joc...-->
-					<li class="active"><span>Edit game</span></li>
+					<li class="active"><span><?= l("edit_game"); ?></span></li>
 				</ol>
 			</div>
 		</div>
@@ -91,26 +95,26 @@
 
 	<div class="container-fluid wideDescription">
 		<div class="col-md-12 description">
-			<p class="descriptionText"><strong>Description: </strong>Define the basic parameters of your game. Create POI (Points of Interest) clicking on the map, reorder and edit them as you wish and personalize the content of each one with funny challenges.</p>
+			<p class="descriptionText"><strong><?= l("description"); ?>: </strong><?= l("edit_game_description"); ?></p>
 		</div>
 	</div>
 
 	<div class="container-fluid">
 		<div id="attributes" class="row">
 			<div class="col-md-3 attribute">
-				<p class="attrTitle">Name of the Game</p>
+				<p class="attrTitle"><?= l("name_game"); ?></p>
 				<input id="gameName" class="attrValue" type="text" maxlength="40">
 			</div>
 			<div class="col-md-4 attribute">
-				<p class="attrTitle">Description of the game (max. 100 characters)</p>
+				<p class="attrTitle"><?= l("name_description"); ?></p>
 				<input id="gameDescription" class="attrValue" type="text" maxlength="100">
 			</div>
 			<div class="col-md-2 attribute">
-				<p class="attrTitle">Time limit</p>
-				<input id="timeToggle" class="pubpriv-toggle gameTimeActive" type="checkbox" data-toggle="toggle" data-on="Limited" data-off="Unlimited">
+				<p class="attrTitle"><?= l("time_limit"); ?></p>
+				<input id="timeToggle" class="pubpriv-toggle gameTimeActive" type="checkbox" data-toggle="toggle" data-on="<?= l("limited"); ?>" data-off="<?= l("unlimited"); ?>">
 			</div>
 			<div class="col-md-3 attribute" id="timeLimit" style="visibility: hidden;">
-				<p class="attrTitle">Time to complete the game (in minutes)</p>
+				<p class="attrTitle"><?= l("time_to_complete"); ?></p>
 				<input id="gameTimeValue" class="attrValue" type="number" placeholder="0">
 			</div>
 		</div>
@@ -131,10 +135,10 @@
 				    		<div class="row">
 				    			<div class="col-md-12 poiInfo">
 				    				<div class="poiTexts">
-				    					<p><span class="name poiTitle" style="margin: 0;">START</span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="This is the first screen that the student will see. This screen does not depend on the location of the student."><i class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
+				    					<p><span class="name poiTitle" style="margin: 0;"><?= l("start"); ?></span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="<?= l("start_info"); ?>"><i class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i title="<?= l("edit")?>" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
@@ -148,10 +152,10 @@
 				    		<div class="row">
 				    			<div class="col-md-12 poiInfo">
 				    				<div class="poiTexts">
-				    					<p><span class="name poiTitle" style="margin: 0;">FINISH</span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="This is the last screen that the student will see. This screen will appear after the last POI."><i class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
+				    					<p><span class="name poiTitle" style="margin: 0;"><?= l("finish"); ?></span><a class="poi-tooltip" href="#" data-toggle="tooltip" data-placement="right" title="<?= l("finish_info"); ?>"><i class="fa fa-info fa-1.2x" aria-hidden="true"></i></a></p>
 				    				</div>
 				    				<div class=poiActions>
-				    					<a href="#"><i title="Edit" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
+				    					<a href="#"><i title="<?= l("edit")?>" class="fa fa-pencil fa-2x" aria-hidden="true"></i>&nbsp;</a>
 				    				</div>
 				    			</div>
 				    		</div>
@@ -163,10 +167,11 @@
 				<footer class="navbar-fixed-bottom">
 					<div class="container-fluid">
 						<div class="col-md-12">
-							<a id="finishEdition" href="./" class="orangeBtn">Finish game edition</a>
-							<a id="manageBeacons" href="http://location.beaconing.eu/" target="_blank" class="blueBtn">Manage Beacons</a>
-							<a id="addBeacon" class="blueBtn">+ Add Beacon</a>
-							<div id="saving">Saving...</div>
+							<a id="finishEdition" href="./" class="orangeBtn"><?= l("finish_game_edition"); ?></a>
+							<a id="qrcode" class="blueBtn"><?= l("qr_code"); ?></a>
+							<a id="manageBeacons" href="http://location.beaconing.eu/" target="_blank" class="blueBtn"><?= l("manage_beacons"); ?></a>
+							<a id="addBeacon" class="blueBtn">+ <?= l("add_beacons"); ?></a>
+							<div id="saving"><?= l("saving"); ?>...</div>
 						</div>
 					</div>
 				</footer>

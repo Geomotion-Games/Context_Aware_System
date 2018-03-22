@@ -134,8 +134,8 @@ function Game(params){
     this.user_id = params.user_id || null;
     this.user_name = params.user_name || null;
     this.type = params.type || "FollowThePath";
-    this.name = params.name || "Game name";
-    this.description = params.description || "Game description";
+    this.name = params.name || l("game_name");
+    this.description = params.description || l("game_description");
     this.time = params.time || 0;
     this.public = params.public || false;
     this.last_update = timestampToDate(params.last_update);

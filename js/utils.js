@@ -17,7 +17,7 @@ function locate() {
                 }
             });
     } else {
-        coordinates.innerHTML = "Geolocation is not supported by this browser.";
+        coordinates.innerHTML = `${ l("geo_not_supported") }`;
     }
 }
 
@@ -127,3 +127,20 @@ function addMetersToCoordinates(coords, x, y){
     var yy = y * 0.0000089;
     return {lat: coords.lat + yy, lng: coords.lng + xx / Math.cos(coords.lng * 0.018)}
 }
+
+function l(string, extra) {
+    if (!extra) {
+        if (strings.hasOwnProperty(string)) {
+            return strings[string];
+        } else {
+            return string;
+        }
+    } else {
+        return strings[string].replace(/%s/g, extra);
+    }
+}
+
+
+
+
+

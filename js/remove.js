@@ -9,7 +9,7 @@ function removePlot(plot, callback) {
 
     console.log("Removing...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(`${ l("changes_saved") }`);
         saved = true;
         if(callback) callback();
         console.log("Plot removed!");
@@ -31,7 +31,7 @@ function removePOI(poi, game) {
 
     console.log("Removing...");
     request.done(function(data) {
-        if(!savingTimeout)$("#saving").text("All changes have been saved");
+        if(!savingTimeout)$("#saving").text(`${ l("changes_saved") }`);
         saved = true;
         console.log("POI removed!");
     });

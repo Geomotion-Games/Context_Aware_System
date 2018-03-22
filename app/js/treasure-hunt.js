@@ -52,7 +52,7 @@ function gameReady() {
 			    	console.log("uploaded video!");
 			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
 			    		textClass = "textWithVideo";
-			        	media = '<!--div class="videoWrapper"--><video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video><!--/div-->';
+			        	media = '<video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video>';
 					}
 			        break;
 			    default:
@@ -95,7 +95,7 @@ function gameReady() {
 			} else { challengeType = "checkin"; }
 		} else { challengeType = "checkin"; }
 
-		if (step == 0) { textButton = "Start game"; }
+		if (step == 0) { textButton = l("start_game"); }
 		var button = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
 		var share = "";
 		var gooutbutton = "";
@@ -103,7 +103,7 @@ function gameReady() {
 			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>';
 			if (device != "app") {
 				share = `<div class="shareButtons" id="shareButtonsFinish">
-							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i>`+l("share")+`</button></a>
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 						</div>`;
 			}
@@ -160,12 +160,12 @@ function gameReady() {
 
 			// TODO fer aqui el llistat de paràmetres i validar l'existencia de tots
 			var points = game[step]["rewardPoints"] == 0 
-						? "" : ("<p class='pointsWon'>You won <span>"+ game[step]["rewardPoints"] +"</span> points</p>");
+						? "" : ("<p class='pointsWon'>"+l("you_won_points", "<span>"+game[step]["rewardPoints"]+"</span>") +"</p>");
 
 			var share = "";
 			if (device != "app") {
 				share = `<div class="shareButtons">
-							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i> Share</button></a>
+							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i>`+l("share")+`</button></a>
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 						</div>`;
 			}
@@ -327,7 +327,7 @@ function gameReady() {
 			// TIME
 			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
 			var seconds = spent%60;
-			var timeSpent = "<h3>Total time played: <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
+			var timeSpent = "<h3>"+l("total_time_played")+": <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
 			var timeDivs = document.getElementsByClassName('totalTimeSpent');
 			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
 
@@ -336,7 +336,7 @@ function gameReady() {
 
 			if (pointsEarned > 0) {
 				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
-				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>You earned <span>"+ pointsEarned +"</span> points</h3>";
+				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>"+l("you_won_points", "<span>"+pointsEarned+"</span>")+"</h3>";
 			}
 
 			//FINAL ANALYTICS
@@ -452,7 +452,7 @@ function updateTimeLabel() {
 		} else {
 			document.getElementById('time-limit').style.zIndex = "9998";
 			document.getElementById('time-limit').style.display = "block";
-			document.getElementById("points-time-over").innerHTML = "<h3>You earned <span>"+ getEarnedPoints() +"</span> points</h3>";
+			document.getElementById("points-time-over").innerHTML = "<h3>"+l("you_won_points", "<span>"+getEarnedPoints()+"</span>")+ "</h3>";
 			blockGame();
 		}
 	}
@@ -574,7 +574,7 @@ function locate_browser() {
 		}, 3000);
 	} else {
 		console.log("no va");
-		document.getElementById("message").innerHTML = "Geolocation is not supported by this browser.";
+		document.getElementById("message").innerHTML = l("geo_not_supported");
 	}
 }
 
@@ -767,7 +767,7 @@ function addCollectablesToInventory() {
 
 		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item!="-" && game[step].item) {
 
-			var itemName = "ITEM " + (i+1);
+			var itemName = l("item")+" "+(i+1);
 			if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {
 				itemName = game[step].itemName;
 			}

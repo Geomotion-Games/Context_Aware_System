@@ -6,6 +6,10 @@
 
 	$auth = new HandleAccessToken();
 	$user = $auth->currentUser();
+
+	include("php/multilanguage.php");
+	loadlang($user["language"]);
+
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
@@ -92,43 +96,42 @@
 		<div class="container-fluid">
 			<div class="row">
 				<ol class="breadcrumb">
-					<li><a href="./"><span>Desktop</span></a></li>
-					<li><span>Select plot</span></li>
+					<li><a href="./"><span><?= l("desktop"); ?></span></a></li>
+					<li><span><?= l("select_plot"); ?></span></li>
 					<!--TODO href depenent del joc...-->
-					<li><a class="endEditing" href="../follow-the-path.php"><span>Edit game</span></a></li>
-					<li class="active"><span>Edit POI</span></li>
+					<li><a class="endEditing" href="../follow-the-path.php"><span><?= l("edit_game"); ?></span></a></li>
+					<li class="active"><span><?= l("edit_poi"); ?></span></li>
 				</ol>
 			</div>
 		</div>
 	</header>
 
-
 	<div class="container-fluid wideDescription">
 		<div class="col-md-12 description">
-			<p class="descriptionText"><strong>Description: </strong>Preview the content of the screens that students will see on the app when arriving to a POI during the game. "Challenge description" screen shows a description of the POI and the challenge. "Challenge screen" shows the challenge that the student have to overcome when arriving at the POI. "Result screen" shows the result of the challenge: reward points, items collected, etc.</p>
+			<p class="descriptionText"><strong><?= l("description"); ?>: </strong><?= l("edit_poi_description"); ?></p>
 		</div>
 	</div>
 
 	<div class="container-fluid">
 		<div id="attributes" class="row">
 			<div id="nameContainer" class="col-md-2 attribute">
-				<p class="attrTitle">Name of the POI</p>
+				<p class="attrTitle"><?= l("name_poi"); ?></p>
 				<input id="poiName" class="attrValue" type="text" maxlength="25">
 			</div>
 			<div id="rewardContainer" class="col-md-2 attribute">
-				<p class="attrTitle">Reward Points (max 1000000)</p>
+				<p class="attrTitle"><?= l("reward_points"); ?></p>
 				<input id="poiReward" class="attrValue" type="number" max="1000000">
 			</div>
 			<div id="triggerContainer" class="col-md-2 attribute">
-				<p class="attrTitle">Trigger distance (meters)</p>
+				<p class="attrTitle"><?= l("trigger_distance"); ?></p>
 				<input id="poiTriggerDistance" class="attrValue" type="number">
 			</div>
 			<div id="itemNameContainer" class="col-md-2 attribute">
-				<p class="attrTitle">Collectable item name</p>
-				<input id="itemName" class="attrValue" type="text" placeholder="Item Name" maxlength="25">
+				<p class="attrTitle"><?= l("collectable_name"); ?></p>
+				<input id="itemName" class="attrValue" type="text" placeholder="<?= l("item") ?>" maxlength="25">
 			</div>
 			<div id="imageContainer" class="col-md-4 attribute">
-				<p class="attrTitle">Collectable item (Formats: JPG JPEG PNG GIF; Max 10MB)</p>
+				<p class="attrTitle"><?= l("item_formats"); ?></p>
 				<div class="row">
                     <div class="col-md-12">
                         <input id="poiImage" class="attrValue" type="file" accept="image/*">
@@ -149,7 +152,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="exampleModalLabel">Editing Stop:</h4>
+					<h4 class="modal-title" id="exampleModalLabel"><?= l("editing_stop"); ?>:</h4>
 				</div>
 				<div class="modal-body">
 					<div id="stop-editor-content">
@@ -181,10 +184,10 @@
 	<div class="fileSizeWarning modal fade" id="fileSizeWarning" tabindex="-1" role="dialog" aria-labelledby="fileSizeWarning">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<h4><b>Warning!</b></h4>
+				<h4><b><?= l("warning"); ?></b></h4>
 				<hr>
-				<p class="fileSizeWarningMessage">The image exceeds the 10MB limit</p>
-				<a class="warningBtn fileSizeWarning-close">Ok</a>
+				<p class="fileSizeWarningMessage"><?= l("image_exceeds"); ?></p>
+				<a class="warningBtn fileSizeWarning-close"><?= l("ok"); ?></a>
 			</div>
 		</div>
 	</div>
@@ -192,10 +195,10 @@
 	<div class="fileSizeWarning modal fade" id="minigameSelectedWarning" tabindex="-1" role="dialog" aria-labelledby="minigameSelectedWarning">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<h4><b>Warning!</b></h4>
+				<h4><b><?= l("warning"); ?></b></h4>
 				<hr>
-				<p class="fileSizeWarningMessage">Challenges for this Point Of Interest (POI) must be created and assigned from the General Authoring tool</p>
-				<a class="warningBtn fileSizeWarning-close">Ok</a>
+				<p class="fileSizeWarningMessage"><?= l("challenges_must"); ?></p>
+				<a class="warningBtn fileSizeWarning-close"><?= l("ok"); ?></a>
 			</div>
 		</div>
 	</div>
@@ -203,9 +206,9 @@
 	<div class="uploadingVideo modal fade" id="uploadingVideo" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="uploadingVideo">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
-				<h4><b>Uploading...</b></h4>
+				<h4><b><?= l("uploading"); ?></b></h4>
 				<hr>
-				<p class="uploadingVideoMessage">Please wait until your video is fully uploaded.</p>
+				<p class="uploadingVideoMessage"><?= l("wait_video_uploaded"); ?></p>
 				<img src="images/uploading.gif">
 			</div>
 		</div>
@@ -214,12 +217,16 @@
 	<footer class="navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="col-md-12">
-				<a class="endEditing orangeBtn" href="../follow-the-path.php">Finish POI edition</a>	
-				<a id="qrcode" class="blueBtn">Generate QR Code</a>
-				<div id="saving">Saving...</div>
+				<a class="endEditing orangeBtn" href="../follow-the-path.php"><?= l("finish_poi_edition"); ?></a>	
+				<a id="qrcode" class="blueBtn"><?= l("qr_code"); ?></a>
+				<div id="saving"><?= l("saving"); ?>...</div>
 			</div>
 		</div>
 	</footer>
+
+	<script>
+		var strings = <?= json_encode($GLOBALS["strings"]); ?>;
+	</script>
 
 	<script src="js/utils.js"></script>
 	<script src="js/parse.js"></script>

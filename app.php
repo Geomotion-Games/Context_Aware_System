@@ -9,6 +9,9 @@
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
+	include("php/multilanguage.php");
+	loadlang("en");
+
 	setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 	date_default_timezone_set('Europe/Madrid');
 
@@ -96,6 +99,10 @@
 		$tracking_code_param = $_REQUEST['trackingcode'];
 	}
 
+	if ( isset($_REQUEST['lang']) ) {
+		loadLang($_REQUEST['lang']);
+	}
+
 	$game = array();
 	$game['POIS'] = $pois; 
 ?>
@@ -117,6 +124,8 @@
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 	<script src="app/js/gp-common.js"></script>
+
+	<script>var strings = <?= json_encode($GLOBALS["strings"]); ?>;</script>
 
 	<?php switch($game["POIS"][0]["game_type"]): 
 		
@@ -191,7 +200,7 @@
 	<div>
 		<div id="inventory-header">
 			<a id="inventory-return" href="JavaScript: hideInventory(2); void(0);"><</a>
-			<p id="inventory-title">Inventory</p>
+			<p id="inventory-title"><?= l("inventory"); ?></p>
 			<img src="app/images/inventory-header.png" id="inventory-header-image">
 			<p id="inventory-progress"></p>
 		</div>
