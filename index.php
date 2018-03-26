@@ -132,6 +132,7 @@
 		var strings = <?= json_encode($GLOBALS["strings"]); ?>;
 		var userId = <?= $user["id"]; ?>;
 		var userName = "<?= $user["username"]; ?>";
+		var master = <?= $master ? 1 : 0; ?>;
 	</script>
 
 	<script src="js/models.js"></script>
