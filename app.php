@@ -294,10 +294,10 @@
 		cookieNeeded = true;
 
 		// recover progress
-		var progress = getCookie("progress_game_" + game_id);
+		/*var progress = getCookie("progress_game_" + game_id);
 		if (progress != "" && !fromMinigame) {
 			currentPOI = teleportTo(progress);
-		}
+		}*/
 	}
 
 	tracker.settings.host = "https://analytics.beaconing.eu/";
@@ -360,7 +360,7 @@
 
 	if (device == "app") {
 		locate_app();
-		lookForBeacons();
+		window.location.href = "?startScanBeacons";
 	} else {
 		locate_browser();
 	}
@@ -382,7 +382,19 @@
 	}
 
 	function setBeaconNames(data) {
-		alert(data);
+
+		if (game[nextPOI]["type"] == "beacon") {
+			var bname = getBeaconName(data);
+			if (game[nextPOI]["beaconId"] == bname) {
+				var position = { coords : {longitude: game[nextPOI].lng, latitude: game[nextPOI].lat}};
+				lastPosition = position;
+				newLocation(position);
+			}
+		}
+	}
+
+	function getBeaconName(data) {
+		return data.substring(10, data.indexOf("address")-3);
 	}
 
 	gameReady();

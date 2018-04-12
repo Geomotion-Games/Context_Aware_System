@@ -45,14 +45,14 @@ function duplicatePois($lastPlotId, $newPlotId, $bd){
 
 function duplicatePoi($id, $plot, $type, $lat, $lng, $orderNumber, $beaconId, $title, $rewardPoints, $triggerDistance, $item, $itemName, $bd) {
 
-	$query = sprintf("INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, itemName) VALUES (%d,'%s',%f,%f,%d,%d,'%s',%d,%d,'%s','%s')",
+	$query = sprintf("INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, itemName) VALUES (%d,'%s',%f,%f,%d,'%s','%s',%d,%d,'%s','%s')",
 		
 		intval($plot),
 		$bd->mysqli_real_escape_string($type),
 		floatval($lat),
 		floatval($lng),
 		intval($orderNumber),
-		intval($beaconId),
+		$bd->mysqli_real_escape_string($beaconId),
 		$bd->mysqli_real_escape_string($title),
 		intval($triggerDistance),
 		intval($rewardPoints),

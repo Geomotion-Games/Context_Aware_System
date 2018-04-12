@@ -174,7 +174,10 @@ function showStop(stop){
 function addBeaconMarker(id, step, focus){
 	var beacon = null;
 	for(var b in beacons){
-		if(beacons[b].id == id){
+		console.log(beacons[b].name);
+		console.log(id);
+		if(beacons[b].name == id) {
+			console.log("ho tenim!");
 			beacon = beacons[b];
 			break;
 		}
@@ -183,9 +186,9 @@ function addBeaconMarker(id, step, focus){
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
+	step.beaconId = id;
 	map.addLayer(marker);
 	step.marker = marker;
-	step.beaconId = id;
 	if(focus){
 		map.setView(coords, 20);
 	}
@@ -270,7 +273,7 @@ function sortPoints(save, skipSort){
 
 		var e = $(childrens[len - 1]).find(".editPOI");
 		e.attr("href", e.attr("href") + "&noClue");
-		
+
 		points.forEach(function (p) {
 			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(1): generateMarker(1, true));
 		});

@@ -505,6 +505,7 @@ function blockGame() {
 	//TODO
 }
 
+
 function updatePath() {
 
 	var pointList_pre = [];
@@ -553,12 +554,6 @@ function updatePath() {
     	opacity: 1,
     	smoothFactor: 1
 	}).addTo(map);
-}
-
-function lookForBeacons() {
-	setInterval(function() {
-		window.location.href = "?scanbeaconnames";
-	}, 6000);
 }
 
 
