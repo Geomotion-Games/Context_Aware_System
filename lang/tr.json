@@ -34,7 +34,7 @@
 	"trigger_distance" : "Tetik Mesafesi (metre olarak)",
 	"collectable_name" : "Biriktirmelik Parçanın Adı",
 	"item_formats" : "Biriktirmelik Parça Formatları: JPG, JPEG, PNG, GIF, (Max 10MB)",
-	"editing_stop" : "Düzenlemeyi durdur",
+	"editing_stop" : "İlgi Noktasını Düzenle",
 	"image_exceeds" : "Görsel 10MB limitini aşıyor",
 	"challenges_must" : "Bir aşmaca seçmeyi unutmayın. Bu IN’deki aşmacalar Genel Editörlük Aracı’nda yaratılmalı ve buraya atanmalıdır.",
 	"uploading" : "Karşıya yüklüyor...",
