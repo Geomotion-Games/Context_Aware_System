@@ -360,16 +360,9 @@
 
 	if (device == "app") {
 		locate_app();
-	//	lookForBeacons();
+		window.location.href = "?startScanBeacons";
 	} else {
 		locate_browser();
-	}
-
-	function setBeaconNames(data) {
-		//alert(data);
-		//if (game[nextPOI].beaconId != data["name"] == game[nextPOI].beaconId) {
-		//	reachBeaconPOI();
-		//}
 	}
 
 	document.getElementById("locate-button").onclick = function() {
@@ -388,9 +381,23 @@
 		window.location.replace(data.substring(1, data.length-1) + "&device=app");
 	}
 
-	gameReady();
+	function setBeaconNames(data) {
 
-//	window.location.href = "?startScanBeacons";
+		if (game[nextPOI]["type"] == "beacon") {
+			var bname = getBeaconName(data);
+			if (game[nextPOI]["beaconId"] == bname) {
+				var position = { coords : {longitude: game[nextPOI].lng, latitude: game[nextPOI].lat}};
+				lastPosition = position;
+				newLocation(position);
+			}
+		}
+	}
+
+	function getBeaconName(data) {
+		return data.substring(10, data.indexOf("address")-3);
+	}
+
+	gameReady();
 
 </script>
 

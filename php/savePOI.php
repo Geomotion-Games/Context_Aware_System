@@ -26,13 +26,13 @@ $itemName = $_REQUEST['itemName'];
 if($id == null){
 
 	$query = sprintf("INSERT INTO poi (plot, type, lat, lng, orderNumber, beaconId, title, triggerDistance, rewardPoints, item, itemName) VALUES (%d,'%s',%f,%f,%d,'%s','%s',%d,%d,'%s','%s')",
-		
+
 		intval($plot),
 		$bd->mysqli_real_escape_string($type),
 		floatval($lat),
 		floatval($lng),
 		intval($orderNumber),
-		$bd->mysqli_real_escape_string(($beaconId),
+		$bd->mysqli_real_escape_string($beaconId),
 		$bd->mysqli_real_escape_string($title),
 		intval($triggerDistance),
 		intval($rewardPoints),
@@ -50,7 +50,7 @@ if($id == null){
 }else{
 
 	$query = sprintf("UPDATE poi SET lat=%f, lng=%f, orderNumber=%d, beaconId='%s', title='%s', triggerDistance=%d, rewardPoints=%d, item='%s', itemName='%s' WHERE id=%d",
-		
+
 		floatval($lat),
 		floatval($lng),
 		intval($orderNumber),

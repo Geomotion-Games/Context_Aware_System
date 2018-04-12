@@ -505,6 +505,7 @@ function blockGame() {
 	//TODO
 }
 
+
 function updatePath() {
 
 	var pointList_pre = [];
@@ -555,23 +556,6 @@ function updatePath() {
 	}).addTo(map);
 }
 
-function lookForBeacons() {
-	setInterval(function() {
-		window.location.href = "?scanbeaconnames";
-	}, 6000);
-}
-
-
-
-function reachBeaconPOI() {
-	trackProgress();
-	document.getElementById('openA' + nextPOI).click();
-	currentPOI = nextPOI;
-	nextPOI = getFollowingPOIId(nextPOI);
-	document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
-	updatePath();
-	document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
-}
 
 function locate_browser() {
 

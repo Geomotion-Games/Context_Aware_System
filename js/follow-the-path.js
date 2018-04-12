@@ -183,9 +183,9 @@ function addBeaconMarker(id, step, focus){
 	if(step.marker) map.removeLayer(step.marker);
 	var coords = {lat: beacon.lat, lng: beacon.lng};
 	var marker = addMarker(coords, false);
+	step.beaconId = id;
 	map.addLayer(marker);
 	step.marker = marker;
-	step.beaconId = id;
 	if(focus){
 		map.setView(coords, 20);
 	}

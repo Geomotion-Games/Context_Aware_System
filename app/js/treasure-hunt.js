@@ -547,14 +547,6 @@ function updatePath() {
 	path.addTo(map);
 }
 
-
-function lookForBeacons() {
-	setInterval(function() {
-		window.location.href = "?scanbeaconnames";
-	}, 6000);
-}
-
-
 function locate_browser() {
 
 	if (navigator.geolocation) {
