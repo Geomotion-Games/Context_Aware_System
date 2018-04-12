@@ -1,7 +1,5 @@
 <?php
 
-	//error_reporting(E_ALL);
-	//ini_set('display_errors', 1);
 	error_reporting(0);
 
 	include("php/handleAccessToken.php");
@@ -132,6 +130,7 @@
 		var strings = <?= json_encode($GLOBALS["strings"]); ?>;
 		var userId = <?= $user["id"]; ?>;
 		var userName = "<?= $user["username"]; ?>";
+		var master = <?= $master ? 1 : 0; ?>;
 	</script>
 
 	<script src="js/models.js"></script>

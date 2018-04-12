@@ -8,7 +8,10 @@ function parsePlotJSON(data){
         last_update: data.last_update,
         public: data.public == 1 ? true : false,
         user_id: data.user_id,
-        user_name: data.user_name
+        user_name: data.user_name,
+        singlepoi: data.singlepoi,
+        callbackurl: data.callbackURL,
+        updateurl: data.updateURL
     });
 }
 
@@ -21,7 +24,8 @@ function parsePOIS(pois){
 }
 
 function parsePOI(p){
-    return new Step({
+
+    var s = new Step({
         id: p.id,
         plot: parseInt(p.plot),
         title: p.title,
@@ -34,8 +38,11 @@ function parsePOI(p){
         triggerDistance: p.triggerDistance,
         rewardPoints: p.rewardPoints,
         item: p.item,
-        itemName: p.itemName
+        itemName: p.itemName,
+        data: p.data
     });
+
+    return s;
 }
 
 function parseStopsJSON(stopsJson){

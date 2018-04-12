@@ -78,6 +78,7 @@ function duplicate(stopNumber){
     			points[poisCreated] = copy;
     			updatePath();
     			sortPoints();
+    			updateATPlot(game);
     		});
 		}
 	}
@@ -103,6 +104,8 @@ function addStop(marker, type){
 			}
 		});
 	});
+
+	updateATPlot(game);
 }
 
 function showStop(stop){
@@ -188,6 +191,7 @@ function addBeaconMarker(id, step, focus){
 	}
 	sortPoints(null, true);
 	updatePath();
+	updateATPlot(game);
 }
 
 function removeStop(stopNumber) {
@@ -201,6 +205,7 @@ function removeStop(stopNumber) {
 
 	poisCreated--;
 	sortPoints(true);
+	//updateATPlot(game);
 }
 
 function updateLabels() {
@@ -237,7 +242,10 @@ function sortPoints(save, skipSort){
 						$(this).attr("id", "point" + (index + 1));
 						points[stop].orderNumber = (index + 1);
 						newPointList.push(points[stop]);
-						if(save)savePOI(points[stop], game);
+						if(save) {
+							savePOI(points[stop], game);
+						}
+
 						points.splice(stop, 1);
 						break;
 					}
@@ -246,6 +254,7 @@ function sortPoints(save, skipSort){
 			});
 			points = newPointList;
 			updatePath();
+			if (save) {updateATPlot(game);}
 		}
 	}
 

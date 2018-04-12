@@ -20,8 +20,66 @@ function savePlot(plot, callback) {
     request.fail(function(error) {
         $("#saving").hide();
         console.log("Error saving..." + JSON.stringify(error));
-    })
+    });
 }
+
+function updateATPlot(plot) {
+
+    var update_url = getCookie("updateurl-at");
+    var glpid_at = getCookie("glpid-at");
+    var accessCode = getCookie("accessCode");
+
+    if ( update_url == "" || glpid_at == "" || accessCode == "") { return; }
+
+    var atglpJSON = plot.toGLPJSON();
+
+    console.log(atglpJSON);
+    console.log("sending accessCode: " + accessCode);
+
+    var request = $.ajax({
+        type: 'PUT',
+        contentType: "application/json",
+        url: update_url,
+        data: JSON.stringify(atglpJSON),
+        accessCode: accessCode
+    });
+
+    console.log("sending to ATGLP... " + plot.updateurl);
+
+    request.done(function(data) {
+        console.log("updated in AT");
+    });
+    request.fail(function(error) {
+        console.log("Error updating... " + JSON.stringify(error));
+    });
+}
+
+
+function saveScreenATGLP() {
+
+    var request = $.ajax({
+        type: 'GET',
+        url: "https://atcc.beaconing.eu/php/getPlot.php",
+        data: "plotId=" + game.id
+    });
+
+    request.done(function(data) {
+        console.log("we have the data!");
+        var pois = JSON.parse(data);
+        var start = parsePOI(pois[0]);
+        var finish = parsePOI(pois[1]);
+        pois.splice(0, 2);
+        points = parsePOIS(pois);
+
+        updateATPlot(game);
+    });
+
+    request.fail(function(error) {
+        console.log("Error updating... " + JSON.stringify(error));
+    });
+
+}
+
 
 function savePOI(poi, game, callback) {
     createSavingTimeout();
@@ -69,6 +127,7 @@ function saveScreen(screen, poi, game){
         if(!savingTimeout)$("#saving").text(`${ l("changes_saved") }`);
         saved = true;
         console.log("Screen saved!" + data);
+        saveScreenATGLP();
     });
     request.fail(function(error) {
         $("#saving").hide();

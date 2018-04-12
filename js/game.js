@@ -13,7 +13,11 @@ function showMyGames(){
     var text_to_append = '<div class="gamerow" data-index="${index}"><div class="row">';
 
     for(var game in games){
-        if(games[game].user_id == userId || !(games[game].user_id) ){
+        if (!master) {
+            if(games[game].user_id == userId || !(games[game].user_id) ){
+                text_to_append += appendGame("#mygames", games, game);
+            }
+        } else {
             text_to_append += appendGame("#mygames", games, game);
         }
     }
