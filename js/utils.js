@@ -1,7 +1,6 @@
 var lastLocation = loadLastLocation();
 
 function locate() {
-    console.log("locate")
     if(lastLocation){
         map.setView(lastLocation, 15);
     }
@@ -139,8 +138,4 @@ function l(string, extra) {
         return strings[string].replace(/%s/g, extra);
     }
 }
-
-
-
-
 

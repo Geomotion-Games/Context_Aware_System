@@ -41,7 +41,7 @@
 
  	if ($query) {
 		$plot = $bd->obtener_fila($query, 0);
-    }else {
+    } else {
       echo mysqli_error();
     }
 
@@ -72,6 +72,7 @@
 <html>
 <head>
 
+	<script src="app/js/cooking-machine.js"></script>
 	<script src="https://use.fontawesome.com/bb1c86f444.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
@@ -242,7 +243,6 @@
 	        showEditorScreen(screen_index, 0);
 	    });
 
-
 	    $("#qrcode").on('click',function(e){
  	    	var url = getAppDomain() + "app.php?game=" + game.id +"&teleport=" + poi.id;
 
@@ -261,8 +261,11 @@
 		var screens = parseScreens(resultScreens);
 		var game = parsePlotJSON(resultPlot);
 		var totalRewardPoints = <?= $sum; ?>;
-
+		var points = [];
 		//var minigames = [];
+
+		var updateurl = getCookie("updateurl-at");
+		var glpid = getCookie("glpid-at");
 
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 

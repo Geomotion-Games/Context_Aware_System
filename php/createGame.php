@@ -17,26 +17,29 @@ $description = "Game description";
 $time = 0;
 $type = $_REQUEST['type'] == "th" ? "TreasureHunt" : $_REQUEST['type'] == "ftp" ? "FollowThePath" : die;
 $url_php = $_REQUEST['type'] == "th" ? "treasure-hunt" : "follow-the-path";
+$single_poi = isset($_REQUEST['singlePoi']) ? $_REQUEST['singlePoi'] : false;
+//$callbackURL = isset($_REQUEST['callbackURL']) ? $_REQUEST['callbackURL'] : null;
+//$updateURL = isset($_REQUEST['updateURL']) ? $_REQUEST['updateURL'] : null;
 $public = 0;
 
-$query = sprintf("INSERT INTO plot (name, description, time, type, public) VALUES ('%s','%s',%d,'%s',%d)",
+$query = sprintf("INSERT INTO plot (name, description, time, type, public, singlepoi) VALUES ('%s','%s',%d,'%s',%d,%b)",
 	$bd->mysqli_real_escape_string($name),
 	$bd->mysqli_real_escape_string($description),
 	intval($time),
 	$bd->mysqli_real_escape_string($type),
-	intval($public));
+	intval($public),
+	boolval($single_poi));
 
 $res = $bd->ejecutar($query);
-//echo($query);exit;
 $lastId = mysqli_insert_id($bd->link);
 $response = array();
 $response["success"] = true;
 $response["newGameID"] = $lastId;
 createDefaultPois($lastId, "start", $bd);
 createDefaultPois($lastId, "finish", $bd);
-//$json = json_encode($response);
-header("Location: https://" . $_SERVER["SERVER_NAME"] . "/" . $url_php . ".php?id=" . $lastId);
-
+$json = json_encode($response);
+echo $json;
+//header("Location: https://" . $_SERVER["SERVER_NAME"] . "/" . $url_php . ".php?id=" . $lastId);
 
 function createDefaultPois($plotId, $type, $bd){
 	

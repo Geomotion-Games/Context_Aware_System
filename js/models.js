@@ -140,6 +140,9 @@ function Game(params){
     this.public = params.public || false;
     this.last_update = timestampToDate(params.last_update);
     this.stops = params.stops || defaultStops;
+    this.singlepoi = params.singlepoi == "1";
+    this.callbackurl = params.callbackurl || "";
+    this.updateurl = params.updateurl || "";
 }
 
 Game.prototype.toJSON = function() {
@@ -152,7 +155,8 @@ Game.prototype.toJSON = function() {
         "public"        : this.public ? 1 : 0,
         "last_update"   : this.last_update,
         "user_id"       : this.user_id,
-        "user_name"     : this.user_name
+        "user_name"     : this.user_name,
+        "singlepoi"     : this.singlepoi
     };
 
     return json;
@@ -170,40 +174,82 @@ Game.prototype.copy = function(){
         public      : this.public,
         stops       : this.stops,
         user_id     : userId,
-        user_name   : userName
+        user_name   : userName,
+        singlepoi   : this.singlepoi
     });
 
     return copy;
 };
 
 Game.prototype.toGLPJSON = function() {
-    var json = [];
+    var pois = [];
 
-    for( point in points ) {
+    for ( point in points ) {
 
         /*"value":"https://beaconing.seriousgames.it/games/solveit/?session_id=7938148887",
          "name":"4600",
          "descr":"",
          "type":"minigameURL",
          "locked":"false",
+         "type":"beacon/gps"
          "whereInGLP":"(Mission0)/(Quest0)",
          "outputs":[  
             "4601"
          ]*/
 
+        var type = "checkIn";
+        var value = "";
+
+        if (points[point].hasOwnProperty("data") && points[point]["data"] != "" ) {
+            var data = points[point]["data"]; 
+            if (data.hasOwnProperty("challenge")) {
+                if (data["challenge"]["type"] == "minigame") { 
+                    type = "minigameURL";
+                    value = data["challenge"]["url"];
+                }
+                else if (data["challenge"]["type"] == "upload_content") {
+                    type = "uploadContent";
+                    value = data["challenge"]["uploadType"];
+                }
+            }    
+        }
+
+        var followingId = -2;
+        for (p in points) {
+            if (point == p) {
+                followingId = -1;
+            } else if (followingId == -1) {
+                followingId = p;
+                break;
+            }
+        }
+
+        var fid = "";
+        if (followingId > 0) { fid = points[followingId].id; }
+
         var poiJSON = {
-            "value"       : points[point].id,
+            "value"       : value,
             "name"        : points[point].id,
-            "descr"       : "",
-            "type"        : "", // minigameURL / uploadContent /  
+            "descr"       : points[point].title || l("stop") + " " + point,
+            "type"        : type, // minigameURL / uploadContent / checkIn
+            "beacon"      : points[point].type == "beacon",
             "locked"      : false,
+            "playURL"     : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=" + value,
             "whereInGLP"  : "", // '(Mission0)/(Quest0)',
-            "outputs" : [""] //id of the next poi
+            "outputs"     : [ fid ] //id of the next poi
         };
 
-        json.append(poiJSON);
+        pois.push( poiJSON );
 
     }
+
+    var json = {
+        "gameid"   : this.id,
+        "gpi"      : pois,
+        "glpid"    : glpid,
+        "startURL" : "https://atcc.beaconing.eu/app.php?game=" + this.id,
+        "endURL"   : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=finish"
+    };
 
     return json;
 };

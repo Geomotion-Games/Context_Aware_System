@@ -5,7 +5,7 @@ class HandleAccessToken
 
     private $CLIENT_SECRET = "tAyIprn4BNd31NjIfhWN7V3guwDoLZH3WI3AprdCdtqXRGSecquTuTmASAipWCw4";
     private $CLIENT_ID = "atcc";
-    private $REDIRECT_URI = "https://atcc-qa.beaconing.eu/";
+    private $REDIRECT_URI = "https://atcc.beaconing.eu/";
 
     function __construct() {
         //$this->REDIRECT_URI = 'https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
@@ -13,15 +13,17 @@ class HandleAccessToken
 
     public function removeCodeFromURL() {
         $parsedURL = parse_url('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+
         // Getting query params
         parse_str($parsedURL["query"], $parsedQuery);
+
         // Unsetting code param
         if (isset($parsedQuery["code"])) {
             unset($parsedQuery["code"]);
         }
 
         // Contructing complete URL without code param
-        if (strlen($parsedQuery) > 0) {
+        if (!empty($parsedQuery)) {
             return 'https://'.$_SERVER['HTTP_HOST'].$parsedURL["path"]."?".http_build_query($parsedQuery);
         } else {
             return 'https://'.$_SERVER['HTTP_HOST'].$parsedURL["path"];
@@ -66,8 +68,9 @@ class HandleAccessToken
 
 
     public function login(){
-        header('Location: https://core.beaconing.eu/auth/auth?response_type=code&client_id='. 
-            $this->CLIENT_ID . '&redirect_uri=' . $this->REDIRECT_URI);
+        //header('Location: https://core.beaconing.eu/auth/auth?response_type=code&client_id='. $this->CLIENT_ID . '&redirect_uri=' . $this->REDIRECT_URI);
+        
+        header('Location: https://core.beaconing.eu/auth/auth?response_type=code&client_id='. $this->CLIENT_ID . '&redirect_uri=' . urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) );
     }
 
 
@@ -82,7 +85,7 @@ class HandleAccessToken
             "code" => $code,
             "client_id" => $this->CLIENT_ID,
             "client_secret" => $this->CLIENT_SECRET,
-            "redirect_uri" => $this->REDIRECT_URI
+            "redirect_uri" => $this->removeCodeFromURL()
         );
 
         curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($fields));
@@ -94,6 +97,7 @@ class HandleAccessToken
         curl_close($ch);
 
         if (isset($response->error) && $response->error != "") {
+            var_dump($response->error);exit;
             return false;
         }
 

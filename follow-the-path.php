@@ -14,8 +14,6 @@
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
 
-	error_reporting(0);
-
 	require 'class/db.class.php';
 	require 'class/conf.class.php';
 
@@ -26,7 +24,10 @@
 
 	$id = $_REQUEST['id']; //TODO controlar això....
 
-	$callback = (isset($_REQUEST['callback']) && $_REQUEST['callback'] != "") ? $_REQUEST['callback'] : "atcc";
+	$callback   = (isset($_REQUEST['callback'])   && $_REQUEST['callback'] != "")   ? $_REQUEST['callback']   : "atcc";
+	$updateurl  = (isset($_REQUEST['updateurl'])  && $_REQUEST['updateurl'] != "")  ? $_REQUEST['updateurl']  : "no";
+	$accessCode = (isset($_REQUEST['accessCode']) && $_REQUEST['accessCode'] != "") ? $_REQUEST['accessCode'] : "no";
+	$glpid 	    = (isset($_REQUEST['glpid'])	  && $_REQUEST['glpid'] != "")	    ? $_REQUEST['glpid'] 	  : "no";
 
     $query = $bd->ejecutar("SELECT * FROM plot WHERE id = " . $id);
 	$numRows = $bd->num_rows($query);
@@ -240,7 +241,28 @@
 
 		var callback = "<?= $callback; ?>";
 		if ( callback != "atcc") {
-			setCookie("callback-at", "<?= $callback; ?>", 365); 
+			setCookie("callback-at", callback, 365); 
+		}
+
+		var updateurl = "<?= $updateurl; ?>";
+		if (updateurl != "no") {
+			setCookie("updateurl-at", updateurl, 365); 
+		} else {
+			getCookie("updateurl-at");
+		}
+
+		var accessCode = "<?= $accessCode; ?>";
+		if (accessCode != "no") {
+			setCookie("accessCode", accessCode, 365); 
+		} else {
+			getCookie("accessCode");
+		}
+
+		var glpid = "<?= $glpid; ?>";
+		if (glpid != "no") {
+			setCookie("glpid-at", glpid, 365); 
+		} else {
+			glpid = getCookie("glpid-at");
 		}
 
 		var buttonurl = getCookie("callback-at");
@@ -277,8 +299,6 @@
 			$("#qr-viewer").modal('show');
 			return false;
 		});
-
-		console.log(game.toGLPJSON());
 
 	</script>
 </body>
