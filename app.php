@@ -75,6 +75,7 @@
 	if (isset($_REQUEST['device']) && $_REQUEST['device']) {
 		$device = $_REQUEST['device'];
 	}
+	$tracking_code_param = isset($_REQUEST['trackingcode']) ? $_REQUEST['trackingcode'] : "";
 
 	$currentPOI = 0;
 	$fromMinigame = false;
@@ -92,11 +93,6 @@
 	if (isset($_REQUEST['teleport']) && ctype_digit($_REQUEST['teleport'])) {
 		$teleportId = $_REQUEST['teleport'];
 		$teleport = true;
-	}
-
-	$tracking_code_param = "";
-	if ( isset($_REQUEST['trackingcode']) ) {
-		$tracking_code_param = $_REQUEST['trackingcode'];
 	}
 
 	if ( isset($_REQUEST['lang']) ) {
@@ -302,7 +298,8 @@
 
 	tracker.settings.host = "https://analytics.beaconing.eu/";
 	var pretc = "<?= $tracking_code_param ? $tracking_code_param : "5a5f75c31aa66f0081138640tvfardjm1dp" ?>";
-	console.log("tracking_code used: " + game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc);
+	var accessTokenLA = "<?= $access_token ? $access_token : "" ?>";
+
 	tracker.settings.trackingCode = game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc;
 	tracker.settings.backupStorage = false;
 
@@ -310,7 +307,9 @@
 	tracker.addPlugin(new TrackerPlugins.Geolocation());
 
 	var connected = false;
-	tracker.Start(function(result, error){
+
+	tracker.LoginBeaconing(accessTokenLA, function(result, error){
+		tracker.Start(function(result, error) {
 	    if(!error) {
 	      	console.log("tracker started");
 	      	connected = true;
@@ -322,8 +321,10 @@
 	    	}
 	    	tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
 	    } else {
-        console.log("start error")
+	        	console.log("start error");
+	        	console.log(error);
 	    }
+	});
 	});
 
 	var nextPOI = currentPOI;
