@@ -30,7 +30,7 @@
 				}
 
 				$sourcePath = $file['tmp_name'];
-				$targetPath = $base . "/" . $gameId . "_" . $currentDate . ".";
+				$targetPath = $base . "/" . $gameId . "_" . $poiNum . "_" . $currentDate . ".";
 
 				// borrar imagenes con el mismo nombre pero diferente extension
 				foreach ($validextensions as $key => $value) {

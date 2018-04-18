@@ -27,14 +27,12 @@ function updateATPlot(plot) {
 
     var update_url = getCookie("updateurl-at");
     var glpid_at = getCookie("glpid-at");
-    var accessCode = getCookie("accessCode");
 
     if ( update_url == "" || glpid_at == "" || accessCode == "") { return; }
 
     var atglpJSON = plot.toGLPJSON();
 
     console.log(atglpJSON);
-    console.log("sending accessCode: " + accessCode);
 
     var request = $.ajax({
         type: 'PUT',

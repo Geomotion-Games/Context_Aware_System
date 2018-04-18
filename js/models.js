@@ -224,8 +224,8 @@ Game.prototype.toGLPJSON = function() {
             }
         }
 
-        var fid = "";
-        if (followingId > 0) { fid = points[followingId].id; }
+        var fid = [];
+        if (followingId > 0) { fid[0] = points[followingId].id; }
 
         var poiJSON = {
             "value"       : value,
@@ -243,12 +243,16 @@ Game.prototype.toGLPJSON = function() {
 
     }
 
+    var accessCode = getCookie("accessCode");
+
     var json = {
         "gameid"   : this.id,
         "gpi"      : pois,
         "glpid"    : glpid,
         "startURL" : "https://atcc.beaconing.eu/app.php?game=" + this.id,
-        "endURL"   : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=finish"
+        "endURL"   : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=finish",
+        "accessCode": accessCode
+
     };
 
     return json;

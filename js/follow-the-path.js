@@ -103,9 +103,9 @@ function addStop(marker, type){
 				$(this).find(".editPOI").attr("href", url);
 			}
 		});
+		updateATPlot(game);
 	});
 
-	updateATPlot(game);
 }
 
 function showStop(stop){
