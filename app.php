@@ -306,11 +306,12 @@
 		// set new playerId
 		cookieNeeded = true;
 
-		// recover progress
-		/*var progress = getCookie("progress_game_" + game_id);
+		// recover progress from cookies || to go to the map at some point of the progress
+		var progress = device != "app" ? getCookie("progress_game_" + game_id) : "<?= $mapto; ?>";
+
 		if (progress != "" && !fromMinigame) {
 			currentPOI = teleportTo(progress);
-		}*/
+		}
 	}
 
 	tracker.settings.host = "https://analytics.beaconing.eu/";
