@@ -50,6 +50,8 @@ function uploadVideo(options){
             formData.append("file", file);
             formData.append("screenId", options.screenId);
 
+            showSpinner();
+
             $.ajax({
                 url: "php/uploadVideo.php",
                 type: "POST",
@@ -58,6 +60,8 @@ function uploadVideo(options){
                 cache: false,
                 processData:false,
                 success: function(data){
+                    console.log("hiding spinner");
+                    hideSpinner();
                     if (data.startsWith("ok")) {
                         var url = data.split("-")[1];
                         console.log("Succes upload: " + url);
@@ -67,6 +71,10 @@ function uploadVideo(options){
                         showWarning(l("video_exceeds"));
                         console.log("Error upload: " + data);
                     }
+                },
+                error: function(data) {
+                    hideSpinner();
+                    console.log("error uploading...");
                 }
             });
         }
@@ -84,6 +92,14 @@ function l(string, extra) {
     }
 }
 
+function showSpinner() {
+    $("#spinner").css("display", "block");
+}
+
+function hideSpinner() {
+    $("#spinner").css("display", "none");
+}
+
 
 function uploadImage(options){
         var file = options.file;
@@ -99,14 +115,17 @@ function uploadImage(options){
             formData.append("poiNum", options.poiNum);
             formData.append("currentDate", getTodaysDate())
 
+            showSpinner();
+
             $.ajax({
                 url: "app/uploadImages.php",
                 type: "POST",
                 data: formData,
                 contentType: false,
                 cache: false,
-                processData:false,
+                processData: false,
                 success: function(data){
+                    hideSpinner();
                     if (data.startsWith("ok")) {
                         console.log("Succes upload");
                         options.postCallback(true);
@@ -114,6 +133,10 @@ function uploadImage(options){
                         alert(l("image_exceeds"));
                         console.log("Error upload: " + data);
                     }
+                },
+                error: function(data) {
+                    hideSpinner();
+                    console.log("error uploading...");
                 }
             });
         }
