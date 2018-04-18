@@ -214,3 +214,7 @@ footer a:hover{
 #community .pubpriv, #community .delete-game, #community .edit-game {
 	display: none;
 }
+
+a:hover {
+	text-decoration: none;
+}

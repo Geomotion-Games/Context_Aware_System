@@ -275,7 +275,22 @@ function sortPoints(save, skipSort){
 			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(1): generateMarker(1, true));
 		});
 
+		var pp = points[0];
+		if(pp && pp.marker) pp.marker.setIcon(startBothMarkerIcon);
+
 		var p = points[points.length - 1];
 		if(p && p.marker) p.marker.setIcon(finishTreasureMarkerIcon);
+		
+	} else {
+
+		points.forEach(function (p) {
+			if(p.marker) p.marker.setIcon(p.type == "normal" ? generateMarker(1): generateMarker(1, true));
+		});
+
+		var pp = points[0];
+		if(pp && pp.marker) pp.marker.setIcon(startBothMarkerIcon);
+
+		var up = points[points.length - 1];
+		if(up && up.marker) up.marker.setIcon(finishFollowMarkerIcon);
 	}
 }

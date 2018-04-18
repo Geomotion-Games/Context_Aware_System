@@ -367,6 +367,12 @@
 	    iconAnchor: [20, 50],
 	});
 
+	var finishIcon = L.icon({
+	    iconUrl: 	server_url + 'images/markers/finish_race.png',
+	    iconSize:   [36, 48],
+	    iconAnchor: [2, 48],
+	});
+
 	var map = L.map('map', { zoomControl:false }).fitWorld();
 
 	map.removeControl( map.attributionControl );

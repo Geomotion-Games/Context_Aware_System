@@ -96,9 +96,26 @@ function generateStartMarker(team){
 	});
 }
 
+function generateFinishMarker(team){
+	return normalMarkerIcon = new L.Icon({
+		iconUrl: "images/markers/finish_race.png",
+		iconSize: [26, 44],
+		iconAnchor: [2, 44],
+		popupAnchor: [1, -34]
+	});
+}
+
+function generateStartMarker(team){
+	return normalMarkerIcon = new L.Icon({
+		iconUrl: "images/markers/finish_race.png",
+		iconSize: [26, 44],
+		iconAnchor: [2, 44],
+		popupAnchor: [1, -34]
+	});
+}
+
 var finishTreasureMarkerIcon = L.icon({
     iconUrl: 'images/markers/finish_treasure.jpg',
-
     iconSize:     [50, 43], // size of the icon
     shadowSize:   [50, 64], // size of the shadow
     iconAnchor:   [25, 43], // point of the icon which will correspond to marker's location
@@ -106,10 +123,24 @@ var finishTreasureMarkerIcon = L.icon({
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+var finishFollowMarkerIcon = L.icon({
+    iconUrl: 'images/markers/finish_race.png',
+    iconSize:     [39, 47], // size of the icon
+    iconAnchor:   [2, 47],  // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+var startBothMarkerIcon = L.icon({
+    iconUrl: 'images/markers/start_1.png',
+    iconSize:     [33, 50], // size of the icon
+    iconAnchor:   [4, 50],  // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
 
 map.on('click', function(e) {
-	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
 	var marker = addMarker(e.latlng);
+	if($(".leaflet-control-geocoder-form input").is(":focus") || (game.singlepoi && poisCreated > 0)) return;
 	addStop(marker, "normal");
 	map.addLayer(marker);
 });
