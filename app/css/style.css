@@ -321,7 +321,7 @@ div.modalContent {
 
 .close:hover { background: #00d9ff; }
 
-.bottomButton {
+.bottomButton, .bottomButtonApp {
 	position: fixed;
 	bottom: 0;
 	left: 17px;
@@ -332,9 +332,37 @@ div.modalContent {
     border-top-right-radius: 10px;
 }
 
+.bottomButtonApp .goButton {
+	position: relative;
+    margin-left: 55px;
+}
+
+/*.bottomButton    .goButton#go-out-finish, .bottomButton    .goButton#go-out-time-over,
+.bottomButtonApp .goButton#go-out-finish, .bottomButtonApp .goButton#go-out-time-over {
+	margin-left: 0;
+}*/
+
+.bottomButtonApp .exitbuttonA, 
+.bottomButtonApp .exitbuttonB, 
+.bottomButtonApp .go-out-time-over, 
+.bottomButtonApp .go-out-time-finish  {
+	height: 40px;
+    float: left;
+    cursor: pointer;
+}
+
+#exitbuttonmap {
+	height: 40px;
+    left: 10px;
+    bottom: 10px;
+    z-index: 999;
+    cursor: pointer;
+    position: fixed;
+}
+
 .goButton {
 	padding: 10px;
-    background-color: #F26B3F;
+    background-color: #C25D31;
     text-decoration: none;
     color: #FFFFFF;
     font-weight: 700;
@@ -526,6 +554,11 @@ div.modalContent {
 
 .btn-facebook:focus {
 	color: #fff;
+}
+
+i.fa-facebook {
+	margin-right: 7px;
+    font-size: 1.3em;
 }
 
 div.shareButtons {

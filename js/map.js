@@ -42,7 +42,7 @@ L.easyButton('<img id="locate" src="images/location.png">', function(btn, map){
     locate();
 }).addTo(map);
 
-map.setView(lastLocation? lastLocation : [51.505, -0.09], 13);//.addLayer(OpenStreetMap_Mapnik);
+map.setView(lastLocation ? lastLocation : [51.505, -0.09], 13);//.addLayer(OpenStreetMap_Mapnik);
 
 L.Control.geocoder({showResultIcons: false, collapsed: false}).addTo(map);
 
@@ -117,9 +117,7 @@ function generateStartMarker(team){
 var finishTreasureMarkerIcon = L.icon({
     iconUrl: 'images/markers/finish_treasure.jpg',
     iconSize:     [50, 43], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
     iconAnchor:   [25, 43], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 

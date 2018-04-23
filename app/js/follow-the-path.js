@@ -1,4 +1,4 @@
-
+	
 /*****************************************/
 /*         FOLLOW THE PATH LOGIC         */
 /*			  Geomotion Games			 */
@@ -14,6 +14,7 @@ var lastPosition = null;
 var challengeType = "";
 var startOpen = false;
 var finished = false;
+var inscreen = false;
 
 function gameReady() {
 
@@ -51,7 +52,7 @@ function gameReady() {
 			    	console.log("uploaded video!");
 			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
 			    		textClass = "textWithVideo";
-			        	media = '<video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">Your browser does not support the video tag.</video>';
+			        	media = '<video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">' + l("video_not_supported") + '</video>';
 					}
 			        break;
 			    default:
@@ -64,7 +65,7 @@ function gameReady() {
 			}
 		}
 
-		var textButton = "Go to challenge";
+		var textButton = l("go_to_challenge");
 		var uploadContentButton = "";
 
 		if (game[step].hasOwnProperty("B") && step > 0 ) {
@@ -95,21 +96,33 @@ function gameReady() {
 		} else { challengeType = "checkin"; }
 
 		if (step == 0) { textButton = l("start_game"); }
-		var button = `<div class="bottomButton"><a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a></div>`;
+		var button = "";
 		var share = "";
-		var gooutbutton = "";
-		if (step == 999) { 
-			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">Show inventory</a>';
+		var bottomA = "";
+
+		if (step == 999) {
+			button = '<a style="margin-top: 5px;" id="show-inventory-finish" href="#" class="goButton">'+ l("show_inventory") +'</a>';
 			if (device != "app") {
 				share = `<div class="shareButtons" id="shareButtonsFinish">
 							<a id="fbshare" onclick="fbshare()" href="javascript:void(0);"><button onclick="fbshare()" href="javascript:void(0); type="button" class="btn btn-facebook btn-lg"><i class="fa fa-facebook fa-2"></i>`+l("share")+`</button></a>
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 						</div>`;
 			} else {
-				gooutbutton = '<div class="bottomButton"><a id="go-out-finish" href="#" class="goButton">Go out</a></div>';
+				bottomA = '<div class="bottomButtonApp"><a id="go-out-finish" href="#" class="goButton">'+ l("go_out") +'</a></div>';
+			}
+		} else {
+			var but = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
+			if (challengeType == "upload_content") {
+				but = uploadContentButton;
+			}
+			if (device == "app") {
+				bottomA = `<div class="bottomButtonApp"><img class="exitbuttonA" src="app/images/exit-button.png">`+ but +`</div>`;
+			} else {
+				bottomA = `<div class="bottomButton">`+ but +`</div>`;
 			}
 		}
-		else if (challengeType == "upload_content") button = uploadContentButton;
+
+		var sumup = step == 999 ? '<div id="pointsTotal" class="totalPointsEarned"></div><div id="timeTotal" class="totalTimeSpent"></div>' : "";
 
 		var POIBefore = `
 			<a href="#modal` + step + `" id="openA` + step + `" style="display: none;">Open Modal</a>
@@ -119,12 +132,11 @@ function gameReady() {
 					<div class="modalContent">` +
 						media +
 						`<p class="`+ classP +" "+ textClass +`">` + Autolinker.link(game[step]["A"].text) + `</p>
-					</div>
-					<div class="totalPointsEarned"></div>
-					<div class="totalTimeSpent"></div>` +
+					</div>` +
+					sumup +
 					share +
 					button + 
-					gooutbutton +
+					bottomA +
 				`</div>
 			</div>`;
 
@@ -169,6 +181,11 @@ function gameReady() {
 						</div>`;
 			}
 
+			var bottomB = `<div class="bottomButton"><a id="closeClue` + step + `" href="#" class="goButton">`+ l("continue") +`</a></div>`;
+			if (device == "app") {
+				bottomB = `<div class="bottomButtonApp"><img class="exitbuttonB" src="app/images/exit-button.png"><a id="closeClue` + step + `" href="#" class="goButton">`+ l("continue") +`</a></div>`;
+			}
+
 			var POIAfter = `
 				<a href="#clue` + step + `" id="openC` + step + `" style="display: none;">Open Modal</a>
 				<div id="clue` + step + `" class="modalDialog screen after">
@@ -180,8 +197,8 @@ function gameReady() {
 						</div>` +
 						points +
 						share +
-						`<div class="bottomButton"><a id="closeClue` + step + `" href="#" class="goButton" >Continue</a></div>
-					</div>
+						bottomB +
+					`</div>
 				</div>`;
 
 			extras.innerHTML += POIAfter;
@@ -199,9 +216,7 @@ function gameReady() {
 			if (!challengeSuccess) {
 
 				// forced flush before redirect
-				tracker.Flush(function(result, error){
-					console.log("flushed");
-				});
+				flushTracking();
 
 				var challenge = game[nextPOI]["B"]["challenge"];
 				var minigameURL = challenge["url"];
@@ -245,24 +260,27 @@ function gameReady() {
 						} else if (challenge["type"] == "minigame") {
 
 							// forced flush before redirect
-							tracker.Flush(function(result, error){
-								console.log("flushed");
-							});
+							flushTracking();
 
 							var minigameURL = challenge["url"];
-							var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
-							var playerId = "playerid=" + encodeURI(tracker.playerId);
-							var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
-							var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
-							var cpoi = "%26step%3D" + currentPOI;
-
 							if (minigameURL.length > 0) {
-								var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
-									"https%3A%2F%2Fatcc-qa.beaconing.eu/app.php%3Fgame%3D" : 
-									"https%3A%2F%2Fatcc.beaconing.eu/app.php%3Fgame%3D";
+							
+								if (minigameURL.indexOf("beaconing.eu") !== -1) {
+									var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
+									var playerId = "playerid=" + encodeURI(tracker.playerId);
+									var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+									var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
+									var cpoi = "%26step%3D" + currentPOI;
 
-								minigameURL += "&" + playerId + "&" + trackingCode + "&callbackurl=" + url + game_id + cpoi + inapp + tc;
-								window.open(minigameURL, "_self");
+									var url = (window.location.href).indexOf("atcc-qa") !== -1 ?  
+										"https%3A%2F%2Fatcc-qa.beaconing.eu/app.php%3Fgame%3D" : 
+										"https%3A%2F%2Fatcc.beaconing.eu/app.php%3Fgame%3D";
+
+									minigameURL += "&" + playerId + "&" + trackingCode + "&callbackurl=" + url + game_id + cpoi + inapp + tc;
+									window.open(minigameURL, "_self");
+								} else {
+									window.open(minigameURL, "_self");
+								}
 							}
 						} else {
 							document.getElementById("openC" + currentPOI).click();
@@ -281,6 +299,7 @@ function gameReady() {
 
 	for (var i=1; i<Object.keys(game).length-2; i++) {
 		document.getElementById("closeClue" + i).onclick = function() {
+			inscreen = false;
 			saveProgress();
 		}
 	}
@@ -302,13 +321,58 @@ function gameReady() {
 	}
 	
 	if (device == "app") {
+
+		Array.prototype.forEach.call(document.getElementsByClassName("exitbuttonA"), function(el) {
+			el.onclick = function(e) {
+				
+				/****** START ******/
+				
+				if (startOpen) {
+					var report_progress = '0' + '_1_"https://atcc.beaconing.eu/app.php?game="' + game_id;
+					window.location.href = "?closeview&param=" + report_progress;
+				} 
+
+				/****** PRE MINIGAME ******/
+				
+				else {
+					var currentPoiId = game[currentPOI].id;
+					var report_progress = currentPOI + '_1_"https://atcc.beaconing.eu/app.php?game="' + game_id + '"&teleport="' + currentPoiId;
+					window.location.href = "?closeview&param=" + report_progress;
+				}
+				
+				return false;
+			}
+		});
+
+		/****** POST MINIGAME ******/
+
+		Array.prototype.forEach.call(document.getElementsByClassName("exitbuttonB"), function(el) {
+			el.onclick = function(e) {
+				var report_progress = currentPOI + '_2_"https://atcc.beaconing.eu/app.php?game="' + game_id + '"&step="' + currentPOI;
+				window.location.href = "?closeview&param=" + report_progress;
+				return false;
+			}
+		});
+
+		/****** MAP ******/
+
+		document.getElementById("exitbuttonmap").onclick = function(e) {
+			var report_progress = nextPOI + '_0_"https://atcc.beaconing.eu/app.php?game="' + game_id + '"&map="' + currentPOI;
+			window.location.href = "?closeview&param=" + report_progress;
+			return false;
+		}
+
+		/****** FINISH ******/
+
 		document.getElementById("go-out-finish").onclick = function(e) {
-			window.location.href = "?closeview&param=true";
+			var report_progress = '999_1_"https://atcc.beaconing.eu/app.php?game="' + game_id + '"&teleport=finish"';
+			window.location.href = "?closeview&param=" + report_progress;
 			return false;
 		}
 
 		document.getElementById("go-out-time-over").onclick = function(e) {
-			window.location.href = "?closeview&param=false";
+			var report_progress = '999_1_"https://atcc.beaconing.eu/app.php?game="' + game_id + '"&teleport=finish"';
+			window.location.href = "?closeview&param=" + report_progress;
 			return false;
 		}
 	}
@@ -325,15 +389,15 @@ function gameReady() {
 			var spent = Math.round((new Date().getTime() - parseInt(startingTime))/1000);
 			var seconds = spent%60;
 			var timeSpent = "<h3>"+l("total_time_played")+": <span>" + (spent-seconds)/60 + ":" + (seconds < 10 ? "0"+seconds : seconds) + "</span><h3>";
-			var timeDivs = document.getElementsByClassName('totalTimeSpent');
-			timeDivs[timeDivs.length-1].innerHTML = timeSpent;
+			var timeDivs = document.getElementById('timeTotal');
+			timeDivs.innerHTML = timeSpent;
 
 			// POINTS
 			var pointsEarned = getEarnedPoints();
 
 			if (pointsEarned > 0) {
-				var pointsDivs = document.getElementsByClassName('totalPointsEarned');
-				pointsDivs[pointsDivs.length-1].innerHTML = "<h3>"+l("you_won_points", "<span>"+pointsEarned+"</span>")+"</h3>";
+				var pointsDivs = document.getElementById('pointsTotal');
+				pointsDivs.innerHTML = "<h3>"+l("you_won_points", "<span>"+pointsEarned+"</span>")+"</h3>";
 			}
 
 			var hashtag = "BeaconingEU";
@@ -469,7 +533,7 @@ function attachUploadContentEvents() {
 				}
 			}
 		}		
-}
+	}
 }
 
 function teleportIfNeeded() {
@@ -525,9 +589,12 @@ function updatePath() {
 								permanent: true,
 								direction: 'bottom'
 							});
+			} else if (Object.keys(game).length > 3 && lastPOIId == step ) {
+				marker = L.marker(latlng, { icon: finishIcon });
 			} else {
 				marker = L.marker(latlng, { icon: poiIcon });
 			}
+
 			if (parseInt(currentPOI) >= parseInt(step)) {
 				marker.setOpacity(0.5);
 				pointList_pre.push(latlng);
@@ -561,9 +628,7 @@ function locate_browser() {
 
 	if (navigator.geolocation) {
 		setInterval(function() {
-			/*tracker.Flush(function(result, error){
-				console.log("flushed");
-			});*/
+			flushTracking();
 
 			navigator.geolocation.getCurrentPosition(function(position) {
 				if (totalDistance == 0) {
@@ -583,16 +648,22 @@ function locate_browser() {
 function locate_app() {
 
 	setInterval(function() {
-		tracker.Flush(function(result, error){
-			console.log("flushed");
-		});
+		flushTracking();
 
 		window.location.href = "?getGPSData";
 	}, 3000);
 }
 
+function flushTracking() {
+	if (connected) {
+		tracker.Flush(function(result, error){
+			console.log("flushed");
+		});
+	}
+}
 
-function setGPSData(data) {			
+
+function setGPSData(data) {
 
 	var latpos = data.indexOf("lat");
 	var lat = data.substr(latpos + 6,10);
@@ -616,7 +687,7 @@ function setGPSData(data) {
 
 function newLocation(position) {
 
-	if (finished) { return; }
+	if (finished || inscreen) { return; }
 
 	var coors = { lng: position.coords.longitude, lat: position.coords.latitude };
 
@@ -644,6 +715,7 @@ function newLocation(position) {
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
 		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
+			inscreen = true;
 			trackProgress();
 			document.getElementById('openA' + nextPOI).click();
 			currentPOI = nextPOI;
@@ -652,7 +724,7 @@ function newLocation(position) {
 		}
 
 		updatePath();
-		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " meters";
+		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " " + l("meters");
 	}
 
 	this.refreshUserMarker(coors);

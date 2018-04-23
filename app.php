@@ -71,11 +71,10 @@
     	$pois[999] = $finish_poi;
     }
 
-	$device = "browser";
-	if (isset($_REQUEST['device']) && $_REQUEST['device']) {
-		$device = $_REQUEST['device'];
-	}
+	$device 			 = (isset($_REQUEST['device']) && $_REQUEST['device']) ? $_REQUEST['device'] : "browser";
 	$tracking_code_param = isset($_REQUEST['trackingcode']) ? $_REQUEST['trackingcode'] : "";
+	$access_token 		 = isset($_REQUEST['accessToken'])  ? $_REQUEST['accessToken']  : "";
+	$mapto 				 = isset($_REQUEST['map']) 			? ctype_digit($_REQUEST['map']) : "";
 
 	$currentPOI = 0;
 	$fromMinigame = false;
@@ -231,12 +230,12 @@
 		<div class="totalPointsEarned" id="points-time-over"></div>
 		<a style="margin: 15px 0;" id="show-inventory-time-over" href="#" class="goButton"><?= l("show_inventory"); ?></a>
 		<?php if ($device == "app") { 
-			echo '<a id="go-out-time-over" href="#" class="goButton">'; l("go_out"); echo '</a>';
+			echo '<div class="bottomButton"><a id="go-out-time-over" href="#" class="goButton">'; l("go_out"); echo '</a></div>';
 		} ?>
 	</div>
 </div>
 
-<?php echo $device == "app" ? '<a id="qr-code" href="#"><img src="app/images/qr-icon.png" id="qr-button"/></a>' : ""; ?>
+<?php echo $device == "app" ? '<img id="exitbuttonmap" src="app/images/exit-button.png"><a id="qr-code" href="#"><img src="app/images/qr-icon.png" id="qr-button"/></a>' : ""; ?>
 <a id="locate-user" href="#"><img src="app/images/locate-user.png" id="locate-button"/></a>
 
 
@@ -353,25 +352,31 @@
 	var stopIcon = L.icon({
 	    iconUrl:    server_url + 'app/images/map-marker-blue.png',
 	    iconSize:   [26, 42],
-	    iconAnchor: [13, 42],
+	    iconAnchor: [13, 42]
 	});
 
 	var flagIcon = L.icon({
 	    iconUrl:    server_url + 'app/images/start-blue-flag.png',
 	    iconSize:   [26, 39],
-	    iconAnchor: [4, 39],
+	    iconAnchor: [4, 39]
 	});
 
 	var locationIcon = L.icon({
 	    iconUrl: 	server_url + 'app/images/avatar-marker.png',
 	    iconSize:   [40, 50],
-	    iconAnchor: [20, 50],
+	    iconAnchor: [20, 50]
 	});
 
 	var finishIcon = L.icon({
 	    iconUrl: 	server_url + 'images/markers/finish_race.png',
 	    iconSize:   [36, 48],
-	    iconAnchor: [2, 48],
+	    iconAnchor: [2, 48]
+	});
+
+	var treasureIcon = L.icon({
+	    iconUrl: 	server_url + 'images/markers/finish_treasure.png',
+	    iconSize:   [50, 43],
+	    iconAnchor: [25, 43]
 	});
 
 	var map = L.map('map', { zoomControl:false }).fitWorld();
