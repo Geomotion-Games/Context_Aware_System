@@ -236,7 +236,7 @@ Game.prototype.toGLPJSON = function() {
             "locked"      : false,
             "playURL"     : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=" + value,
             "whereInGLP"  : "", // '(Mission0)/(Quest0)',
-            "outputs"     : [ fid ] //id of the next poi
+            "outputs"     : fid //id of the next poi
         };
 
         pois.push( poiJSON );

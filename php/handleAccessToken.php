@@ -85,7 +85,7 @@ class HandleAccessToken
             "code" => $code,
             "client_id" => $this->CLIENT_ID,
             "client_secret" => $this->CLIENT_SECRET,
-            "redirect_uri" => $this->removeCodeFromURL()
+            "redirect_uri" => encodeURIComponent($this->removeCodeFromURL())
         );
 
         curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($fields));

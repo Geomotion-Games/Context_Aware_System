@@ -28,7 +28,7 @@ function updateATPlot(plot) {
     var update_url = getCookie("updateurl-at");
     var glpid_at = getCookie("glpid-at");
 
-    if ( update_url == "" || glpid_at == "" || accessCode == "") { return; }
+    if ( update_url == "" || glpid_at == "") { return; }
 
     var atglpJSON = plot.toGLPJSON();
 
@@ -38,8 +38,7 @@ function updateATPlot(plot) {
         type: 'PUT',
         contentType: "application/json",
         url: update_url,
-        data: JSON.stringify(atglpJSON),
-        accessCode: accessCode
+        data: JSON.stringify(atglpJSON)
     });
 
     console.log("sending to ATGLP... " + plot.updateurl);
