@@ -98,7 +98,13 @@
 	"screen_before" : "Screen before challenge",
 	"screen_for" : "Screen for challenge",
 	"screen_after" : "Screen after challenge",
-	"title" : "Title"
+	"title" : "Title",
+	"video_not_supported" : "Your browser does not support the video tag.",
+	"go_to_challenge" : "Go to challenge",
+	"meters" : "meters",
+	"image_upload_error" : "Error",
+    "video_upload_error" : "Error",
+	"dont_show_again" : "Don't show again"
 }
 
 

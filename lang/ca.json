@@ -35,7 +35,6 @@
 	"collectable_name" : "Nom de l’ítem col·leccionable",
 	"item_formats" : "Ítem col·leccionable (Formats: JPG JPEG PNG GIF; Màx. 10MB)",
 	"editing_stop" : "Editar parada",
-	"image_exceeds" : "La imatge supera el límit de 10 MB",
 	"challenges_must" : "No oblidis seleccionar un repte. Els minijocs d'aquest punt d'interès (POI) s'han de crear des de l'eina d'autoria de la plataforma BEACONING",
 	"uploading" : "Carregant...",
 	"wait_video_uploaded" : "Si et plau, espera fins que el video s’hagi carregat del tot.",
@@ -98,5 +97,12 @@
 	"screen_before" : "Pantalla abans del repte",
 	"screen_for" : "Pantalla de repte",
 	"screen_after" : "Pantalla després del repte",
-	"title" : "Títol"
+	"title" : "Títol",
+	"video_not_supported" : "El teu navegador no es compatible amb aquest format de vídeo.",
+	"go_to_challenge" : "Anar al repte",
+	"meters" : "metres",
+	"image_upload_error" : "Error",
+    "video_upload_error" : "Error",
+	"dont_show_again" : "No tornar a mostrar"
+
 }

@@ -26,7 +26,7 @@
 	"qr_code" : "Generiere QR Code",
 	"manage_beacons" : "Verwalte Beacons",
 	"add_beacons" : "Beacon hinzufügen",
-	"edit_poi" : "POI bearbeiten",
+	"edit_poi" : "Bearbeite Zielpunkt",
 	"edit_poi_description" : "Passen Sie die Inhalte an, welche Schüler in der App sehen, wenn sie einen POI während des Spiels erreichen. Der Bildschirm \"Herausforderungsbeschreibung\" zeigt eine Beschreibung des POI sowie die folgende Herausforderung. Der \"Herausforderungsbildschirm\" zeigt die Herausforderung, die die Schüler lösen müssen, wenn sie an einem POI ankommen. Der \"Ergebnisbildschirm\" zeigt die Ergebnisse der Herausforderung: Belohnungspunkte, eingesammelte Gegenstände, benötigte Zeit, etc.",
 	"ok" : "Ok",
 	"name_poi" : "Name des POI",
@@ -98,7 +98,13 @@
 	"screen_before" : "Bildschirm vor der Herausforderung",
 	"screen_for" : "Bildschirm für die Herausforderung",
 	"screen_after" : "Bildschirm nach der Herausforderung",
-	"title" : "Titel"
+	"title" : "Titel",
+	"video_not_supported" : "Der Video Tag wird von dem Browser nicht unterstützt.",
+	"go_to_challenge" : "Gehe zur Herausforderung",
+	"meters" : "Meter",
+	"image_upload_error" : "Fejl",
+    "video_upload_error" : "Fejl",
+	"dont_show_again" : "Nicht mehr anzeigen"
 }
 
 

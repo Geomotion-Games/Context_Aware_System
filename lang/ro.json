@@ -35,7 +35,6 @@
 	"collectable_name" : "Numele elementului colectat",
 	"item_formats" : "Elemente colectate (Formate: JPG JPEG PNG GIF; Max 10MB)",
 	"editing_stop" : "Editare Oprire",
-	"image_exceeds" : "Imaginea depășește limita de 10MB",
 	"challenges_must" : "Nu uitați să selectați o provocare. Provocările pentru acest punct de interes (POI) trebuie create și atribuite de la Instrumentul de Autor General",
 	"uploading" : "Încărcare...",
 	"wait_video_uploaded" : "Așteptați până când videoclipul dvs. este complet încărcat.",
@@ -98,5 +97,11 @@
 	"screen_before" : "Ecran înaintea provocării",
 	"screen_for" : "Ecran pentru provocare",
 	"screen_after" : "Ecran după provocare",
-	"title" : "Titlu"
+	"title" : "Titlu",
+	"video_not_supported" : "Browserul dvs. nu acceptă eticheta video.",
+	"go_to_challenge" : "Megi către misiune",
+	"meters" : "metri",
+	"image_upload_error" : "Eroare",
+    "video_upload_error" : "Eroare",
+	"dont_show_again" : "Nu afișați din nou"
 }

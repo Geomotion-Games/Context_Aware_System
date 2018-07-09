@@ -98,7 +98,13 @@
 	"screen_before" : "Schermata prima della sfida",
 	"screen_for" : "Schermata per la sfida",
 	"screen_after" : "Schermata dopo la sfida",
-	"title" : "Titolo"
+	"title" : "Titolo",
+	"video_not_supported" : "Il tuo browser non supporta il tag video.",
+	"go_to_challenge" : "Vai alla sfida",
+	"meters" : "metri",
+	"image_upload_error" : "Errore",
+    "video_upload_error" : "Errore",
+	"dont_show_again" : "Non mostrare più"
 }
 
 

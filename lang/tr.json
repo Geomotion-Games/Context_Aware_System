@@ -35,7 +35,6 @@
 	"collectable_name" : "Biriktirmelik Parçanın Adı",
 	"item_formats" : "Biriktirmelik Parça Formatları: JPG, JPEG, PNG, GIF, (Max 10MB)",
 	"editing_stop" : "İlgi Noktasını Düzenle",
-	"image_exceeds" : "Görsel 10MB limitini aşıyor",
 	"challenges_must" : "Bir aşmaca seçmeyi unutmayın. Bu IN’deki aşmacalar Genel Editörlük Aracı’nda yaratılmalı ve buraya atanmalıdır.",
 	"uploading" : "Karşıya yüklüyor...",
 	"wait_video_uploaded" : "Lütfen videonuz karşıya tamamen yüklenene kadar bekleyiniz.",
@@ -98,7 +97,13 @@
 	"screen_before" : "Aşmaca Öncesi Ekran",
 	"screen_for" : "Aşmaca Ekranı",
 	"screen_after" : "Aşmaca Sonrası Ekran",
-	"title" : "Başlık"
+	"title" : "Başlık",
+	"video_not_supported" : "Tarayıcınız video formatını desteklemiyor.",
+	"go_to_challenge" : "Aşmacaya git.",
+	"meters" : "metre",
+	"dont_show_again" : "Tekrar gösterme",
+	"image_upload_error" : "hata",
+    "video_upload_error" : "hata",
 }
 
 

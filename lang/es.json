@@ -98,7 +98,14 @@
 	"screen_before" : "Pantalla antes del reto",
 	"screen_for" : "Pantalla del reto",
 	"screen_after" : "Pantalla después del reto",
-	"title" : "Título"
+	"title" : "Título",
+	"video_not_supported" : "Tu navegador no es compatible con este formato de vídeo.",
+	"go_to_challenge" : "Ir al reto",
+	"meters" : "metros",
+	"image_upload_error" : "Error",
+    "video_upload_error" : "Error",
+	"dont_show_again" : "No volver a mostrar"
+
 }
 
 

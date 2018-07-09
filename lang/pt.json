@@ -35,7 +35,6 @@
 	"collectable_name" : "Nome do item entregue",
 	"item_formats" : "Item a entregar (Formatos: JPG JPEG PNG GIF; no máx. 10MB)",
 	"editing_stop" : "Editar uma paragem",
-	"image_exceeds" : "A imagem excede o limite de 10MB",
 	"challenges_must" : "Não se esqueça de escolher um desafio. Os desfios deste ponto de interesse (PI) têm de ser criados e atribuídos com a ferramenta geral de autoria",
 	"uploading" : "A enviar para o servidor...",
 	"wait_video_uploaded" : "Aguarde até que o vídeo seja completamente transferido.",
@@ -98,5 +97,11 @@
 	"screen_before" : "Ecrã pré-desafio",
 	"screen_for" : "Ecrã do desafio",
 	"screen_after" : "Ecrã pós-desafio",
-	"title" : "Título"
+	"title" : "Título",
+	"video_not_supported" : "O navegador não suporta a anotação <video>.",
+	"go_to_challenge" : "Ir para o desafio",
+	"meters" : "metros",
+	"image_upload_error" : "Erro",
+    "video_upload_error" : "Erro",
+	"dont_show_again" : "Não mostre novamente"
 }

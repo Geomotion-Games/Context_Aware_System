@@ -35,7 +35,6 @@
 	"collectable_name" : "Nazwa przedmiotu zbieralnego",
 	"item_formats" : "Zbieralne przedmioty (Formaty dozwolone: JPG JPEG PNG GIF; Rozmiar maksymalny 10MB)",
 	"editing_stop" : "Zakończenie edycji",
-	"image_exceeds" : "Obraz przekracza 10MB limitu",
 	"challenges_must" : "Nie zapomnij wybrać zadanie. Zadania dla tego punktu zainteresowania muszą być stworzone i przypisane z narzędzia autorskiego",
 	"uploading" : "Przesyłanie",
 	"wait_video_uploaded" : "Zaczekaj do momentu gdy twoje video zostanie przesłane w całości.",
@@ -98,7 +97,13 @@
 	"screen_before" : "Ekran przed zadaniem",
 	"screen_for" : "Ekran na zadanie",
 	"screen_after" : "Ekran po zadaniu",
-	"title" : "Tytuł"
+	"title" : "Tytuł",
+	"video_not_supported" : "Twoja przeglądarka nie wspiera tego video tag'a.",
+	"go_to_challenge" : "Przejdź do wyzwania",
+	"meters" : "metrów",
+	"image_upload_error" : "błąd",
+    "video_upload_error" : "błąd",
+	"dont_show_again" : "Nie pokazuj więcej"
 }
 
 
