@@ -227,20 +227,32 @@ Game.prototype.toGLPJSON = function() {
         var fid = [];
         if (followingId > 0) { fid[0] = points[followingId].id; }
 
+        var stage0URL = "https://atcc.beaconing.eu/app.php?game=" + this.id + "&map=" + parseInt(point);
+        var stage1URL = "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=" + parseInt(points[point].id);
+        var stage2URL = "https://atcc.beaconing.eu/app.php?game=" + this.id + "&step=" + (parseInt(point) + 1);
+
+        let coords;
+        try {
+            coords = points[point].marker._latlng;
+        } catch(err) {
+            coords = { lat:parseFloat(points[point].lat), lng:parseFloat(points[point].lng) };
+        }
+
         var poiJSON = {
             "value"       : value,
             "name"        : points[point].id,
-            "descr"       : points[point].title || l("stop") + " " + point,
+            "descr"       : points[point].title || l("stop") + " " + (parseInt(point)+1),
             "type"        : type, // minigameURL / uploadContent / checkIn
             "beacon"      : points[point].type == "beacon",
             "locked"      : false,
-            "playURL"     : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=" + value,
+            "playURL"     : [stage0URL, stage1URL, stage2URL],
             "whereInGLP"  : "", // '(Mission0)/(Quest0)',
-            "outputs"     : fid //id of the next poi
+            "outputs"     : fid, //id of the next poi
+            "coordinates" : coords,
+            "beaconId"    : ""+points[point].beaconId
         };
 
         pois.push( poiJSON );
-
     }
 
     var accessCode = getCookie("accessCode");

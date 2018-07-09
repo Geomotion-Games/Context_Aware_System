@@ -17,7 +17,7 @@ $callback = isset($_REQUEST['callback']) ? $_REQUEST["callback"] : "";
 
 $query = sprintf("SELECT * FROM plot WHERE id=%d", $id);
 $res = $bd->ejecutar($query);
-$res->data_seek($row); 
+
 $datarow = $res->fetch_array();
 
 $name 		 = $datarow["name"];
@@ -25,8 +25,10 @@ $description = $datarow["description"];
 $time 		 = $datarow["time"];
 $type 		 = $datarow["type"];
 $public 	 = $datarow["public"];
+$user_id 	 = $datarow["user_id"];
+$user_name 	 = $datarow["user_name"];
 
-$newid = duplicatePlot($id, $name, $description, $time, $type, $public, $bd);
+$newid = duplicatePlot($id, $name, $description, $time, $type, $public, $user_id, $user_name, $bd);
 
 if ( $newid != null ) {
 	$game_type = $type == "FollowThePath" ? "follow-the-path" : "treasure-hunt";

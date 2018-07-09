@@ -15,9 +15,9 @@ if (!isset($_REQUEST['type'])) { die; }
 $name = "Game name";
 $description = "Game description";
 $time = 0;
-$type = $_REQUEST['type'] == "th" ? "TreasureHunt" : $_REQUEST['type'] == "ftp" ? "FollowThePath" : die;
+$type = $_REQUEST['type'] == "th" ? "TreasureHunt" : ($_REQUEST['type'] == "ftp" ? "FollowThePath" : die);
 $url_php = $_REQUEST['type'] == "th" ? "treasure-hunt" : "follow-the-path";
-$single_poi = isset($_REQUEST['singlePoi']) ? $_REQUEST['singlePoi'] : false;
+$single_poi = isset($_REQUEST['singlePOI']) && $_REQUEST['singlePOI'] == "true";
 //$callbackURL = isset($_REQUEST['callbackURL']) ? $_REQUEST['callbackURL'] : null;
 //$updateURL = isset($_REQUEST['updateURL']) ? $_REQUEST['updateURL'] : null;
 $public = 0;
@@ -42,7 +42,7 @@ echo $json;
 //header("Location: https://" . $_SERVER["SERVER_NAME"] . "/" . $url_php . ".php?id=" . $lastId);
 
 function createDefaultPois($plotId, $type, $bd){
-	
+
 	$query = sprintf("INSERT INTO poi (plot, type, lat, lng, triggerDistance) VALUES (%d,'%s',0,0,20)", 
 		intval($plotId),
 		$bd->mysqli_real_escape_string($type));

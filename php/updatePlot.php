@@ -74,7 +74,7 @@ if ($bd->num_rows($query) > 0) {
                 {
       //              echo "hi ha challenge<br/>";
                     $challenge = $poi["challenge"];
-                    if (isset($challenge["type"]))
+                    if (isset($challenge["type"]) && isset($challenge["url"]))
                     {
     //                    echo "hi ha tipus de challenge<br/>";
                         if ( $challenge["type"] == "minigame" )

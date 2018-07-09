@@ -70,7 +70,7 @@ class HandleAccessToken
     public function login(){
         //header('Location: https://core.beaconing.eu/auth/auth?response_type=code&client_id='. $this->CLIENT_ID . '&redirect_uri=' . $this->REDIRECT_URI);
         
-        header('Location: https://core.beaconing.eu/auth/auth?response_type=code&client_id='. $this->CLIENT_ID . '&redirect_uri=' . urlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) );
+        header('Location: https://core.beaconing.eu/auth/auth?response_type=code&client_id='. $this->CLIENT_ID . '&redirect_uri=' . rawurlencode('https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) );
     }
 
 
@@ -85,7 +85,7 @@ class HandleAccessToken
             "code" => $code,
             "client_id" => $this->CLIENT_ID,
             "client_secret" => $this->CLIENT_SECRET,
-            "redirect_uri" => encodeURIComponent($this->removeCodeFromURL())
+            "redirect_uri" => $this->removeCodeFromURL()
         );
 
         curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($fields));
