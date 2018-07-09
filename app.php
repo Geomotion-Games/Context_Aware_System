@@ -45,7 +45,7 @@
 				$pois[$row["poi"]][$screen["type"]] = $screen;
 		   	}
 		}
-		
+
 		$finish_index = array_keys($pois)[1];
     	$finish_poi = $pois[$finish_index];
     	unset($pois[$finish_index]);
@@ -89,7 +89,7 @@
 
 	$teleport = false;
 	$teleportId = -1;
-	if (isset($_REQUEST['teleport']) && ctype_digit($_REQUEST['teleport'])) {
+	if (isset($_REQUEST['teleport'])) {
 		$teleportId = $_REQUEST['teleport'];
 		$teleport = true;
 	}
@@ -244,9 +244,13 @@
 	function teleportTo( current ) {
 		if (teleport) {
 			var game = game_info["POIS"];
-			for (step in game) {
-				if (game[step]["id"] == "<?= $teleportId ?>") {
-					return step - 1;
+			if ("<?= $teleportId ?>" == "finish") {
+				tofinish = true;
+			} else {
+				for (step in game) {
+					if (game[step]["id"] == "<?= $teleportId ?>") {
+						return step - 1;
+					}
 				}
 			}
 		}
@@ -259,6 +263,7 @@
 	var game_type = game_info["POIS"][0]["game_type"];
 	var st = getCookie("starting_time_" + game_id);
 	var time_limit = game_info["POIS"][0]["time_limit"] * 60; 
+	var tofinish = false;
 	var startingTime = 0;
 	if (st.length > 0) {
 		startingTime = st;
@@ -327,21 +332,21 @@
 
 	tracker.LoginBeaconing(accessTokenLA, function(result, error){
 		tracker.Start(function(result, error) {
-	    if(!error) {
-	      	console.log("tracker started");
-	      	connected = true;
-	    	if (cookieNeeded) {
-	    		console.log("Saving UserToken.. " + tracker.userToken);
-	    		setCookie("userToken", tracker.userToken, 365);
-	    	} else {
-	    		console.log("Using saved UserToken: " + tracker.userToken);
-	    	}
-	    	tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
-	    } else {
+		    if(!error) {
+		      	console.log("tracker started");
+		      	connected = true;
+		    	if (cookieNeeded) {
+		    		console.log("Saving UserToken.. " + tracker.userToken);
+		    		setCookie("userToken", tracker.userToken, 365);
+		    	} else {
+		    		console.log("Using saved UserToken: " + tracker.userToken);
+		    	}
+		    	tracker.Places.Moved("nextPOI", 1, 2, tracker.Places.PlaceType.UrbanArea);
+		    } else {
 	        	console.log("start error");
 	        	console.log(error);
-	    }
-	});
+		    }
+		});
 	});
 
 	var nextPOI = currentPOI;
@@ -383,10 +388,17 @@
 
 	map.removeControl( map.attributionControl );
 
-	L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjbxqxhivegeg2smmaat3hkkx/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
-		maxZoom: 18,
-		id: 'mapbox.streets'
-	}).addTo(map);
+	if (game_id != 916) {
+		L.tileLayer('https://api.mapbox.com/styles/v1/beaconing/cjbxqxhivegeg2smmaat3hkkx/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVhY29uaW5nIiwiYSI6ImNqYnhxd3h0czJsbngycXBjMjd6MG9vOWoifQ.fNesE_V6xrHFGiK1otUsTg', {
+			maxZoom: 18,
+			id: 'mapbox.streets'
+		}).addTo(map);
+	} else {
+		L.tileLayer('https://api.mapbox.com/styles/v1/maytex/cjg55lb8v1mim2sp5kuhiw154/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWF5dGV4IiwiYSI6ImNqZzU1a2kxYTFoaWQycXA3NWlrY254czEifQ.xQbRCXIDqIYWWiyRWZEyeg', {
+			maxZoom: 18,
+			id: 'mapbox.basic'
+		}).addTo(map);
+	}
 
 	if (device == "app") {
 		locate_app();

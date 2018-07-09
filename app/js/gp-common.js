@@ -203,3 +203,25 @@ function remainingTime() {
     return Math.round(time_limit - time_spent/1000);
 }
 
+function fbshare() {
+
+    var hashtag = "#BeaconingEU";
+    var via = "@BeaconingEU";
+
+    // Bobo
+    if (game_id == 487) {
+        hashtag = "#bobopulpin";
+        via = "@bobopulpin";
+    // Bella
+    } else if (game_id == 488) {
+        hashtag = "#BellavistaBcn";
+        via = "@BellavistaBcn";
+    }
+
+    FB.ui({
+        method: 'share',
+        href: 'http://beaconing.eu/',
+        hashtag: hashtag,   
+        quote: via
+    }, function(response){});
+}
