@@ -832,6 +832,11 @@ function uploadVideo(options){
     });
 }*/
 
+function dontShowChallengeWarning() {
+  var checkBox = document.getElementById("dontshowagain");
+  setCookie("dontShowWarning_" + userId, checkBox.checked, 365);
+}
+
 function showWarning(message){
     $(".fileSizeWarningMessage").text(message);
     $(".fileSizeWarning").modal('show');

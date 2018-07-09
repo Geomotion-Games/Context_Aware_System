@@ -200,6 +200,8 @@
 				<hr>
 				<p class="fileSizeWarningMessage"><?= l("challenges_must"); ?></p>
 				<a class="warningBtn fileSizeWarning-close"><?= l("ok"); ?></a>
+				<input type="checkbox" id="dontshowagain" onclick="dontShowChallengeWarning()">
+				<?= l("dont_show_again"); ?>
 			</div>
 		</div>
 	</div>
@@ -266,6 +268,8 @@
 
 		var updateurl = getCookie("updateurl-at");
 		var glpid = getCookie("glpid-at");
+
+		var userId = <?= $user["id"]; ?>;
 
 		if(poi.type == "start" || poi.type == "finish") $("#qrcode").hide();
 
