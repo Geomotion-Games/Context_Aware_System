@@ -1,5 +1,3 @@
-var noClue = false;
-
 var editPOITimeout;
 function createEditPOITimeout(){
     if(editPOITimeout != null) clearTimeout(editPOITimeout);
@@ -27,7 +25,10 @@ function updateValues(){
     poi.title = $("#poiName").val();
     poi.triggerDistance = $("#poiTriggerDistance").val();
     poi.itemName = $("#itemName").val();
-    if(points <= 1000000) poi.rewardPoints = $("#poiReward").val();
+    let p = $("#poiReward").val();
+    if(p <= 1000000) {
+        poi.rewardPoints = p;
+    }
 }
 
 var currentScreen = -1;
@@ -184,11 +185,15 @@ function init(){
             screens[1].challengeType = "minigame";
             $("#upload-select-div").addClass('hidden');
             $("#minigame-select-div").removeClass('hidden');
-            $("#minigameSelectedWarning").modal('show');
-            $("#minigameSelectedWarning .fileSizeWarning-close").click(function(){
-                $("#minigameSelectedWarning").modal('hide');
-            });
+            let dontshowit = getCookie("dontShowWarning_" + userId);
+            if (dontshowit === "false" || dontshowit === "") {
+                $("#minigameSelectedWarning").modal('show');
+                $("#minigameSelectedWarning .fileSizeWarning-close").click(function(){
+                    $("#minigameSelectedWarning").modal('hide');
+                });    
+            }
         }
+        saveScreen(screens[1], poi, game);
     }
 
     $( "#challenge-type-selector" ).change(function() {
@@ -205,8 +210,6 @@ function init(){
             saveScreen(screens[1], poi, game);
         }
     });
-
-    noClue = window.location.search.includes("noClue");
 }
 
 function showEditorScreen(index){
@@ -464,7 +467,7 @@ function appendEditor(parent, screen){
             
         `);
 
-    }else{
+    } else {
         $(parent).append(`
             <div class="form-group">
                 <label for="screenTitle">${l("title")}:</label>
@@ -477,7 +480,8 @@ function appendEditor(parent, screen){
         `);
     }
 
-    if(gameType == "TreasureHunt" && !noClue && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
+    let isLastPoi = points.length == poi.orderNumber;
+    if(gameType == "TreasureHunt" && !isLastPoi && (poi.type == "start" || (poi.type != "finish" && type == "C"))){
         $(parent).append(`
             <div class="form-group">
                 <label for="screenClue">` + l("clue_next") + `:</label>
@@ -747,9 +751,12 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
 }
 
 function uploadImage(options){
-        var file = options.file;
-        if(!file) return;
+    var file = options.file;
+    if(!file) return;
 
+    if (file.size > 10000000) {
+        showWarning(l("image_exceeds"));
+    } else {
         var imagefile = file.type;
         var match = ["image/jpeg","image/png","image/jpg", "image/gif"];
         
@@ -781,43 +788,48 @@ function uploadImage(options){
                 }
             });
         }
+    }
 }
 
 function uploadVideo(options){
-        var file = options.file;
-        if(!file) return;
+    var file = options.file;
+    if(!file) return;
 
-        var filetype = file.type;
+	if (file.size > 20000000) {
+        showWarning(l("video_exceeds"));
+    } else {
+	    var filetype = file.type;
 
-        var match = ["video/mp4"];
+	    var match = ["video/mp4"];
 
-        if(match.indexOf(filetype) == -1){
-            return false;
-        }else{
-            var formData = new FormData();
-            formData.append("file", file);
-            formData.append("screenId", options.screenId);
+	    if(match.indexOf(filetype) == -1){
+	        return false;
+	    }else{
+	        var formData = new FormData();
+	        formData.append("file", file);
+	        formData.append("screenId", options.screenId);
 
-            $.ajax({
-                url: "php/uploadVideo.php",
-                type: "POST",
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function(data){
-                    if (data.startsWith("ok")) {
-                        var url = data.split("-")[1];
-                        console.log("Succes upload: " + url);
-                        options.postCallback(url);
-                    } else {
-                        $("#uploadingVideo").modal('hide');
-                        showWarning(l("video_exceeds"));
-                        console.log("Error upload: " + data);
-                    }
-                }
-            });
-        }
+	        $.ajax({
+	            url: "php/uploadVideo.php",
+	            type: "POST",
+	            data: formData,
+	            contentType: false,
+	            cache: false,
+	            processData:false,
+	            success: function(data){
+	                if (data.startsWith("ok")) {
+	                    var url = data.split("-")[1];
+	                    console.log("Succes upload: " + url);
+	                    options.postCallback(url);
+	                } else {
+	                    $("#uploadingVideo").modal('hide');
+	                    showWarning(l("video_exceeds"));
+	                    console.log("Error upload: " + data);
+	                }
+	            }
+	        });
+	    }
+	}
 }
 
 /*function getMinigames(callback){

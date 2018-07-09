@@ -51,7 +51,6 @@ Step.prototype.copy = function() {
         rewardPoints: this.rewardPoints,
         item: this.item,
         itemName: this.itemName,
-
         marker: this.marker
     });
 
@@ -205,7 +204,7 @@ Game.prototype.toGLPJSON = function() {
             if (data.hasOwnProperty("challenge")) {
                 if (data["challenge"]["type"] == "minigame") { 
                     type = "minigameURL";
-                    value = data["challenge"]["url"];
+                    value = data["challenge"]["url"] ? data["challenge"]["url"] : "";
                 }
                 else if (data["challenge"]["type"] == "upload_content") {
                     type = "uploadContent";
@@ -264,7 +263,6 @@ Game.prototype.toGLPJSON = function() {
         "startURL" : "https://atcc.beaconing.eu/app.php?game=" + this.id,
         "endURL"   : "https://atcc.beaconing.eu/app.php?game=" + this.id + "&teleport=finish",
         "accessCode": accessCode
-
     };
 
     return json;

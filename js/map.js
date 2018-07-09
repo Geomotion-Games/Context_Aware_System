@@ -137,8 +137,9 @@ var startBothMarkerIcon = L.icon({
 
 
 map.on('click', function(e) {
+	if (game.singlepoi && poisCreated > 0) return;
 	var marker = addMarker(e.latlng);
-	if($(".leaflet-control-geocoder-form input").is(":focus") || (game.singlepoi && poisCreated > 0)) return;
+	if($(".leaflet-control-geocoder-form input").is(":focus")) return;
 	addStop(marker, "normal");
 	map.addLayer(marker);
 });
@@ -196,9 +197,9 @@ function stopOnClick(parent, stopNumber, action){
         removeStop(stopNumber);
         return;
     }else if(action == "edit"){
-    	
     }else if(action == "duplicate"){
-       duplicate(stopNumber);
+    	if (game.singlepoi && poisCreated > 0) return;
+       	duplicate(stopNumber);
     }else if(action == "center"){
        for(var point in points){
 			if (points[point] && points[point].orderNumber == stopNumber && points[point].marker) {
@@ -291,6 +292,7 @@ function addMarker(latlng, draggable){
 // BEACONS
 
 $("#addBeacon").on('click', function(e) {
+	if (game.singlepoi && poisCreated > 0) return;
 	addStop(null, "beacon");
 });
 

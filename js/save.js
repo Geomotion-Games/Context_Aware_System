@@ -56,7 +56,7 @@ function saveScreenATGLP() {
 
     var request = $.ajax({
         type: 'GET',
-        url: "https://atcc.beaconing.eu/php/getPlot.php",
+        url: getATDomain() + "/php/getPlot.php",
         data: "plotId=" + game.id
     });
 
