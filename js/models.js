@@ -142,6 +142,7 @@ function Game(params){
     this.singlepoi = params.singlepoi == "1";
     this.callbackurl = params.callbackurl || "";
     this.updateurl = params.updateurl || "";
+    this.origin = params.origin || "atcc";
 }
 
 Game.prototype.toJSON = function() {

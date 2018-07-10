@@ -45,14 +45,14 @@ function gameReady() {
 			    	if (game[step]["A"].hasOwnProperty("youtubeOrVimeoURL") && game[step]["A"].youtubeOrVimeoURL != "") {
 			    		var url = parseYoutubeOrVimeoURL(game[step]["A"].youtubeOrVimeoURL);
 			    		textClass = "textWithVideo";
-			        	media = '<div class="videoWrapper"><iframe width="100%" height="auto" src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
+			        	media = '<div class="videoWrapper"><iframe class="youtube-video-'+ step +'" width="100%" height="auto" src="' + url + '" frameborder="0" allowfullscreen></iframe></div>';
 					}
 			        break;
 			    case "video":
 			    	console.log("uploaded video!");
 			    	if (game[step]["A"].hasOwnProperty("uploadedVideo") && game[step]["A"].uploadedVideo != "") {
 			    		textClass = "textWithVideo";
-			        	media = '<video width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">' + l("video_not_supported") + '</video>';
+			        	media = '<video class="youtube-video-'+ step +'" width="100%" height="auto" controls><source src="' + game[step]["A"].uploadedVideo + '" type="video/mp4"><source src="movie.ogg" type="video/ogg">' + l("video_not_supported") + '</video>';
 					}
 			        break;
 			    default:
@@ -255,6 +255,8 @@ function gameReady() {
 
 		document.getElementById("toChallenge"+i).onclick = function() {
 
+			if ($('.youtube-video-' + i)[0]) $('.youtube-video-' + i)[0].remove();
+
 			if (device == "app") {
 				window.location.href = "?closeview&success=1";
 			} else {
@@ -326,6 +328,7 @@ function gameReady() {
 			window.location.href = "?closeview&success=1";
 		} else {
 			startOpen = false;
+			if ($('.youtube-video-0')[0]) $('.youtube-video-0')[0].remove();
 		}
 	}
 
@@ -391,9 +394,13 @@ function gameReady() {
 	}
 
 	document.getElementById("closeClue" + lastPOIId).onclick = function() {
-		setTimeout(function() {
-			showFinishScreen();
-		}, 1000);
+		if (device == "app") {
+			window.location.href = "?closeview&success=1";
+		} else {
+			setTimeout(function() {
+				showFinishScreen();
+			}, 1000);
+		}
 	}
 
 	if (time_limit != 0) { 

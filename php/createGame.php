@@ -22,7 +22,7 @@ $single_poi = isset($_REQUEST['singlePOI']) && $_REQUEST['singlePOI'] == "true";
 //$updateURL = isset($_REQUEST['updateURL']) ? $_REQUEST['updateURL'] : null;
 $public = 0;
 
-$query = sprintf("INSERT INTO plot (name, description, time, type, public, singlepoi) VALUES ('%s','%s',%d,'%s',%d,%b)",
+$query = sprintf("INSERT INTO plot (name, description, time, type, public, singlepoi, origin) VALUES ('%s','%s',%d,'%s',%d,%b,'atglp')",
 	$bd->mysqli_real_escape_string($name),
 	$bd->mysqli_real_escape_string($description),
 	intval($time),

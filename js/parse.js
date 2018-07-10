@@ -11,7 +11,8 @@ function parsePlotJSON(data){
         user_name: data.user_name,
         singlepoi: data.singlepoi,
         callbackurl: data.callbackURL,
-        updateurl: data.updateURL
+        updateurl: data.updateURL,
+        origin: data.origin
     });
 }
 

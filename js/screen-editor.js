@@ -632,6 +632,11 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
             `;
             $(parent).append(content);
         } else if (type == "B") {
+
+            let minigame_url_input = game['origin'] == "atglp" ? 
+                    '<input type="text" name="minigame-selector" disabled>' :
+                    '<input type="text" name="minigame-selector">';
+
             $(parent).append(`
                 <div class="${singleScreen?"col-md-12":"col-md-4"}">
                     <h4>${l("screen_for")}</h4>
@@ -648,8 +653,10 @@ function appendPreviewScreen(parent, screen, index, clickable, editor){
                             </div>
                             <div class="form-group hidden" id="minigame-select-div"">
                                 <label for="minigame-selector">${l("minigame_url")}:</label>
-                                <input type="text" name="minigame-selector"><br>
-                            </div>
+                                
+                                ${minigame_url_input}
+                            
+                            <br></div>
                              <div class="form-group hidden" id="upload-select-div"">
                                 <label for="upload-type-selector">${l("content_type")}:</label>
                                  <select class="form-control" id="upload-type-selector">
