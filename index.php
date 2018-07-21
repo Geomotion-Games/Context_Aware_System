@@ -24,7 +24,7 @@
 
 	$bd = Db::getInstance();
 
-	$q = "SELECT * FROM plot WHERE archived != 1 AND (public = 1 OR user_id = " . $user["id"] . " OR user_id IS NULL OR user_id = '') ORDER BY id DESC";
+	$q = "SELECT * FROM plot WHERE archived != 1 AND (public = 1 OR user_id = " . $user["id"] . " OR user_id IS NULL OR user_id = 0) ORDER BY id DESC";
 
 	if ($master) {
 		$q = "SELECT * FROM plot WHERE archived != 1 ORDER BY id DESC";

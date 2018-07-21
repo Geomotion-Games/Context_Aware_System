@@ -74,7 +74,7 @@
 	$device 			 = (isset($_REQUEST['device']) && $_REQUEST['device']) ? $_REQUEST['device'] : "browser";
 	$tracking_code_param = isset($_REQUEST['trackingcode']) ? $_REQUEST['trackingcode'] : "";
 	$access_token 		 = isset($_REQUEST['accessToken'])  ? $_REQUEST['accessToken']  : "";
-	$mapto 				 = isset($_REQUEST['map']) 			? ctype_digit($_REQUEST['map']) : "";
+	$mapto 				 = isset($_REQUEST['map']) 			? $_REQUEST['map'] : "";
 
 	$currentPOI = 0;
 	$fromMinigame = false;
@@ -88,7 +88,7 @@
 	}
 
 	$teleport = false;
-	$teleportId = -1;
+	$teleportId = 0;
 	if (isset($_REQUEST['teleport'])) {
 		$teleportId = $_REQUEST['teleport'];
 		$teleport = true;
@@ -109,7 +109,7 @@
 	<title>Beaconing Minigame</title>
 
 	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
 	<link rel="stylesheet" href="app/css/leaflet.css" />
 	<link rel="stylesheet" href="app/css/font-awesome.min.css" />
@@ -281,6 +281,8 @@
 	var cookieNeeded = false;
 	var fromMinigame = <?= $fromMinigame ? 1 : 0 ?>;
 
+	var inmap = "<?= $mapto; ?>";
+
 	var server_url = "";
 
 	if ((window.location.href).indexOf("atcc-qa") !== -1) {
@@ -311,7 +313,7 @@
 		cookieNeeded = true;
 
 		// recover progress from cookies || to go to the map at some point of the progress
-		var progress = device != "app" ? getCookie("progress_game_" + game_id) : "<?= $mapto; ?>";
+		var progress = "<?= $mapto; ?>";
 
 		if (progress != "" && !fromMinigame) {
 			currentPOI = teleportTo(progress);
@@ -319,7 +321,7 @@
 	}
 
 	tracker.settings.host = "https://analytics.beaconing.eu/";
-	var pretc = "<?= $tracking_code_param ? $tracking_code_param : "5a5f75c31aa66f0081138640tvfardjm1dp" ?>";
+	var pretc = "<?= $tracking_code_param ? $tracking_code_param : "5b165f9ec7171c007719bc66n7ku8hdtzft" ?>";
 	var accessTokenLA = "<?= $access_token ? $access_token : "" ?>";
 
 	tracker.settings.trackingCode = game_info["POIS"][0]["tracking_code"] ? game_info["POIS"][0]["tracking_code"] : pretc;
@@ -351,6 +353,7 @@
 
 	var nextPOI = currentPOI;
 	var nextDistance = 1000;
+	var beaconDetected = false;
 	var located = false;
 	var challengeSuccess = <?= $challengeSuccess ? 1 : 0 ?>;
 
@@ -413,24 +416,31 @@
 		}
 	}
 
-	if (document.getElementById("qr-button") != null ) { 
-		$('#qr-button').on('click touchstart', function(e) {
+	if (document.getElementById("qr-button") != null ) {
+		$('#qr-button').on('click', function(e) {
 			window.location.href = "?scanqrcode";
 		});
 	}
 
 	function setQRCodeScan(data) {
-		window.location.replace(data.substring(1, data.length-1) + "&device=app");
+		var params = parseURL(data).searchObject;
+		if (params.game == game_id) {
+			if (params.teleport.startsWith(game[nextPOI].id)) {
+				window.location.href = "?closeview&success=1";
+			}
+		}
 	}
 
 	function setBeaconNames(data) {
-
-		if (game[nextPOI]["type"] == "beacon") {
-			var bname = getBeaconName(data);
-			if (game[nextPOI]["beaconId"] == bname) {
-				var position = { coords : {longitude: game[nextPOI].lng, latitude: game[nextPOI].lat}};
-				lastPosition = position;
-				newLocation(position);
+		if (!beaconDetected) {
+			if (game[nextPOI]["type"] === "beacon") {
+				var bname = getBeaconName(data);
+				if (game[nextPOI]["beaconId"] == bname) {
+					beaconDetected = true;
+					var position = { coords : {longitude: game[nextPOI].lng, latitude: game[nextPOI].lat}};
+					lastPosition = position;
+					newLocation(position);
+				}
 			}
 		}
 	}

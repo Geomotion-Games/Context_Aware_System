@@ -75,7 +75,6 @@ function gameReady() {
 				if (challenge.hasOwnProperty("type")) {
 					if (challenge["type"] == "checkin") {
 						challengeType = "checkin";
-						textButton = "Check-in";
 					} else if (challenge["type"] == "upload_content") {
 						challengeType = "upload_content";
 						var contentType = "content";
@@ -95,6 +94,8 @@ function gameReady() {
 			} else { challengeType = "checkin"; }
 		} else { challengeType = "checkin"; }
 
+		if (challengeType == "checkin") textButton = "Check-in";
+
 		if (step == 0) { textButton = l("start_game"); }
 		var button = "";
 		var share = "";
@@ -108,7 +109,7 @@ function gameReady() {
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 						</div>`;
 			} else {
-				bottomA = '<div class="bottomButtonApp"><a id="go-out-finish" href="#" class="goButton">'+ l("go_out") +'</a></div>';
+				bottomA = '<div class="bottomButton"><a id="go-out-finish" href="#" class="goButton">'+ l("go_out") +'</a></div>';
 			}
 		} else {
 			var but = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
@@ -210,8 +211,8 @@ function gameReady() {
 		showFinishScreen();
 	} else {
 
-		if (nextPOI == 0) {
-			if (!teleport && !finished) {
+		if (nextPOI == 0 ) {
+			if (!teleport && !finished && !inmap) {
 				startOpen = true;
 				document.getElementById('openA0').click();
 			}
@@ -227,7 +228,7 @@ function gameReady() {
 					var minigameURL = challenge["url"];
 					var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 					var playerId = "playerid=" + encodeURI(tracker.playerId);
-					var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+					var trackingCode = "trackingCode=" + tracker.settings.trackingCode;
 					var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
 					var cpoi = "%26step%3D" + currentPOI;
 
@@ -255,7 +256,7 @@ function gameReady() {
 
 		document.getElementById("toChallenge"+i).onclick = function() {
 
-			if ($('.youtube-video-' + i)[0]) $('.youtube-video-' + i)[0].remove();
+			if ($('.youtube-video-' + currentPOI)[0]) $('.youtube-video-' + currentPOI)[0].remove();
 
 			if (device == "app") {
 				window.location.href = "?closeview&success=1";
@@ -280,7 +281,7 @@ function gameReady() {
 									if (minigameURL.indexOf("beaconing") !== -1) {
 										var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 										var playerId = "playerid=" + encodeURI(tracker.playerId);
-										var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+										var trackingCode = "trackingCode=" + tracker.settings.trackingCode;
 										var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
 										var cpoi = "%26step%3D" + currentPOI;
 
@@ -353,11 +354,11 @@ function gameReady() {
 				
 				if (startOpen) {
 					/****** START ******/
-					window.location.href = "?closeview&success=0";
+					window.location.href = "?closeview&success=manualClose";
 				}
 				else {
 					/****** PRE MINIGAME ******/
-					window.location.href = "?closeview&success=0";
+					window.location.href = "?closeview&success=manualClose";
 				}
 				
 				return false;
@@ -368,7 +369,7 @@ function gameReady() {
 
 		Array.prototype.forEach.call(document.getElementsByClassName("exitbuttonB"), function(el) {
 			el.onclick = function(e) {
-				window.location.href = "?closeview&success=0";
+				window.location.href = "?closeview&success=manualClose";
 				return false;
 			}
 		});
@@ -376,7 +377,7 @@ function gameReady() {
 		/****** MAP ******/
 
 		document.getElementById("exitbuttonmap").onclick = function(e) {
-			window.location.href = "?closeview&success=0";
+			window.location.href = "?closeview&success=manualClose";
 			return false;
 		}
 
@@ -388,7 +389,7 @@ function gameReady() {
 		}
 
 		document.getElementById("go-out-time-over").onclick = function(e) {
-			window.location.href = "?closeview&success=0";
+			window.location.href = "?closeview&success=1";
 			return false;
 		}
 	}
@@ -652,6 +653,8 @@ function flushTracking() {
 
 function setGPSData(data) {
 
+	if (game[nextPOI].type == "beacon") return;
+
 	var latpos = data.indexOf("lat");
 	var lat = data.substr(latpos + 6,10);
 	
@@ -685,6 +688,7 @@ function newLocation(position) {
 	lastPosition = position.coords;
 
 	if (!located) {
+		console.log("NOT LOCATED");
 		map.setZoom(18);
 		map.panTo(coors);
 		located = true;
@@ -701,21 +705,27 @@ function newLocation(position) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
-			inscreen = true;
-			trackProgress();
+    	// WITH BEACON
+    	// MAP && NEAR => CLOSEVIEW
+    	// TELEPORT && NEAR => SHOW openA
 
-			if (device == "app" && teleport == false) { 
-				window.location.href = "?closeview&success=1";
-				return;
+//    	if ((game[nextPOI]["type"] != "beacon") || teleport) {
+			if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
+				trackProgress();
+
+				if (device == "app" && teleport == false) { 
+					window.location.href = "?closeview&success=1";
+					return;
+				}
+
+				inscreen = true;
+				document.getElementById('openA' + nextPOI).click();
+
+				currentPOI = nextPOI;
+				nextPOI = getFollowingPOIId(nextPOI);
+				document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
 			}
-
-			document.getElementById('openA' + nextPOI).click();
-
-			currentPOI = nextPOI;
-			nextPOI = getFollowingPOIId(nextPOI);
-			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
-		}
+	//	}
 
 		updatePath();
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " " + l("meters");
@@ -832,7 +842,7 @@ function addCollectablesToInventory() {
 
 	for (step in game) {
 
-		if (game[step].hasOwnProperty("item") && game[step].item !="" && game[step].item!="-" && game[step].item) {
+		if (game[step].hasOwnProperty("item") && game[step].item != "" && game[step].item != "-" && game[step].item) {
 
 			var itemName = l("item")+" "+(i+1);
 			if (game[step].hasOwnProperty("itemName") && game[step].itemName != "" && game[step].itemName) {
@@ -841,7 +851,7 @@ function addCollectablesToInventory() {
 
 			if (i % 2 == 0) {
 
-				if (parseInt(currentPOI) >= parseInt(step)) {
+				if (parseInt(currentPOI) >= parseInt(step) || tofinish) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -862,7 +872,8 @@ function addCollectablesToInventory() {
 				}
 				
 			} else {
-				if (parseInt(currentPOI) >= parseInt(step)) {
+
+				if (parseInt(currentPOI) >= parseInt(step) || tofinish) {
 
 					rowHTML += `
 							<div class="collectable">

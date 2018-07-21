@@ -14,7 +14,8 @@ function showMyGames(){
 
     for(var game in games){
         if (!master) {
-            if(games[game].user_id == userId || !(games[game].user_id) ){
+            let gameUser = games[game].user_id;
+            if(gameUser == userId || !gameUser || gameUser == 0 ){
                 text_to_append += appendGame("#mygames", games, game);
             }
         } else {

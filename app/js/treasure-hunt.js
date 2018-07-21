@@ -96,7 +96,9 @@ function gameReady() {
 			} else { challengeType = "checkin"; }
 		} else { challengeType = "checkin"; }
 
+		if (challengeType == "checkin") textButton = "Check-in";
 		if (step == 0) { textButton = l("start_game"); }
+		
 		var button = "";
 		var share = "";
 		var bottomA = "";
@@ -212,7 +214,7 @@ function gameReady() {
 	} else {
 
 		if (nextPOI == 0) {
-			if (!teleport && !finished) {
+			if (!teleport && !finished && !map) {
 				startOpen = true;
 				document.getElementById('openA0').click();
 			}
@@ -228,7 +230,7 @@ function gameReady() {
 					var minigameURL = challenge["url"];
 					var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 					var playerId = "playerid=" + encodeURI(tracker.playerId);
-					var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+					var trackingCode = "trackingCode=" + tracker.settings.trackingCode;
 					var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
 					var cpoi = "%26step%3D" + currentPOI;
 
@@ -282,7 +284,7 @@ function gameReady() {
 									if (minigameURL.indexOf("beaconing") !== -1) {
 										var inapp = device == "app" ? "%26device%3Dapp" : "%26device%3Dbrowser";
 										var playerId = "playerid=" + encodeURI(tracker.playerId);
-										var trackingCode = "trackingcode=" + tracker.settings.trackingCode;
+										var trackingCode = "trackingCode=" + tracker.settings.trackingCode;
 										var tc = "%26trackingcode%3D" + tracker.settings.trackingCode;
 										var cpoi = "%26step%3D" + currentPOI;
 
@@ -354,11 +356,11 @@ function gameReady() {
 				
 				if (startOpen) {
 					/****** START ******/
-					window.location.href = "?closeview&success=0";
+					window.location.href = "?closeview&success=manualClose";
 				}
 				else {
 					/****** PRE MINIGAME ******/
-					window.location.href = "?closeview&success=0";
+					window.location.href = "?closeview&success=manualClose";
 				}
 				
 				return false;
@@ -369,7 +371,7 @@ function gameReady() {
 
 		Array.prototype.forEach.call(document.getElementsByClassName("exitbuttonB"), function(el) {
 			el.onclick = function(e) {
-				window.location.href = "?closeview&success=0";
+				window.location.href = "?closeview&success=manualClose";
 				return false;
 			}
 		});
@@ -377,7 +379,7 @@ function gameReady() {
 		/****** MAP ******/
 
 		document.getElementById("exitbuttonmap").onclick = function(e) {
-			window.location.href = "?closeview&success=0";
+			window.location.href = "?closeview&success=manualClose";
 			return false;
 		}
 
@@ -389,7 +391,7 @@ function gameReady() {
 		}
 
 		document.getElementById("go-out-time-over").onclick = function(e) {
-			window.location.href = "?closeview&success=0";
+			window.location.href = "?closeview&success=1";
 			return false;
 		}
 	}
@@ -724,20 +726,22 @@ function newLocation(position) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
-			inscreen = true;
-			trackProgress();
+    	if (game[nextPOI]["type"] != "beacon" || teleport) {
+			if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
+				inscreen = true;
+				trackProgress();
 
-			//CLOSING WEBVIEW
-			if (device == "app" && teleport == false) { 
-				window.location.href = "?closeview&success=1";
-				return;
+				//CLOSING WEBVIEW
+				if (device == "app" && teleport == false) { 
+					window.location.href = "?closeview&success=1";
+					return;
+				}
+
+				document.getElementById('openA' + nextPOI).click();
+				currentPOI = nextPOI;
+				nextPOI = getFollowingPOIId(nextPOI);
+				updatePath();
 			}
-
-			document.getElementById('openA' + nextPOI).click();
-			currentPOI = nextPOI;
-			nextPOI = getFollowingPOIId(nextPOI);
-			updatePath();
 		}
 
 		if (fromMinigame) { 
