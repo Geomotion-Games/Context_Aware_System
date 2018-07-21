@@ -76,7 +76,6 @@ function gameReady() {
 				if (challenge.hasOwnProperty("type")) {
 					if (challenge["type"] == "checkin") {
 						challengeType = "checkin";
-						textButton = "Check-in";
 					} else if (challenge["type"] == "upload_content") {
 						challengeType = "upload_content";
 						var contentType = "content";
@@ -97,8 +96,8 @@ function gameReady() {
 		} else { challengeType = "checkin"; }
 
 		if (challengeType == "checkin") textButton = "Check-in";
+
 		if (step == 0) { textButton = l("start_game"); }
-		
 		var button = "";
 		var share = "";
 		var bottomA = "";
@@ -111,7 +110,7 @@ function gameReady() {
 							<a class="twitter-share-button popup" href="https://twitter.com/intent/tweet?text=%23` + hashtag + `&url=%20&via=` + via + `" data-size="large">Tweet</a>
 						</div>`;
 			} else {
-				bottomA = '<div class="bottomButtonApp"><a id="go-out-finish" href="#" class="goButton">'+ l("go_out") +'</a></div>';
+				bottomA = '<div class="bottomButton"><a id="go-out-finish" href="#" class="goButton">'+ l("go_out") +'</a></div>';
 			}
 		} else {
 			var but = `<a id="toChallenge` + step + `" href="#" class="goButton" >` + textButton + `</a>`;
@@ -214,7 +213,7 @@ function gameReady() {
 	} else {
 
 		if (nextPOI == 0) {
-			if (!teleport && !finished && !map) {
+			if (!teleport && !finished && !inmap) {
 				startOpen = true;
 				document.getElementById('openA0').click();
 			}
@@ -259,9 +258,10 @@ function gameReady() {
 
 		document.getElementById("toChallenge"+i).onclick = function() {
 
-			if ($('.youtube-video-' + i)[0]) $('.youtube-video-' + i)[0].remove();
+			if ($('.youtube-video-' + currentPOI)[0]) $('.youtube-video-' + currentPOI)[0].remove();
 
-			if (device == "app") { 
+			if (device == "app") {
+				console.log("tanca");
 				window.location.href = "?closeview&success=1";
 			} else {
 
@@ -293,7 +293,6 @@ function gameReady() {
 											"https%3A%2F%2Fatcc.beaconing.eu/app.php%3Fgame%3D";
 
 										minigameURL += "&" + playerId + "&" + trackingCode + "&callbackurl=" + url + game_id + cpoi + inapp + tc;
-
 										window.open(minigameURL, "_self");
 									} else {
 										window.open(minigameURL, "_self");
@@ -422,12 +421,13 @@ function gameReady() {
 	updatePath();
 
 	if (device != "app") {
+
 		$('.popup').click(function(event) {
 		    var width  = 575,
 		        height = 400,
 		        left   = ($(window).width()  - width)  / 2,
 		        top    = ($(window).height() - height) / 2,
-		        url    = this.href,
+		        url    = "http://beaconing.eu/",
 		        opts   = 'status=1' +
 		                 ',width='  + width  +
 		                 ',height=' + height +
@@ -535,7 +535,7 @@ function updateTimeLabel() {
 		var remaining_time = remainingTime();
 
 		if (remaining_time > 0) {
-			var r_sec = remaining_time%60;
+			var r_sec = remaining_time % 60;
 			document.getElementById("remaining-time").innerHTML = (remaining_time - r_sec)/60 + ":" + (r_sec < 10 ? ("0" + r_sec) : r_sec);
 		} else {
 			document.getElementById('time-limit').style.zIndex = "9998";
@@ -548,7 +548,6 @@ function updateTimeLabel() {
 
 function blockGame() {
 	finished = true;
-	//TODO
 }
 
 function updateTopInfo( distanceToNextPOI ) {
@@ -677,6 +676,8 @@ function flushTracking() {
 
 function setGPSData(data) {
 
+	if (game[nextPOI].type == "beacon") return;
+
 	var latpos = data.indexOf("lat");
 	var lat = data.substr(latpos + 6,10);
 	
@@ -726,22 +727,24 @@ function newLocation(position) {
 
     	var distanceToNextPOI = map.distance({ "lat": game[nextPOI].lat, "lng": game[nextPOI].lng }, coors);
 
-    	if (game[nextPOI]["type"] != "beacon" || teleport) {
-			if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
-				inscreen = true;
-				trackProgress();
+    	// WITH BEACON
+    	// MAP && NEAR => CLOSEVIEW
+    	// TELEPORT && NEAR => SHOW openA
 
-				//CLOSING WEBVIEW
-				if (device == "app" && teleport == false) { 
-					window.location.href = "?closeview&success=1";
-					return;
-				}
+		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
+			trackProgress();
 
-				document.getElementById('openA' + nextPOI).click();
-				currentPOI = nextPOI;
-				nextPOI = getFollowingPOIId(nextPOI);
-				updatePath();
+			if (device == "app" && teleport == false) { 
+				window.location.href = "?closeview&success=1";
+				return;
 			}
+
+			inscreen = true;
+
+			document.getElementById('openA' + nextPOI).click();
+			currentPOI = nextPOI;
+			nextPOI = getFollowingPOIId(nextPOI);
+			updatePath();
 		}
 
 		if (fromMinigame) { 
@@ -755,11 +758,13 @@ function newLocation(position) {
 }
 
 function saveProgress() {
-	console.log("saving progress..." + currentPOI);
-	if (nextPOI == 999) {
-		setCookie("finished_" + game_id, true, 365);
-	}
 	setCookie("progress_game_" + game_id, currentPOI, 365);
+}
+
+function saveFinishedData() {
+	setCookie("finished_" + game_id, true, 365);
+	setCookie("finished_time_" + game_id, true, 365);
+	setCookie("finished_points_" + game_id, true, 365);
 }
 
 function trackProgress() {
@@ -868,7 +873,7 @@ function addCollectablesToInventory() {
 
 			if (i % 2 == 0) {
 
-				if (parseInt(currentPOI) >= parseInt(step)) {
+				if (parseInt(currentPOI) >= parseInt(step) || tofinish) {
 
 					rowHTML = `<div class="row">
 										<div class="collectable">
@@ -889,7 +894,8 @@ function addCollectablesToInventory() {
 				}
 				
 			} else {
-				if (parseInt(currentPOI) >= parseInt(step)) {
+
+				if (parseInt(currentPOI) >= parseInt(step) || tofinish) {
 
 					rowHTML += `
 							<div class="collectable">
@@ -938,7 +944,6 @@ function addCollectablesToInventory() {
 		</div>
 	</div>`*/
 }
-
 
 /*
 function uploadContent() {

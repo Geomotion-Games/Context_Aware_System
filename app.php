@@ -382,7 +382,7 @@
 	});
 
 	var treasureIcon = L.icon({
-	    iconUrl: 	server_url + 'images/markers/finish_treasure.png',
+	    iconUrl: 	server_url + 'images/markers/finish_treasure.jpg',
 	    iconSize:   [50, 43],
 	    iconAnchor: [25, 43]
 	});

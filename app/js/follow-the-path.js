@@ -347,8 +347,6 @@ function gameReady() {
 	
 	if (device == "app") {
 
-		// Fer un sol event per tots els botons (afegir una classe genèrica)
-
 		Array.prototype.forEach.call(document.getElementsByClassName("exitbuttonA"), function(el) {
 			el.onclick = function(e) {
 				
@@ -464,7 +462,6 @@ function gameReady() {
 			return false;
 		});
 	}
-
 }
 
 function showFinishScreen() {
@@ -512,7 +509,6 @@ function attachUploadContentEvents() {
 					            poiNum: id,
 					            file: e.target.files[0],
 					            postCallback: function(success){
-					            	console.log(id);
 					                document.getElementById("toChallenge" + id).click();
 					            }
 					        });
@@ -533,8 +529,6 @@ function teleportIfNeeded() {
 	}
 }
 
-
-//TODO time between sessions
 function updateTimeLabel() {
 	if (!finished) {
 		var remaining_time = remainingTime();
@@ -552,9 +546,7 @@ function updateTimeLabel() {
 }
 
 function blockGame() {
-	console.log("GAME FINISHED");
 	finished = true;
-	//TODO
 }
 
 
@@ -667,7 +659,7 @@ function setGPSData(data) {
 	position = { coords: {longitude: parseFloat(lon), latitude: parseFloat(lat) } };
 
 	if (totalDistance == 0) {
-		lastPosition = position.coords
+		lastPosition = position.coords;
 	}
 
 	newLocation(position);
@@ -688,7 +680,6 @@ function newLocation(position) {
 	lastPosition = position.coords;
 
 	if (!located) {
-		console.log("NOT LOCATED");
 		map.setZoom(18);
 		map.panTo(coors);
 		located = true;
@@ -709,23 +700,21 @@ function newLocation(position) {
     	// MAP && NEAR => CLOSEVIEW
     	// TELEPORT && NEAR => SHOW openA
 
-//    	if ((game[nextPOI]["type"] != "beacon") || teleport) {
-			if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
-				trackProgress();
+		if (distanceToNextPOI <= game[nextPOI].triggerDistance || distanceToNextPOI < 1) {
+			trackProgress();
 
-				if (device == "app" && teleport == false) { 
-					window.location.href = "?closeview&success=1";
-					return;
-				}
-
-				inscreen = true;
-				document.getElementById('openA' + nextPOI).click();
-
-				currentPOI = nextPOI;
-				nextPOI = getFollowingPOIId(nextPOI);
-				document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
+			if (device == "app" && teleport == false) { 
+				window.location.href = "?closeview&success=1";
+				return;
 			}
-	//	}
+
+			inscreen = true;
+			document.getElementById('openA' + nextPOI).click();
+
+			currentPOI = nextPOI;
+			nextPOI = getFollowingPOIId(nextPOI);
+			document.getElementById('main-progress').innerHTML = getInventoryProgressAsString(game);
+		}
 
 		updatePath();
 		document.getElementById('distance').innerHTML = parseInt(distanceToNextPOI) + " " + l("meters");
@@ -866,7 +855,7 @@ function addCollectablesToInventory() {
 					rowHTML = `<div class="row">
 								<div class="collectable">
 									<div class="no-collectable-question-mark">
-								<p>?</p>
+										<p>?</p>
 									</div>
 								</div>`;
 				}
